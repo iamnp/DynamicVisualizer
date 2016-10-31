@@ -19,6 +19,10 @@ namespace DynamicVisualizer
 {
     public partial class Form1 : Form
     {
+        private const int CanvasWidth = 800;
+        private const int CanvasHeight = 600;
+        private const int CanvasOffsetX = 100;
+        private const int CanvasOffsetY = 50;
         private readonly MainGraphicOutput _mainGraphics;
         private Point _downPos;
         private bool _ignoreIndexChange;
@@ -37,8 +41,19 @@ namespace DynamicVisualizer
             _mainGraphics.MouseDown += MainGraphicsOnMouseDown;
             _mainGraphics.MouseMove += MainGraphicsOnMouseMove;
             _mainGraphics.MouseUp += MainGraphicsOnMouseUp;
+            _mainGraphics.MouseLeave += MainGraphicsOnMouseLeave;
 
             Timeline.StepsChanged += TimelineOnStepsChanged;
+        }
+
+        private void DrawScene(DrawingContext dc)
+        {
+            dc.PushTransform(new TranslateTransform(CanvasOffsetX, CanvasOffsetY));
+            dc.DrawRectangle(null, new Pen(Brushes.Gray, 1), new Rect(0, 0, CanvasWidth, CanvasHeight));
+            dc.DrawRectangle(Brushes.White, null, new Rect(0, 0, CanvasWidth, CanvasHeight));
+
+            foreach (var figure in Timeline.Figures)
+                figure.Draw(dc);
         }
 
         private void MainGraphicsOnMouseUp(object sender, MouseButtonEventArgs e)
@@ -50,9 +65,16 @@ namespace DynamicVisualizer
             _mainGraphics.InvalidateVisual();
         }
 
+        private void MainGraphicsOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
+        {
+            _nowDrawing = null;
+            _offsetX = _offsetY = double.NaN;
+            _mainGraphics.InvalidateVisual();
+        }
+
         private void MainGraphicsOnMouseMove(object sender, MouseEventArgs e)
         {
-            var pos = e.GetPosition(_mainGraphics);
+            var pos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
             if (e.LeftButton == MouseButtonState.Pressed)
                 if (_nowDrawing != null)
                     switch (_nowDrawing.StepType)
@@ -91,7 +113,7 @@ namespace DynamicVisualizer
 
         private void MainGraphicsOnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            _downPos = e.GetPosition(_mainGraphics);
+            _downPos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
             if (e.ChangedButton == MouseButton.Left)
             {
                 _nowDrawing = new DrawRectStep(_downPos.X, _downPos.Y, 0, 0);
@@ -117,14 +139,6 @@ namespace DynamicVisualizer
                     }
             }
             _mainGraphics.InvalidateVisual();
-        }
-
-        private void DrawScene(DrawingContext dc)
-        {
-            dc.DrawRectangle(Brushes.White, null, new Rect(0, 0, elementHost1.Width, elementHost1.Height));
-
-            foreach (var figure in Timeline.Figures)
-                figure.Draw(dc);
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -166,8 +180,8 @@ namespace DynamicVisualizer
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DataStorage.Add(new ScalarExpression("data", "canvasHeight", "600"));
-            DataStorage.Add(new ScalarExpression("data", "canvasWidth", "800"));
+            DataStorage.Add(new ScalarExpression("data", "canvasHeight", CanvasHeight.ToString()));
+            DataStorage.Add(new ScalarExpression("data", "canvasWidth", CanvasWidth.ToString()));
             DataStorage.AddArrayExpression("data", "height", GetData().ToArray());
             DataStorage.Add(new ScalarExpression("data", "count", "len(height)"));
             var len = (int) DataStorage.GetScalarExpression("data.count").CachedValue.AsDouble;
