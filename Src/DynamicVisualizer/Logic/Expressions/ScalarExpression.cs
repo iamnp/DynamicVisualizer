@@ -1,0 +1,90 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DynamicVisualizer.Logic.Expressions
+{
+    public class ScalarExpression : Expression
+    {
+        private readonly ArrayExpression _parentArray;
+        private readonly Func<string, Value> _varEvaluater;
+        public int IndexInArray;
+        public bool IsWeak;
+
+        private ScalarExpression(string objectName, string varName, string rawExpr, int indexInArray,
+            ArrayExpression parentArray, bool isWeak) : base(objectName, varName)
+        {
+            _varEvaluater = s =>
+            {
+                if (!s.Contains(".")) s = ObjectName + "." + s;
+                var usedExpr = DataStorage.GetExpression(s);
+                if (!IsWeak)
+                {
+                    usedExpr.UsedBy.Add(this);
+                    DependentOn.Add(usedExpr);
+                }
+                return usedExpr.CachedValue;
+            };
+            IndexInArray = indexInArray;
+            IsWeak = isWeak;
+            _parentArray = parentArray;
+            SetRawExpression(rawExpr);
+        }
+
+        public ScalarExpression(string objectName, string varName, string rawExpr)
+            : this(objectName, varName, rawExpr, 0, null, false)
+        {
+        }
+
+        public ScalarExpression(string objectName, string varName, string rawExpr, int indexInArray,
+            ArrayExpression parentArray = null)
+            : this(objectName, varName, rawExpr, indexInArray, parentArray, false)
+        {
+        }
+
+        public ScalarExpression(string objectName, string varName, string rawExpr, bool isGuide)
+            : this(objectName, varName, rawExpr, 0, null, isGuide)
+        {
+        }
+
+        public ScalarExpression(string objectName, string varName, string rawExpr, int indexInArray, bool isGuide)
+            : this(objectName, varName, rawExpr, indexInArray, null, isGuide)
+        {
+        }
+
+        public override bool CanBeRemoved => (UsedBy.Count == 0) && (_parentArray == null);
+
+        public void SetRawExpression(string rawExpr)
+        {
+            ExprString = rawExpr;
+            Recalculate();
+        }
+
+        public override void Recalculate()
+        {
+            if (!CachedValue.Empty) // we are re-setting expression's raw expr
+            {
+                // remove all the DependentOn values
+                // e.g. remove the cross-references
+                foreach (var e in DependentOn)
+                    e.UsedBy.Remove(this);
+                DependentOn.Clear();
+            }
+
+            var val = Evaluater.Evaluate(ExprString, _varEvaluater, IndexInArray);
+            CachedValue.SwitchTo(val.IsArray ? val.AsArray[IndexInArray] : val);
+
+            if (!IsWeak)
+            {
+                var copyOfUsedBy = new List<Expression>(UsedBy);
+                foreach (var e in copyOfUsedBy)
+                    e.Recalculate();
+                if (_parentArray != null)
+                {
+                    var copyOfParentUsedBy = new List<Expression>(_parentArray.UsedBy);
+                    foreach (var e in copyOfParentUsedBy)
+                        e.Recalculate();
+                }
+            }
+        }
+    }
+}
