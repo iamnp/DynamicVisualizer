@@ -37,13 +37,18 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ClickThroughLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Logic\Expressions\ArrayExpression.cs" />
     <Compile Include="Logic\Expressions\DataStorage.cs" />
     <Compile Include="Logic\Storyboard\Steps\Draw\DrawRectStep.cs" />
@@ -68,6 +73,15 @@
     <Compile Include="Logic\Storyboard\Timeline.cs" />
     <Compile Include="Logic\Storyboard\Steps\TransformStep.cs" />
     <Compile Include="Logic\Expressions\Value.cs" />
+    <Compile Include="Controls\StepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StepControl.Designer.cs">
+      <DependentUpon>StepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StepsListControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -80,6 +94,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\StepControl.resx">
+      <DependentUpon>StepControl.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

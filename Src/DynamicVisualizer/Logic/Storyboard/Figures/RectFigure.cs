@@ -43,7 +43,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
             if (IsGuide)
                 dc.DrawRectangle(null, new Pen(Brushes.CornflowerBlue, 3), new Rect(x, y, width, height));
             else
-                dc.DrawRectangle(Brushes.Green, IsSelected ? new Pen(Brushes.Yellow, 3) : null,
+                dc.DrawRectangle(Brushes.Green, IsSelected ? new Pen(Brushes.Yellow, 3) : new Pen(Brushes.Black, 1),
                     new Rect(x, y, width, height));
         }
 

@@ -25,7 +25,6 @@ namespace DynamicVisualizer
         private const int CanvasOffsetY = 50;
         private readonly MainGraphicOutput _mainGraphics;
         private Point _downPos;
-        private bool _ignoreIndexChange;
         private DrawStep _nowDrawing;
         private TransformStep _nowMoving;
         private double _offsetX = double.NaN;
@@ -43,7 +42,12 @@ namespace DynamicVisualizer
             _mainGraphics.MouseUp += MainGraphicsOnMouseUp;
             _mainGraphics.MouseLeave += MainGraphicsOnMouseLeave;
 
-            Timeline.StepsChanged += TimelineOnStepsChanged;
+            stepsListControl1.RedrawNeeded += RedrawNeeded;
+        }
+
+        private void RedrawNeeded()
+        {
+            _mainGraphics.InvalidateVisual();
         }
 
         private void DrawScene(DrawingContext dc)
@@ -62,14 +66,14 @@ namespace DynamicVisualizer
                 _nowDrawing = null;
             if (e.ChangedButton == MouseButton.Right)
                 _offsetX = _offsetY = double.NaN;
-            _mainGraphics.InvalidateVisual();
+            RedrawNeeded();
         }
 
         private void MainGraphicsOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
         {
             _nowDrawing = null;
             _offsetX = _offsetY = double.NaN;
-            _mainGraphics.InvalidateVisual();
+            RedrawNeeded();
         }
 
         private void MainGraphicsOnMouseMove(object sender, MouseEventArgs e)
@@ -108,7 +112,7 @@ namespace DynamicVisualizer
                     }
                 }
             }
-            _mainGraphics.InvalidateVisual();
+            RedrawNeeded();
         }
 
         private void MainGraphicsOnMouseDown(object sender, MouseButtonEventArgs e)
@@ -138,29 +142,7 @@ namespace DynamicVisualizer
                         break;
                     }
             }
-            _mainGraphics.InvalidateVisual();
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (_ignoreIndexChange) return;
-            Timeline.SetCurrentStepIndex(listBox1.SelectedIndex);
-            _mainGraphics.InvalidateVisual();
-        }
-
-        private void TimelineOnStepsChanged(object sender, EventArgs eventArgs)
-        {
-            _ignoreIndexChange = true;
-            listBox1.Items.Clear();
-            for (var i = 0; i < Timeline.Steps.Count; ++i)
-            {
-                if (Timeline.Steps[i] is DrawRectStep)
-                    listBox1.Items.Add("DrawRect step");
-                if (Timeline.Steps[i] is MoveRectStep)
-                    listBox1.Items.Add("MoveRect step");
-            }
-            _ignoreIndexChange = false;
-            listBox1.SelectedIndex = listBox1.Items.Count - 1;
+            RedrawNeeded();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -168,13 +150,13 @@ namespace DynamicVisualizer
             DataStorage.Add(new ScalarExpression("data", "width", ((int) numericUpDown1.Value).ToString()));
             Timeline.Insert(new DrawRectStep("10", "10", "data.width", "50"));
             Timeline.Insert(new DrawRectStep("rect1.x+rect1.width", "rect1.y + rect1.height", "50", "50"));
-            _mainGraphics.InvalidateVisual();
+            RedrawNeeded();
         }
 
         private IEnumerable<string> GetData()
         {
             var r = new Random();
-            for (var i = 0; i < 15; ++i)
+            for (var i = 0; i < 10; ++i)
                 yield return r.Next(0, 100) + r.NextDouble() + "";
         }
 
@@ -189,45 +171,20 @@ namespace DynamicVisualizer
             var drawGuide = new DrawRectStep("0", "0", "data.canvasWidth/data.count", "data.canvasHeight", true);
             Timeline.Insert(drawGuide);
 
-            _mainGraphics.InvalidateVisual();
-            Application.DoEvents();
-            var ms = 50;
-            Thread.Sleep(ms);
-
             var drawBar = new DrawRectStep("rect1.x", "rect1.y", "rect1.width",
                 "(data.height / max(data.height)) * data.canvasHeight");
             drawBar.MakeIterable(len);
             Timeline.Insert(drawBar);
 
-            _mainGraphics.InvalidateVisual();
-            Application.DoEvents();
-            Thread.Sleep(ms);
-
-            var moveGuide = new MoveRectStep((RectFigure) drawGuide.Figure, "rect2.x + (rect2.width)", "rect2.y");
+            var moveGuide = new MoveRectStep((RectFigure) drawGuide.Figure, "rect2.x + rect2.width", "rect2.y");
             moveGuide.MakeIterable(len);
             Timeline.Insert(moveGuide);
-
-            _mainGraphics.InvalidateVisual();
-            Application.DoEvents();
-            Thread.Sleep(ms);
-
-            for (var i = 0; i < len; ++i)
-            {
-                drawBar.ApplyNextIteration();
-                _mainGraphics.InvalidateVisual();
-                Application.DoEvents();
-                Thread.Sleep(ms);
-                moveGuide.ApplyNextIteration();
-                _mainGraphics.InvalidateVisual();
-                Application.DoEvents();
-                Thread.Sleep(ms);
-            }
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             DataStorage.GetScalarExpression("data.width").SetRawExpression(((int) numericUpDown1.Value).ToString());
-            _mainGraphics.InvalidateVisual();
+            RedrawNeeded();
         }
     }
 }

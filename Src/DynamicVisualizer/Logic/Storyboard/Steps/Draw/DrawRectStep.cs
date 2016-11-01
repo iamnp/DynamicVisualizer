@@ -62,7 +62,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
 
         public override void ApplyNextIteration()
         {
-            if (CurrentIteration >= Iterations) return;
+            if (CompletedIterations >= Iterations) return;
 
             if (!RectFigure.IsGuide)
             {
@@ -77,19 +77,19 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
                 Timeline.Figures.Add(rf);
             }
 
-            if (++CurrentIteration >= Iterations) return;
+            if (CompletedIterations++ >= Iterations) return;
 
             RectFigure.X =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, CurrentIteration,
+                DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, CompletedIterations,
                     Figure.IsGuide));
             RectFigure.Y =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, CurrentIteration,
+                DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, CompletedIterations,
                     Figure.IsGuide));
             RectFigure.Width =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "width", Width, CurrentIteration,
+                DataStorage.Add(new ScalarExpression(Figure.Name, "width", Width, CompletedIterations,
                     Figure.IsGuide));
             RectFigure.Height =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "height", Height, CurrentIteration,
+                DataStorage.Add(new ScalarExpression(Figure.Name, "height", Height, CompletedIterations,
                     Figure.IsGuide));
         }
     }

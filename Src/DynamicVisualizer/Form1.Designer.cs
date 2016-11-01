@@ -1,4 +1,6 @@
-﻿namespace DynamicVisualizer
+﻿using DynamicVisualizer.Controls;
+
+namespace DynamicVisualizer
 {
     partial class Form1
     {
@@ -30,9 +32,9 @@
         {
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
             this.button1 = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.button2 = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.stepsListControl1 = new StepsListControl();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,15 +56,6 @@
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(24, 165);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 147);
-            this.listBox1.TabIndex = 2;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // button2
             // 
@@ -97,14 +90,23 @@
             0});
             this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
+            // stepsListControl1
+            // 
+            this.stepsListControl1.AutoScroll = true;
+            this.stepsListControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.stepsListControl1.Location = new System.Drawing.Point(13, 174);
+            this.stepsListControl1.Name = "stepsListControl1";
+            this.stepsListControl1.Size = new System.Drawing.Size(130, 328);
+            this.stepsListControl1.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1152, 708);
+            this.Controls.Add(this.stepsListControl1);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.elementHost1);
             this.Name = "Form1";
@@ -119,9 +121,9 @@
 
         private System.Windows.Forms.Integration.ElementHost elementHost1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private StepsListControl stepsListControl1;
     }
 }
 

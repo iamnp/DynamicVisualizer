@@ -36,19 +36,19 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
 
         public override void ApplyNextIteration()
         {
-            if (CurrentIteration >= Iterations) return;
+            if (CompletedIterations >= Iterations) return;
 
             if (!RectFigure.IsGuide)
             {
-                var rf = (RectFigure) Figure.StaticLoopFigures[CurrentIteration];
+                var rf = (RectFigure) Figure.StaticLoopFigures[CompletedIterations];
                 rf.X = new ScalarExpression("a", "a", RectFigure.X.CachedValue.Str);
                 rf.Y = new ScalarExpression("a", "a", RectFigure.Y.CachedValue.Str);
             }
 
-            if (++CurrentIteration >= Iterations) return;
+            if (CompletedIterations++ >= Iterations) return;
 
-            RectFigure.X.IndexInArray = CurrentIteration;
-            RectFigure.Y.IndexInArray = CurrentIteration;
+            RectFigure.X.IndexInArray = CompletedIterations;
+            RectFigure.Y.IndexInArray = CompletedIterations;
             RectFigure.X.SetRawExpression(X);
             RectFigure.Y.SetRawExpression(Y);
         }
