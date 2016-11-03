@@ -16,6 +16,16 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps
         }
 
         public abstract void Apply();
-        public abstract void ApplyNextIteration();
+
+        public void ApplyNextIteration()
+        {
+            if (CompletedIterations >= Iterations) return;
+            if (!Figure.IsGuide) CopyStaticFigure();
+            if (CompletedIterations++ >= Iterations) return;
+            IterateNext();
+        }
+
+        public abstract void IterateNext();
+        public abstract void CopyStaticFigure();
     }
 }

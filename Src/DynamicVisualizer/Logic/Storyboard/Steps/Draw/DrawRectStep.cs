@@ -60,25 +60,8 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
                 DataStorage.Add(new ScalarExpression(Figure.Name, "height", Height, Figure.IsGuide));
         }
 
-        public override void ApplyNextIteration()
+        public override void IterateNext()
         {
-            if (CompletedIterations >= Iterations) return;
-
-            if (!RectFigure.IsGuide)
-            {
-                var rf = new RectFigure
-                {
-                    X = new ScalarExpression("a", "a", RectFigure.X.CachedValue.Str),
-                    Y = new ScalarExpression("a", "a", RectFigure.Y.CachedValue.Str),
-                    Width = new ScalarExpression("a", "a", RectFigure.Width.CachedValue.Str),
-                    Height = new ScalarExpression("a", "a", RectFigure.Height.CachedValue.Str)
-                };
-                Figure.StaticLoopFigures.Add(rf);
-                Timeline.Figures.Add(rf);
-            }
-
-            if (CompletedIterations++ >= Iterations) return;
-
             RectFigure.X =
                 DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, CompletedIterations,
                     Figure.IsGuide));
@@ -91,6 +74,19 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
             RectFigure.Height =
                 DataStorage.Add(new ScalarExpression(Figure.Name, "height", Height, CompletedIterations,
                     Figure.IsGuide));
+        }
+
+        public override void CopyStaticFigure()
+        {
+            var rf = new RectFigure
+            {
+                X = new ScalarExpression("a", "a", RectFigure.X.CachedValue.Str),
+                Y = new ScalarExpression("a", "a", RectFigure.Y.CachedValue.Str),
+                Width = new ScalarExpression("a", "a", RectFigure.Width.CachedValue.Str),
+                Height = new ScalarExpression("a", "a", RectFigure.Height.CachedValue.Str)
+            };
+            Figure.StaticLoopFigures.Add(rf);
+            Timeline.Figures.Add(rf);
         }
     }
 }

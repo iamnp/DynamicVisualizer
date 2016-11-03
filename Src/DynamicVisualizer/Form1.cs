@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -12,7 +11,6 @@ using DynamicVisualizer.Logic.Storyboard.Figures;
 using DynamicVisualizer.Logic.Storyboard.Steps;
 using DynamicVisualizer.Logic.Storyboard.Steps.Draw;
 using DynamicVisualizer.Logic.Storyboard.Steps.Transform;
-using Application = System.Windows.Forms.Application;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace DynamicVisualizer
