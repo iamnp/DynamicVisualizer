@@ -4,7 +4,8 @@
     {
         public enum DrawStepType
         {
-            DrawRect
+            DrawRect,
+            DrawCircle
         }
 
         public abstract DrawStepType StepType { get; }

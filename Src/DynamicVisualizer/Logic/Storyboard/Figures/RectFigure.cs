@@ -22,6 +22,8 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
             IsGuide = isGuide;
         }
 
+        public override FigureType Type => FigureType.Rect;
+
         public override void Draw(DrawingContext dc)
         {
             var x = X.CachedValue.AsDouble;

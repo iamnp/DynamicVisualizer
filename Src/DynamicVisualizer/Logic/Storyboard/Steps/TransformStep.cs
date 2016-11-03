@@ -4,7 +4,8 @@
     {
         public enum TransformStepType
         {
-            MoveRect
+            MoveRect,
+            MoveCircle
         }
 
         public abstract TransformStepType StepType { get; }

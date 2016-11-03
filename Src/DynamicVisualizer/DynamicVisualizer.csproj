@@ -51,6 +51,8 @@
     </Compile>
     <Compile Include="Logic\Expressions\ArrayExpression.cs" />
     <Compile Include="Logic\Expressions\DataStorage.cs" />
+    <Compile Include="Logic\Storyboard\Figures\CircleFigure.cs" />
+    <Compile Include="Logic\Storyboard\Steps\Draw\DrawCircleStep.cs" />
     <Compile Include="Logic\Storyboard\Steps\Draw\DrawRectStep.cs" />
     <Compile Include="Logic\Storyboard\Steps\DrawStep.cs" />
     <Compile Include="Logic\Expressions\Evaluater.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logic\Storyboard\Steps\Transform\MoveCircleStep.cs" />
     <Compile Include="MainGraphicOutput.cs" />
     <Compile Include="Logic\Storyboard\Steps\Transform\MoveRectStep.cs" />
     <Compile Include="Program.cs" />

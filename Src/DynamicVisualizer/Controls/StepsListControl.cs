@@ -27,7 +27,7 @@ namespace DynamicVisualizer.Controls
             set
             {
                 _currentSelection = value;
-                if (!_ignoreSelectionChanged)
+                if ((_currentSelection != null) && !_ignoreSelectionChanged)
                     Timeline.SetCurrentStepIndex(_currentSelection.Index);
                 RedrawNeeded?.Invoke();
             }
