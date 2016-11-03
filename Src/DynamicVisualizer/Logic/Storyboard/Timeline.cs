@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using DynamicVisualizer.Logic.Expressions;
 using DynamicVisualizer.Logic.Storyboard.Figures;
 using DynamicVisualizer.Logic.Storyboard.Steps;
@@ -71,7 +70,6 @@ namespace DynamicVisualizer.Logic.Storyboard
 
         public static void NextIterationFromCurrentPos()
         {
-            Debug.WriteLine(Steps[CurrentStepIndex].CompletedIterations);
             int top, bot;
             GroupBounds(CurrentStepIndex, out top, out bot);
 
@@ -173,7 +171,10 @@ namespace DynamicVisualizer.Logic.Storyboard
         private static void Reset()
         {
             foreach (var step in Steps)
+            {
                 step.Applied = false;
+                step.Figure.StaticLoopFigures.Clear();
+            }
             Figures.Clear();
             DataStorage.WipeNonDataFields();
         }

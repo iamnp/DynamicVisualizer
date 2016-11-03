@@ -5,6 +5,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
 {
     public class DrawCircleStep : DrawStep
     {
+        private static int _count = 1;
         public readonly CircleFigure RectFigure;
         public string Radius;
         public string X;
@@ -12,7 +13,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
 
         private DrawCircleStep(bool isGuide)
         {
-            Figure = new CircleFigure(isGuide);
+            Figure = new CircleFigure("circle" + _count++, isGuide);
             RectFigure = (CircleFigure) Figure;
         }
 
@@ -70,7 +71,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
 
         public override void CopyStaticFigure()
         {
-            var rf = new CircleFigure
+            var rf = new CircleFigure("staticcircle")
             {
                 X = new ScalarExpression("a", "a", RectFigure.X.CachedValue.Str),
                 Y = new ScalarExpression("a", "a", RectFigure.Y.CachedValue.Str),

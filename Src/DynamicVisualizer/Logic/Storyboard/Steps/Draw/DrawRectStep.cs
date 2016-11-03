@@ -5,6 +5,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
 {
     public class DrawRectStep : DrawStep
     {
+        private static int _count = 1;
         public readonly RectFigure RectFigure;
         public string Height;
         public string Width;
@@ -13,7 +14,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
 
         private DrawRectStep(bool isGuide)
         {
-            Figure = new RectFigure(isGuide);
+            Figure = new RectFigure("rect" + _count++, isGuide);
             RectFigure = (RectFigure) Figure;
         }
 
@@ -78,7 +79,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
 
         public override void CopyStaticFigure()
         {
-            var rf = new RectFigure
+            var rf = new RectFigure("staticrect")
             {
                 X = new ScalarExpression("a", "a", RectFigure.X.CachedValue.Str),
                 Y = new ScalarExpression("a", "a", RectFigure.Y.CachedValue.Str),

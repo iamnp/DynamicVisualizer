@@ -6,19 +6,14 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
 {
     public class RectFigure : Figure
     {
-        private static int _count = 1;
         public ScalarExpression Height;
         public ScalarExpression Width;
         public ScalarExpression X;
         public ScalarExpression Y;
 
-        public RectFigure()
+        public RectFigure(string name, bool isGuide = false)
         {
-            Name = "rect" + _count++;
-        }
-
-        public RectFigure(bool isGuide) : this()
-        {
+            Name = name;
             IsGuide = isGuide;
         }
 
@@ -43,9 +38,9 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
             }
 
             if (IsGuide)
-                dc.DrawRectangle(null, new Pen(Brushes.CornflowerBlue, 3), new Rect(x, y, width, height));
+                dc.DrawRectangle(null, GuidePen, new Rect(x, y, width, height));
             else
-                dc.DrawRectangle(Brushes.Green, IsSelected ? new Pen(Brushes.Yellow, 3) : new Pen(Brushes.Black, 1),
+                dc.DrawRectangle(Brushes.Green, IsSelected ? SelectionPen : StrokePen,
                     new Rect(x, y, width, height));
         }
 

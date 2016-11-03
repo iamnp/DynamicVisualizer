@@ -6,18 +6,13 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
 {
     public class CircleFigure : Figure
     {
-        private static int _count = 1;
         public ScalarExpression Radius;
         public ScalarExpression X;
         public ScalarExpression Y;
 
-        public CircleFigure()
+        public CircleFigure(string name, bool isGuide = false)
         {
-            Name = "circle" + _count++;
-        }
-
-        public CircleFigure(bool isGuide) : this()
-        {
+            Name = name;
             IsGuide = isGuide;
         }
 
@@ -27,10 +22,10 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
         {
             var r = Radius.CachedValue.AsDouble;
             if (IsGuide)
-                dc.DrawEllipse(null, new Pen(Brushes.CornflowerBlue, 3),
+                dc.DrawEllipse(null, GuidePen,
                     new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble), r, r);
             else
-                dc.DrawEllipse(Brushes.Green, IsSelected ? new Pen(Brushes.Yellow, 3) : new Pen(Brushes.Black, 1),
+                dc.DrawEllipse(Brushes.Green, IsSelected ? SelectionPen : StrokePen,
                     new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble), r, r);
         }
 

@@ -12,6 +12,7 @@ using DynamicVisualizer.Logic.Storyboard.Steps;
 using DynamicVisualizer.Logic.Storyboard.Steps.Draw;
 using DynamicVisualizer.Logic.Storyboard.Steps.Transform;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using SystemColors = System.Drawing.SystemColors;
 
 namespace DynamicVisualizer
 {
@@ -21,6 +22,9 @@ namespace DynamicVisualizer
         private const int CanvasHeight = 600;
         private const int CanvasOffsetX = 100;
         private const int CanvasOffsetY = 50;
+        private readonly Rect _canvasRect = new Rect(0, 0, CanvasWidth, CanvasHeight);
+        private readonly Pen _canvasStroke = new Pen(Brushes.Gray, 1);
+        private readonly TranslateTransform _canvasTranslate = new TranslateTransform(CanvasOffsetX, CanvasOffsetY);
         private readonly MainGraphicOutput _mainGraphics;
         private Point _downPos;
         private DrawStep.DrawStepType _drawStepType = DrawStep.DrawStepType.DrawRect;
@@ -51,9 +55,9 @@ namespace DynamicVisualizer
 
         private void DrawScene(DrawingContext dc)
         {
-            dc.PushTransform(new TranslateTransform(CanvasOffsetX, CanvasOffsetY));
-            dc.DrawRectangle(null, new Pen(Brushes.Gray, 1), new Rect(0, 0, CanvasWidth, CanvasHeight));
-            dc.DrawRectangle(Brushes.White, null, new Rect(0, 0, CanvasWidth, CanvasHeight));
+            dc.PushTransform(_canvasTranslate);
+            dc.DrawRectangle(null, _canvasStroke, _canvasRect);
+            dc.DrawRectangle(Brushes.White, null, _canvasRect);
 
             foreach (var figure in Timeline.Figures)
                 figure.Draw(dc);
@@ -171,7 +175,7 @@ namespace DynamicVisualizer
                     _selected.IsSelected = false;
                     _selected = null;
                 }
-                for (int i = Timeline.Figures.Count - 1; i >= 0; --i)
+                for (var i = Timeline.Figures.Count - 1; i >= 0; --i)
                 {
                     var f = Timeline.Figures[i];
                     if (f.IsMouseOver(_downPos.X, _downPos.Y))
@@ -236,15 +240,15 @@ namespace DynamicVisualizer
         private void label2_Click(object sender, EventArgs e)
         {
             _drawStepType = DrawStep.DrawStepType.DrawRect;
-            label2.ForeColor = System.Drawing.SystemColors.ControlText;
-            label3.ForeColor = System.Drawing.SystemColors.ControlDark;
+            label2.ForeColor = SystemColors.ControlText;
+            label3.ForeColor = SystemColors.ControlDark;
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
             _drawStepType = DrawStep.DrawStepType.DrawCircle;
-            label3.ForeColor = System.Drawing.SystemColors.ControlText;
-            label2.ForeColor = System.Drawing.SystemColors.ControlDark;
+            label3.ForeColor = SystemColors.ControlText;
+            label2.ForeColor = SystemColors.ControlDark;
         }
     }
 }
