@@ -25,10 +25,10 @@ namespace DynamicVisualizer
         private readonly Rect _canvasRect = new Rect(0, 0, CanvasWidth, CanvasHeight);
         private readonly Pen _canvasStroke = new Pen(Brushes.Gray, 1);
         private readonly TranslateTransform _canvasTranslate = new TranslateTransform(CanvasOffsetX, CanvasOffsetY);
+        private readonly FigureDrawer _figureDrawer = new FigureDrawer();
         private readonly MainGraphicOutput _mainGraphics;
         private Point _downPos;
-        private DrawStep.DrawStepType _drawStepType = DrawStep.DrawStepType.DrawRect;
-        private DrawStep _nowDrawing;
+
         private TransformStep _nowMoving;
         private double _offsetX = double.NaN;
         private double _offsetY = double.NaN;
@@ -66,7 +66,7 @@ namespace DynamicVisualizer
         private void MainGraphicsOnMouseUp(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
-                _nowDrawing = null;
+                _figureDrawer.Finish();
             if (e.ChangedButton == MouseButton.Right)
                 _offsetX = _offsetY = double.NaN;
             RedrawNeeded();
@@ -74,7 +74,7 @@ namespace DynamicVisualizer
 
         private void MainGraphicsOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
         {
-            _nowDrawing = null;
+            _figureDrawer.Finish();
             _offsetX = _offsetY = double.NaN;
             RedrawNeeded();
         }
@@ -83,20 +83,7 @@ namespace DynamicVisualizer
         {
             var pos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
             if (e.LeftButton == MouseButtonState.Pressed)
-                if (_nowDrawing != null)
-                    switch (_drawStepType)
-                    {
-                        case DrawStep.DrawStepType.DrawRect:
-                            ((DrawRectStep) _nowDrawing).ReInit(_downPos.X, _downPos.Y, pos.X - _downPos.X,
-                                pos.Y - _downPos.Y);
-                            break;
-
-                        case DrawStep.DrawStepType.DrawCircle:
-                            var dx = pos.X - _downPos.X;
-                            var dy = pos.Y - _downPos.Y;
-                            ((DrawCircleStep) _nowDrawing).ReInit(_downPos.X, _downPos.Y, Math.Sqrt(dx*dx + dy*dy));
-                            break;
-                    }
+                _figureDrawer.Move(pos);
             if ((e.RightButton == MouseButtonState.Pressed) && (_selected != null))
                 switch (_selected.Type)
                 {
@@ -156,18 +143,7 @@ namespace DynamicVisualizer
         {
             _downPos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
             if (e.ChangedButton == MouseButton.Left)
-            {
-                switch (_drawStepType)
-                {
-                    case DrawStep.DrawStepType.DrawRect:
-                        _nowDrawing = new DrawRectStep(_downPos.X, _downPos.Y, 0, 0);
-                        break;
-                    case DrawStep.DrawStepType.DrawCircle:
-                        _nowDrawing = new DrawCircleStep(_downPos.X, _downPos.Y, 0);
-                        break;
-                }
-                Timeline.Insert(_nowDrawing, Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
-            }
+                _figureDrawer.Start(_downPos);
             if (e.ChangedButton == MouseButton.Right)
             {
                 if (_selected != null)
@@ -247,14 +223,14 @@ namespace DynamicVisualizer
 
         private void label2_Click(object sender, EventArgs e)
         {
-            _drawStepType = DrawStep.DrawStepType.DrawRect;
+            _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawRect;
             label2.ForeColor = SystemColors.ControlText;
             label3.ForeColor = SystemColors.ControlDark;
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
-            _drawStepType = DrawStep.DrawStepType.DrawCircle;
+            _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawCircle;
             label3.ForeColor = SystemColors.ControlText;
             label2.ForeColor = SystemColors.ControlDark;
         }
