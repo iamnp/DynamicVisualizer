@@ -141,8 +141,8 @@ namespace DynamicVisualizer.Logic.Storyboard
                         var totalSteps = (j - i + 1)*Steps[i].CompletedIterations + (b - i) + 1;
                         for (var n = i; (n <= j) && (totalSteps > 0); ++n)
                         {
-                            if (!Steps[n].Applied) Steps[n].Apply();
                             Steps[n].CompletedIterations = 0;
+                            if (!Steps[n].Applied) Steps[n].Apply();
                             totalSteps -= 1;
                         }
                         for (var k = 0; (k < Steps[i].Iterations) && (totalSteps > 0); ++k)
@@ -156,8 +156,8 @@ namespace DynamicVisualizer.Logic.Storyboard
                     {
                         for (var n = i; n <= j; ++n)
                         {
-                            if (!Steps[n].Applied) Steps[n].Apply();
                             Steps[n].CompletedIterations = 0;
+                            if (!Steps[n].Applied) Steps[n].Apply();
                         }
                         for (var k = 0; k < Steps[i].Iterations; ++k)
                             for (var n = i; n <= j; ++n)

@@ -37,11 +37,9 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
@@ -66,6 +64,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Logic\Storyboard\Steps\Transform\MoveCircleStep.cs" />
+    <Compile Include="Logic\Storyboard\Steps\Transform\ScaleRectStep.cs" />
     <Compile Include="MainGraphicOutput.cs" />
     <Compile Include="Logic\Storyboard\Steps\Transform\MoveRectStep.cs" />
     <Compile Include="Program.cs" />

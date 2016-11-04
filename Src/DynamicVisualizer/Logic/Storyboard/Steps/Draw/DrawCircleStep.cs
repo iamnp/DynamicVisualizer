@@ -54,6 +54,8 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
             RectFigure.Y = DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, Figure.IsGuide));
             RectFigure.Radius =
                 DataStorage.Add(new ScalarExpression(Figure.Name, "radius", Radius, Figure.IsGuide));
+
+            if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
         }
 
         public override void IterateNext()

@@ -32,6 +32,8 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
             Applied = true;
             CircleFigure.X.SetRawExpression(X);
             CircleFigure.Y.SetRawExpression(Y);
+
+            if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
         }
 
         public override void IterateNext()

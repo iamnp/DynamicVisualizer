@@ -198,16 +198,19 @@ namespace DynamicVisualizer
         private void button1_Click(object sender, EventArgs e)
         {
             DataStorage.Add(new ScalarExpression("data", "width", ((int) numericUpDown1.Value).ToString()));
-            Timeline.Insert(new DrawRectStep("10", "10", "data.width", "50"));
-            Timeline.Insert(new DrawRectStep("rect1.x+rect1.width", "rect1.y + rect1.height", "50", "50"));
+            var s = new DrawRectStep("10", "10", "50", "50");
+            Timeline.Insert(s);
+            Timeline.Insert(new ScaleRectStep(s.RectFigure, ScaleRectStep.ScalingSide.Left, 0.5));
+            Timeline.Insert(new ScaleRectStep(s.RectFigure, ScaleRectStep.ScalingSide.Top, 0.5));
+
+
             RedrawNeeded();
         }
 
         private IEnumerable<string> GetData()
         {
-            var r = new Random();
-            for (var i = 0; i < 10; ++i)
-                yield return r.Next(0, 100) + r.NextDouble() + "";
+            for (var i = 1; i <= 10; ++i)
+                yield return i + "";
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -218,15 +221,20 @@ namespace DynamicVisualizer
             DataStorage.Add(new ScalarExpression("data", "count", "len(height)"));
             var len = (int) DataStorage.GetScalarExpression("data.count").CachedValue.AsDouble;
 
-            var drawGuide = new DrawRectStep("0", "0", "data.canvasWidth/data.count", "data.canvasHeight", true);
+            var drawGuide = new DrawRectStep("0", "data.canvasHeight", "data.canvasWidth/data.count",
+                "-data.canvasHeight", true);
             Timeline.Insert(drawGuide);
 
-            var drawBar = new DrawRectStep("rect1.x", "rect1.y", "rect1.width",
-                "(data.height / max(data.height)) * data.canvasHeight");
+            var drawBar = new DrawRectStep("rect1.x", "rect1.y", "rect1.width", "rect1.height");
             drawBar.MakeIterable(len);
             Timeline.Insert(drawBar);
 
-            var moveGuide = new MoveRectStep((RectFigure) drawGuide.Figure, "rect2.x + rect2.width", "rect2.y");
+            var scaleBarHeight = new ScaleRectStep(drawBar.RectFigure, ScaleRectStep.ScalingSide.Top,
+                "data.height / max(data.height)");
+            scaleBarHeight.MakeIterable(len);
+            Timeline.Insert(scaleBarHeight);
+
+            var moveGuide = new MoveRectStep(drawGuide.RectFigure, "rect2.x + rect2.width", "rect2.y");
             moveGuide.MakeIterable(len);
             Timeline.Insert(moveGuide);
         }

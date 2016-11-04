@@ -21,6 +21,8 @@ namespace DynamicVisualizer.Controls
                 clickThroughLabel1.Text = "draw " + step.Figure.Name;
             if (step is MoveCircleStep)
                 clickThroughLabel1.Text = "move " + step.Figure.Name;
+            if (step is ScaleRectStep)
+                clickThroughLabel1.Text = "scale " + step.Figure.Name;
             if (step.Iterations > 0)
                 clickThroughLabel1.Location = new Point(clickThroughLabel1.Location.X + 10,
                     clickThroughLabel1.Location.Y);

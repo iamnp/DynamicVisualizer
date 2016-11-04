@@ -59,6 +59,8 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
                 DataStorage.Add(new ScalarExpression(Figure.Name, "width", Width, Figure.IsGuide));
             RectFigure.Height =
                 DataStorage.Add(new ScalarExpression(Figure.Name, "height", Height, Figure.IsGuide));
+
+            if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
         }
 
         public override void IterateNext()
