@@ -26,12 +26,8 @@ namespace DynamicVisualizer
         private readonly Pen _canvasStroke = new Pen(Brushes.Gray, 1);
         private readonly TranslateTransform _canvasTranslate = new TranslateTransform(CanvasOffsetX, CanvasOffsetY);
         private readonly FigureDrawer _figureDrawer = new FigureDrawer();
+        private readonly FigureMover _figureMover = new FigureMover();
         private readonly MainGraphicOutput _mainGraphics;
-        private Point _downPos;
-
-        private TransformStep _nowMoving;
-        private double _offsetX = double.NaN;
-        private double _offsetY = double.NaN;
         private Figure _selected;
 
         public Form1()
@@ -68,14 +64,14 @@ namespace DynamicVisualizer
             if (e.ChangedButton == MouseButton.Left)
                 _figureDrawer.Finish();
             if (e.ChangedButton == MouseButton.Right)
-                _offsetX = _offsetY = double.NaN;
+                _figureMover.Reset();
             RedrawNeeded();
         }
 
         private void MainGraphicsOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
         {
             _figureDrawer.Finish();
-            _offsetX = _offsetY = double.NaN;
+            _figureMover.Reset();
             RedrawNeeded();
         }
 
@@ -85,65 +81,17 @@ namespace DynamicVisualizer
             if (e.LeftButton == MouseButtonState.Pressed)
                 _figureDrawer.Move(pos);
             if ((e.RightButton == MouseButtonState.Pressed) && (_selected != null))
-                switch (_selected.Type)
-                {
-                    case Figure.FigureType.Rect:
-                        var rf = (RectFigure) _selected;
-                        if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
-                        {
-                            _offsetX = _downPos.X - rf.X.CachedValue.AsDouble;
-                            _offsetY = _downPos.Y - rf.Y.CachedValue.AsDouble;
-                        }
+                _figureMover.Move(_selected, pos);
 
-                        if (_nowMoving == null)
-                        {
-                            _nowMoving = new MoveRectStep(rf, pos.X - _offsetX, pos.Y - _offsetY);
-                            Timeline.Insert(_nowMoving,
-                                Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
-                        }
-                        else
-                        {
-                            switch (_nowMoving.StepType)
-                            {
-                                case TransformStep.TransformStepType.MoveRect:
-                                    ((MoveRectStep) _nowMoving).Move(pos.X - _offsetX, pos.Y - _offsetY);
-                                    break;
-                            }
-                        }
-                        break;
-                    case Figure.FigureType.Circle:
-                        var cf = (CircleFigure) _selected;
-                        if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
-                        {
-                            _offsetX = _downPos.X - cf.X.CachedValue.AsDouble;
-                            _offsetY = _downPos.Y - cf.Y.CachedValue.AsDouble;
-                        }
-
-                        if (_nowMoving == null)
-                        {
-                            _nowMoving = new MoveCircleStep(cf, pos.X - _offsetX, pos.Y - _offsetY);
-                            Timeline.Insert(_nowMoving,
-                                Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
-                        }
-                        else
-                        {
-                            switch (_nowMoving.StepType)
-                            {
-                                case TransformStep.TransformStepType.MoveCircle:
-                                    ((MoveCircleStep) _nowMoving).Move(pos.X - _offsetX, pos.Y - _offsetY);
-                                    break;
-                            }
-                        }
-                        break;
-                }
             RedrawNeeded();
         }
 
         private void MainGraphicsOnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            _downPos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
+            var downPos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
+            _figureMover.SetDownPos(downPos);
             if (e.ChangedButton == MouseButton.Left)
-                _figureDrawer.Start(_downPos);
+                _figureDrawer.Start(downPos);
             if (e.ChangedButton == MouseButton.Right)
             {
                 if (_selected != null)
@@ -154,15 +102,9 @@ namespace DynamicVisualizer
                 for (var i = Timeline.Figures.Count - 1; i >= 0; --i)
                 {
                     var f = Timeline.Figures[i];
-                    if (f.IsMouseOver(_downPos.X, _downPos.Y))
+                    if (f.IsMouseOver(downPos.X, downPos.Y))
                     {
                         _selected = f;
-                        if ((_selected == Timeline.CurrentStep.Figure) &&
-                            ((Timeline.CurrentStep is MoveRectStep && (_selected.Type == Figure.FigureType.Rect))
-                             || (Timeline.CurrentStep is MoveCircleStep && (_selected.Type == Figure.FigureType.Circle))))
-                            _nowMoving = (TransformStep) Timeline.CurrentStep;
-                        else
-                            _nowMoving = null;
                         _selected.IsSelected = true;
                         break;
                     }

@@ -48,6 +48,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="FigureDrawer.cs" />
+    <Compile Include="FigureMover.cs" />
     <Compile Include="Logic\Expressions\ArrayExpression.cs" />
     <Compile Include="Logic\Expressions\DataStorage.cs" />
     <Compile Include="Logic\Storyboard\Figures\CircleFigure.cs" />

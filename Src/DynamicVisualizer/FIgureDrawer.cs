@@ -8,9 +8,9 @@ namespace DynamicVisualizer
 {
     internal class FigureDrawer
     {
-        public DrawStep.DrawStepType DrawStepType = DrawStep.DrawStepType.DrawRect;
         private DrawStep _nowDrawing;
         private Point _startPos;
+        public DrawStep.DrawStepType DrawStepType = DrawStep.DrawStepType.DrawRect;
 
         public void Start(Point pos)
         {
