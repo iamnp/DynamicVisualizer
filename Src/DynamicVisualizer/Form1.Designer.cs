@@ -37,13 +37,16 @@ namespace DynamicVisualizer
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.stepsListControl1 = new DynamicVisualizer.Controls.StepsListControl();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // elementHost1
             // 
-            this.elementHost1.Location = new System.Drawing.Point(150, 6);
+            this.elementHost1.Location = new System.Drawing.Point(202, 12);
             this.elementHost1.Name = "elementHost1";
             this.elementHost1.Size = new System.Drawing.Size(1000, 700);
             this.elementHost1.TabIndex = 0;
@@ -126,21 +129,57 @@ namespace DynamicVisualizer
             this.label3.Text = "Circle";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(10, 617);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(94, 16);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "TRANSFORM";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Location = new System.Drawing.Point(21, 644);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(42, 16);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Move";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.label6.Location = new System.Drawing.Point(21, 670);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(43, 16);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Scale";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
+            // 
             // stepsListControl1
             // 
             this.stepsListControl1.AutoScroll = true;
             this.stepsListControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.stepsListControl1.CurrentSelection = null;
-            this.stepsListControl1.Location = new System.Drawing.Point(13, 174);
+            this.stepsListControl1.Location = new System.Drawing.Point(5, 174);
             this.stepsListControl1.Name = "stepsListControl1";
-            this.stepsListControl1.Size = new System.Drawing.Size(130, 328);
+            this.stepsListControl1.Size = new System.Drawing.Size(191, 328);
             this.stepsListControl1.TabIndex = 5;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1152, 708);
+            this.ClientSize = new System.Drawing.Size(1214, 708);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -168,6 +207,9 @@ namespace DynamicVisualizer
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }
 

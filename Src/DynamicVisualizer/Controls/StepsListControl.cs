@@ -33,6 +33,12 @@ namespace DynamicVisualizer.Controls
             }
         }
 
+        public void ReSetText()
+        {
+            for (var i = 0; i < _stepControls.Count; i++)
+                _stepControls[i].SetText();
+        }
+
         private void TimelineOnStepInserted(int index)
         {
             _ignoreSelectionChanged = true;
@@ -112,7 +118,7 @@ namespace DynamicVisualizer.Controls
             if (CurrentSelection != null)
                 CurrentSelection.BackColor = BackColor;
             CurrentSelection = sc;
-            CurrentSelection.BackColor = Color.BlueViolet;
+            CurrentSelection.BackColor = Color.Aqua;
         }
 
         private void OnMouseClick(object sender, MouseEventArgs mouseEventArgs)

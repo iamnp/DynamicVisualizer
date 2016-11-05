@@ -49,9 +49,10 @@
     </Compile>
     <Compile Include="FigureDrawer.cs" />
     <Compile Include="FigureMover.cs" />
+    <Compile Include="FigureScaler.cs" />
     <Compile Include="Logic\Expressions\ArrayExpression.cs" />
     <Compile Include="Logic\Expressions\DataStorage.cs" />
-    <Compile Include="Logic\Storyboard\Figures\CircleFigure.cs" />
+    <Compile Include="Logic\Storyboard\Figures\EllipseFigure.cs" />
     <Compile Include="Logic\Storyboard\Steps\Draw\DrawCircleStep.cs" />
     <Compile Include="Logic\Storyboard\Steps\Draw\DrawRectStep.cs" />
     <Compile Include="Logic\Storyboard\Steps\DrawStep.cs" />
@@ -65,7 +66,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Logic\Storyboard\Steps\Transform\MoveCircleStep.cs" />
+    <Compile Include="Logic\Storyboard\Steps\Transform\MoveEllipseStep.cs" />
+    <Compile Include="Logic\Storyboard\Steps\Transform\ScaleEllipseStep.cs" />
     <Compile Include="Logic\Storyboard\Steps\Transform\ScaleRectStep.cs" />
     <Compile Include="MainGraphicOutput.cs" />
     <Compile Include="Logic\Storyboard\Steps\Transform\MoveRectStep.cs" />

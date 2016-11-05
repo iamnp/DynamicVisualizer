@@ -27,8 +27,10 @@ namespace DynamicVisualizer
         private readonly TranslateTransform _canvasTranslate = new TranslateTransform(CanvasOffsetX, CanvasOffsetY);
         private readonly FigureDrawer _figureDrawer = new FigureDrawer();
         private readonly FigureMover _figureMover = new FigureMover();
+        private readonly FigureScaler _figureScaler = new FigureScaler();
         private readonly MainGraphicOutput _mainGraphics;
         private Figure _selected;
+        private TransformType _transformType = TransformType.Move;
 
         public Form1()
         {
@@ -47,6 +49,7 @@ namespace DynamicVisualizer
         private void RedrawNeeded()
         {
             _mainGraphics.InvalidateVisual();
+            stepsListControl1.ReSetText();
         }
 
         private void DrawScene(DrawingContext dc)
@@ -64,7 +67,10 @@ namespace DynamicVisualizer
             if (e.ChangedButton == MouseButton.Left)
                 _figureDrawer.Finish();
             if (e.ChangedButton == MouseButton.Right)
+            {
                 _figureMover.Reset();
+                _figureScaler.Reset();
+            }
             RedrawNeeded();
         }
 
@@ -72,6 +78,7 @@ namespace DynamicVisualizer
         {
             _figureDrawer.Finish();
             _figureMover.Reset();
+            _figureScaler.Reset();
             RedrawNeeded();
         }
 
@@ -81,7 +88,15 @@ namespace DynamicVisualizer
             if (e.LeftButton == MouseButtonState.Pressed)
                 _figureDrawer.Move(pos);
             if ((e.RightButton == MouseButtonState.Pressed) && (_selected != null))
-                _figureMover.Move(_selected, pos);
+                switch (_transformType)
+                {
+                    case TransformType.Move:
+                        _figureMover.Move(_selected, pos);
+                        break;
+                    case TransformType.Scale:
+                        _figureScaler.Move(_selected, pos);
+                        break;
+                }
 
             RedrawNeeded();
         }
@@ -89,7 +104,15 @@ namespace DynamicVisualizer
         private void MainGraphicsOnMouseDown(object sender, MouseButtonEventArgs e)
         {
             var downPos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
-            _figureMover.SetDownPos(downPos);
+            switch (_transformType)
+            {
+                case TransformType.Move:
+                    _figureMover.SetDownPos(downPos);
+                    break;
+                case TransformType.Scale:
+                    _figureScaler.SetDownPos(downPos);
+                    break;
+            }
             if (e.ChangedButton == MouseButton.Left)
                 _figureDrawer.Start(downPos);
             if (e.ChangedButton == MouseButton.Right)
@@ -118,10 +141,8 @@ namespace DynamicVisualizer
             DataStorage.Add(new ScalarExpression("data", "width", ((int) numericUpDown1.Value).ToString()));
             var s = new DrawRectStep("10", "10", "50", "50");
             Timeline.Insert(s);
-            Timeline.Insert(new ScaleRectStep(s.RectFigure, ScaleRectStep.ScalingSide.Left, 0.5));
-            Timeline.Insert(new ScaleRectStep(s.RectFigure, ScaleRectStep.ScalingSide.Top, 0.5));
-
-
+            Timeline.Insert(new ScaleRectStep(s.RectFigure, ScaleRectStep.Side.Left, 0.5));
+            Timeline.Insert(new ScaleRectStep(s.RectFigure, ScaleRectStep.Side.Bottom, 0.5));
             RedrawNeeded();
         }
 
@@ -147,8 +168,8 @@ namespace DynamicVisualizer
             drawBar.MakeIterable(len);
             Timeline.Insert(drawBar);
 
-            var scaleBarHeight = new ScaleRectStep(drawBar.RectFigure, ScaleRectStep.ScalingSide.Top,
-                "data.height / max(data.height)");
+            var scaleBarHeight = new ScaleRectStep(drawBar.RectFigure, ScaleRectStep.Side.Top,
+                "data.height / (max(data.height))");
             scaleBarHeight.MakeIterable(len);
             Timeline.Insert(scaleBarHeight);
 
@@ -175,6 +196,26 @@ namespace DynamicVisualizer
             _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawCircle;
             label3.ForeColor = SystemColors.ControlText;
             label2.ForeColor = SystemColors.ControlDark;
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            _transformType = TransformType.Move;
+            label5.ForeColor = SystemColors.ControlText;
+            label6.ForeColor = SystemColors.ControlDark;
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            _transformType = TransformType.Scale;
+            label6.ForeColor = SystemColors.ControlText;
+            label5.ForeColor = SystemColors.ControlDark;
+        }
+
+        private enum TransformType
+        {
+            Move,
+            Scale
         }
     }
 }

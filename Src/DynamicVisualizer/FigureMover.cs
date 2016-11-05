@@ -27,7 +27,7 @@ namespace DynamicVisualizer
         {
             if ((selected == Timeline.CurrentStep.Figure) &&
                 ((Timeline.CurrentStep is MoveRectStep && (selected.Type == Figure.FigureType.Rect))
-                 || (Timeline.CurrentStep is MoveCircleStep && (selected.Type == Figure.FigureType.Circle))))
+                 || (Timeline.CurrentStep is MoveEllipseStep && (selected.Type == Figure.FigureType.Circle))))
                 NowMoving = (TransformStep) Timeline.CurrentStep;
             else
                 NowMoving = null;
@@ -59,7 +59,7 @@ namespace DynamicVisualizer
                     }
                     break;
                 case Figure.FigureType.Circle:
-                    var cf = (CircleFigure) selected;
+                    var cf = (EllipseFigure) selected;
                     if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
                     {
                         _offsetX = _downPos.X - cf.X.CachedValue.AsDouble;
@@ -68,7 +68,7 @@ namespace DynamicVisualizer
 
                     if (NowMoving == null)
                     {
-                        NowMoving = new MoveCircleStep(cf, pos.X - _offsetX, pos.Y - _offsetY);
+                        NowMoving = new MoveEllipseStep(cf, pos.X - _offsetX, pos.Y - _offsetY);
                         Timeline.Insert(NowMoving,
                             Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
                     }
@@ -76,8 +76,8 @@ namespace DynamicVisualizer
                     {
                         switch (NowMoving.StepType)
                         {
-                            case TransformStep.TransformStepType.MoveCircle:
-                                ((MoveCircleStep) NowMoving).Move(pos.X - _offsetX, pos.Y - _offsetY);
+                            case TransformStep.TransformStepType.MoveEllipse:
+                                ((MoveEllipseStep) NowMoving).Move(pos.X - _offsetX, pos.Y - _offsetY);
                                 break;
                         }
                     }

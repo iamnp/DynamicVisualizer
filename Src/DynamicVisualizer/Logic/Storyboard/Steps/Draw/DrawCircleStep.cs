@@ -6,15 +6,15 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
     public class DrawCircleStep : DrawStep
     {
         private static int _count = 1;
-        public readonly CircleFigure RectFigure;
+        public readonly EllipseFigure RectFigure;
         public string Radius;
         public string X;
         public string Y;
 
         private DrawCircleStep(bool isGuide)
         {
-            Figure = new CircleFigure("circle" + _count++, isGuide);
-            RectFigure = (CircleFigure) Figure;
+            Figure = new EllipseFigure("circle" + _count++, isGuide);
+            RectFigure = (EllipseFigure) Figure;
         }
 
         public DrawCircleStep(string x, string y, string radius, bool isGuide = false) : this(isGuide)
@@ -52,8 +52,10 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
 
             RectFigure.X = DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, Figure.IsGuide));
             RectFigure.Y = DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, Figure.IsGuide));
-            RectFigure.Radius =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "radius", Radius, Figure.IsGuide));
+            RectFigure.Radius1 =
+                DataStorage.Add(new ScalarExpression(Figure.Name, "radius1", Radius, Figure.IsGuide));
+            RectFigure.Radius2 =
+                DataStorage.Add(new ScalarExpression(Figure.Name, "radius2", Radius, Figure.IsGuide));
 
             if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
         }
@@ -66,18 +68,22 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
             RectFigure.Y =
                 DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, CompletedIterations,
                     Figure.IsGuide));
-            RectFigure.Radius =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "radius", Radius, CompletedIterations,
+            RectFigure.Radius1 =
+                DataStorage.Add(new ScalarExpression(Figure.Name, "radius1", Radius, CompletedIterations,
+                    Figure.IsGuide));
+            RectFigure.Radius2 =
+                DataStorage.Add(new ScalarExpression(Figure.Name, "radius2", Radius, CompletedIterations,
                     Figure.IsGuide));
         }
 
         public override void CopyStaticFigure()
         {
-            var rf = new CircleFigure("staticcircle")
+            var rf = new EllipseFigure("staticcircle")
             {
                 X = new ScalarExpression("a", "a", RectFigure.X.CachedValue.Str),
                 Y = new ScalarExpression("a", "a", RectFigure.Y.CachedValue.Str),
-                Radius = new ScalarExpression("a", "a", RectFigure.Radius.CachedValue.Str)
+                Radius1 = new ScalarExpression("a", "a", RectFigure.Radius1.CachedValue.Str),
+                Radius2 = new ScalarExpression("a", "a", RectFigure.Radius2.CachedValue.Str)
             };
             Figure.StaticLoopFigures.Add(rf);
             Timeline.Figures.Add(rf);

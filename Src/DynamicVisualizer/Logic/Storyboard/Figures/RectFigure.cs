@@ -66,5 +66,10 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
 
             return (x >= x1) && (x <= x2) && (y >= y1) && (y <= y2);
         }
+
+        public override Point PosInside(double x, double y)
+        {
+            return new Point(x - X.CachedValue.AsDouble, y - Y.CachedValue.AsDouble);
+        }
     }
 }

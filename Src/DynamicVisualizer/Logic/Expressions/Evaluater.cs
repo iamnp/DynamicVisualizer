@@ -91,6 +91,7 @@ namespace DynamicVisualizer.Logic.Expressions
 
             var operands = new Stack<Value>();
             var operators = new Stack<string>();
+            var needToEval = new Stack<bool>();
 
             var firstInExpr = false;
             var afterOp = false;
@@ -98,7 +99,11 @@ namespace DynamicVisualizer.Logic.Expressions
 
             for (var i = 0; i < exprString.Length; ++i)
             {
-                if (exprString[i] == '(') afterLeftBrace = true;
+                if (exprString[i] == '(')
+                {
+                    afterLeftBrace = true;
+                    needToEval.Push(false);
+                }
                 if ((exprString[i] == ' ') || (exprString[i] == '(')) continue;
                 if (char.IsDigit(exprString[i])) // encountered a number
                 {
@@ -118,6 +123,7 @@ namespace DynamicVisualizer.Logic.Expressions
                     firstInExpr = true;
                     afterOp = false;
                     afterLeftBrace = false;
+                    if (!needToEval.Pop()) continue;
                     if (operators.Count == 0) continue;
                     var function = operators.Pop();
                     if (BinaryFunctions.ContainsKey(function))
@@ -145,8 +151,13 @@ namespace DynamicVisualizer.Logic.Expressions
                         ++i;
                     i -= 1;
                     var funcOrVar = exprString.Substring(start, i - start + 1);
-                    if (UnaryFunctions.ContainsKey(funcOrVar)) // func
+                    if (UnaryFunctions.ContainsKey(funcOrVar))
+                    {
+                        // func
                         operators.Push(funcOrVar);
+                        needToEval.Pop();
+                        needToEval.Push(true);
+                    }
                     else // variable
                         operands.Push(variableEvaluater(funcOrVar));
                     continue;
@@ -168,6 +179,8 @@ namespace DynamicVisualizer.Logic.Expressions
                 // ecnountered one-char operator
                 if (BinaryFunctions.ContainsKey(exprString[i].ToString()))
                 {
+                    needToEval.Pop();
+                    needToEval.Push(true);
                     if (exprString[i] == '-') // unary or binary
                         if (!firstInExpr || afterOp || afterLeftBrace)
                         {

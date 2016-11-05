@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Media;
 
 namespace DynamicVisualizer.Logic.Storyboard.Figures
@@ -24,5 +25,6 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
 
         public abstract void Draw(DrawingContext dc);
         public abstract bool IsMouseOver(double x, double y);
+        public abstract Point PosInside(double x, double y);
     }
 }
