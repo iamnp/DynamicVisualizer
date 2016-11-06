@@ -53,6 +53,7 @@
     <Compile Include="Logic\Expressions\ArrayExpression.cs" />
     <Compile Include="Logic\Expressions\DataStorage.cs" />
     <Compile Include="Logic\Storyboard\Figures\EllipseFigure.cs" />
+    <Compile Include="Logic\Storyboard\Magnet.cs" />
     <Compile Include="Logic\Storyboard\Steps\Draw\DrawCircleStep.cs" />
     <Compile Include="Logic\Storyboard\Steps\Draw\DrawRectStep.cs" />
     <Compile Include="Logic\Storyboard\Steps\DrawStep.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Controls\StepsListControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Logic\Storyboard\Steps\Transform\TransformType.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

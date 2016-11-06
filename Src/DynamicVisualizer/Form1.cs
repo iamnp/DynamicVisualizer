@@ -28,6 +28,7 @@ namespace DynamicVisualizer
         private readonly FigureDrawer _figureDrawer = new FigureDrawer();
         private readonly FigureMover _figureMover = new FigureMover();
         private readonly FigureScaler _figureScaler = new FigureScaler();
+        private readonly Rect _hostRect = new Rect(0, 0, 1000, 700);
         private readonly MainGraphicOutput _mainGraphics;
         private Figure _selected;
         private TransformType _transformType = TransformType.Move;
@@ -35,6 +36,24 @@ namespace DynamicVisualizer
         public Form1()
         {
             InitializeComponent();
+
+            DataStorage.Add(new ScalarExpression("canvas", "height", CanvasHeight.ToString()));
+            DataStorage.Add(new ScalarExpression("canvas", "width", CanvasWidth.ToString()));
+            DataStorage.Add(new ScalarExpression("canvas", "x", "0"));
+            DataStorage.Add(new ScalarExpression("canvas", "y", "0"));
+
+            var x1 = new ScalarExpression("a", "a", "canvas.x", true);
+            var y1 = new ScalarExpression("a", "a", "canvas.y", true);
+            var w = new ScalarExpression("a", "a", "canvas.width", true);
+            var h = new ScalarExpression("a", "a", "canvas.height", true);
+
+            Timeline.CanvasMagnets = new[]
+            {
+                new Magnet(x1, y1),
+                new Magnet(x1, h),
+                new Magnet(w, y1),
+                new Magnet(w, h)
+            };
 
             _mainGraphics = new MainGraphicOutput {DrawingFunc = DrawScene};
             elementHost1.Child = _mainGraphics;
@@ -54,12 +73,25 @@ namespace DynamicVisualizer
 
         private void DrawScene(DrawingContext dc)
         {
+            dc.DrawRectangle(Brushes.LightGray, null, _hostRect);
             dc.PushTransform(_canvasTranslate);
             dc.DrawRectangle(null, _canvasStroke, _canvasRect);
             dc.DrawRectangle(Brushes.White, null, _canvasRect);
 
+            foreach (var magnet in Timeline.CanvasMagnets)
+                dc.DrawEllipse(Brushes.Yellow, new Pen(Brushes.Black, 1),
+                    new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
+                    4, 4);
+
             foreach (var figure in Timeline.Figures)
+            {
                 figure.Draw(dc);
+                if (figure.IsSelected || _figureMover.NowMoving || _figureDrawer.NowDrawing || _figureScaler.NowScailing)
+                    foreach (var magnet in figure.GetMagnets())
+                        dc.DrawEllipse(Brushes.Yellow, new Pen(Brushes.Black, 1),
+                            new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
+                            4, 4);
+            }
         }
 
         private void MainGraphicsOnMouseUp(object sender, MouseButtonEventArgs e)
@@ -132,17 +164,13 @@ namespace DynamicVisualizer
                         break;
                     }
                 }
+                if (_selected == null) label7.Visible = false;
+                else
+                {
+                    label7.Visible = true;
+                    label7.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
+                }
             }
-            RedrawNeeded();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            DataStorage.Add(new ScalarExpression("data", "width", ((int) numericUpDown1.Value).ToString()));
-            var s = new DrawRectStep("10", "10", "50", "50");
-            Timeline.Insert(s);
-            Timeline.Insert(new ScaleRectStep(s.RectFigure, ScaleRectStep.Side.Left, 0.5));
-            Timeline.Insert(new ScaleRectStep(s.RectFigure, ScaleRectStep.Side.Bottom, 0.5));
             RedrawNeeded();
         }
 
@@ -154,14 +182,13 @@ namespace DynamicVisualizer
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DataStorage.Add(new ScalarExpression("data", "canvasHeight", CanvasHeight.ToString()));
-            DataStorage.Add(new ScalarExpression("data", "canvasWidth", CanvasWidth.ToString()));
             DataStorage.AddArrayExpression("data", "height", GetData().ToArray());
             DataStorage.Add(new ScalarExpression("data", "count", "len(height)"));
             var len = (int) DataStorage.GetScalarExpression("data.count").CachedValue.AsDouble;
 
-            var drawGuide = new DrawRectStep("0", "data.canvasHeight", "data.canvasWidth/data.count",
-                "-data.canvasHeight", true);
+            var drawGuide = new DrawRectStep("0", "canvas.height", "canvas.width/data.count",
+                "-canvas.height");
+            drawGuide.Figure.IsGuide = true;
             Timeline.Insert(drawGuide);
 
             var drawBar = new DrawRectStep("rect1.x", "rect1.y", "rect1.width", "rect1.height");
@@ -176,12 +203,6 @@ namespace DynamicVisualizer
             var moveGuide = new MoveRectStep(drawGuide.RectFigure, "rect2.x + rect2.width", "rect2.y");
             moveGuide.MakeIterable(len);
             Timeline.Insert(moveGuide);
-        }
-
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
-        {
-            DataStorage.GetScalarExpression("data.width").SetRawExpression(((int) numericUpDown1.Value).ToString());
-            RedrawNeeded();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -212,10 +233,11 @@ namespace DynamicVisualizer
             label5.ForeColor = SystemColors.ControlDark;
         }
 
-        private enum TransformType
+        private void label7_Click(object sender, EventArgs e)
         {
-            Move,
-            Scale
+            _selected.IsGuide = !_selected.IsGuide;
+            label7.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
+            RedrawNeeded();
         }
     }
 }

@@ -12,37 +12,37 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
         public string X;
         public string Y;
 
-        private DrawRectStep(bool isGuide)
+        private DrawRectStep()
         {
-            Figure = new RectFigure("rect" + _count++, isGuide);
+            Figure = new RectFigure("rect" + _count++);
             RectFigure = (RectFigure) Figure;
         }
 
-        public DrawRectStep(string x, string y, string width, string height, bool isGuide = false) : this(isGuide)
+        public DrawRectStep(string x, string y, string width, string height) : this()
         {
-            ReInit(x, y, width, height);
+            X = x;
+            Y = y;
+            ReInit(width, height);
         }
 
-        public DrawRectStep(double x, double y, double width, double height, bool isGuide = false) : this(isGuide)
+        public DrawRectStep(double x, double y, double width, double height) : this()
         {
-            ReInit(x, y, width, height);
+            X = x.Str();
+            Y = y.Str();
+            ReInit(width, height);
         }
 
         public override DrawStepType StepType => DrawStepType.DrawRect;
 
-        public void ReInit(string x, string y, string width, string height)
+        public void ReInit(string width, string height)
         {
-            X = x;
-            Y = y;
             Width = width;
             Height = height;
             Apply();
         }
 
-        public void ReInit(double x, double y, double width, double height)
+        public void ReInit(double width, double height)
         {
-            X = x.Str();
-            Y = y.Str();
             Width = width.Str();
             Height = height.Str();
             Apply();

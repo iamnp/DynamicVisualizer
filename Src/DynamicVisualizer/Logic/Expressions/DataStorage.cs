@@ -56,7 +56,7 @@ namespace DynamicVisualizer.Logic.Expressions
         {
             var toDel = new List<string>();
             foreach (var pair in _data)
-                if (!pair.Key.StartsWith("data."))
+                if (!pair.Key.StartsWith("data.") && !pair.Key.StartsWith("canvas."))
                     toDel.Add(pair.Key);
             foreach (var s in toDel)
                 _data.Remove(s);

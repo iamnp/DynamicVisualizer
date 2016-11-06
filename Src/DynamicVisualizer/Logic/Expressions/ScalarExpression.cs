@@ -41,13 +41,13 @@ namespace DynamicVisualizer.Logic.Expressions
         {
         }
 
-        public ScalarExpression(string objectName, string varName, string rawExpr, bool isGuide)
-            : this(objectName, varName, rawExpr, 0, null, isGuide)
+        public ScalarExpression(string objectName, string varName, string rawExpr, bool isWeak)
+            : this(objectName, varName, rawExpr, 0, null, isWeak)
         {
         }
 
-        public ScalarExpression(string objectName, string varName, string rawExpr, int indexInArray, bool isGuide)
-            : this(objectName, varName, rawExpr, indexInArray, null, isGuide)
+        public ScalarExpression(string objectName, string varName, string rawExpr, int indexInArray, bool isWeak)
+            : this(objectName, varName, rawExpr, indexInArray, null, isWeak)
         {
         }
 
@@ -61,23 +61,24 @@ namespace DynamicVisualizer.Logic.Expressions
 
         public override void Recalculate()
         {
-            if (!CachedValue.Empty) // we are re-setting expression's raw expr
-            {
-                // remove all the DependentOn values
-                // e.g. remove the cross-references
-                foreach (var e in DependentOn)
-                    e.UsedBy.Remove(this);
-                DependentOn.Clear();
-            }
+            // remove all the DependentOn values
+            // e.g. remove the cross-references
+            foreach (var e in DependentOn)
+                e.UsedBy.Remove(this);
+            DependentOn.Clear();
 
             var val = Evaluater.Evaluate(ExprString, _varEvaluater, IndexInArray);
             CachedValue.SwitchTo(val.IsArray ? val.AsArray[IndexInArray] : val);
 
             if (!IsWeak)
             {
-                var copyOfUsedBy = new List<Expression>(UsedBy);
-                foreach (var e in copyOfUsedBy)
-                    e.Recalculate();
+                if (UsedBy.Count > 0)
+                {
+                    var copyOfUsedBy = new List<Expression>(UsedBy);
+                    UsedBy.Clear();
+                    foreach (var e in copyOfUsedBy)
+                        e.Recalculate();
+                }
                 if (_parentArray != null)
                 {
                     var copyOfParentUsedBy = new List<Expression>(_parentArray.UsedBy);

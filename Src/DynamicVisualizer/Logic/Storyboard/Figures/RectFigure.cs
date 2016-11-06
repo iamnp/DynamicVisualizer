@@ -11,13 +11,53 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
         public ScalarExpression X;
         public ScalarExpression Y;
 
-        public RectFigure(string name, bool isGuide = false)
+        public RectFigure(string name)
         {
             Name = name;
-            IsGuide = isGuide;
         }
 
         public override FigureType Type => FigureType.Rect;
+
+        public override Magnet[] GetMagnets()
+        {
+            if (Name == "staticrect")
+            {
+                var w = new ScalarExpression(Name, "a", (X.CachedValue.AsDouble + Width.CachedValue.AsDouble).Str());
+                var h = new ScalarExpression(Name, "a", (Y.CachedValue.AsDouble + Height.CachedValue.AsDouble).Str());
+
+                var x = new ScalarExpression(Name, "a", X.CachedValue.AsDouble.Str());
+                var y = new ScalarExpression(Name, "a", Y.CachedValue.AsDouble.Str());
+
+                return new[]
+                {
+                    new Magnet(x, y),
+                    new Magnet(x, h),
+                    new Magnet(w, y),
+                    new Magnet(w, h),
+                    new Magnet(
+                        new ScalarExpression(Name, "a", (X.CachedValue.AsDouble + Width.CachedValue.AsDouble/2.0).Str()),
+                        new ScalarExpression(Name, "a", (Y.CachedValue.AsDouble + Height.CachedValue.AsDouble/2.0).Str()))
+                };
+            }
+            else
+            {
+                var w = new ScalarExpression(Name, "a", Name + ".x + " + Name + ".width", true);
+                var h = new ScalarExpression(Name, "a", Name + ".y + " + Name + ".height", true);
+
+                var x = new ScalarExpression(Name, "a", Name + ".x", true);
+                var y = new ScalarExpression(Name, "a", Name + ".y", true);
+
+                return new[]
+                {
+                    new Magnet(x, y),
+                    new Magnet(x, h),
+                    new Magnet(w, y),
+                    new Magnet(w, h),
+                    new Magnet(new ScalarExpression(Name, "a", Name + ".x + (" + Name + ".width/2)", true),
+                        new ScalarExpression(Name, "a", Name + ".y + (" + Name + ".height/2)", true))
+                };
+            }
+        }
 
         public override void Draw(DrawingContext dc)
         {

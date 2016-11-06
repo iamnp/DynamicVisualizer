@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using DynamicVisualizer.Logic.Expressions;
 using DynamicVisualizer.Logic.Storyboard.Figures;
 using DynamicVisualizer.Logic.Storyboard.Steps;
@@ -9,8 +10,11 @@ namespace DynamicVisualizer.Logic.Storyboard
     {
         public delegate void StepInsertedEventHandler(int index);
 
+        private const int ThresholdSquared = 15*15;
+
         public static readonly List<Step> Steps = new List<Step>();
         public static readonly List<Figure> Figures = new List<Figure>();
+        public static Magnet[] CanvasMagnets;
 
         static Timeline()
         {
@@ -20,6 +24,38 @@ namespace DynamicVisualizer.Logic.Storyboard
         public static Step CurrentStep => Steps[CurrentStepIndex];
 
         public static int CurrentStepIndex { get; private set; }
+
+        public static Magnet Snap(Point p)
+        {
+            var minDistSquared = 1e9;
+            Magnet closestMagnet = null;
+            foreach (var figure in Figures)
+                foreach (var magnet in figure.GetMagnets())
+                {
+                    var dx = p.X - magnet.X.CachedValue.AsDouble;
+                    var dy = p.Y - magnet.Y.CachedValue.AsDouble;
+                    var distSquared = dx*dx + dy*dy;
+                    if (distSquared < minDistSquared)
+                    {
+                        closestMagnet = magnet;
+                        minDistSquared = distSquared;
+                    }
+                }
+            if (minDistSquared > ThresholdSquared)
+                foreach (var magnet in CanvasMagnets)
+                {
+                    var dx = p.X - magnet.X.CachedValue.AsDouble;
+                    var dy = p.Y - magnet.Y.CachedValue.AsDouble;
+                    var distSquared = dx*dx + dy*dy;
+                    if (distSquared < minDistSquared)
+                    {
+                        closestMagnet = magnet;
+                        minDistSquared = distSquared;
+                    }
+                }
+            return minDistSquared <= ThresholdSquared ? closestMagnet : null;
+        }
+
         public static event StepInsertedEventHandler StepInserted;
 
         private static void BackwardsAndAgain(int index)

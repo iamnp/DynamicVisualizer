@@ -9,13 +9,16 @@ namespace DynamicVisualizer
     internal class FigureMover
     {
         private Point _downPos;
+        private TransformStep _nowMoving;
         private double _offsetX = double.NaN;
         private double _offsetY = double.NaN;
-        public TransformStep NowMoving;
+
+        public bool NowMoving => _nowMoving != null;
 
         public void Reset()
         {
             _offsetX = _offsetY = double.NaN;
+            _nowMoving = null;
         }
 
         public void SetDownPos(Point pos)
@@ -28,9 +31,9 @@ namespace DynamicVisualizer
             if ((selected == Timeline.CurrentStep.Figure) &&
                 ((Timeline.CurrentStep is MoveRectStep && (selected.Type == Figure.FigureType.Rect))
                  || (Timeline.CurrentStep is MoveEllipseStep && (selected.Type == Figure.FigureType.Circle))))
-                NowMoving = (TransformStep) Timeline.CurrentStep;
+                _nowMoving = (TransformStep) Timeline.CurrentStep;
             else
-                NowMoving = null;
+                _nowMoving = null;
 
             switch (selected.Type)
             {
@@ -42,18 +45,18 @@ namespace DynamicVisualizer
                         _offsetY = _downPos.Y - rf.Y.CachedValue.AsDouble;
                     }
 
-                    if (NowMoving == null)
+                    if (_nowMoving == null)
                     {
-                        NowMoving = new MoveRectStep(rf, pos.X - _offsetX, pos.Y - _offsetY);
-                        Timeline.Insert(NowMoving,
+                        _nowMoving = new MoveRectStep(rf, pos.X - _offsetX, pos.Y - _offsetY);
+                        Timeline.Insert(_nowMoving,
                             Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
                     }
                     else
                     {
-                        switch (NowMoving.StepType)
+                        switch (_nowMoving.StepType)
                         {
                             case TransformStep.TransformStepType.MoveRect:
-                                ((MoveRectStep) NowMoving).Move(pos.X - _offsetX, pos.Y - _offsetY);
+                                ((MoveRectStep) _nowMoving).Move(pos.X - _offsetX, pos.Y - _offsetY);
                                 break;
                         }
                     }
@@ -66,18 +69,18 @@ namespace DynamicVisualizer
                         _offsetY = _downPos.Y - cf.Y.CachedValue.AsDouble;
                     }
 
-                    if (NowMoving == null)
+                    if (_nowMoving == null)
                     {
-                        NowMoving = new MoveEllipseStep(cf, pos.X - _offsetX, pos.Y - _offsetY);
-                        Timeline.Insert(NowMoving,
+                        _nowMoving = new MoveEllipseStep(cf, pos.X - _offsetX, pos.Y - _offsetY);
+                        Timeline.Insert(_nowMoving,
                             Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
                     }
                     else
                     {
-                        switch (NowMoving.StepType)
+                        switch (_nowMoving.StepType)
                         {
                             case TransformStep.TransformStepType.MoveEllipse:
-                                ((MoveEllipseStep) NowMoving).Move(pos.X - _offsetX, pos.Y - _offsetY);
+                                ((MoveEllipseStep) _nowMoving).Move(pos.X - _offsetX, pos.Y - _offsetY);
                                 break;
                         }
                     }

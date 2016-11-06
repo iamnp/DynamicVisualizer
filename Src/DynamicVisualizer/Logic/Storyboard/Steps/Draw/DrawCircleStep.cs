@@ -11,36 +11,36 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
         public string X;
         public string Y;
 
-        private DrawCircleStep(bool isGuide)
+        private DrawCircleStep()
         {
-            Figure = new EllipseFigure("circle" + _count++, isGuide);
+            Figure = new EllipseFigure("circle" + _count++);
             RectFigure = (EllipseFigure) Figure;
         }
 
-        public DrawCircleStep(string x, string y, string radius, bool isGuide = false) : this(isGuide)
+        public DrawCircleStep(string x, string y, string radius) : this()
         {
-            ReInit(x, y, radius);
+            X = x;
+            Y = y;
+            ReInit(radius);
         }
 
-        public DrawCircleStep(double x, double y, double radius, bool isGuide = false) : this(isGuide)
+        public DrawCircleStep(double x, double y, double radius) : this()
         {
-            ReInit(x, y, radius);
+            X = x.Str();
+            Y = y.Str();
+            ReInit(radius);
         }
 
         public override DrawStepType StepType => DrawStepType.DrawCircle;
 
-        public void ReInit(string x, string y, string radius)
+        public void ReInit(string radius)
         {
-            X = x;
-            Y = y;
             Radius = radius;
             Apply();
         }
 
-        public void ReInit(double x, double y, double radius)
+        public void ReInit(double radius)
         {
-            X = x.Str();
-            Y = y.Str();
             Radius = radius.Str();
             Apply();
         }

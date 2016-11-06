@@ -23,6 +23,8 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
         public string Name { get; protected set; }
         public abstract FigureType Type { get; }
 
+        public abstract Magnet[] GetMagnets();
+
         public abstract void Draw(DrawingContext dc);
         public abstract bool IsMouseOver(double x, double y);
         public abstract Point PosInside(double x, double y);
