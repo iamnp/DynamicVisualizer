@@ -52,7 +52,9 @@ namespace DynamicVisualizer
                 new Magnet(x1, y1),
                 new Magnet(x1, h),
                 new Magnet(w, y1),
-                new Magnet(w, h)
+                new Magnet(w, h),
+                new Magnet(new ScalarExpression("a", "a", "canvas.width/2", true),
+                    new ScalarExpression("a", "a", "canvas.height/2", true))
             };
 
             _mainGraphics = new MainGraphicOutput {DrawingFunc = DrawScene};

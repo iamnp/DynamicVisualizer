@@ -49,18 +49,38 @@ namespace DynamicVisualizer
         public void Move(Point pos)
         {
             if (_nowDrawing != null)
-                switch (DrawStepType)
-                {
-                    case DrawStep.DrawStepType.DrawRect:
-                        ((DrawRectStep) _nowDrawing).ReInit(pos.X - _startPos.X, pos.Y - _startPos.Y);
-                        break;
+            {
+                var snapped = Timeline.Snap(pos, _nowDrawing.Figure);
+                if (snapped != null)
+                    switch (DrawStepType)
+                    {
+                        case DrawStep.DrawStepType.DrawRect:
+                            ((DrawRectStep) _nowDrawing).ReInit(
+                                "(" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x",
+                                "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y");
+                            break;
 
-                    case DrawStep.DrawStepType.DrawCircle:
-                        var dx = pos.X - _startPos.X;
-                        var dy = pos.Y - _startPos.Y;
-                        ((DrawCircleStep) _nowDrawing).ReInit(Math.Sqrt(dx*dx + dy*dy));
-                        break;
-                }
+                        case DrawStep.DrawStepType.DrawCircle:
+                            var dx = "((" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x)";
+                            var dy = "((" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y)";
+                            ((DrawCircleStep) _nowDrawing).ReInit("sqrt((" + dx + " * " + dx + ") + (" + dy + " * " + dy +
+                                                                  "))");
+                            break;
+                    }
+                else
+                    switch (DrawStepType)
+                    {
+                        case DrawStep.DrawStepType.DrawRect:
+                            ((DrawRectStep) _nowDrawing).ReInit(pos.X - _startPos.X, pos.Y - _startPos.Y);
+                            break;
+
+                        case DrawStep.DrawStepType.DrawCircle:
+                            var dx = pos.X - _startPos.X;
+                            var dy = pos.Y - _startPos.Y;
+                            ((DrawCircleStep) _nowDrawing).ReInit(Math.Sqrt(dx*dx + dy*dy));
+                            break;
+                    }
+            }
         }
 
         public void Finish()

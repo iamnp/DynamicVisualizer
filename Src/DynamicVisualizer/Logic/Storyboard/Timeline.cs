@@ -25,11 +25,13 @@ namespace DynamicVisualizer.Logic.Storyboard
 
         public static int CurrentStepIndex { get; private set; }
 
-        public static Magnet Snap(Point p)
+        public static Magnet Snap(Point p, Figure exclude = null)
         {
             var minDistSquared = 1e9;
             Magnet closestMagnet = null;
             foreach (var figure in Figures)
+            {
+                if (figure == exclude) continue;
                 foreach (var magnet in figure.GetMagnets())
                 {
                     var dx = p.X - magnet.X.CachedValue.AsDouble;
@@ -41,6 +43,7 @@ namespace DynamicVisualizer.Logic.Storyboard
                         minDistSquared = distSquared;
                     }
                 }
+            }
             if (minDistSquared > ThresholdSquared)
                 foreach (var magnet in CanvasMagnets)
                 {
