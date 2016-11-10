@@ -6,7 +6,12 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
 {
     public class RectFigure : Figure
     {
+        public Magnet BottomLeft;
+        public Magnet BottomRight;
+        public Magnet Center;
         public ScalarExpression Height;
+        public Magnet TopLeft;
+        public Magnet TopRight;
         public ScalarExpression Width;
         public ScalarExpression X;
         public ScalarExpression Y;
@@ -28,15 +33,21 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
                 var x = new ScalarExpression(Name, "a", X.CachedValue.AsDouble.Str());
                 var y = new ScalarExpression(Name, "a", Y.CachedValue.AsDouble.Str());
 
+                TopLeft = new Magnet(x, y);
+                BottomLeft = new Magnet(x, h);
+                TopRight = new Magnet(w, y);
+                BottomRight = new Magnet(w, h);
+                Center = new Magnet(
+                    new ScalarExpression(Name, "a", (X.CachedValue.AsDouble + Width.CachedValue.AsDouble/2.0).Str()),
+                    new ScalarExpression(Name, "a", (Y.CachedValue.AsDouble + Height.CachedValue.AsDouble/2.0).Str()));
+
                 return new[]
                 {
-                    new Magnet(x, y),
-                    new Magnet(x, h),
-                    new Magnet(w, y),
-                    new Magnet(w, h),
-                    new Magnet(
-                        new ScalarExpression(Name, "a", (X.CachedValue.AsDouble + Width.CachedValue.AsDouble/2.0).Str()),
-                        new ScalarExpression(Name, "a", (Y.CachedValue.AsDouble + Height.CachedValue.AsDouble/2.0).Str()))
+                    TopLeft,
+                    BottomLeft,
+                    TopRight,
+                    BottomRight,
+                    Center
                 };
             }
             else
@@ -47,14 +58,20 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
                 var x = new ScalarExpression(Name, "a", Name + ".x", true);
                 var y = new ScalarExpression(Name, "a", Name + ".y", true);
 
+                TopLeft = new Magnet(x, y);
+                BottomLeft = new Magnet(x, h);
+                TopRight = new Magnet(w, y);
+                BottomRight = new Magnet(w, h);
+                Center = new Magnet(new ScalarExpression(Name, "a", Name + ".x + (" + Name + ".width/2)", true),
+                    new ScalarExpression(Name, "a", Name + ".y + (" + Name + ".height/2)", true));
+
                 return new[]
                 {
-                    new Magnet(x, y),
-                    new Magnet(x, h),
-                    new Magnet(w, y),
-                    new Magnet(w, h),
-                    new Magnet(new ScalarExpression(Name, "a", Name + ".x + (" + Name + ".width/2)", true),
-                        new ScalarExpression(Name, "a", Name + ".y + (" + Name + ".height/2)", true))
+                    TopLeft,
+                    BottomLeft,
+                    TopRight,
+                    BottomRight,
+                    Center
                 };
             }
         }

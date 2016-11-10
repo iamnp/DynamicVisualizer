@@ -96,21 +96,70 @@ namespace DynamicVisualizer
             }
         }
 
+        private void PerformFigureSelection(Point pos)
+        {
+            if (_selected != null)
+            {
+                _selected.IsSelected = false;
+                _selected = null;
+            }
+            for (var i = Timeline.Figures.Count - 1; i >= 0; --i)
+            {
+                var f = Timeline.Figures[i];
+                if (f.IsMouseOver(pos.X, pos.Y))
+                {
+                    _selected = f;
+                    _selected.IsSelected = true;
+                    break;
+                }
+            }
+            if (_selected == null) label7.Visible = false;
+            else
+            {
+                label7.Visible = true;
+                label7.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
+            }
+        }
+
+        private void PerformFigureSelection(Figure figure)
+        {
+            if (_selected != null)
+            {
+                _selected.IsSelected = false;
+                _selected = null;
+            }
+            if (figure != null)
+            {
+                _selected = figure;
+                _selected.IsSelected = true;
+                label7.Visible = true;
+                label7.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
+            }
+            else
+            {
+                label7.Visible = false;
+            }
+        }
+
         private void MainGraphicsOnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
-                _figureDrawer.Finish();
+            var upPos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
             if (e.ChangedButton == MouseButton.Right)
             {
                 _figureMover.Reset();
                 _figureScaler.Reset();
+                PerformFigureSelection(upPos);
             }
+            if (e.ChangedButton == MouseButton.Left)
+                if (_figureDrawer.Finish())
+                    PerformFigureSelection(Timeline.CurrentStep.Figure);
             RedrawNeeded();
         }
 
         private void MainGraphicsOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
         {
-            _figureDrawer.Finish();
+            if (_figureDrawer.Finish())
+                PerformFigureSelection(Timeline.CurrentStep.Figure);
             _figureMover.Reset();
             _figureScaler.Reset();
             RedrawNeeded();
@@ -150,29 +199,8 @@ namespace DynamicVisualizer
             if (e.ChangedButton == MouseButton.Left)
                 _figureDrawer.Start(downPos);
             if (e.ChangedButton == MouseButton.Right)
-            {
-                if (_selected != null)
-                {
-                    _selected.IsSelected = false;
-                    _selected = null;
-                }
-                for (var i = Timeline.Figures.Count - 1; i >= 0; --i)
-                {
-                    var f = Timeline.Figures[i];
-                    if (f.IsMouseOver(downPos.X, downPos.Y))
-                    {
-                        _selected = f;
-                        _selected.IsSelected = true;
-                        break;
-                    }
-                }
-                if (_selected == null) label7.Visible = false;
-                else
-                {
-                    label7.Visible = true;
-                    label7.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
-                }
-            }
+                if ((_selected == null) || !_selected.IsMouseOver(downPos.X, downPos.Y))
+                    PerformFigureSelection(downPos);
             RedrawNeeded();
         }
 

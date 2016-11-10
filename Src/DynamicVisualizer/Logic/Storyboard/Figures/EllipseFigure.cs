@@ -6,8 +6,13 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
 {
     public class EllipseFigure : Figure
     {
+        public Magnet Bottom;
+        public Magnet Center;
+        public Magnet Left;
         public ScalarExpression Radius1;
         public ScalarExpression Radius2;
+        public Magnet Right;
+        public Magnet Top;
         public ScalarExpression X;
         public ScalarExpression Y;
 
@@ -25,32 +30,44 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
                 var x = new ScalarExpression(Name, "a", X.CachedValue.AsDouble.Str());
                 var y = new ScalarExpression(Name, "a", Y.CachedValue.AsDouble.Str());
 
+                Center = new Magnet(x, y);
+                Left = new Magnet(
+                    new ScalarExpression(Name, "a", (X.CachedValue.AsDouble - Radius1.CachedValue.AsDouble).Str()),
+                    y);
+                Right = new Magnet(
+                    new ScalarExpression(Name, "a", (X.CachedValue.AsDouble + Radius1.CachedValue.AsDouble).Str()),
+                    y);
+                Bottom = new Magnet(x,
+                    new ScalarExpression(Name, "a", (Y.CachedValue.AsDouble + Radius2.CachedValue.AsDouble).Str()));
+                Top = new Magnet(x,
+                    new ScalarExpression(Name, "a", (Y.CachedValue.AsDouble - Radius2.CachedValue.AsDouble).Str()));
+
                 return new[]
                 {
-                    new Magnet(x, y),
-                    new Magnet(
-                        new ScalarExpression(Name, "a", (X.CachedValue.AsDouble - Radius1.CachedValue.AsDouble).Str()),
-                        y),
-                    new Magnet(
-                        new ScalarExpression(Name, "a", (X.CachedValue.AsDouble + Radius1.CachedValue.AsDouble).Str()),
-                        y),
-                    new Magnet(x,
-                        new ScalarExpression(Name, "a", (Y.CachedValue.AsDouble + Radius2.CachedValue.AsDouble).Str())),
-                    new Magnet(x,
-                        new ScalarExpression(Name, "a", (Y.CachedValue.AsDouble - Radius2.CachedValue.AsDouble).Str()))
+                    Center,
+                    Left,
+                    Right,
+                    Bottom,
+                    Top
                 };
             }
             else
             {
                 var x = new ScalarExpression(Name, "a", Name + ".x", true);
                 var y = new ScalarExpression(Name, "a", Name + ".y", true);
+                Center = new Magnet(x, y);
+                Left = new Magnet(new ScalarExpression(Name, "a", Name + ".x - " + Name + ".radius1", true), y);
+                Right = new Magnet(new ScalarExpression(Name, "a", Name + ".x + " + Name + ".radius1", true), y);
+                Bottom = new Magnet(x, new ScalarExpression(Name, "a", Name + ".y + " + Name + ".radius2", true));
+                Top = new Magnet(x, new ScalarExpression(Name, "a", Name + ".y - " + Name + ".radius2", true));
+
                 return new[]
                 {
-                    new Magnet(x, y),
-                    new Magnet(new ScalarExpression(Name, "a", Name + ".x - " + Name + ".radius1", true), y),
-                    new Magnet(new ScalarExpression(Name, "a", Name + ".x + " + Name + ".radius1", true), y),
-                    new Magnet(x, new ScalarExpression(Name, "a", Name + ".y + " + Name + ".radius2", true)),
-                    new Magnet(x, new ScalarExpression(Name, "a", Name + ".y - " + Name + ".radius2", true))
+                    Center,
+                    Left,
+                    Right,
+                    Bottom,
+                    Top
                 };
             }
         }

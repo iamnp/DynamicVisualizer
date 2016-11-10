@@ -83,9 +83,11 @@ namespace DynamicVisualizer
             }
         }
 
-        public void Finish()
+        public bool Finish()
         {
+            var b = _nowDrawing != null;
             _nowDrawing = null;
+            return b;
         }
     }
 }

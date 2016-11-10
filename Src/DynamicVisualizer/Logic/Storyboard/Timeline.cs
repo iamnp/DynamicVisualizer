@@ -59,6 +59,24 @@ namespace DynamicVisualizer.Logic.Storyboard
             return minDistSquared <= ThresholdSquared ? closestMagnet : null;
         }
 
+        public static Magnet SnapTo(Point p, Magnet[] magnets)
+        {
+            var minDistSquared = 1e9;
+            Magnet closestMagnet = null;
+            foreach (var magnet in magnets)
+            {
+                var dx = p.X - magnet.X.CachedValue.AsDouble;
+                var dy = p.Y - magnet.Y.CachedValue.AsDouble;
+                var distSquared = dx*dx + dy*dy;
+                if (distSquared < minDistSquared)
+                {
+                    closestMagnet = magnet;
+                    minDistSquared = distSquared;
+                }
+            }
+            return minDistSquared <= ThresholdSquared ? closestMagnet : null;
+        }
+
         public static event StepInsertedEventHandler StepInserted;
 
         private static void BackwardsAndAgain(int index)
