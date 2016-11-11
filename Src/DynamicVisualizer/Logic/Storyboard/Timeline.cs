@@ -15,6 +15,7 @@ namespace DynamicVisualizer.Logic.Storyboard
         public static readonly List<Step> Steps = new List<Step>();
         public static readonly List<Figure> Figures = new List<Figure>();
         public static Magnet[] CanvasMagnets;
+        public static StepEditor StepEditor;
 
         static Timeline()
         {
@@ -107,11 +108,13 @@ namespace DynamicVisualizer.Logic.Storyboard
             {
                 ApplySteps(CurrentStepIndex + 1, index);
                 CurrentStepIndex = index;
+                StepEditor?.ShowStep(CurrentStep);
                 return;
             }
             CurrentStepIndex = index;
             Reset();
             ApplySteps(0, CurrentStepIndex);
+            StepEditor?.ShowStep(CurrentStep);
         }
 
         private static void GroupBounds(int index, out int top, out int bot)

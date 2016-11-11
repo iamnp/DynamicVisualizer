@@ -41,6 +41,30 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
             Apply();
         }
 
+        public void ReInitWidth(string width)
+        {
+            Width = width;
+            Apply();
+        }
+
+        public void ReInitHeight(string height)
+        {
+            Height = height;
+            Apply();
+        }
+
+        public void ReInitX(string x)
+        {
+            X = x;
+            Apply();
+        }
+
+        public void ReInitY(string y)
+        {
+            Y = y;
+            Apply();
+        }
+
         public void ReInit(double width, double height)
         {
             Width = width.Str();

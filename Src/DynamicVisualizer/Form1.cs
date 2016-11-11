@@ -37,6 +37,8 @@ namespace DynamicVisualizer
         {
             InitializeComponent();
 
+            Timeline.StepEditor = stepEditor1;
+
             DataStorage.Add(new ScalarExpression("canvas", "height", CanvasHeight.ToString()));
             DataStorage.Add(new ScalarExpression("canvas", "width", CanvasWidth.ToString()));
             DataStorage.Add(new ScalarExpression("canvas", "x", "0"));
@@ -65,12 +67,14 @@ namespace DynamicVisualizer
             _mainGraphics.MouseLeave += MainGraphicsOnMouseLeave;
 
             stepsListControl1.RedrawNeeded += RedrawNeeded;
+            stepEditor1.RedrawNeeded += RedrawNeeded;
         }
 
         private void RedrawNeeded()
         {
             _mainGraphics.InvalidateVisual();
             stepsListControl1.ReSetText();
+            stepEditor1.Redraw();
         }
 
         private void DrawScene(DrawingContext dc)

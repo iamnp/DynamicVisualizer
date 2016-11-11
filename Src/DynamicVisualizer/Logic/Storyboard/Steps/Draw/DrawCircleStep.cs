@@ -45,6 +45,18 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
             Apply();
         }
 
+        public void ReInitX(string x)
+        {
+            X = x;
+            Apply();
+        }
+
+        public void ReInitY(string y)
+        {
+            Y = y;
+            Apply();
+        }
+
         public override void Apply()
         {
             if (!Applied) Timeline.Figures.Add(RectFigure);

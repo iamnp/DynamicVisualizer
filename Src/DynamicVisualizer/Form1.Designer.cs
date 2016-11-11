@@ -40,6 +40,7 @@ namespace DynamicVisualizer
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.stepsListControl1 = new DynamicVisualizer.Controls.StepsListControl();
+            this.stepEditor1 = new DynamicVisualizer.StepEditor();
             this.SuspendLayout();
             // 
             // elementHost1
@@ -53,7 +54,7 @@ namespace DynamicVisualizer
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(24, 57);
+            this.button2.Location = new System.Drawing.Point(121, 508);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 3;
@@ -149,11 +150,19 @@ namespace DynamicVisualizer
             this.stepsListControl1.Size = new System.Drawing.Size(191, 328);
             this.stepsListControl1.TabIndex = 5;
             // 
+            // stepEditor1
+            // 
+            this.stepEditor1.Location = new System.Drawing.Point(5, 12);
+            this.stepEditor1.Name = "stepEditor1";
+            this.stepEditor1.Size = new System.Drawing.Size(191, 156);
+            this.stepEditor1.TabIndex = 13;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1214, 724);
+            this.Controls.Add(this.stepEditor1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -184,6 +193,7 @@ namespace DynamicVisualizer
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        private StepEditor stepEditor1;
     }
 }
 
