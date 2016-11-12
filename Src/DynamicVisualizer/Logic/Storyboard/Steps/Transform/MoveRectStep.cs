@@ -57,6 +57,18 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
             Apply();
         }
 
+        public void MoveX(string x)
+        {
+            X = x;
+            Apply();
+        }
+
+        public void MoveY(string y)
+        {
+            Y = y;
+            Apply();
+        }
+
         public void Move(double x, double y)
         {
             X = x.Str();

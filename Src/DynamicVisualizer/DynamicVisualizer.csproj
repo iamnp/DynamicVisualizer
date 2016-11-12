@@ -37,11 +37,9 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
@@ -92,10 +90,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Logic\Storyboard\Steps\Transform\TransformType.cs" />
-    <Compile Include="StepEditor.cs">
+    <Compile Include="Controls\StepEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="StepEditor.Designer.cs">
+    <Compile Include="Controls\StepEditor.Designer.cs">
       <DependentUpon>StepEditor.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Form1.resx">
@@ -113,7 +111,7 @@
     <EmbeddedResource Include="Controls\StepControl.resx">
       <DependentUpon>StepControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StepEditor.resx">
+    <EmbeddedResource Include="Controls\StepEditor.resx">
       <DependentUpon>StepEditor.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">

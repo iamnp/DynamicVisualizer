@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using DynamicVisualizer.Controls;
 using DynamicVisualizer.Logic.Expressions;
 using DynamicVisualizer.Logic.Storyboard.Figures;
 using DynamicVisualizer.Logic.Storyboard.Steps;
@@ -101,9 +102,9 @@ namespace DynamicVisualizer.Logic.Storyboard
                     Steps[i].CompletedIterations = 0;
         }
 
-        public static void SetCurrentStepIndex(int index)
+        public static void SetCurrentStepIndex(int index, bool force = false)
         {
-            if (CurrentStepIndex == index) return;
+            if ((CurrentStepIndex == index) && !force) return;
             if (CurrentStepIndex < index)
             {
                 ApplySteps(CurrentStepIndex + 1, index);

@@ -1,4 +1,4 @@
-﻿namespace DynamicVisualizer
+﻿namespace DynamicVisualizer.Controls
 {
     partial class StepEditor
     {

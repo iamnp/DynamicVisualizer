@@ -67,8 +67,14 @@ namespace DynamicVisualizer.Logic.Expressions
                 e.UsedBy.Remove(this);
             DependentOn.Clear();
 
-            var val = Evaluater.Evaluate(ExprString, _varEvaluater, IndexInArray);
-            CachedValue.SwitchTo(val.IsArray ? val.AsArray[IndexInArray] : val);
+            try
+            {
+                var val = Evaluater.Evaluate(ExprString, _varEvaluater, IndexInArray);
+                CachedValue.SwitchTo(val.IsArray ? val.AsArray[IndexInArray] : val);
+            }
+            catch
+            {
+            }
 
             if (!IsWeak)
             {

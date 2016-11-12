@@ -13,14 +13,20 @@ namespace DynamicVisualizer.Controls
             InitializeComponent();
             Index = index;
             Step = step;
-            if (step.Iterations > 0)
-                clickThroughLabel1.Location = new Point(clickThroughLabel1.Location.X + 10,
-                    clickThroughLabel1.Location.Y);
+            RespectIterable();
             SetText();
         }
 
         public int Index { get; set; }
         public Step Step { get; }
+        public bool Marked { get; set; }
+
+        public void RespectIterable()
+        {
+            if (Step.Iterations > 0)
+                clickThroughLabel1.Location = new Point(clickThroughLabel1.Location.X + 10,
+                    clickThroughLabel1.Location.Y);
+        }
 
         public void SetText()
         {

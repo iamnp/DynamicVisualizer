@@ -9,7 +9,6 @@ using DynamicVisualizer.Logic.Expressions;
 using DynamicVisualizer.Logic.Storyboard;
 using DynamicVisualizer.Logic.Storyboard.Figures;
 using DynamicVisualizer.Logic.Storyboard.Steps;
-using DynamicVisualizer.Logic.Storyboard.Steps.Draw;
 using DynamicVisualizer.Logic.Storyboard.Steps.Transform;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
@@ -33,6 +32,18 @@ namespace DynamicVisualizer
         private Figure _selected;
         private TransformType _transformType = TransformType.Move;
 
+        private IEnumerable<string> GetData1()
+        {
+            for (var i = 1; i <= 10; ++i)
+                yield return i + "";
+        }
+
+        private IEnumerable<string> GetData2()
+        {
+            for (var i = 1; i <= 10; ++i)
+                yield return ((double)i/12) + "";
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -43,6 +54,15 @@ namespace DynamicVisualizer
             DataStorage.Add(new ScalarExpression("canvas", "width", CanvasWidth.ToString()));
             DataStorage.Add(new ScalarExpression("canvas", "x", "0"));
             DataStorage.Add(new ScalarExpression("canvas", "y", "0"));
+
+            // TODO move data to GUI
+            //DataStorage.AddArrayExpression("data", "height", GetData1().ToArray());
+            //DataStorage.Add(new ScalarExpression("data", "len", "len(height)"));
+            //DataStorage.Add(new ScalarExpression("data", "max", "max(height)"));
+            DataStorage.AddArrayExpression("data", "x", GetData2().ToArray());
+            DataStorage.AddArrayExpression("data", "y", GetData2().ToArray());
+            DataStorage.Add(new ScalarExpression("data", "len", "len(x)"));
+            DataStorage.Add(new ScalarExpression("data", "max", "max(x)"));
 
             var x1 = new ScalarExpression("a", "a", "canvas.x", true);
             var y1 = new ScalarExpression("a", "a", "canvas.y", true);
@@ -208,37 +228,6 @@ namespace DynamicVisualizer
             RedrawNeeded();
         }
 
-        private IEnumerable<string> GetData()
-        {
-            for (var i = 1; i <= 10; ++i)
-                yield return i + "";
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            DataStorage.AddArrayExpression("data", "height", GetData().ToArray());
-            DataStorage.Add(new ScalarExpression("data", "count", "len(height)"));
-            var len = (int) DataStorage.GetScalarExpression("data.count").CachedValue.AsDouble;
-
-            var drawGuide = new DrawRectStep("0", "canvas.height", "canvas.width/data.count",
-                "-canvas.height");
-            drawGuide.Figure.IsGuide = true;
-            Timeline.Insert(drawGuide);
-
-            var drawBar = new DrawRectStep("rect1.x", "rect1.y", "rect1.width", "rect1.height");
-            drawBar.MakeIterable(len);
-            Timeline.Insert(drawBar);
-
-            var scaleBarHeight = new ScaleRectStep(drawBar.RectFigure, ScaleRectStep.Side.Top,
-                "data.height / (max(data.height))");
-            scaleBarHeight.MakeIterable(len);
-            Timeline.Insert(scaleBarHeight);
-
-            var moveGuide = new MoveRectStep(drawGuide.RectFigure, "rect2.x + rect2.width", "rect2.y");
-            moveGuide.MakeIterable(len);
-            Timeline.Insert(moveGuide);
-        }
-
         private void label2_Click(object sender, EventArgs e)
         {
             _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawRect;
@@ -272,6 +261,20 @@ namespace DynamicVisualizer
             _selected.IsGuide = !_selected.IsGuide;
             label7.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
             RedrawNeeded();
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+            for (var i = 0; i < stepsListControl1.MarkedControls.Count; ++i)
+            {
+                // TODO fix constant val
+                stepsListControl1.MarkedControls[i].Step.MakeIterable(10);
+                stepsListControl1.MarkedControls[i].RespectIterable();
+            }
+            stepsListControl1.ClearMarked();
+            //Timeline.ResetIterations();
+            stepsListControl1.MarkAsSelecgted(stepsListControl1.CurrentSelection);
+            Timeline.SetCurrentStepIndex(Timeline.CurrentStepIndex, true);
         }
     }
 }

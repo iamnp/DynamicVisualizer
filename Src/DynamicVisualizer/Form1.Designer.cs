@@ -31,7 +31,6 @@ namespace DynamicVisualizer
         private void InitializeComponent()
         {
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -39,8 +38,9 @@ namespace DynamicVisualizer
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.stepEditor1 = new DynamicVisualizer.Controls.StepEditor();
             this.stepsListControl1 = new DynamicVisualizer.Controls.StepsListControl();
-            this.stepEditor1 = new DynamicVisualizer.StepEditor();
             this.SuspendLayout();
             // 
             // elementHost1
@@ -52,21 +52,11 @@ namespace DynamicVisualizer
             this.elementHost1.Text = "elementHost1";
             this.elementHost1.Child = null;
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(121, 508);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(10, 532);
+            this.label1.Location = new System.Drawing.Point(1208, 190);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(50, 16);
             this.label1.TabIndex = 6;
@@ -76,7 +66,7 @@ namespace DynamicVisualizer
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(21, 564);
+            this.label2.Location = new System.Drawing.Point(1219, 215);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(36, 16);
             this.label2.TabIndex = 7;
@@ -88,7 +78,7 @@ namespace DynamicVisualizer
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.label3.Location = new System.Drawing.Point(21, 592);
+            this.label3.Location = new System.Drawing.Point(1219, 240);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 16);
             this.label3.TabIndex = 8;
@@ -99,7 +89,7 @@ namespace DynamicVisualizer
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(10, 617);
+            this.label4.Location = new System.Drawing.Point(1208, 280);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(94, 16);
             this.label4.TabIndex = 9;
@@ -109,7 +99,7 @@ namespace DynamicVisualizer
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(21, 644);
+            this.label5.Location = new System.Drawing.Point(1219, 305);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(42, 16);
             this.label5.TabIndex = 10;
@@ -121,7 +111,7 @@ namespace DynamicVisualizer
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label6.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.label6.Location = new System.Drawing.Point(21, 670);
+            this.label6.Location = new System.Drawing.Point(1219, 330);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(43, 16);
             this.label6.TabIndex = 11;
@@ -132,7 +122,7 @@ namespace DynamicVisualizer
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(152, 564);
+            this.label7.Location = new System.Drawing.Point(1349, 215);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(44, 16);
             this.label7.TabIndex = 12;
@@ -140,28 +130,40 @@ namespace DynamicVisualizer
             this.label7.Visible = false;
             this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label8.Location = new System.Drawing.Point(1354, 240);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(39, 16);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "Loop";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
+            // 
+            // stepEditor1
+            // 
+            this.stepEditor1.Location = new System.Drawing.Point(1208, 12);
+            this.stepEditor1.Name = "stepEditor1";
+            this.stepEditor1.Size = new System.Drawing.Size(191, 156);
+            this.stepEditor1.TabIndex = 13;
+            // 
             // stepsListControl1
             // 
             this.stepsListControl1.AutoScroll = true;
             this.stepsListControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.stepsListControl1.CurrentSelection = null;
-            this.stepsListControl1.Location = new System.Drawing.Point(5, 174);
+            this.stepsListControl1.Location = new System.Drawing.Point(5, 222);
             this.stepsListControl1.Name = "stepsListControl1";
-            this.stepsListControl1.Size = new System.Drawing.Size(191, 328);
+            this.stepsListControl1.Size = new System.Drawing.Size(191, 490);
             this.stepsListControl1.TabIndex = 5;
-            // 
-            // stepEditor1
-            // 
-            this.stepEditor1.Location = new System.Drawing.Point(5, 12);
-            this.stepEditor1.Name = "stepEditor1";
-            this.stepEditor1.Size = new System.Drawing.Size(191, 156);
-            this.stepEditor1.TabIndex = 13;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1214, 724);
+            this.ClientSize = new System.Drawing.Size(1405, 721);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.stepEditor1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -171,7 +173,6 @@ namespace DynamicVisualizer
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.stepsListControl1);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.elementHost1);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -184,7 +185,6 @@ namespace DynamicVisualizer
         #endregion
 
         private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private System.Windows.Forms.Button button2;
         private StepsListControl stepsListControl1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -194,6 +194,7 @@ namespace DynamicVisualizer
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private StepEditor stepEditor1;
+        private System.Windows.Forms.Label label8;
     }
 }
 
