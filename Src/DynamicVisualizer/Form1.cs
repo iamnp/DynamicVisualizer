@@ -32,18 +32,6 @@ namespace DynamicVisualizer
         private Figure _selected;
         private TransformType _transformType = TransformType.Move;
 
-        private IEnumerable<string> GetData1()
-        {
-            for (var i = 1; i <= 10; ++i)
-                yield return i + "";
-        }
-
-        private IEnumerable<string> GetData2()
-        {
-            for (var i = 1; i <= 10; ++i)
-                yield return ((double)i/12) + "";
-        }
-
         public Form1()
         {
             InitializeComponent();
@@ -88,6 +76,18 @@ namespace DynamicVisualizer
 
             stepsListControl1.RedrawNeeded += RedrawNeeded;
             stepEditor1.RedrawNeeded += RedrawNeeded;
+        }
+
+        private IEnumerable<string> GetData1()
+        {
+            for (var i = 1; i <= 10; ++i)
+                yield return i + "";
+        }
+
+        private IEnumerable<string> GetData2()
+        {
+            for (var i = 1; i <= 10; ++i)
+                yield return (double) i/12 + "";
         }
 
         private void RedrawNeeded()
@@ -272,7 +272,6 @@ namespace DynamicVisualizer
                 stepsListControl1.MarkedControls[i].RespectIterable();
             }
             stepsListControl1.ClearMarked();
-            //Timeline.ResetIterations();
             stepsListControl1.MarkAsSelecgted(stepsListControl1.CurrentSelection);
             Timeline.SetCurrentStepIndex(Timeline.CurrentStepIndex, true);
         }

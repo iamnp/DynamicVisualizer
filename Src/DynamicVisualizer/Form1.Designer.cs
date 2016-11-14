@@ -41,6 +41,7 @@ namespace DynamicVisualizer
             this.label8 = new System.Windows.Forms.Label();
             this.stepEditor1 = new DynamicVisualizer.Controls.StepEditor();
             this.stepsListControl1 = new DynamicVisualizer.Controls.StepsListControl();
+            this.dataStorageEditor1 = new DynamicVisualizer.Controls.DataStorageEditor();
             this.SuspendLayout();
             // 
             // elementHost1
@@ -158,11 +159,19 @@ namespace DynamicVisualizer
             this.stepsListControl1.Size = new System.Drawing.Size(191, 490);
             this.stepsListControl1.TabIndex = 5;
             // 
+            // dataStorageEditor1
+            // 
+            this.dataStorageEditor1.Location = new System.Drawing.Point(5, 12);
+            this.dataStorageEditor1.Name = "dataStorageEditor1";
+            this.dataStorageEditor1.Size = new System.Drawing.Size(191, 100);
+            this.dataStorageEditor1.TabIndex = 15;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1405, 721);
+            this.ClientSize = new System.Drawing.Size(1362, 721);
+            this.Controls.Add(this.dataStorageEditor1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.stepEditor1);
             this.Controls.Add(this.label7);
@@ -195,6 +204,7 @@ namespace DynamicVisualizer
         private System.Windows.Forms.Label label7;
         private StepEditor stepEditor1;
         private System.Windows.Forms.Label label8;
+        private DataStorageEditor dataStorageEditor1;
     }
 }
 
