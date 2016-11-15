@@ -39,9 +39,9 @@ namespace DynamicVisualizer
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.dataStorageEditor1 = new DynamicVisualizer.Controls.DataStorageEditor();
             this.stepEditor1 = new DynamicVisualizer.Controls.StepEditor();
             this.stepsListControl1 = new DynamicVisualizer.Controls.StepsListControl();
-            this.dataStorageEditor1 = new DynamicVisualizer.Controls.DataStorageEditor();
             this.SuspendLayout();
             // 
             // elementHost1
@@ -142,6 +142,13 @@ namespace DynamicVisualizer
             this.label8.Text = "Loop";
             this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
+            // dataStorageEditor1
+            // 
+            this.dataStorageEditor1.Location = new System.Drawing.Point(5, 12);
+            this.dataStorageEditor1.Name = "dataStorageEditor1";
+            this.dataStorageEditor1.Size = new System.Drawing.Size(191, 181);
+            this.dataStorageEditor1.TabIndex = 15;
+            // 
             // stepEditor1
             // 
             this.stepEditor1.Location = new System.Drawing.Point(1208, 12);
@@ -158,13 +165,6 @@ namespace DynamicVisualizer
             this.stepsListControl1.Name = "stepsListControl1";
             this.stepsListControl1.Size = new System.Drawing.Size(191, 490);
             this.stepsListControl1.TabIndex = 5;
-            // 
-            // dataStorageEditor1
-            // 
-            this.dataStorageEditor1.Location = new System.Drawing.Point(5, 12);
-            this.dataStorageEditor1.Name = "dataStorageEditor1";
-            this.dataStorageEditor1.Size = new System.Drawing.Size(191, 100);
-            this.dataStorageEditor1.TabIndex = 15;
             // 
             // Form1
             // 
@@ -183,6 +183,7 @@ namespace DynamicVisualizer
             this.Controls.Add(this.label1);
             this.Controls.Add(this.stepsListControl1);
             this.Controls.Add(this.elementHost1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";

@@ -45,12 +45,8 @@ namespace DynamicVisualizer
 
             // TODO move data to GUI
             //DataStorage.AddArrayExpression("data", "height", GetData1().ToArray());
-            //DataStorage.Add(new ScalarExpression("data", "len", "len(height)"));
-            //DataStorage.Add(new ScalarExpression("data", "max", "max(height)"));
             DataStorage.AddArrayExpression("data", "x", GetData2().ToArray());
             DataStorage.AddArrayExpression("data", "y", GetData2().ToArray());
-            DataStorage.Add(new ScalarExpression("data", "len", "len(x)"));
-            DataStorage.Add(new ScalarExpression("data", "max", "max(x)"));
 
             var x1 = new ScalarExpression("a", "a", "canvas.x", true);
             var y1 = new ScalarExpression("a", "a", "canvas.y", true);

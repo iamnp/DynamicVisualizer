@@ -18,7 +18,7 @@ namespace DynamicVisualizer.Controls
         public void MakeNotDummy()
         {
             textBox2.Visible = true;
-            textBox1.KeyPress += NameTextBoxKeyPress;
+            textBox1.ReadOnly = true;
             textBox2.KeyPress += ValueTextBoxKeyPress;
             textBox2.GotFocus += ValueTextBoxGotFocus;
             textBox2.LostFocus += ValueTextBoxLostFocus;
@@ -54,16 +54,6 @@ namespace DynamicVisualizer.Controls
                         textBox2.Text = _expr.CachedValue.Str;
                         textBox1.Focus();
                     }
-        }
-
-        private void NameTextBoxKeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char) Keys.Return)
-                if (_expr != null)
-                {
-                    // TODO perform renaming
-                    //_expr.name = textBox2.Text;
-                }
         }
     }
 }
