@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using DynamicVisualizer.Controls;
 using DynamicVisualizer.Logic.Expressions;
 using DynamicVisualizer.Logic.Storyboard;
 using DynamicVisualizer.Logic.Storyboard.Figures;
@@ -43,11 +42,6 @@ namespace DynamicVisualizer
             DataStorage.Add(new ScalarExpression("canvas", "x", "0"));
             DataStorage.Add(new ScalarExpression("canvas", "y", "0"));
 
-            // TODO move data to GUI
-            //DataStorage.AddArrayExpression("data", "height", GetData1().ToArray());
-            DataStorage.AddArrayExpression("data", "x", GetData2().ToArray());
-            DataStorage.AddArrayExpression("data", "y", GetData2().ToArray());
-
             var x1 = new ScalarExpression("a", "a", "canvas.x", true);
             var y1 = new ScalarExpression("a", "a", "canvas.y", true);
             var w = new ScalarExpression("a", "a", "canvas.width", true);
@@ -72,18 +66,6 @@ namespace DynamicVisualizer
 
             stepsListControl1.RedrawNeeded += RedrawNeeded;
             stepEditor1.RedrawNeeded += RedrawNeeded;
-        }
-
-        private IEnumerable<string> GetData1()
-        {
-            for (var i = 1; i <= 10; ++i)
-                yield return i + "";
-        }
-
-        private IEnumerable<string> GetData2()
-        {
-            for (var i = 1; i <= 10; ++i)
-                yield return (double) i/12 + "";
         }
 
         private void RedrawNeeded()
@@ -263,8 +245,7 @@ namespace DynamicVisualizer
         {
             for (var i = 0; i < stepsListControl1.MarkedControls.Count; ++i)
             {
-                // TODO fix constant val
-                stepsListControl1.MarkedControls[i].Step.MakeIterable(10);
+                stepsListControl1.MarkedControls[i].Step.MakeIterable(ArrayExpressionEditor.Len);
                 stepsListControl1.MarkedControls[i].RespectIterable();
             }
             stepsListControl1.ClearMarked();

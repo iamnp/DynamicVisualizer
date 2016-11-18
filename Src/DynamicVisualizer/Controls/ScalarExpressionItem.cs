@@ -4,12 +4,12 @@ using DynamicVisualizer.Logic.Expressions;
 
 namespace DynamicVisualizer.Controls
 {
-    public partial class DataStorageItem : UserControl
+    public partial class ScalarExpressionItem : UserControl
     {
         public const int ItemHeight = 24;
-        public ScalarExpression _expr;
+        public ScalarExpression Expr;
 
-        public DataStorageItem(bool isDummy)
+        public ScalarExpressionItem(bool isDummy)
         {
             InitializeComponent();
             if (isDummy) textBox2.Visible = false;
@@ -27,31 +27,31 @@ namespace DynamicVisualizer.Controls
 
         private void ValueTextBoxLostFocus(object sender, EventArgs eventArgs)
         {
-            if (_expr != null)
-                textBox2.Text = _expr.CachedValue.Str;
+            if (Expr != null)
+                textBox2.Text = Expr.CachedValue.Str;
         }
 
         private void ValueTextBoxGotFocus(object sender, EventArgs eventArgs)
         {
-            if (_expr != null)
-                textBox2.Text = _expr.ExprString;
+            if (Expr != null)
+                textBox2.Text = Expr.ExprString;
         }
 
         private void ValueTextBoxKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char) Keys.Return)
                 if (!string.IsNullOrWhiteSpace(textBox2.Text))
-                    if (_expr == null)
+                    if (Expr == null)
                     {
-                        _expr = DataStorage.Add(
+                        Expr = DataStorage.Add(
                             new ScalarExpression("data", textBox1.Text, textBox2.Text));
-                        textBox2.Text = _expr.CachedValue.Str;
+                        textBox2.Text = Expr.CachedValue.Str;
                         textBox1.Focus();
                     }
                     else
                     {
-                        _expr.SetRawExpression(textBox2.Text);
-                        textBox2.Text = _expr.CachedValue.Str;
+                        Expr.SetRawExpression(textBox2.Text);
+                        textBox2.Text = Expr.CachedValue.Str;
                         textBox1.Focus();
                     }
         }

@@ -144,7 +144,7 @@ namespace DynamicVisualizerTest
 
             var arr = new[] {"1", "2", "3", "4", "5", "6", "7"};
 
-            DataStorage.AddArrayExpression("data", "item", arr);
+            DataStorage.Add(new ArrayExpression("data", "item", arr));
             var a = DataStorage.GetArrayExpression("data.item");
             Assert.AreEqual(arr.Length, a.Exprs.Length);
             for (var i = 0; i < a.Exprs.Length; ++i)
@@ -158,13 +158,13 @@ namespace DynamicVisualizerTest
 
             var arr = new[] {"1", "2", "3", "4", "5", "6", "7"};
 
-            DataStorage.AddArrayExpression("data", "item", arr);
+            DataStorage.Add(new ArrayExpression("data", "item", arr));
             var a = DataStorage.GetArrayExpression("data.item");
             Assert.AreEqual(arr.Length, a.Exprs.Length);
             for (var i = 0; i < a.Exprs.Length; ++i)
                 Assert.AreEqual(a.Exprs[i].CachedValue.AsDouble + "", arr[i]);
 
-            DataStorage.AddArrayExpression("data", "item2", "data.item*2", a.Exprs.Length);
+            DataStorage.Add(new ArrayExpression("data", "item2", "data.item*2", a.Exprs.Length));
             var b = DataStorage.GetArrayExpression("data.item2");
             Assert.AreEqual(arr.Length, b.Exprs.Length);
             for (var i = 0; i < b.Exprs.Length; ++i)
@@ -178,13 +178,13 @@ namespace DynamicVisualizerTest
 
             var arr = new[] {"1", "2", "3", "4", "5", "6", "7"};
 
-            DataStorage.AddArrayExpression("data", "item", arr);
+            DataStorage.Add(new ArrayExpression("data", "item", arr));
             var a = DataStorage.GetArrayExpression("data.item");
             Assert.AreEqual(arr.Length, a.Exprs.Length);
             for (var i = 0; i < a.Exprs.Length; ++i)
                 Assert.AreEqual(a.Exprs[i].CachedValue.AsDouble + "", arr[i]);
 
-            DataStorage.AddArrayExpression("data", "item2", "data.item*2", a.Exprs.Length);
+            DataStorage.Add(new ArrayExpression("data", "item2", "data.item*2", a.Exprs.Length));
             var b = DataStorage.GetArrayExpression("data.item2");
             Assert.AreEqual(arr.Length, b.Exprs.Length);
             for (var i = 0; i < b.Exprs.Length; ++i)
@@ -202,13 +202,13 @@ namespace DynamicVisualizerTest
 
             var arr = new[] {"1", "2", "3", "4", "5", "6", "7"};
 
-            DataStorage.AddArrayExpression("data", "item", arr);
+            DataStorage.Add(new ArrayExpression("data", "item", arr));
             var a = DataStorage.GetArrayExpression("data.item");
             Assert.AreEqual(arr.Length, a.Exprs.Length);
             for (var i = 0; i < a.Exprs.Length; ++i)
                 Assert.AreEqual(a.Exprs[i].CachedValue.AsDouble + "", arr[i]);
 
-            DataStorage.AddArrayExpression("data", "item2", "data.item*2", a.Exprs.Length);
+            DataStorage.Add(new ArrayExpression("data", "item2", "data.item*2", a.Exprs.Length));
             var b = DataStorage.GetArrayExpression("data.item2");
             Assert.AreEqual(arr.Length, b.Exprs.Length);
             for (var i = 0; i < b.Exprs.Length; ++i)

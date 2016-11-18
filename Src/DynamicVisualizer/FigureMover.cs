@@ -74,6 +74,11 @@ namespace DynamicVisualizer
                                 ((MoveRectStep) _nowMoving).Move(
                                     "(" + snapped.X.ExprString + ") - (" + rf.Name + ".width)",
                                     "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height)");
+                            else if ((snappedBy.X.ExprString == rf.Center.X.ExprString)
+                                     && (snappedBy.Y.ExprString == rf.Center.Y.ExprString))
+                                ((MoveRectStep) _nowMoving).Move(
+                                    "(" + snapped.X.ExprString + ") - (" + rf.Name + ".width/2)",
+                                    "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height/2)");
                         }
                         else
                         {
@@ -118,6 +123,9 @@ namespace DynamicVisualizer
                                      && (snappedBy.Y.ExprString == cf.Bottom.Y.ExprString))
                                 ((MoveEllipseStep) _nowMoving).Move(snapped.X.ExprString,
                                     "(" + snapped.Y.ExprString + ") - (" + cf.Name + ".radius2)");
+                            else if ((snappedBy.X.ExprString == cf.Center.X.ExprString)
+                                     && (snappedBy.Y.ExprString == cf.Center.Y.ExprString))
+                                ((MoveEllipseStep) _nowMoving).Move(snapped.X.ExprString, snapped.Y.ExprString);
                         }
                         else
                         {

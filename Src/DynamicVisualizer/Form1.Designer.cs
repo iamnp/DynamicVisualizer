@@ -39,14 +39,15 @@ namespace DynamicVisualizer
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.dataStorageEditor1 = new DynamicVisualizer.Controls.DataStorageEditor();
+            this.arrayExpressionEditor1 = new DynamicVisualizer.Controls.ArrayExpressionEditor();
+            this._scalarExpressionEditor1 = new DynamicVisualizer.Controls.ScalarExpressionEditor();
             this.stepEditor1 = new DynamicVisualizer.Controls.StepEditor();
             this.stepsListControl1 = new DynamicVisualizer.Controls.StepsListControl();
             this.SuspendLayout();
             // 
             // elementHost1
             // 
-            this.elementHost1.Location = new System.Drawing.Point(202, 12);
+            this.elementHost1.Location = new System.Drawing.Point(202, 2);
             this.elementHost1.Name = "elementHost1";
             this.elementHost1.Size = new System.Drawing.Size(1000, 700);
             this.elementHost1.TabIndex = 0;
@@ -123,7 +124,7 @@ namespace DynamicVisualizer
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(1349, 215);
+            this.label7.Location = new System.Drawing.Point(1340, 215);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(44, 16);
             this.label7.TabIndex = 12;
@@ -135,23 +136,31 @@ namespace DynamicVisualizer
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(1354, 240);
+            this.label8.Location = new System.Drawing.Point(1345, 240);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(39, 16);
             this.label8.TabIndex = 14;
             this.label8.Text = "Loop";
             this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
-            // dataStorageEditor1
+            // arrayExpressionEditor1
             // 
-            this.dataStorageEditor1.Location = new System.Drawing.Point(5, 12);
-            this.dataStorageEditor1.Name = "dataStorageEditor1";
-            this.dataStorageEditor1.Size = new System.Drawing.Size(191, 181);
-            this.dataStorageEditor1.TabIndex = 15;
+            this.arrayExpressionEditor1.AllowDrop = true;
+            this.arrayExpressionEditor1.Location = new System.Drawing.Point(2, 190);
+            this.arrayExpressionEditor1.Name = "arrayExpressionEditor1";
+            this.arrayExpressionEditor1.Size = new System.Drawing.Size(200, 164);
+            this.arrayExpressionEditor1.TabIndex = 16;
+            // 
+            // _scalarExpressionEditor1
+            // 
+            this._scalarExpressionEditor1.Location = new System.Drawing.Point(2, 2);
+            this._scalarExpressionEditor1.Name = "_scalarExpressionEditor1";
+            this._scalarExpressionEditor1.Size = new System.Drawing.Size(200, 181);
+            this._scalarExpressionEditor1.TabIndex = 15;
             // 
             // stepEditor1
             // 
-            this.stepEditor1.Location = new System.Drawing.Point(1208, 12);
+            this.stepEditor1.Location = new System.Drawing.Point(1204, 2);
             this.stepEditor1.Name = "stepEditor1";
             this.stepEditor1.Size = new System.Drawing.Size(191, 156);
             this.stepEditor1.TabIndex = 13;
@@ -161,17 +170,18 @@ namespace DynamicVisualizer
             this.stepsListControl1.AutoScroll = true;
             this.stepsListControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.stepsListControl1.CurrentSelection = null;
-            this.stepsListControl1.Location = new System.Drawing.Point(5, 222);
+            this.stepsListControl1.Location = new System.Drawing.Point(2, 360);
             this.stepsListControl1.Name = "stepsListControl1";
-            this.stepsListControl1.Size = new System.Drawing.Size(191, 490);
+            this.stepsListControl1.Size = new System.Drawing.Size(200, 342);
             this.stepsListControl1.TabIndex = 5;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1362, 721);
-            this.Controls.Add(this.dataStorageEditor1);
+            this.ClientSize = new System.Drawing.Size(1400, 705);
+            this.Controls.Add(this.arrayExpressionEditor1);
+            this.Controls.Add(this._scalarExpressionEditor1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.stepEditor1);
             this.Controls.Add(this.label7);
@@ -205,7 +215,8 @@ namespace DynamicVisualizer
         private System.Windows.Forms.Label label7;
         private StepEditor stepEditor1;
         private System.Windows.Forms.Label label8;
-        private DataStorageEditor dataStorageEditor1;
+        private ScalarExpressionEditor _scalarExpressionEditor1;
+        private ArrayExpressionEditor arrayExpressionEditor1;
     }
 }
 

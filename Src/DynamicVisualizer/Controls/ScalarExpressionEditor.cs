@@ -4,24 +4,27 @@ using System.Windows.Forms;
 
 namespace DynamicVisualizer.Controls
 {
-    internal class DataStorageEditor : Panel
+    internal class ScalarExpressionEditor : Panel
     {
-        private readonly List<DataStorageItem> _items = new List<DataStorageItem>();
+        private readonly List<ScalarExpressionItem> _items = new List<ScalarExpressionItem>();
 
-        public DataStorageEditor()
+        public ScalarExpressionEditor()
         {
             AddDummyItem();
         }
 
         private void AddDummyItem()
         {
-            var item = new DataStorageItem(true) {Location = new Point(0, _items.Count*DataStorageItem.ItemHeight)};
+            var item = new ScalarExpressionItem(true)
+            {
+                Location = new Point(0, _items.Count*ArrayExpressionItem.ItemHeight)
+            };
             item.textBox1.KeyPress += DummyItemNameKeyPress;
             _items.Add(item);
             Controls.Add(item);
         }
 
-        private void MakeNotDummy(DataStorageItem di)
+        private void MakeNotDummy(ScalarExpressionItem di)
         {
             di.textBox1.KeyPress -= DummyItemNameKeyPress;
             di.MakeNotDummy();

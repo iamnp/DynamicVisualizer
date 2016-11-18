@@ -17,6 +17,19 @@ namespace DynamicVisualizer.Logic.Expressions
             CachedValue.SwitchTo(new Value(_values));
         }
 
+        public ArrayExpression(string objectName, string varName, string rawExpr, int n) : base(objectName, varName)
+        {
+            var rawExprs = new string[n];
+            for (var i = 0; i < n; ++i)
+                rawExprs[i] = rawExpr;
+
+            _exprsStrings = new string[rawExprs.Length];
+            Exprs = new ScalarExpression[rawExprs.Length];
+            _values = new Value[rawExprs.Length];
+            SetRawExpressions(rawExprs);
+            CachedValue.SwitchTo(new Value(_values));
+        }
+
         public override bool CanBeRemoved
         {
             get
@@ -34,6 +47,24 @@ namespace DynamicVisualizer.Logic.Expressions
                 _exprsStrings[i] = rawExprs[i];
             ExprString = _exprsStrings[0];
             Recalculate();
+        }
+
+        public void SetRawExpression(string rawExpr)
+        {
+            for (var i = 0; i < _exprsStrings.Length; ++i)
+                _exprsStrings[i] = rawExpr;
+            ExprString = _exprsStrings[0];
+            Recalculate();
+        }
+
+        public string ExprStrings()
+        {
+            var s = "";
+            for (var i = 0; i < _exprsStrings.Length; ++i)
+                if (i != _exprsStrings.Length - 1)
+                    s += _exprsStrings[i] + "; ";
+                else s += _exprsStrings[i];
+            return s;
         }
 
         public override void Recalculate()

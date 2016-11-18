@@ -41,7 +41,10 @@
                 if (IsString) return AsString;
                 var s = "";
                 for (var i = 0; i < AsArray.Length; ++i)
-                    s += AsArray[i].Str + ", ";
+                    if (i != AsArray.Length - 1)
+                        s += AsArray[i].Str + "; ";
+                    else
+                        s += AsArray[i].Str;
                 return s;
             }
         }

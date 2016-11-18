@@ -12,19 +12,10 @@ namespace DynamicVisualizer.Logic.Expressions
             return expr;
         }
 
-        public static void AddArrayExpression(string objectName, string varName, string[] generator)
+        public static ArrayExpression Add(ArrayExpression expr)
         {
-            var e = new ArrayExpression(objectName, varName, generator);
-            _data[e.FullName] = e;
-        }
-
-        public static void AddArrayExpression(string objectName, string varName, string generator, int length)
-        {
-            var arr = new string[length];
-            for (var i = 0; i < length; ++i)
-                arr[i] = generator;
-            var e = new ArrayExpression(objectName, varName, arr);
-            _data[objectName + "." + varName] = e;
+            _data[expr.FullName] = expr;
+            return expr;
         }
 
         public static ScalarExpression GetScalarExpression(string fullName)

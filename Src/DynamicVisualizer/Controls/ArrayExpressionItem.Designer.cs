@@ -1,6 +1,6 @@
 ﻿namespace DynamicVisualizer.Controls
 {
-    partial class DataStorageItem
+    partial class ArrayExpressionItem
     {
         /// <summary> 
         /// Required designer variable.
@@ -34,25 +34,25 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(2, 2);
+            this.textBox1.Location = new System.Drawing.Point(3, 1);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(80, 20);
+            this.textBox1.Size = new System.Drawing.Size(60, 20);
             this.textBox1.TabIndex = 0;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(100, 3);
+            this.textBox2.Location = new System.Drawing.Point(77, 1);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.Size = new System.Drawing.Size(120, 20);
             this.textBox2.TabIndex = 1;
             // 
-            // DataStorageItem
+            // ArrayExpressionItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
-            this.Name = "DataStorageItem";
+            this.Name = "ArrayExpressionItem";
             this.Size = new System.Drawing.Size(200, 24);
             this.ResumeLayout(false);
             this.PerformLayout();

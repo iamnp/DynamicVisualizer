@@ -46,17 +46,26 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ArrayExpressionEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ArrayExpressionItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ArrayExpressionItem.Designer.cs">
+      <DependentUpon>ArrayExpressionItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ClickThroughLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\DataStorageEditor.cs">
+    <Compile Include="Controls\ScalarExpressionEditor.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\DataStorageItem.cs">
+    <Compile Include="Controls\ScalarExpressionItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\DataStorageItem.Designer.cs">
-      <DependentUpon>DataStorageItem.cs</DependentUpon>
+    <Compile Include="Controls\ScalarExpressionItem.Designer.cs">
+      <DependentUpon>ScalarExpressionItem.cs</DependentUpon>
     </Compile>
     <Compile Include="FigureDrawer.cs" />
     <Compile Include="FigureMover.cs" />
@@ -107,8 +116,11 @@
     <Compile Include="Controls\StepEditor.Designer.cs">
       <DependentUpon>StepEditor.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Controls\DataStorageItem.resx">
-      <DependentUpon>DataStorageItem.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\ArrayExpressionItem.resx">
+      <DependentUpon>ArrayExpressionItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ScalarExpressionItem.resx">
+      <DependentUpon>ScalarExpressionItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
