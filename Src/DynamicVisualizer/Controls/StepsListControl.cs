@@ -19,6 +19,7 @@ namespace DynamicVisualizer.Controls
             AutoScroll = true;
 
             Timeline.StepInserted += TimelineOnStepInserted;
+            Timeline.StepRemoved += TimelineOnStepRemoved;
         }
 
         public StepControl CurrentSelection
@@ -30,6 +31,31 @@ namespace DynamicVisualizer.Controls
                 if ((_currentSelection != null) && !_ignoreSelectionChanged)
                     Timeline.SetCurrentStepIndex(_currentSelection.Index);
                 RedrawNeeded?.Invoke();
+            }
+        }
+
+        private void TimelineOnStepRemoved(int index)
+        {
+            Controls.RemoveAt(index);
+            _stepControls.RemoveAt(index);
+            if (_stepControls.Count != 0)
+            {
+                for (var i = index; i < _stepControls.Count; ++i)
+                {
+                    var scc = _stepControls[i];
+                    scc.Index = index;
+                    scc.Location = new Point(0, scc.Location.Y - scc.Height);
+                }
+
+                _ignoreSelectionChanged = true;
+                if (index <= _stepControls.Count - 1)
+                    MarkAsSelecgted(_stepControls[index]);
+                else MarkAsSelecgted(_stepControls[index - 1]);
+                _ignoreSelectionChanged = false;
+            }
+            else
+            {
+                CurrentSelection = null;
             }
         }
 
@@ -56,6 +82,7 @@ namespace DynamicVisualizer.Controls
             for (var i = index; i < _stepControls.Count; ++i)
             {
                 var scc = _stepControls[i];
+                scc.Index = index + 1;
                 scc.Location = new Point(0, scc.Location.Y + scc.Height);
             }
 
@@ -104,6 +131,11 @@ namespace DynamicVisualizer.Controls
                 }
                 else if (_currentSelection.Index < _stepControls.Count - 1)
                     MarkAsSelecgted(_stepControls[_currentSelection.Index + 1]);
+                return true;
+            }
+            if (keyData == Keys.Delete)
+            {
+                if (_currentSelection != null) Timeline.Remove(_currentSelection.Index);
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);

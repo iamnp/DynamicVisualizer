@@ -11,6 +11,8 @@ namespace DynamicVisualizer.Logic.Storyboard
     {
         public delegate void StepInsertedEventHandler(int index);
 
+        public delegate void StepRemovedEventHandler(int index);
+
         private const int ThresholdSquared = 15*15;
 
         public static readonly List<Step> Steps = new List<Step>();
@@ -80,11 +82,20 @@ namespace DynamicVisualizer.Logic.Storyboard
         }
 
         public static event StepInsertedEventHandler StepInserted;
+        public static event StepRemovedEventHandler StepRemoved;
 
         private static void BackwardsAndAgain(int index)
         {
-            SetCurrentStepIndex(0);
-            SetCurrentStepIndex(index);
+            if (index < 0)
+            {
+                Reset();
+                CurrentStepIndex = -1;
+            }
+            else
+            {
+                SetCurrentStepIndex(0);
+                SetCurrentStepIndex(index);
+            }
         }
 
         public static void Insert(Step step, int index = -1)
@@ -93,6 +104,16 @@ namespace DynamicVisualizer.Logic.Storyboard
             Steps.Insert(index, step);
             BackwardsAndAgain(index);
             StepInserted?.Invoke(index);
+        }
+
+        public static void Remove(int pos)
+        {
+            Steps.RemoveAt(pos);
+            if (pos <= Steps.Count - 1)
+                BackwardsAndAgain(pos);
+            else
+                BackwardsAndAgain(pos - 1);
+            StepRemoved?.Invoke(pos);
         }
 
         public static void ResetIterations()

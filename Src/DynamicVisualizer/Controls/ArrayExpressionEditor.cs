@@ -13,37 +13,43 @@ namespace DynamicVisualizer.Controls
         public ArrayExpressionEditor()
         {
             AddDummyItem();
-            AllowDrop = true;
-            DragEnter += OnDragEnter;
-            DragDrop += OnDragDrop;
         }
 
-        private void OnDragEnter(object sender, DragEventArgs e)
+        private void AddDummyItem()
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop) && (Controls.Count > 1))
+            var item = new ArrayExpressionItem
+            {
+                Location = new Point(0, _items.Count*ArrayExpressionItem.ItemHeight),
+                AllowDrop = true
+            };
+            item.DragEnter += OnDummyItemDragEnter;
+            item.DragDrop += OnDummyItemDragDrop;
+            item.textBox1.KeyPress += DummyItemNameKeyPress;
+            _items.Add(item);
+            Controls.Add(item);
+        }
+
+        private void OnDummyItemDragDrop(object sender, DragEventArgs e)
+        {
+            var file = ((string[]) e.Data.GetData(DataFormats.FileDrop))[0];
+            var data = File.ReadAllLines(file)[0];
+            var item = (ArrayExpressionItem) sender;
+            item.AllowDrop = false;
+            item.DragEnter -= OnDummyItemDragEnter;
+            item.DragDrop -= OnDummyItemDragDrop;
+            MakeNotDummy(item);
+            var name = new FileInfo(file).Name;
+            item.SetDataFromFile(data, name.Substring(0, name.Length - 4));
+        }
+
+        private void OnDummyItemDragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
                 if ((files.Length == 1) && files[0].EndsWith(".csv"))
                     e.Effect = DragDropEffects.Copy;
             }
-        }
-
-        private void OnDragDrop(object sender, DragEventArgs e)
-        {
-            var file = ((string[]) e.Data.GetData(DataFormats.FileDrop))[0];
-            var line = File.ReadAllLines(file)[0];
-            ((ArrayExpressionItem) Controls[Controls.Count - 2]).SetDataFromFile(line);
-        }
-
-        private void AddDummyItem()
-        {
-            var item = new ArrayExpressionItem(true)
-            {
-                Location = new Point(0, _items.Count*ArrayExpressionItem.ItemHeight)
-            };
-            item.textBox1.KeyPress += DummyItemNameKeyPress;
-            _items.Add(item);
-            Controls.Add(item);
         }
 
         private void MakeNotDummy(ArrayExpressionItem di)
