@@ -1,5 +1,4 @@
-﻿using DynamicVisualizer.Logic.Expressions;
-using DynamicVisualizer.Logic.Storyboard.Figures;
+﻿using DynamicVisualizer.Logic.Storyboard.Figures;
 
 namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
 {
@@ -32,6 +31,8 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
             Applied = true;
             EllipseFigure.X.SetRawExpression(X);
             EllipseFigure.Y.SetRawExpression(Y);
+            EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.AsDouble.Str());
+            EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.AsDouble.Str());
 
             if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
         }
@@ -40,15 +41,21 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
         {
             EllipseFigure.X.IndexInArray = CompletedIterations;
             EllipseFigure.Y.IndexInArray = CompletedIterations;
+            EllipseFigure.Radius1.IndexInArray = CompletedIterations;
+            EllipseFigure.Radius2.IndexInArray = CompletedIterations;
             EllipseFigure.X.SetRawExpression(X);
             EllipseFigure.Y.SetRawExpression(Y);
+            EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.AsDouble.Str());
+            EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.AsDouble.Str());
         }
 
         public override void CopyStaticFigure()
         {
-            var rf = (EllipseFigure) Figure.StaticLoopFigures[CompletedIterations];
-            rf.X = new ScalarExpression("a", "a", EllipseFigure.X.CachedValue.Str);
-            rf.Y = new ScalarExpression("a", "a", EllipseFigure.Y.CachedValue.Str);
+            var ef = (EllipseFigure) Figure.StaticLoopFigures[CompletedIterations];
+            ef.X.SetRawExpression(EllipseFigure.X.CachedValue.Str);
+            ef.Y.SetRawExpression(EllipseFigure.Y.CachedValue.Str);
+            ef.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.Str);
+            ef.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.Str);
         }
 
         public void Move(string x, string y)
