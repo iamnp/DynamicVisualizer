@@ -96,16 +96,22 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
             {
                 RectFigure.Width.IndexInArray = CompletedIterations;
                 RectFigure.X.IndexInArray = CompletedIterations;
+
+                // break the expr connection
+                RectFigure.X.SetRawExpression(RectFigure.X.CachedValue.Str);
                 RectFigure.Width.SetRawExpression("(" + WidthExpr + ") * (" + Factor + ")");
-                RectFigure.X.SetRawExpression("(" + XCachedDouble + ") + ((" + WidthExpr + ") * (1.0 - (" + Factor +
+                RectFigure.X.SetRawExpression("(" + RectFigure.X.CachedValue.Str + ") + ((" + WidthExpr + ") * (1.0 - (" + Factor +
                                               ")))");
             }
             else if (ScaleAround == Side.Bottom)
             {
                 RectFigure.Height.IndexInArray = CompletedIterations;
                 RectFigure.Y.IndexInArray = CompletedIterations;
+
+                // break the expr connection
+                RectFigure.Y.SetRawExpression(RectFigure.Y.CachedValue.Str);
                 RectFigure.Height.SetRawExpression("(" + HeightExpr + ") * (" + Factor + ")");
-                RectFigure.Y.SetRawExpression("(" + YCachedDouble + ") + ((" + HeightExpr + ") * (1.0 - (" + Factor +
+                RectFigure.Y.SetRawExpression("(" + RectFigure.Y.CachedValue.Str + ") + ((" + HeightExpr + ") * (1.0 - (" + Factor +
                                               ")))");
             }
         }
