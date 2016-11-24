@@ -215,7 +215,7 @@ namespace DynamicVisualizer
 
         private void label3_Click(object sender, EventArgs e)
         {
-            _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawCircle;
+            _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawEllipse;
             label3.ForeColor = SystemColors.ControlText;
             label2.ForeColor = SystemColors.ControlDark;
         }

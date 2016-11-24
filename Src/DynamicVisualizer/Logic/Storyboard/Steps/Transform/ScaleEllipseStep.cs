@@ -1,5 +1,4 @@
-﻿using DynamicVisualizer.Logic.Expressions;
-using DynamicVisualizer.Logic.Storyboard.Figures;
+﻿using DynamicVisualizer.Logic.Storyboard.Figures;
 
 namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
 {
@@ -20,8 +19,6 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
         public double Radius1Orig;
         public string Radius2Expr;
         public double Radius2Orig;
-        public string XExpr;
-        public string YExpr;
 
         private ScaleEllipseStep(EllipseFigure figure, Side scaleAround)
         {
@@ -30,8 +27,6 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
             EllipseFigure = figure;
             Radius1Expr = EllipseFigure.Radius1.ExprString;
             Radius2Expr = EllipseFigure.Radius2.ExprString;
-            XExpr = EllipseFigure.X.ExprString;
-            YExpr = EllipseFigure.Y.ExprString;
             Radius1Orig = EllipseFigure.Radius1.CachedValue.AsDouble;
             Radius2Orig = EllipseFigure.Radius2.CachedValue.AsDouble;
         }
@@ -77,9 +72,9 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
         {
             var rf = (EllipseFigure) Figure.StaticLoopFigures[CompletedIterations];
             if ((ScaleAround == Side.Left) || (ScaleAround == Side.Right))
-                rf.Radius1 = new ScalarExpression("a", "a", EllipseFigure.Radius1.CachedValue.Str);
+                rf.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.Str);
             else if ((ScaleAround == Side.Top) || (ScaleAround == Side.Bottom))
-                rf.Radius2 = new ScalarExpression("a", "a", EllipseFigure.Radius2.CachedValue.Str);
+                rf.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.Str);
         }
 
         public void Scale(string factor)

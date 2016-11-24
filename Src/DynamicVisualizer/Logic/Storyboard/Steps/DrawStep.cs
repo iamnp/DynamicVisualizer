@@ -5,7 +5,7 @@
         public enum DrawStepType
         {
             DrawRect,
-            DrawCircle
+            DrawEllipse
         }
 
         public abstract DrawStepType StepType { get; }

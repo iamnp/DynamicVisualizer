@@ -79,7 +79,7 @@ namespace DynamicVisualizer
                         }
                     }
                     break;
-                case Figure.FigureType.Circle:
+                case Figure.FigureType.Ellipse:
                     var ef = (EllipseFigure) selected;
                     if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
                     {

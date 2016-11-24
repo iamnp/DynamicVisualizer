@@ -29,10 +29,12 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
         public override void Apply()
         {
             Applied = true;
+
             RectFigure.X.SetRawExpression(X);
             RectFigure.Y.SetRawExpression(Y);
             RectFigure.Width.SetRawExpression(RectFigure.Width.CachedValue.AsDouble.Str());
             RectFigure.Height.SetRawExpression(RectFigure.Height.CachedValue.AsDouble.Str());
+
             if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
         }
 
@@ -42,6 +44,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
             RectFigure.Y.IndexInArray = CompletedIterations;
             RectFigure.Width.IndexInArray = CompletedIterations;
             RectFigure.Height.IndexInArray = CompletedIterations;
+
             RectFigure.X.SetRawExpression(X);
             RectFigure.Y.SetRawExpression(Y);
             RectFigure.Width.SetRawExpression(RectFigure.Width.CachedValue.AsDouble.Str());
@@ -51,6 +54,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
         public override void CopyStaticFigure()
         {
             var rf = (RectFigure) Figure.StaticLoopFigures[CompletedIterations];
+
             rf.X.SetRawExpression(RectFigure.X.CachedValue.Str);
             rf.Y.SetRawExpression(RectFigure.Y.CachedValue.Str);
             rf.Width.SetRawExpression(RectFigure.Width.CachedValue.Str);

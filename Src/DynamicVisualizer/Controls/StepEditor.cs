@@ -96,9 +96,9 @@ namespace DynamicVisualizer.Controls
 
                     ShowFirst(4);
                 }
-                else if (ds.StepType == DrawStep.DrawStepType.DrawCircle)
+                else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
                 {
-                    var drs = (DrawCircleStep) ds;
+                    var drs = (DrawEllipseStep) ds;
                     label1.Text = "X";
                     label2.Text = "Y";
                     label3.Text = "Radius";
@@ -165,8 +165,8 @@ namespace DynamicVisualizer.Controls
                 var ds = (DrawStep) _step;
                 if (ds.StepType == DrawStep.DrawStepType.DrawRect)
                     ((DrawRectStep) ds).ReInitX(textBox1.Text);
-                else if (ds.StepType == DrawStep.DrawStepType.DrawCircle)
-                    ((DrawCircleStep) ds).ReInitX(textBox1.Text);
+                else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
+                    ((DrawEllipseStep) ds).ReInitX(textBox1.Text);
             }
             else if (_step is TransformStep)
             {
@@ -191,8 +191,8 @@ namespace DynamicVisualizer.Controls
                 var ds = (DrawStep) _step;
                 if (ds.StepType == DrawStep.DrawStepType.DrawRect)
                     ((DrawRectStep) ds).ReInitY(textBox2.Text);
-                else if (ds.StepType == DrawStep.DrawStepType.DrawCircle)
-                    ((DrawCircleStep) ds).ReInitY(textBox2.Text);
+                else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
+                    ((DrawEllipseStep) ds).ReInitY(textBox2.Text);
             }
             else if (_step is TransformStep)
             {
@@ -213,8 +213,8 @@ namespace DynamicVisualizer.Controls
                 var ds = (DrawStep) _step;
                 if (ds.StepType == DrawStep.DrawStepType.DrawRect)
                     ((DrawRectStep) ds).ReInitWidth(textBox3.Text);
-                else if (ds.StepType == DrawStep.DrawStepType.DrawCircle)
-                    ((DrawCircleStep) ds).ReInit(textBox3.Text);
+                else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
+                    ((DrawEllipseStep) ds).ReInit(textBox3.Text);
             }
             RedrawNeeded?.Invoke();
         }

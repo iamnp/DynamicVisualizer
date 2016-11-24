@@ -21,7 +21,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
             Name = name;
         }
 
-        public override FigureType Type => FigureType.Circle;
+        public override FigureType Type => FigureType.Ellipse;
 
         public override Magnet[] GetMagnets()
         {

@@ -30,7 +30,7 @@ namespace DynamicVisualizer
         {
             if ((selected == Timeline.CurrentStep.Figure) &&
                 ((Timeline.CurrentStep is MoveRectStep && (selected.Type == Figure.FigureType.Rect))
-                 || (Timeline.CurrentStep is MoveEllipseStep && (selected.Type == Figure.FigureType.Circle))))
+                 || (Timeline.CurrentStep is MoveEllipseStep && (selected.Type == Figure.FigureType.Ellipse))))
                 _nowMoving = (TransformStep) Timeline.CurrentStep;
             else
                 _nowMoving = null;
@@ -86,7 +86,7 @@ namespace DynamicVisualizer
                         }
                     }
                     break;
-                case Figure.FigureType.Circle:
+                case Figure.FigureType.Ellipse:
                     var cf = (EllipseFigure) selected;
                     if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
                     {

@@ -29,6 +29,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
         public override void Apply()
         {
             Applied = true;
+
             EllipseFigure.X.SetRawExpression(X);
             EllipseFigure.Y.SetRawExpression(Y);
             EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.AsDouble.Str());
@@ -43,6 +44,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
             EllipseFigure.Y.IndexInArray = CompletedIterations;
             EllipseFigure.Radius1.IndexInArray = CompletedIterations;
             EllipseFigure.Radius2.IndexInArray = CompletedIterations;
+
             EllipseFigure.X.SetRawExpression(X);
             EllipseFigure.Y.SetRawExpression(Y);
             EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.AsDouble.Str());
@@ -52,6 +54,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
         public override void CopyStaticFigure()
         {
             var ef = (EllipseFigure) Figure.StaticLoopFigures[CompletedIterations];
+
             ef.X.SetRawExpression(EllipseFigure.X.CachedValue.Str);
             ef.Y.SetRawExpression(EllipseFigure.Y.CachedValue.Str);
             ef.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.Str);

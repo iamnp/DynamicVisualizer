@@ -26,8 +26,8 @@ namespace DynamicVisualizer
                     case DrawStep.DrawStepType.DrawRect:
                         _nowDrawing = new DrawRectStep(snapped.X.ExprString, snapped.Y.ExprString, "0", "0");
                         break;
-                    case DrawStep.DrawStepType.DrawCircle:
-                        _nowDrawing = new DrawCircleStep(snapped.X.ExprString, snapped.Y.ExprString, "0");
+                    case DrawStep.DrawStepType.DrawEllipse:
+                        _nowDrawing = new DrawEllipseStep(snapped.X.ExprString, snapped.Y.ExprString, "0");
                         break;
                 }
             }
@@ -38,8 +38,8 @@ namespace DynamicVisualizer
                     case DrawStep.DrawStepType.DrawRect:
                         _nowDrawing = new DrawRectStep(_startPos.X, _startPos.Y, 0, 0);
                         break;
-                    case DrawStep.DrawStepType.DrawCircle:
-                        _nowDrawing = new DrawCircleStep(_startPos.X, _startPos.Y, 0);
+                    case DrawStep.DrawStepType.DrawEllipse:
+                        _nowDrawing = new DrawEllipseStep(_startPos.X, _startPos.Y, 0);
                         break;
                 }
             }
@@ -60,11 +60,12 @@ namespace DynamicVisualizer
                                 "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y");
                             break;
 
-                        case DrawStep.DrawStepType.DrawCircle:
+                        case DrawStep.DrawStepType.DrawEllipse:
                             var dx = "((" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x)";
                             var dy = "((" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y)";
-                            ((DrawCircleStep) _nowDrawing).ReInit("sqrt((" + dx + " * " + dx + ") + (" + dy + " * " + dy +
-                                                                  "))");
+                            ((DrawEllipseStep) _nowDrawing).ReInit("sqrt((" + dx + " * " + dx + ") + (" + dy + " * " +
+                                                                   dy +
+                                                                   "))");
                             break;
                     }
                 else
@@ -74,10 +75,10 @@ namespace DynamicVisualizer
                             ((DrawRectStep) _nowDrawing).ReInit(pos.X - _startPos.X, pos.Y - _startPos.Y);
                             break;
 
-                        case DrawStep.DrawStepType.DrawCircle:
+                        case DrawStep.DrawStepType.DrawEllipse:
                             var dx = pos.X - _startPos.X;
                             var dy = pos.Y - _startPos.Y;
-                            ((DrawCircleStep) _nowDrawing).ReInit(Math.Sqrt(dx*dx + dy*dy));
+                            ((DrawEllipseStep) _nowDrawing).ReInit(Math.Sqrt(dx*dx + dy*dy));
                             break;
                     }
             }

@@ -49,12 +49,12 @@ namespace DynamicVisualizer.Controls
                 return;
             }
 
-            var drawCircleStep = Step as DrawCircleStep;
-            if (drawCircleStep != null)
+            var drawEllipseStep = Step as DrawEllipseStep;
+            if (drawEllipseStep != null)
             {
                 clickThroughLabel1.Text =
                     string.Format("draw {0} at ({1}; {2}) {3} radius",
-                        drawCircleStep.Figure.Name, drawCircleStep.X, drawCircleStep.Y, drawCircleStep.Radius);
+                        drawEllipseStep.Figure.Name, drawEllipseStep.X, drawEllipseStep.Y, drawEllipseStep.Radius);
                 return;
             }
 

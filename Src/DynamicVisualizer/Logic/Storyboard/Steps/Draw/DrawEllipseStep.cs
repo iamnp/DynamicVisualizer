@@ -3,7 +3,7 @@ using DynamicVisualizer.Logic.Storyboard.Figures;
 
 namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
 {
-    public class DrawCircleStep : DrawStep
+    public class DrawEllipseStep : DrawStep
     {
         private static int _count = 1;
         public readonly EllipseFigure EllipseFigure;
@@ -11,27 +11,27 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
         public string X;
         public string Y;
 
-        private DrawCircleStep()
+        private DrawEllipseStep()
         {
             Figure = new EllipseFigure("circle" + _count++);
             EllipseFigure = (EllipseFigure) Figure;
         }
 
-        public DrawCircleStep(string x, string y, string radius) : this()
+        public DrawEllipseStep(string x, string y, string radius) : this()
         {
             X = x;
             Y = y;
             ReInit(radius);
         }
 
-        public DrawCircleStep(double x, double y, double radius) : this()
+        public DrawEllipseStep(double x, double y, double radius) : this()
         {
             X = x.Str();
             Y = y.Str();
             ReInit(radius);
         }
 
-        public override DrawStepType StepType => DrawStepType.DrawCircle;
+        public override DrawStepType StepType => DrawStepType.DrawEllipse;
 
         public void ReInit(string radius)
         {

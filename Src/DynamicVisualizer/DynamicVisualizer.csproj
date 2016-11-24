@@ -74,7 +74,7 @@
     <Compile Include="Logic\Expressions\DataStorage.cs" />
     <Compile Include="Logic\Storyboard\Figures\EllipseFigure.cs" />
     <Compile Include="Logic\Storyboard\Magnet.cs" />
-    <Compile Include="Logic\Storyboard\Steps\Draw\DrawCircleStep.cs" />
+    <Compile Include="Logic\Storyboard\Steps\Draw\DrawEllipseStep.cs" />
     <Compile Include="Logic\Storyboard\Steps\Draw\DrawRectStep.cs" />
     <Compile Include="Logic\Storyboard\Steps\DrawStep.cs" />
     <Compile Include="Logic\Expressions\Evaluater.cs" />

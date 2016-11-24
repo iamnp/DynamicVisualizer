@@ -9,7 +9,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
         public enum FigureType
         {
             Rect,
-            Circle
+            Ellipse
         }
 
         protected readonly Pen GuidePen = new Pen(Brushes.CornflowerBlue, 3);
