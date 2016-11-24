@@ -7,7 +7,9 @@
             MoveRect,
             MoveEllipse,
             ScaleRect,
-            ScaleEllipse
+            ScaleEllipse,
+            ResizeRect,
+            ResizeEllipse
         }
 
         public abstract TransformStepType StepType { get; }

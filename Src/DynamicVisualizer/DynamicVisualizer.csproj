@@ -69,6 +69,7 @@
     </Compile>
     <Compile Include="FigureDrawer.cs" />
     <Compile Include="FigureMover.cs" />
+    <Compile Include="FigureResizer.cs" />
     <Compile Include="FigureScaler.cs" />
     <Compile Include="Logic\Expressions\ArrayExpression.cs" />
     <Compile Include="Logic\Expressions\DataStorage.cs" />
@@ -88,7 +89,9 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Logic\Storyboard\Steps\Transform\MoveEllipseStep.cs" />
+    <Compile Include="Logic\Storyboard\Steps\Transform\ResizeEllipseStep.cs" />
     <Compile Include="Logic\Storyboard\Steps\Transform\ScaleEllipseStep.cs" />
+    <Compile Include="Logic\Storyboard\Steps\Transform\ResizeRectStep.cs" />
     <Compile Include="Logic\Storyboard\Steps\Transform\ScaleRectStep.cs" />
     <Compile Include="MainGraphicOutput.cs" />
     <Compile Include="Logic\Storyboard\Steps\Transform\MoveRectStep.cs" />

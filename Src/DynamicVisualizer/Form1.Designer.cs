@@ -44,6 +44,7 @@ namespace DynamicVisualizer
             this._scalarExpressionEditor1 = new DynamicVisualizer.Controls.ScalarExpressionEditor();
             this.stepEditor1 = new DynamicVisualizer.Controls.StepEditor();
             this.stepsListControl1 = new DynamicVisualizer.Controls.StepsListControl();
+            this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // elementHost1
@@ -125,7 +126,7 @@ namespace DynamicVisualizer
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(1219, 395);
+            this.label7.Location = new System.Drawing.Point(1219, 420);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(44, 16);
             this.label7.TabIndex = 12;
@@ -137,7 +138,7 @@ namespace DynamicVisualizer
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(1219, 420);
+            this.label8.Location = new System.Drawing.Point(1219, 445);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(39, 16);
             this.label8.TabIndex = 14;
@@ -148,7 +149,7 @@ namespace DynamicVisualizer
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.Location = new System.Drawing.Point(1208, 370);
+            this.label9.Location = new System.Drawing.Point(1208, 395);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(81, 16);
             this.label9.TabIndex = 17;
@@ -186,11 +187,24 @@ namespace DynamicVisualizer
             this.stepsListControl1.Size = new System.Drawing.Size(200, 342);
             this.stepsListControl1.TabIndex = 5;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label10.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.label10.Location = new System.Drawing.Point(1219, 355);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(50, 16);
+            this.label10.TabIndex = 18;
+            this.label10.Text = "Resize";
+            this.label10.Click += new System.EventHandler(this.label10_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 700);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.arrayExpressionEditor1);
             this.Controls.Add(this._scalarExpressionEditor1);
@@ -230,6 +244,7 @@ namespace DynamicVisualizer
         private ScalarExpressionEditor _scalarExpressionEditor1;
         private ArrayExpressionEditor arrayExpressionEditor1;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
     }
 }
 

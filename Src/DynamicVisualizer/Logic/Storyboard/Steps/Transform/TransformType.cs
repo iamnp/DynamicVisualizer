@@ -3,6 +3,7 @@
     internal enum TransformType
     {
         Move,
-        Scale
+        Scale,
+        Resize
     }
 }

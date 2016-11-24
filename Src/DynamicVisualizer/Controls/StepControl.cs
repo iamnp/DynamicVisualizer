@@ -82,6 +82,18 @@ namespace DynamicVisualizer.Controls
                 clickThroughLabel1.Text =
                     string.Format("scale {0} by factor {1} around {2} side",
                         scaleEllipseStep.Figure.Name, scaleEllipseStep.Factor, scaleEllipseStep.ScaleAround);
+
+            var resizeRectStep = Step as ResizeRectStep;
+            if (resizeRectStep != null)
+                clickThroughLabel1.Text =
+                    string.Format("resize {0} by {1} around {2} side",
+                        resizeRectStep.Figure.Name, resizeRectStep.Delta, resizeRectStep.ResizeAround);
+
+            var resizeEllipseStep = Step as ResizeEllipseStep;
+            if (resizeEllipseStep != null)
+                clickThroughLabel1.Text =
+                    string.Format("resize {0} by {1} around {2} side",
+                        resizeEllipseStep.Figure.Name, resizeEllipseStep.Delta, resizeEllipseStep.ResizeAround);
         }
     }
 }

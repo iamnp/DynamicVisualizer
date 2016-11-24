@@ -25,6 +25,7 @@ namespace DynamicVisualizer
         private readonly TranslateTransform _canvasTranslate = new TranslateTransform(CanvasOffsetX, CanvasOffsetY);
         private readonly FigureDrawer _figureDrawer = new FigureDrawer();
         private readonly FigureMover _figureMover = new FigureMover();
+        private readonly FigureResizer _figureResizer = new FigureResizer();
         private readonly FigureScaler _figureScaler = new FigureScaler();
         private readonly Rect _hostRect = new Rect(0, 0, 1000, 700);
         private readonly MainGraphicOutput _mainGraphics;
@@ -90,7 +91,8 @@ namespace DynamicVisualizer
             foreach (var figure in Timeline.Figures)
             {
                 figure.Draw(dc);
-                if (figure.IsSelected || _figureMover.NowMoving || _figureDrawer.NowDrawing || _figureScaler.NowScailing)
+                if (figure.IsSelected || _figureMover.NowMoving || _figureDrawer.NowDrawing || _figureScaler.NowScailing ||
+                    _figureResizer.NowResizing)
                     foreach (var magnet in figure.GetMagnets())
                         dc.DrawEllipse(Brushes.Yellow, new Pen(Brushes.Black, 1),
                             new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
@@ -150,6 +152,7 @@ namespace DynamicVisualizer
             {
                 _figureMover.Reset();
                 _figureScaler.Reset();
+                _figureResizer.Reset();
                 PerformFigureSelection(upPos);
             }
             if (e.ChangedButton == MouseButton.Left)
@@ -164,6 +167,7 @@ namespace DynamicVisualizer
                 PerformFigureSelection(Timeline.CurrentStep.Figure);
             _figureMover.Reset();
             _figureScaler.Reset();
+            _figureResizer.Reset();
             RedrawNeeded();
         }
 
@@ -181,6 +185,9 @@ namespace DynamicVisualizer
                     case TransformType.Scale:
                         _figureScaler.Move(_selected, pos);
                         break;
+                    case TransformType.Resize:
+                        _figureResizer.Move(_selected, pos);
+                        break;
                 }
 
             RedrawNeeded();
@@ -196,6 +203,9 @@ namespace DynamicVisualizer
                     break;
                 case TransformType.Scale:
                     _figureScaler.SetDownPos(downPos);
+                    break;
+                case TransformType.Resize:
+                    _figureResizer.SetDownPos(downPos);
                     break;
             }
             if (e.ChangedButton == MouseButton.Left)
@@ -225,6 +235,7 @@ namespace DynamicVisualizer
             _transformType = TransformType.Move;
             label5.ForeColor = SystemColors.ControlText;
             label6.ForeColor = SystemColors.ControlDark;
+            label10.ForeColor = SystemColors.ControlDark;
         }
 
         private void label6_Click(object sender, EventArgs e)
@@ -232,6 +243,15 @@ namespace DynamicVisualizer
             _transformType = TransformType.Scale;
             label6.ForeColor = SystemColors.ControlText;
             label5.ForeColor = SystemColors.ControlDark;
+            label10.ForeColor = SystemColors.ControlDark;
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+            _transformType = TransformType.Resize;
+            label6.ForeColor = SystemColors.ControlDark;
+            label5.ForeColor = SystemColors.ControlDark;
+            label10.ForeColor = SystemColors.ControlText;
         }
 
         private void label7_Click(object sender, EventArgs e)
