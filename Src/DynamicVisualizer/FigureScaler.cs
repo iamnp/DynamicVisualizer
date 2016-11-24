@@ -62,21 +62,16 @@ namespace DynamicVisualizer
                     }
                     else
                     {
-                        switch (_nowScaling.StepType)
-                        {
-                            case TransformStep.TransformStepType.ScaleRect:
-                                var srs = (ScaleRectStep) _nowScaling;
+                        var srs = (ScaleRectStep) _nowScaling;
 
-                                if (srs.ScaleAround == ScaleRectStep.Side.Right)
-                                    srs.Scale(1 - (pos.X - _downPos.X)/srs.WidthOrig);
-                                else if (srs.ScaleAround == ScaleRectStep.Side.Left)
-                                    srs.Scale(1 + (pos.X - _downPos.X)/srs.WidthOrig);
-                                else if (srs.ScaleAround == ScaleRectStep.Side.Top)
-                                    srs.Scale(1 + (pos.Y - _downPos.Y)/srs.HeightOrig);
-                                else if (srs.ScaleAround == ScaleRectStep.Side.Bottom)
-                                    srs.Scale(1 - (pos.Y - _downPos.Y)/srs.HeightOrig);
-                                break;
-                        }
+                        if (srs.ScaleAround == ScaleRectStep.Side.Right)
+                            srs.Scale(1 - (pos.X - _downPos.X)/srs.WidthOrig);
+                        else if (srs.ScaleAround == ScaleRectStep.Side.Left)
+                            srs.Scale(1 + (pos.X - _downPos.X)/srs.WidthOrig);
+                        else if (srs.ScaleAround == ScaleRectStep.Side.Top)
+                            srs.Scale(1 + (pos.Y - _downPos.Y)/srs.HeightOrig);
+                        else if (srs.ScaleAround == ScaleRectStep.Side.Bottom)
+                            srs.Scale(1 - (pos.Y - _downPos.Y)/srs.HeightOrig);
                     }
                     break;
                 case Figure.FigureType.Ellipse:
@@ -110,21 +105,16 @@ namespace DynamicVisualizer
                     }
                     else
                     {
-                        switch (_nowScaling.StepType)
-                        {
-                            case TransformStep.TransformStepType.ScaleEllipse:
-                                var srs = (ScaleEllipseStep) _nowScaling;
+                        var srs = (ScaleEllipseStep) _nowScaling;
 
-                                if (srs.ScaleAround == ScaleEllipseStep.Side.Right)
-                                    srs.Scale(1 - (pos.X - _downPos.X)/srs.Radius1Orig);
-                                else if (srs.ScaleAround == ScaleEllipseStep.Side.Left)
-                                    srs.Scale(1 + (pos.X - _downPos.X)/srs.Radius1Orig);
-                                else if (srs.ScaleAround == ScaleEllipseStep.Side.Top)
-                                    srs.Scale(1 - (pos.Y - _downPos.Y)/srs.Radius2Orig);
-                                else if (srs.ScaleAround == ScaleEllipseStep.Side.Bottom)
-                                    srs.Scale(1 + (pos.Y - _downPos.Y)/srs.Radius2Orig);
-                                break;
-                        }
+                        if (srs.ScaleAround == ScaleEllipseStep.Side.Right)
+                            srs.Scale(1 - (pos.X - _downPos.X)/srs.Radius1Orig);
+                        else if (srs.ScaleAround == ScaleEllipseStep.Side.Left)
+                            srs.Scale(1 + (pos.X - _downPos.X)/srs.Radius1Orig);
+                        else if (srs.ScaleAround == ScaleEllipseStep.Side.Top)
+                            srs.Scale(1 - (pos.Y - _downPos.Y)/srs.Radius2Orig);
+                        else if (srs.ScaleAround == ScaleEllipseStep.Side.Bottom)
+                            srs.Scale(1 + (pos.Y - _downPos.Y)/srs.Radius2Orig);
                     }
                     break;
             }

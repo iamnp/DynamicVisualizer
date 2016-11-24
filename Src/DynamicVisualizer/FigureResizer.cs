@@ -59,21 +59,16 @@ namespace DynamicVisualizer
                     }
                     else
                     {
-                        switch (_nowResizing.StepType)
-                        {
-                            case TransformStep.TransformStepType.ResizeRect:
-                                var srs = (ResizeRectStep) _nowResizing;
+                        var srs = (ResizeRectStep) _nowResizing;
 
-                                if (srs.ResizeAround == ResizeRectStep.Side.Right)
-                                    srs.Resize(pos.X - _downPos.X);
-                                else if (srs.ResizeAround == ResizeRectStep.Side.Left)
-                                    srs.Resize(pos.X - _downPos.X);
-                                else if (srs.ResizeAround == ResizeRectStep.Side.Top)
-                                    srs.Resize(pos.Y - _downPos.Y);
-                                else if (srs.ResizeAround == ResizeRectStep.Side.Bottom)
-                                    srs.Resize(pos.Y - _downPos.Y);
-                                break;
-                        }
+                        if (srs.ResizeAround == ResizeRectStep.Side.Right)
+                            srs.Resize(pos.X - _downPos.X);
+                        else if (srs.ResizeAround == ResizeRectStep.Side.Left)
+                            srs.Resize(pos.X - _downPos.X);
+                        else if (srs.ResizeAround == ResizeRectStep.Side.Top)
+                            srs.Resize(pos.Y - _downPos.Y);
+                        else if (srs.ResizeAround == ResizeRectStep.Side.Bottom)
+                            srs.Resize(pos.Y - _downPos.Y);
                     }
                     break;
                 case Figure.FigureType.Ellipse:
@@ -104,21 +99,16 @@ namespace DynamicVisualizer
                     }
                     else
                     {
-                        switch (_nowResizing.StepType)
-                        {
-                            case TransformStep.TransformStepType.ResizeEllipse:
-                                var srs = (ResizeEllipseStep) _nowResizing;
+                        var srs = (ResizeEllipseStep) _nowResizing;
 
-                                if (srs.ResizeAround == ResizeEllipseStep.Side.Right)
-                                    srs.Resize(pos.X - _downPos.X);
-                                else if (srs.ResizeAround == ResizeEllipseStep.Side.Left)
-                                    srs.Resize(pos.X - _downPos.X);
-                                else if (srs.ResizeAround == ResizeEllipseStep.Side.Top)
-                                    srs.Resize(pos.Y - _downPos.Y);
-                                else if (srs.ResizeAround == ResizeEllipseStep.Side.Bottom)
-                                    srs.Resize(pos.Y - _downPos.Y);
-                                break;
-                        }
+                        if (srs.ResizeAround == ResizeEllipseStep.Side.Right)
+                            srs.Resize(pos.X - _downPos.X);
+                        else if (srs.ResizeAround == ResizeEllipseStep.Side.Left)
+                            srs.Resize(pos.X - _downPos.X);
+                        else if (srs.ResizeAround == ResizeEllipseStep.Side.Top)
+                            srs.Resize(pos.Y - _downPos.Y);
+                        else if (srs.ResizeAround == ResizeEllipseStep.Side.Bottom)
+                            srs.Resize(pos.Y - _downPos.Y);
                     }
                     break;
             }
