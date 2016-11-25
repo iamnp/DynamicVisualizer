@@ -29,25 +29,22 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
             {
                 return new Magnet[0];
             }
-            else
-            {
-                var x = new ScalarExpression(Name, "a", Name + ".x", true);
-                var y = new ScalarExpression(Name, "a", Name + ".y", true);
-                Center = new Magnet(x, y);
-                Left = new Magnet(new ScalarExpression(Name, "a", Name + ".x - " + Name + ".radius1", true), y);
-                Right = new Magnet(new ScalarExpression(Name, "a", Name + ".x + " + Name + ".radius1", true), y);
-                Bottom = new Magnet(x, new ScalarExpression(Name, "a", Name + ".y + " + Name + ".radius2", true));
-                Top = new Magnet(x, new ScalarExpression(Name, "a", Name + ".y - " + Name + ".radius2", true));
+            var x = new ScalarExpression(Name, "a", Name + ".x", true);
+            var y = new ScalarExpression(Name, "a", Name + ".y", true);
+            Center = new Magnet(x, y);
+            Left = new Magnet(new ScalarExpression(Name, "a", Name + ".x - " + Name + ".radius1", true), y);
+            Right = new Magnet(new ScalarExpression(Name, "a", Name + ".x + " + Name + ".radius1", true), y);
+            Bottom = new Magnet(x, new ScalarExpression(Name, "a", Name + ".y + " + Name + ".radius2", true));
+            Top = new Magnet(x, new ScalarExpression(Name, "a", Name + ".y - " + Name + ".radius2", true));
 
-                return new[]
-                {
-                    Center,
-                    Left,
-                    Right,
-                    Bottom,
-                    Top
-                };
-            }
+            return new[]
+            {
+                Center,
+                Left,
+                Right,
+                Bottom,
+                Top
+            };
         }
 
         public override void Draw(DrawingContext dc)

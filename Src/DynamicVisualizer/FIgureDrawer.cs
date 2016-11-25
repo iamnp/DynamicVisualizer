@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using DynamicVisualizer.Logic.Storyboard;
+using DynamicVisualizer.Logic.Storyboard.Figures;
 using DynamicVisualizer.Logic.Storyboard.Steps;
 using DynamicVisualizer.Logic.Storyboard.Steps.Draw;
 
@@ -14,7 +15,7 @@ namespace DynamicVisualizer
 
         public bool NowDrawing => _nowDrawing != null;
 
-        public void Start(Point pos)
+        public Figure Start(Point pos)
         {
             _startPos = pos;
             var snapped = Timeline.Snap(_startPos);
@@ -44,6 +45,7 @@ namespace DynamicVisualizer
                 }
             }
             Timeline.Insert(_nowDrawing, Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
+            return _nowDrawing.Figure;
         }
 
         public void Move(Point pos)
@@ -84,11 +86,9 @@ namespace DynamicVisualizer
             }
         }
 
-        public bool Finish()
+        public void Finish()
         {
-            var b = _nowDrawing != null;
             _nowDrawing = null;
-            return b;
         }
     }
 }

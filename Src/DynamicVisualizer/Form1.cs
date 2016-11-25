@@ -89,19 +89,21 @@ namespace DynamicVisualizer
                     4, 4);
 
             foreach (var figure in Timeline.Figures)
-            {
                 figure.Draw(dc);
-            }
 
             foreach (var figure in Timeline.Figures)
-            {
                 if (figure.IsSelected || _figureMover.NowMoving || _figureDrawer.NowDrawing || _figureScaler.NowScailing ||
                     _figureResizer.NowResizing)
-                    foreach (var magnet in figure.GetMagnets())
-                        dc.DrawEllipse(Brushes.Yellow, new Pen(Brushes.Black, 1),
-                            new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
-                            4, 4);
-            }
+                    if (figure.IsSelected)
+                        foreach (var magnet in figure.GetMagnets())
+                            dc.DrawEllipse(Brushes.DeepSkyBlue, new Pen(Brushes.Black, 1),
+                                new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
+                                5, 5);
+                    else
+                        foreach (var magnet in figure.GetMagnets())
+                            dc.DrawEllipse(Brushes.Yellow, new Pen(Brushes.Black, 1),
+                                new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
+                                4, 4);
         }
 
         private void PerformFigureSelection(Point pos)
@@ -114,7 +116,7 @@ namespace DynamicVisualizer
             for (var i = Timeline.Figures.Count - 1; i >= 0; --i)
             {
                 var f = Timeline.Figures[i];
-                if (f.Name != "staticrect" && f.Name != "staticcircle" && f.IsMouseOver(pos.X, pos.Y))
+                if ((f.Name != "staticrect") && (f.Name != "staticcircle") && f.IsMouseOver(pos.X, pos.Y))
                 {
                     _selected = f;
                     _selected.IsSelected = true;
@@ -160,15 +162,13 @@ namespace DynamicVisualizer
                 PerformFigureSelection(upPos);
             }
             if (e.ChangedButton == MouseButton.Left)
-                if (_figureDrawer.Finish())
-                    PerformFigureSelection(Timeline.CurrentStep.Figure);
+                _figureDrawer.Finish();
             RedrawNeeded();
         }
 
         private void MainGraphicsOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
         {
-            if (_figureDrawer.Finish())
-                PerformFigureSelection(Timeline.CurrentStep.Figure);
+            _figureDrawer.Finish();
             _figureMover.Reset();
             _figureScaler.Reset();
             _figureResizer.Reset();
@@ -213,7 +213,7 @@ namespace DynamicVisualizer
                     break;
             }
             if (e.ChangedButton == MouseButton.Left)
-                _figureDrawer.Start(downPos);
+                PerformFigureSelection(_figureDrawer.Start(downPos));
             if (e.ChangedButton == MouseButton.Right)
                 if ((_selected == null) || !_selected.IsMouseOver(downPos.X, downPos.Y))
                     PerformFigureSelection(downPos);

@@ -32,7 +32,7 @@ namespace DynamicVisualizer
             switch (selected.Type)
             {
                 case Figure.FigureType.Rect:
-                    var rf = (RectFigure)selected;
+                    var rf = (RectFigure) selected;
                     if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
                     {
                         _offsetX = _downPos.X - rf.X.CachedValue.AsDouble;
@@ -43,15 +43,15 @@ namespace DynamicVisualizer
                     {
                         var p = rf.PosInside(pos.X, pos.Y);
                         p = new Point(Math.Abs(p.X), Math.Abs(p.Y));
-                        var smallW = Math.Abs(rf.Width.CachedValue.AsDouble / 6.0);
-                        var smallH = Math.Abs(rf.Height.CachedValue.AsDouble / 6.0);
+                        var smallW = Math.Abs(rf.Width.CachedValue.AsDouble/6.0);
+                        var smallH = Math.Abs(rf.Height.CachedValue.AsDouble/6.0);
                         if (p.X < smallW)
                             _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Right, pos.X - _downPos.X);
-                        else if (p.X > 5.0 * smallW)
+                        else if (p.X > 5.0*smallW)
                             _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Left, pos.X - _downPos.X);
                         else if (p.Y < smallH)
                             _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Bottom, pos.Y - _downPos.Y);
-                        else if (p.Y > 5.0 * smallH)
+                        else if (p.Y > 5.0*smallH)
                             _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Top, pos.Y - _downPos.Y);
                         if (_nowResizing == null) return;
                         Timeline.Insert(_nowResizing,
@@ -59,18 +59,20 @@ namespace DynamicVisualizer
                     }
                     else
                     {
-                        var srs = (ResizeRectStep)_nowResizing;
+                        var srs = (ResizeRectStep) _nowResizing;
                         var snapped = Timeline.Snap(pos, _nowResizing.Figure);
                         if (snapped != null)
                         {
                             if (srs.ResizeAround == ResizeRectStep.Side.Right)
-                                srs.Resize("(" + snapped.X.ExprString + ") - (" + srs.XCachedDouble + ")");
+                                srs.Resize("(" + snapped.X.ExprString + ") - (" + srs.XExpr + ")");
                             else if (srs.ResizeAround == ResizeRectStep.Side.Left)
-                                srs.Resize("(" + snapped.X.ExprString + ") - (" + (srs.XCachedDouble + srs.WidthOrig).Str() + ")");
+                                srs.Resize("(" + snapped.X.ExprString + ") - ((" + srs.XExpr + ") + (" + srs.WidthExpr +
+                                           "))");
                             else if (srs.ResizeAround == ResizeRectStep.Side.Top)
-                                srs.Resize("(" + snapped.Y.ExprString + ") - (" + (srs.YCachedDouble + srs.HeightOrig).Str() + ")");
+                                srs.Resize("(" + snapped.Y.ExprString + ") - ((" + srs.YExpr + ") + (" + srs.HeightExpr +
+                                           "))");
                             else if (srs.ResizeAround == ResizeRectStep.Side.Bottom)
-                                srs.Resize("(" + snapped.Y.ExprString + ") - (" + srs.YCachedDouble + ")");
+                                srs.Resize("(" + snapped.Y.ExprString + ") - (" + srs.YExpr + ")");
                         }
                         else
                         {
@@ -86,7 +88,7 @@ namespace DynamicVisualizer
                     }
                     break;
                 case Figure.FigureType.Ellipse:
-                    var ef = (EllipseFigure)selected;
+                    var ef = (EllipseFigure) selected;
                     if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
                     {
                         _offsetX = _downPos.X - ef.X.CachedValue.AsDouble;
@@ -97,15 +99,15 @@ namespace DynamicVisualizer
                     {
                         var p = ef.PosInside(pos.X, pos.Y);
                         p = new Point(Math.Abs(p.X), Math.Abs(p.Y));
-                        var smallW = Math.Abs(ef.Radius1.CachedValue.AsDouble / 3.0);
-                        var smallH = Math.Abs(ef.Radius2.CachedValue.AsDouble / 3.0);
+                        var smallW = Math.Abs(ef.Radius1.CachedValue.AsDouble/3.0);
+                        var smallH = Math.Abs(ef.Radius2.CachedValue.AsDouble/3.0);
                         if (p.X < smallW)
                             _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Right, pos.X - _downPos.X);
-                        else if (p.X > 5.0 * smallW)
+                        else if (p.X > 5.0*smallW)
                             _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Left, pos.X - _downPos.X);
                         else if (p.Y < smallH)
                             _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Bottom, pos.Y - _downPos.Y);
-                        else if (p.Y > 5.0 * smallH)
+                        else if (p.Y > 5.0*smallH)
                             _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Top, pos.Y - _downPos.Y);
                         if (_nowResizing == null) return;
                         Timeline.Insert(_nowResizing,
@@ -113,7 +115,7 @@ namespace DynamicVisualizer
                     }
                     else
                     {
-                        var srs = (ResizeEllipseStep)_nowResizing;
+                        var srs = (ResizeEllipseStep) _nowResizing;
 
                         if (srs.ResizeAround == ResizeEllipseStep.Side.Right)
                             srs.Resize(pos.X - _downPos.X);

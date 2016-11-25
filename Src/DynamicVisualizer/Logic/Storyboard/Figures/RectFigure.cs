@@ -29,30 +29,27 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
             {
                 return new Magnet[0];
             }
-            else
+            var w = new ScalarExpression(Name, "a", Name + ".x + " + Name + ".width", true);
+            var h = new ScalarExpression(Name, "a", Name + ".y + " + Name + ".height", true);
+
+            var x = new ScalarExpression(Name, "a", Name + ".x", true);
+            var y = new ScalarExpression(Name, "a", Name + ".y", true);
+
+            TopLeft = new Magnet(x, y);
+            BottomLeft = new Magnet(x, h);
+            TopRight = new Magnet(w, y);
+            BottomRight = new Magnet(w, h);
+            Center = new Magnet(new ScalarExpression(Name, "a", Name + ".x + (" + Name + ".width/2)", true),
+                new ScalarExpression(Name, "a", Name + ".y + (" + Name + ".height/2)", true));
+
+            return new[]
             {
-                var w = new ScalarExpression(Name, "a", Name + ".x + " + Name + ".width", true);
-                var h = new ScalarExpression(Name, "a", Name + ".y + " + Name + ".height", true);
-
-                var x = new ScalarExpression(Name, "a", Name + ".x", true);
-                var y = new ScalarExpression(Name, "a", Name + ".y", true);
-
-                TopLeft = new Magnet(x, y);
-                BottomLeft = new Magnet(x, h);
-                TopRight = new Magnet(w, y);
-                BottomRight = new Magnet(w, h);
-                Center = new Magnet(new ScalarExpression(Name, "a", Name + ".x + (" + Name + ".width/2)", true),
-                    new ScalarExpression(Name, "a", Name + ".y + (" + Name + ".height/2)", true));
-
-                return new[]
-                {
-                    TopLeft,
-                    BottomLeft,
-                    TopRight,
-                    BottomRight,
-                    Center
-                };
-            }
+                TopLeft,
+                BottomLeft,
+                TopRight,
+                BottomRight,
+                Center
+            };
         }
 
         public override void Draw(DrawingContext dc)

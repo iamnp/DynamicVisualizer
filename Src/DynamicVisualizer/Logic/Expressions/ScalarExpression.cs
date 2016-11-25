@@ -17,7 +17,7 @@ namespace DynamicVisualizer.Logic.Expressions
             {
                 if (!s.Contains(".")) s = ObjectName + "." + s;
                 var usedExpr = DataStorage.GetExpression(s);
-                if (!IsWeak)
+                if (!IsWeak && (usedExpr != this))
                 {
                     usedExpr.UsedBy.Add(this);
                     DependentOn.Add(usedExpr);

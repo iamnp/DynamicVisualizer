@@ -1,4 +1,5 @@
-﻿using DynamicVisualizer.Logic.Storyboard.Figures;
+﻿using DynamicVisualizer.Logic.Expressions;
+using DynamicVisualizer.Logic.Storyboard.Figures;
 
 namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
 {
@@ -20,7 +21,9 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
         public string WidthExpr;
         public double WidthOrig;
         public double XCachedDouble;
+        public string XExpr;
         public double YCachedDouble;
+        public string YExpr;
 
         private ResizeRectStep(RectFigure figure, Side resizeAround)
         {
@@ -33,6 +36,8 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
             YCachedDouble = RectFigure.Y.CachedValue.AsDouble;
             HeightOrig = RectFigure.Height.CachedValue.AsDouble;
             WidthOrig = RectFigure.Width.CachedValue.AsDouble;
+            XExpr = RectFigure.X.ExprString;
+            YExpr = RectFigure.Y.ExprString;
         }
 
         public ResizeRectStep(RectFigure figure, Side resizeAround, double value) : this(figure, resizeAround)
@@ -63,13 +68,19 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
             }
             else if (ResizeAround == Side.Right)
             {
-                RectFigure.X.SetRawExpression("(" + XCachedDouble + ") + (" + Delta + ")");
-                RectFigure.Width.SetRawExpression("(" + WidthOrig + ") - (" + Delta + ")");
+                RectFigure.X.SetRawExpression(XExpr);
+                RectFigure.Width.SetRawExpression(WidthExpr);
+                var d = new ScalarExpression("a", "a", Delta, true).CachedValue.AsDouble;
+                RectFigure.X.SetRawExpression("(" + XCachedDouble + ") + (" + d + ")");
+                RectFigure.Width.SetRawExpression("(" + WidthOrig + ") - (" + d + ")");
             }
             else if (ResizeAround == Side.Bottom)
             {
-                RectFigure.Y.SetRawExpression("(" + YCachedDouble + ") + (" + Delta + ")");
-                RectFigure.Height.SetRawExpression("(" + HeightOrig + ") - (" + Delta + ")");          
+                RectFigure.Y.SetRawExpression(YExpr);
+                RectFigure.Height.SetRawExpression(HeightExpr);
+                var d = new ScalarExpression("a", "a", Delta, true).CachedValue.AsDouble;
+                RectFigure.Y.SetRawExpression("(" + YCachedDouble + ") + (" + d + ")");
+                RectFigure.Height.SetRawExpression("(" + HeightOrig + ") - (" + d + ")");
             }
             if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
         }
@@ -95,20 +106,19 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
                 RectFigure.Width.IndexInArray = CompletedIterations;
                 RectFigure.X.IndexInArray = CompletedIterations;
 
-                // break the expr connection
-                RectFigure.X.SetRawExpression(RectFigure.X.CachedValue.Str);
-                RectFigure.Width.SetRawExpression("(" + WidthExpr + ") - (" + Delta + ")");
-                RectFigure.X.SetRawExpression("(" + RectFigure.X.CachedValue.Str + ") + (" + Delta + ")");
+                var d = new ScalarExpression("a", "a", Delta, true).CachedValue.AsDouble;
+                RectFigure.X.SetRawExpression("(" + RectFigure.X.CachedValue.AsDouble.Str() + ") + (" + d + ")");
+                RectFigure.Width.SetRawExpression("(" + RectFigure.Width.CachedValue.AsDouble.Str() + ") - (" + d + ")");
             }
             else if (ResizeAround == Side.Bottom)
             {
                 RectFigure.Height.IndexInArray = CompletedIterations;
                 RectFigure.Y.IndexInArray = CompletedIterations;
 
-                // break the expr connection
-                RectFigure.Y.SetRawExpression(RectFigure.Y.CachedValue.Str);
-                RectFigure.Height.SetRawExpression("(" + HeightExpr + ") - (" + Delta + ")");
-                RectFigure.Y.SetRawExpression("(" + RectFigure.Y.CachedValue.Str + ") + (" + Delta + ")");
+                var d = new ScalarExpression("a", "a", Delta, true).CachedValue.AsDouble;
+                RectFigure.Y.SetRawExpression("(" + RectFigure.Y.CachedValue.AsDouble.Str() + ") + (" + d + ")");
+                RectFigure.Height.SetRawExpression("(" + RectFigure.Height.CachedValue.AsDouble.Str() + ") - (" + d +
+                                                   ")");
             }
         }
 
