@@ -30,10 +30,11 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
         {
             Applied = true;
 
-            RectFigure.X.SetRawExpression(X);
-            RectFigure.Y.SetRawExpression(Y);
             RectFigure.Width.SetRawExpression(RectFigure.Width.CachedValue.AsDouble.Str());
             RectFigure.Height.SetRawExpression(RectFigure.Height.CachedValue.AsDouble.Str());
+
+            RectFigure.X.SetRawExpression(X);
+            RectFigure.Y.SetRawExpression(Y);
 
             if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
         }

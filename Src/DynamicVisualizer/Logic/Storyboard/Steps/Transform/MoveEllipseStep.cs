@@ -30,10 +30,11 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
         {
             Applied = true;
 
-            EllipseFigure.X.SetRawExpression(X);
-            EllipseFigure.Y.SetRawExpression(Y);
             EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.AsDouble.Str());
             EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.AsDouble.Str());
+
+            EllipseFigure.X.SetRawExpression(X);
+            EllipseFigure.Y.SetRawExpression(Y);
 
             if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
         }

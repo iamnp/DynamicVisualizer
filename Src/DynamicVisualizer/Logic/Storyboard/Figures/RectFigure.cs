@@ -27,28 +27,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
         {
             if (Name == "staticrect")
             {
-                var w = new ScalarExpression(Name, "a", (X.CachedValue.AsDouble + Width.CachedValue.AsDouble).Str());
-                var h = new ScalarExpression(Name, "a", (Y.CachedValue.AsDouble + Height.CachedValue.AsDouble).Str());
-
-                var x = new ScalarExpression(Name, "a", X.CachedValue.AsDouble.Str());
-                var y = new ScalarExpression(Name, "a", Y.CachedValue.AsDouble.Str());
-
-                TopLeft = new Magnet(x, y);
-                BottomLeft = new Magnet(x, h);
-                TopRight = new Magnet(w, y);
-                BottomRight = new Magnet(w, h);
-                Center = new Magnet(
-                    new ScalarExpression(Name, "a", (X.CachedValue.AsDouble + Width.CachedValue.AsDouble/2.0).Str()),
-                    new ScalarExpression(Name, "a", (Y.CachedValue.AsDouble + Height.CachedValue.AsDouble/2.0).Str()));
-
-                return new[]
-                {
-                    TopLeft,
-                    BottomLeft,
-                    TopRight,
-                    BottomRight,
-                    Center
-                };
+                return new Magnet[0];
             }
             else
             {

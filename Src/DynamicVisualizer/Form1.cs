@@ -91,6 +91,10 @@ namespace DynamicVisualizer
             foreach (var figure in Timeline.Figures)
             {
                 figure.Draw(dc);
+            }
+
+            foreach (var figure in Timeline.Figures)
+            {
                 if (figure.IsSelected || _figureMover.NowMoving || _figureDrawer.NowDrawing || _figureScaler.NowScailing ||
                     _figureResizer.NowResizing)
                     foreach (var magnet in figure.GetMagnets())
@@ -110,7 +114,7 @@ namespace DynamicVisualizer
             for (var i = Timeline.Figures.Count - 1; i >= 0; --i)
             {
                 var f = Timeline.Figures[i];
-                if (f.IsMouseOver(pos.X, pos.Y))
+                if (f.Name != "staticrect" && f.Name != "staticcircle" && f.IsMouseOver(pos.X, pos.Y))
                 {
                     _selected = f;
                     _selected.IsSelected = true;

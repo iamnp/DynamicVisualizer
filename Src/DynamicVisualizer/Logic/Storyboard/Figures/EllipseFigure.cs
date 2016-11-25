@@ -27,29 +27,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
         {
             if (Name == "staticcircle")
             {
-                var x = new ScalarExpression(Name, "a", X.CachedValue.AsDouble.Str());
-                var y = new ScalarExpression(Name, "a", Y.CachedValue.AsDouble.Str());
-
-                Center = new Magnet(x, y);
-                Left = new Magnet(
-                    new ScalarExpression(Name, "a", (X.CachedValue.AsDouble - Radius1.CachedValue.AsDouble).Str()),
-                    y);
-                Right = new Magnet(
-                    new ScalarExpression(Name, "a", (X.CachedValue.AsDouble + Radius1.CachedValue.AsDouble).Str()),
-                    y);
-                Bottom = new Magnet(x,
-                    new ScalarExpression(Name, "a", (Y.CachedValue.AsDouble + Radius2.CachedValue.AsDouble).Str()));
-                Top = new Magnet(x,
-                    new ScalarExpression(Name, "a", (Y.CachedValue.AsDouble - Radius2.CachedValue.AsDouble).Str()));
-
-                return new[]
-                {
-                    Center,
-                    Left,
-                    Right,
-                    Bottom,
-                    Top
-                };
+                return new Magnet[0];
             }
             else
             {

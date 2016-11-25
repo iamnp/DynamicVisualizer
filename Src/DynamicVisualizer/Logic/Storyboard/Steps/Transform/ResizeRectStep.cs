@@ -53,23 +53,23 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
 
             if (ResizeAround == Side.Left)
             {
-                RectFigure.Width.SetRawExpression("(" + WidthExpr + ") + (" + Delta + ")");
                 RectFigure.X.SetRawExpression(RectFigure.X.CachedValue.AsDouble.Str());
+                RectFigure.Width.SetRawExpression("(" + WidthExpr + ") + (" + Delta + ")");
             }
             else if (ResizeAround == Side.Top)
             {
-                RectFigure.Height.SetRawExpression("(" + HeightExpr + ") + (" + Delta + ")");
                 RectFigure.Y.SetRawExpression(RectFigure.Y.CachedValue.AsDouble.Str());
+                RectFigure.Height.SetRawExpression("(" + HeightExpr + ") + (" + Delta + ")");
             }
             else if (ResizeAround == Side.Right)
             {
-                RectFigure.Width.SetRawExpression("(" + WidthExpr + ") - (" + Delta + ")");
                 RectFigure.X.SetRawExpression("(" + XCachedDouble + ") + (" + Delta + ")");
+                RectFigure.Width.SetRawExpression("(" + WidthOrig + ") - (" + Delta + ")");
             }
             else if (ResizeAround == Side.Bottom)
             {
-                RectFigure.Height.SetRawExpression("(" + HeightExpr + ") - (" + Delta + ")");
                 RectFigure.Y.SetRawExpression("(" + YCachedDouble + ") + (" + Delta + ")");
+                RectFigure.Height.SetRawExpression("(" + HeightOrig + ") - (" + Delta + ")");          
             }
             if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
         }
