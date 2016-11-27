@@ -63,15 +63,15 @@ namespace DynamicVisualizer
                         if (snapped != null)
                         {
                             if (srs.ResizeAround == ResizeRectStep.Side.Right)
-                                srs.Resize("(" + snapped.X.ExprString + ") - (" + srs.XExpr + ")");
+                                srs.Resize("(" + snapped.X.ExprString + ") - (" + srs.Figure.Name + ".x)");
                             else if (srs.ResizeAround == ResizeRectStep.Side.Left)
-                                srs.Resize("(" + snapped.X.ExprString + ") - ((" + srs.XExpr + ") + (" + srs.WidthExpr +
-                                           "))");
+                                srs.Resize("(" + snapped.X.ExprString + ") - ((" + srs.Figure.Name + ".x) + (" +
+                                           srs.Figure.Name + ".width))");
                             else if (srs.ResizeAround == ResizeRectStep.Side.Top)
-                                srs.Resize("(" + snapped.Y.ExprString + ") - ((" + srs.YExpr + ") + (" + srs.HeightExpr +
-                                           "))");
+                                srs.Resize("(" + snapped.Y.ExprString + ") - ((" + srs.Figure.Name + ".y) + (" +
+                                           srs.Figure.Name + ".height))");
                             else if (srs.ResizeAround == ResizeRectStep.Side.Bottom)
-                                srs.Resize("(" + snapped.Y.ExprString + ") - (" + srs.YExpr + ")");
+                                srs.Resize("(" + snapped.Y.ExprString + ") - (" + srs.Figure.Name + ".y)");
                         }
                         else
                         {
