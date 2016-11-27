@@ -6,9 +6,9 @@ using DynamicVisualizer.Logic.Steps.Transform;
 
 namespace DynamicVisualizer.Controls
 {
-    public partial class StepControl : UserControl
+    public partial class StepItem : UserControl
     {
-        public StepControl(Step step, int index)
+        public StepItem(Step step, int index)
         {
             InitializeComponent();
             Index = index;

@@ -43,7 +43,7 @@ namespace DynamicVisualizer
             this.arrayExpressionEditor1 = new DynamicVisualizer.Controls.ArrayExpressionEditor();
             this._scalarExpressionEditor1 = new DynamicVisualizer.Controls.ScalarExpressionEditor();
             this.stepEditor1 = new DynamicVisualizer.Controls.StepEditor();
-            this.stepsListControl1 = new DynamicVisualizer.Controls.StepsListControl();
+            this._stepListControl1 = new DynamicVisualizer.Controls.StepListControl();
             this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -177,15 +177,15 @@ namespace DynamicVisualizer
             this.stepEditor1.Size = new System.Drawing.Size(150, 156);
             this.stepEditor1.TabIndex = 13;
             // 
-            // stepsListControl1
+            // _stepListControl1
             // 
-            this.stepsListControl1.AutoScroll = true;
-            this.stepsListControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.stepsListControl1.CurrentSelection = null;
-            this.stepsListControl1.Location = new System.Drawing.Point(2, 360);
-            this.stepsListControl1.Name = "stepsListControl1";
-            this.stepsListControl1.Size = new System.Drawing.Size(200, 342);
-            this.stepsListControl1.TabIndex = 5;
+            this._stepListControl1.AutoScroll = true;
+            this._stepListControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._stepListControl1.CurrentSelection = null;
+            this._stepListControl1.Location = new System.Drawing.Point(2, 360);
+            this._stepListControl1.Name = "_stepListControl1";
+            this._stepListControl1.Size = new System.Drawing.Size(200, 342);
+            this._stepListControl1.TabIndex = 5;
             // 
             // label10
             // 
@@ -217,7 +217,7 @@ namespace DynamicVisualizer
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.stepsListControl1);
+            this.Controls.Add(this._stepListControl1);
             this.Controls.Add(this.elementHost1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
@@ -231,7 +231,7 @@ namespace DynamicVisualizer
         #endregion
 
         private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private StepsListControl stepsListControl1;
+        private StepListControl _stepListControl1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

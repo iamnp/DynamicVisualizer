@@ -103,13 +103,13 @@
     <Compile Include="Logic\Steps\StepManager.cs" />
     <Compile Include="Logic\Steps\TransformStep.cs" />
     <Compile Include="Logic\Expressions\Value.cs" />
-    <Compile Include="Controls\StepControl.cs">
+    <Compile Include="Controls\StepItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\StepControl.Designer.cs">
-      <DependentUpon>StepControl.cs</DependentUpon>
+    <Compile Include="Controls\StepItem.Designer.cs">
+      <DependentUpon>StepItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\StepsListControl.cs">
+    <Compile Include="Controls\StepListControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Logic\Steps\Transform\TransformType.cs" />
@@ -137,8 +137,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Controls\StepControl.resx">
-      <DependentUpon>StepControl.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\StepItem.resx">
+      <DependentUpon>StepItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\StepEditor.resx">
       <DependentUpon>StepEditor.cs</DependentUpon>

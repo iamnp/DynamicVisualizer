@@ -6,14 +6,14 @@ using DynamicVisualizer.Logic.Steps;
 
 namespace DynamicVisualizer.Controls
 {
-    public class StepsListControl : Panel
+    public class StepListControl : Panel
     {
-        private readonly List<StepControl> _stepControls = new List<StepControl>();
-        public readonly List<StepControl> MarkedControls = new List<StepControl>();
-        private StepControl _currentSelection;
+        private readonly List<StepItem> _stepControls = new List<StepItem>();
+        public readonly List<StepItem> MarkedControls = new List<StepItem>();
+        private StepItem _currentSelection;
         private bool _ignoreSelectionChanged;
 
-        public StepsListControl()
+        public StepListControl()
         {
             BorderStyle = BorderStyle.FixedSingle;
             AutoScroll = true;
@@ -22,7 +22,7 @@ namespace DynamicVisualizer.Controls
             StepManager.StepRemoved += TimelineOnStepRemoved;
         }
 
-        public StepControl CurrentSelection
+        public StepItem CurrentSelection
         {
             get { return _currentSelection; }
             set
@@ -108,7 +108,7 @@ namespace DynamicVisualizer.Controls
                 scc.Location = new Point(0, scc.Location.Y + scc.Height);
             }
 
-            var sc = new StepControl(StepManager.Steps[index], index)
+            var sc = new StepItem(StepManager.Steps[index], index)
             {
                 Width = Width - 2
             };
@@ -163,7 +163,7 @@ namespace DynamicVisualizer.Controls
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        public void MarkAsSelecgted(StepControl sc)
+        public void MarkAsSelecgted(StepItem sc)
         {
             if ((CurrentSelection != null) && !CurrentSelection.Marked)
                 CurrentSelection.BackColor = BackColor;
@@ -174,7 +174,7 @@ namespace DynamicVisualizer.Controls
         private void OnMouseClick(object sender, MouseEventArgs e)
         {
             StepManager.ResetIterations();
-            MarkAsSelecgted((StepControl) sender);
+            MarkAsSelecgted((StepItem) sender);
             if (e.Button == MouseButtons.Left)
             {
                 ClearMarked();
@@ -191,7 +191,7 @@ namespace DynamicVisualizer.Controls
         {
             if (sender != CurrentSelection)
             {
-                var c = (StepControl) sender;
+                var c = (StepItem) sender;
                 if (!c.Marked) c.BackColor = BackColor;
             }
         }
@@ -200,7 +200,7 @@ namespace DynamicVisualizer.Controls
         {
             if (sender != CurrentSelection)
             {
-                var c = (StepControl) sender;
+                var c = (StepItem) sender;
                 if (!c.Marked) c.BackColor = Color.Aqua;
             }
         }

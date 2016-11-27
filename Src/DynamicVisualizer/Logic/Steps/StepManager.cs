@@ -99,9 +99,24 @@ namespace DynamicVisualizer.Logic.Steps
             }
         }
 
+        public static IterableGroup GetGroupByIndex(int index)
+        {
+            for (var i = 0; i < IterableGroups.Count; ++i)
+                if ((IterableGroups[i].StartIndex <= index) && (IterableGroups[i].EndIndex >= index))
+                {
+                    return IterableGroups[i];
+                }
+            return null;
+        }
+
         public static void Insert(Step step, int index = -1)
         {
             if (index < 0) index = Steps.Count;
+            if (CurrentStepIndex > -1 && CurrentStep.Iterations > 0)
+            {
+                step.MakeIterable(ArrayExpressionEditor.Len);
+                GetGroupByIndex(CurrentStepIndex).EndIndex += 1;
+            }
             Steps.Insert(index, step);
             BackwardsAndAgain(index);
             StepInserted?.Invoke(index);
@@ -109,6 +124,10 @@ namespace DynamicVisualizer.Logic.Steps
 
         public static void Remove(int pos)
         {
+            if (Steps[pos].Iterations > 0)
+            {
+                GetGroupByIndex(pos).EndIndex -= 1;
+            }
             Steps.RemoveAt(pos);
             if (pos <= Steps.Count - 1)
                 BackwardsAndAgain(pos);

@@ -63,14 +63,14 @@ namespace DynamicVisualizer
             _mainGraphics.MouseUp += MainGraphicsOnMouseUp;
             _mainGraphics.MouseLeave += MainGraphicsOnMouseLeave;
 
-            stepsListControl1.RedrawNeeded += RedrawNeeded;
+            _stepListControl1.RedrawNeeded += RedrawNeeded;
             stepEditor1.RedrawNeeded += RedrawNeeded;
         }
 
         private void RedrawNeeded()
         {
             _mainGraphics.InvalidateVisual();
-            stepsListControl1.ReSetText();
+            _stepListControl1.ReSetText();
             stepEditor1.Redraw();
         }
 
@@ -265,7 +265,7 @@ namespace DynamicVisualizer
 
         private void label8_Click(object sender, EventArgs e)
         {
-            stepsListControl1.CurrentSelectionToIterableGroup();
+            _stepListControl1.CurrentSelectionToIterableGroup();
         }
     }
 }

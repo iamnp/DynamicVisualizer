@@ -1,6 +1,6 @@
 ﻿namespace DynamicVisualizer.Controls
 {
-    partial class StepControl
+    partial class StepItem
     {
         /// <summary> 
         /// Required designer variable.
@@ -42,12 +42,12 @@
             this.clickThroughLabel1.TabIndex = 0;
             this.clickThroughLabel1.Text = "clickThroughLabel1";
             // 
-            // StepControl
+            // StepItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.clickThroughLabel1);
-            this.Name = "StepControl";
+            this.Name = "StepItem";
             this.Size = new System.Drawing.Size(130, 50);
             this.ResumeLayout(false);
 
