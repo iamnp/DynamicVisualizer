@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using DynamicVisualizer.Logic.Storyboard;
+using DynamicVisualizer.Logic.Steps;
 
 namespace DynamicVisualizer.Controls
 {
@@ -18,8 +18,8 @@ namespace DynamicVisualizer.Controls
             BorderStyle = BorderStyle.FixedSingle;
             AutoScroll = true;
 
-            Timeline.StepInserted += TimelineOnStepInserted;
-            Timeline.StepRemoved += TimelineOnStepRemoved;
+            StepManager.StepInserted += TimelineOnStepInserted;
+            StepManager.StepRemoved += TimelineOnStepRemoved;
         }
 
         public StepControl CurrentSelection
@@ -29,9 +29,31 @@ namespace DynamicVisualizer.Controls
             {
                 _currentSelection = value;
                 if ((_currentSelection != null) && !_ignoreSelectionChanged)
-                    Timeline.SetCurrentStepIndex(_currentSelection.Index);
+                    StepManager.SetCurrentStepIndex(_currentSelection.Index);
                 RedrawNeeded?.Invoke();
             }
+        }
+
+        public void CurrentSelectionToIterableGroup()
+        {
+            var min = _stepControls.Count;
+            var max = -1;
+            for (var i = 0; i < MarkedControls.Count; ++i)
+            {
+                if (MarkedControls[i].Index < min) min = MarkedControls[i].Index;
+                if (MarkedControls[i].Index > max) max = MarkedControls[i].Index;
+                MarkedControls[i].Step.MakeIterable(ArrayExpressionEditor.Len);
+                MarkedControls[i].RespectIterable();
+            }
+            StepManager.IterableGroups.Add(new StepManager.IterableGroup
+            {
+                StartIndex = min,
+                EndIndex = max
+            });
+            StepManager.IterableGroups.Sort((a, b) => a.StartIndex.CompareTo(b.StartIndex));
+            ClearMarked();
+            MarkAsSelecgted(CurrentSelection);
+            StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex, true);
         }
 
         private void TimelineOnStepRemoved(int index)
@@ -86,7 +108,7 @@ namespace DynamicVisualizer.Controls
                 scc.Location = new Point(0, scc.Location.Y + scc.Height);
             }
 
-            var sc = new StepControl(Timeline.Steps[index], index)
+            var sc = new StepControl(StepManager.Steps[index], index)
             {
                 Width = Width - 2
             };
@@ -111,9 +133,9 @@ namespace DynamicVisualizer.Controls
             {
                 if (_currentSelection.Step.Iterations != -1)
                 {
-                    Timeline.PrevIterationFromCurrentPos();
+                    StepManager.PrevIterationFromCurrentPos();
                     _ignoreSelectionChanged = true;
-                    MarkAsSelecgted(_stepControls[Timeline.CurrentStepIndex]);
+                    MarkAsSelecgted(_stepControls[StepManager.CurrentStepIndex]);
                     _ignoreSelectionChanged = false;
                 }
                 else if (_currentSelection.Index > 0)
@@ -124,9 +146,9 @@ namespace DynamicVisualizer.Controls
             {
                 if (_currentSelection.Step.Iterations != -1)
                 {
-                    Timeline.NextIterationFromCurrentPos();
+                    StepManager.NextIterationFromCurrentPos();
                     _ignoreSelectionChanged = true;
-                    MarkAsSelecgted(_stepControls[Timeline.CurrentStepIndex]);
+                    MarkAsSelecgted(_stepControls[StepManager.CurrentStepIndex]);
                     _ignoreSelectionChanged = false;
                 }
                 else if (_currentSelection.Index < _stepControls.Count - 1)
@@ -135,7 +157,7 @@ namespace DynamicVisualizer.Controls
             }
             if (keyData == Keys.Delete)
             {
-                if (_currentSelection != null) Timeline.Remove(_currentSelection.Index);
+                if (_currentSelection != null) StepManager.Remove(_currentSelection.Index);
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -151,7 +173,7 @@ namespace DynamicVisualizer.Controls
 
         private void OnMouseClick(object sender, MouseEventArgs e)
         {
-            Timeline.ResetIterations();
+            StepManager.ResetIterations();
             MarkAsSelecgted((StepControl) sender);
             if (e.Button == MouseButtons.Left)
             {

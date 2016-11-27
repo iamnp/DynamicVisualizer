@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows;
-using DynamicVisualizer.Logic.Storyboard;
-using DynamicVisualizer.Logic.Storyboard.Figures;
-using DynamicVisualizer.Logic.Storyboard.Steps;
-using DynamicVisualizer.Logic.Storyboard.Steps.Transform;
+using DynamicVisualizer.Logic.Figures;
+using DynamicVisualizer.Logic.Steps;
+using DynamicVisualizer.Logic.Steps.Transform;
 
 namespace DynamicVisualizer
 {
@@ -58,7 +57,8 @@ namespace DynamicVisualizer
                             _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Top,
                                 1 + (pos.Y - _downPos.Y)/rf.Height.CachedValue.AsDouble);
                         if (_nowScaling == null) return;
-                        Timeline.Insert(_nowScaling, Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
+                        StepManager.Insert(_nowScaling,
+                            StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
                     }
                     else
                     {
@@ -101,7 +101,8 @@ namespace DynamicVisualizer
                             _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Top,
                                 1 - (pos.Y - _downPos.Y)/ef.Radius2.CachedValue.AsDouble);
                         if (_nowScaling == null) return;
-                        Timeline.Insert(_nowScaling, Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
+                        StepManager.Insert(_nowScaling,
+                            StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
                     }
                     else
                     {

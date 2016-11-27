@@ -1,6 +1,6 @@
 ﻿using DynamicVisualizer.Logic.Expressions;
 
-namespace DynamicVisualizer.Logic.Storyboard
+namespace DynamicVisualizer.Logic.Figures
 {
     public class Magnet
     {

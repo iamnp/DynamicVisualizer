@@ -1,4 +1,4 @@
-﻿namespace DynamicVisualizer.Logic.Storyboard.Steps
+﻿namespace DynamicVisualizer.Logic.Steps
 {
     public abstract class TransformStep : Step
     {

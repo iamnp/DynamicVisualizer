@@ -1,6 +1,6 @@
-﻿using DynamicVisualizer.Logic.Storyboard.Figures;
+﻿using DynamicVisualizer.Logic.Figures;
 
-namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
+namespace DynamicVisualizer.Logic.Steps.Transform
 {
     public class ScaleRectStep : TransformStep
     {

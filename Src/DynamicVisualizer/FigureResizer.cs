@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows;
-using DynamicVisualizer.Logic.Storyboard;
-using DynamicVisualizer.Logic.Storyboard.Figures;
-using DynamicVisualizer.Logic.Storyboard.Steps;
-using DynamicVisualizer.Logic.Storyboard.Steps.Transform;
+using DynamicVisualizer.Logic.Figures;
+using DynamicVisualizer.Logic.Steps;
+using DynamicVisualizer.Logic.Steps.Transform;
 
 namespace DynamicVisualizer
 {
@@ -54,13 +53,13 @@ namespace DynamicVisualizer
                         else if (p.Y > 5.0*smallH)
                             _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Top, pos.Y - _downPos.Y);
                         if (_nowResizing == null) return;
-                        Timeline.Insert(_nowResizing,
-                            Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
+                        StepManager.Insert(_nowResizing,
+                            StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
                     }
                     else
                     {
                         var srs = (ResizeRectStep) _nowResizing;
-                        var snapped = Timeline.Snap(pos, _nowResizing.Figure);
+                        var snapped = StepManager.Snap(pos, _nowResizing.Figure);
                         if (snapped != null)
                         {
                             if (srs.ResizeAround == ResizeRectStep.Side.Right)
@@ -110,8 +109,8 @@ namespace DynamicVisualizer
                         else if (p.Y > 5.0*smallH)
                             _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Top, pos.Y - _downPos.Y);
                         if (_nowResizing == null) return;
-                        Timeline.Insert(_nowResizing,
-                            Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
+                        StepManager.Insert(_nowResizing,
+                            StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
                     }
                     else
                     {

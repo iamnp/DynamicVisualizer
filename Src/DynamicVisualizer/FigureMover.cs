@@ -1,8 +1,7 @@
 ﻿using System.Windows;
-using DynamicVisualizer.Logic.Storyboard;
-using DynamicVisualizer.Logic.Storyboard.Figures;
-using DynamicVisualizer.Logic.Storyboard.Steps;
-using DynamicVisualizer.Logic.Storyboard.Steps.Transform;
+using DynamicVisualizer.Logic.Figures;
+using DynamicVisualizer.Logic.Steps;
+using DynamicVisualizer.Logic.Steps.Transform;
 
 namespace DynamicVisualizer
 {
@@ -28,10 +27,10 @@ namespace DynamicVisualizer
 
         public void Move(Figure selected, Point pos)
         {
-            if ((selected == Timeline.CurrentStep.Figure) &&
-                ((Timeline.CurrentStep is MoveRectStep && (selected.Type == Figure.FigureType.Rect))
-                 || (Timeline.CurrentStep is MoveEllipseStep && (selected.Type == Figure.FigureType.Ellipse))))
-                _nowMoving = (TransformStep) Timeline.CurrentStep;
+            if ((selected == StepManager.CurrentStep.Figure) &&
+                ((StepManager.CurrentStep is MoveRectStep && (selected.Type == Figure.FigureType.Rect))
+                 || (StepManager.CurrentStep is MoveEllipseStep && (selected.Type == Figure.FigureType.Ellipse))))
+                _nowMoving = (TransformStep) StepManager.CurrentStep;
             else
                 _nowMoving = null;
 
@@ -48,15 +47,15 @@ namespace DynamicVisualizer
                     if (_nowMoving == null)
                     {
                         _nowMoving = new MoveRectStep(rf, pos.X - _offsetX, pos.Y - _offsetY);
-                        Timeline.Insert(_nowMoving,
-                            Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
+                        StepManager.Insert(_nowMoving,
+                            StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
                     }
                     else
                     {
-                        var snapped = Timeline.Snap(pos, _nowMoving.Figure);
+                        var snapped = StepManager.Snap(pos, _nowMoving.Figure);
                         Magnet snappedBy = null;
                         if ((snapped != null) &&
-                            ((snappedBy = Timeline.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
+                            ((snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
                         {
                             if ((snappedBy.X.ExprString == rf.TopLeft.X.ExprString)
                                 && (snappedBy.Y.ExprString == rf.TopLeft.Y.ExprString))
@@ -97,15 +96,15 @@ namespace DynamicVisualizer
                     if (_nowMoving == null)
                     {
                         _nowMoving = new MoveEllipseStep(cf, pos.X - _offsetX, pos.Y - _offsetY);
-                        Timeline.Insert(_nowMoving,
-                            Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
+                        StepManager.Insert(_nowMoving,
+                            StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
                     }
                     else
                     {
-                        var snapped = Timeline.Snap(pos, _nowMoving.Figure);
+                        var snapped = StepManager.Snap(pos, _nowMoving.Figure);
                         Magnet snappedBy = null;
                         if ((snapped != null) &&
-                            ((snappedBy = Timeline.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
+                            ((snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
                         {
                             if ((snappedBy.X.ExprString == cf.Left.X.ExprString)
                                 && (snappedBy.Y.ExprString == cf.Left.Y.ExprString))

@@ -1,7 +1,7 @@
 ﻿using DynamicVisualizer.Logic.Expressions;
-using DynamicVisualizer.Logic.Storyboard.Figures;
+using DynamicVisualizer.Logic.Figures;
 
-namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
+namespace DynamicVisualizer.Logic.Steps.Draw
 {
     public class DrawRectStep : DrawStep
     {
@@ -74,7 +74,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
 
         public override void Apply()
         {
-            if (!Applied) Timeline.Figures.Add(RectFigure);
+            if (!Applied) StepManager.Figures.Add(RectFigure);
             Applied = true;
 
             RectFigure.X = DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, Figure.IsGuide));
@@ -113,7 +113,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
                 Height = new ScalarExpression("a", "a", RectFigure.Height.CachedValue.Str)
             };
             Figure.StaticLoopFigures.Add(rf);
-            Timeline.Figures.Add(rf);
+            StepManager.Figures.Add(rf);
         }
     }
 }

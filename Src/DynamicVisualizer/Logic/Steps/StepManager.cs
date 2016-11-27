@@ -1,26 +1,27 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Windows;
 using DynamicVisualizer.Controls;
 using DynamicVisualizer.Logic.Expressions;
-using DynamicVisualizer.Logic.Storyboard.Figures;
-using DynamicVisualizer.Logic.Storyboard.Steps;
+using DynamicVisualizer.Logic.Figures;
 
-namespace DynamicVisualizer.Logic.Storyboard
+namespace DynamicVisualizer.Logic.Steps
 {
-    public static class Timeline
+    public static class StepManager
     {
         public delegate void StepInsertedEventHandler(int index);
 
         public delegate void StepRemovedEventHandler(int index);
 
-        private const int ThresholdSquared = 15*15;
+        private const int ThresholdSquared = 14*14;
+
+        public static readonly List<IterableGroup> IterableGroups = new List<IterableGroup>();
 
         public static readonly List<Step> Steps = new List<Step>();
         public static readonly List<Figure> Figures = new List<Figure>();
         public static Magnet[] CanvasMagnets;
         public static StepEditor StepEditor;
 
-        static Timeline()
+        static StepManager()
         {
             CurrentStepIndex = -1;
         }
@@ -139,21 +140,20 @@ namespace DynamicVisualizer.Logic.Storyboard
             StepEditor?.ShowStep(CurrentStep);
         }
 
-        private static void GroupBounds(int index, out int top, out int bot)
+        private static void GroupBounds(int index, ref int top, ref int bot)
         {
-            top = index;
-            while ((top >= 0) && (Steps[top].Iterations == Steps[index].Iterations)) top -= 1;
-            top += 1;
-
-            bot = index;
-            while ((bot < Steps.Count) && (Steps[bot].Iterations == Steps[index].Iterations)) bot += 1;
-            bot -= 1;
+            for (var i = 0; i < IterableGroups.Count; ++i)
+                if ((IterableGroups[i].StartIndex <= index) && (IterableGroups[i].EndIndex >= index))
+                {
+                    top = IterableGroups[i].StartIndex;
+                    bot = IterableGroups[i].EndIndex;
+                }
         }
 
         public static void NextIterationFromCurrentPos()
         {
-            int top, bot;
-            GroupBounds(CurrentStepIndex, out top, out bot);
+            int top = -1, bot = -1;
+            GroupBounds(CurrentStepIndex, ref top, ref bot);
 
             if (CurrentStepIndex == bot)
             {
@@ -181,8 +181,8 @@ namespace DynamicVisualizer.Logic.Storyboard
 
         public static void PrevIterationFromCurrentPos()
         {
-            int top, bot;
-            GroupBounds(CurrentStepIndex, out top, out bot);
+            int top = -1, bot = -1;
+            GroupBounds(CurrentStepIndex, ref top, ref bot);
 
             if (CurrentStepIndex == top)
             {
@@ -259,6 +259,12 @@ namespace DynamicVisualizer.Logic.Storyboard
             }
             Figures.Clear();
             DataStorage.WipeNonDataFields();
+        }
+
+        public class IterableGroup
+        {
+            public int EndIndex;
+            public int StartIndex;
         }
     }
 }

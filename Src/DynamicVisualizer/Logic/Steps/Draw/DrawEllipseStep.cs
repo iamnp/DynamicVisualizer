@@ -1,7 +1,7 @@
 ﻿using DynamicVisualizer.Logic.Expressions;
-using DynamicVisualizer.Logic.Storyboard.Figures;
+using DynamicVisualizer.Logic.Figures;
 
-namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
+namespace DynamicVisualizer.Logic.Steps.Draw
 {
     public class DrawEllipseStep : DrawStep
     {
@@ -59,7 +59,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
 
         public override void Apply()
         {
-            if (!Applied) Timeline.Figures.Add(EllipseFigure);
+            if (!Applied) StepManager.Figures.Add(EllipseFigure);
             Applied = true;
 
             EllipseFigure.X = DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, Figure.IsGuide));
@@ -98,7 +98,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Steps.Draw
                 Radius2 = new ScalarExpression("a", "a", EllipseFigure.Radius2.CachedValue.Str)
             };
             Figure.StaticLoopFigures.Add(rf);
-            Timeline.Figures.Add(rf);
+            StepManager.Figures.Add(rf);
         }
     }
 }

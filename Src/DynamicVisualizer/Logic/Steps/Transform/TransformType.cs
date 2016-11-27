@@ -1,4 +1,4 @@
-﻿namespace DynamicVisualizer.Logic.Storyboard.Steps.Transform
+﻿namespace DynamicVisualizer.Logic.Steps.Transform
 {
     internal enum TransformType
     {

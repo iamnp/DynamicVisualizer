@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace DynamicVisualizer.Logic.Storyboard.Figures
+namespace DynamicVisualizer.Logic.Figures
 {
     public abstract class Figure
     {

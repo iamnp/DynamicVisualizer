@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using DynamicVisualizer.Logic.Expressions;
 
-namespace DynamicVisualizer.Logic.Storyboard.Figures
+namespace DynamicVisualizer.Logic.Figures
 {
     public class RectFigure : Figure
     {
@@ -26,9 +26,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
         public override Magnet[] GetMagnets()
         {
             if (Name == "staticrect")
-            {
                 return new Magnet[0];
-            }
             var w = new ScalarExpression(Name, "a", Name + ".x + " + Name + ".width", true);
             var h = new ScalarExpression(Name, "a", Name + ".y + " + Name + ".height", true);
 

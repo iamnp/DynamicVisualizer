@@ -1,6 +1,6 @@
-﻿using DynamicVisualizer.Logic.Storyboard.Figures;
+﻿using DynamicVisualizer.Logic.Figures;
 
-namespace DynamicVisualizer.Logic.Storyboard.Steps
+namespace DynamicVisualizer.Logic.Steps
 {
     public abstract class Step
     {

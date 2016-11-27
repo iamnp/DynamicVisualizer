@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using DynamicVisualizer.Logic.Expressions;
 
-namespace DynamicVisualizer.Logic.Storyboard.Figures
+namespace DynamicVisualizer.Logic.Figures
 {
     public class EllipseFigure : Figure
     {
@@ -26,9 +26,7 @@ namespace DynamicVisualizer.Logic.Storyboard.Figures
         public override Magnet[] GetMagnets()
         {
             if (Name == "staticcircle")
-            {
                 return new Magnet[0];
-            }
             var x = new ScalarExpression(Name, "a", Name + ".x", true);
             var y = new ScalarExpression(Name, "a", Name + ".y", true);
             Center = new Magnet(x, y);

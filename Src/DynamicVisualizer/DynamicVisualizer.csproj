@@ -73,35 +73,35 @@
     <Compile Include="FigureScaler.cs" />
     <Compile Include="Logic\Expressions\ArrayExpression.cs" />
     <Compile Include="Logic\Expressions\DataStorage.cs" />
-    <Compile Include="Logic\Storyboard\Figures\EllipseFigure.cs" />
-    <Compile Include="Logic\Storyboard\Magnet.cs" />
-    <Compile Include="Logic\Storyboard\Steps\Draw\DrawEllipseStep.cs" />
-    <Compile Include="Logic\Storyboard\Steps\Draw\DrawRectStep.cs" />
-    <Compile Include="Logic\Storyboard\Steps\DrawStep.cs" />
+    <Compile Include="Logic\Figures\EllipseFigure.cs" />
+    <Compile Include="Logic\Figures\Magnet.cs" />
+    <Compile Include="Logic\Steps\Draw\DrawEllipseStep.cs" />
+    <Compile Include="Logic\Steps\Draw\DrawRectStep.cs" />
+    <Compile Include="Logic\Steps\DrawStep.cs" />
     <Compile Include="Logic\Expressions\Evaluater.cs" />
     <Compile Include="Logic\Expressions\Expression.cs" />
     <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="Logic\Storyboard\Figures\Figure.cs" />
+    <Compile Include="Logic\Figures\Figure.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Logic\Storyboard\Steps\Transform\MoveEllipseStep.cs" />
-    <Compile Include="Logic\Storyboard\Steps\Transform\ResizeEllipseStep.cs" />
-    <Compile Include="Logic\Storyboard\Steps\Transform\ScaleEllipseStep.cs" />
-    <Compile Include="Logic\Storyboard\Steps\Transform\ResizeRectStep.cs" />
-    <Compile Include="Logic\Storyboard\Steps\Transform\ScaleRectStep.cs" />
+    <Compile Include="Logic\Steps\Transform\MoveEllipseStep.cs" />
+    <Compile Include="Logic\Steps\Transform\ResizeEllipseStep.cs" />
+    <Compile Include="Logic\Steps\Transform\ScaleEllipseStep.cs" />
+    <Compile Include="Logic\Steps\Transform\ResizeRectStep.cs" />
+    <Compile Include="Logic\Steps\Transform\ScaleRectStep.cs" />
     <Compile Include="MainGraphicOutput.cs" />
-    <Compile Include="Logic\Storyboard\Steps\Transform\MoveRectStep.cs" />
+    <Compile Include="Logic\Steps\Transform\MoveRectStep.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Logic\Storyboard\Figures\RectFigure.cs" />
+    <Compile Include="Logic\Figures\RectFigure.cs" />
     <Compile Include="Logic\Expressions\ScalarExpression.cs" />
-    <Compile Include="Logic\Storyboard\Steps\Step.cs" />
-    <Compile Include="Logic\Storyboard\Timeline.cs" />
-    <Compile Include="Logic\Storyboard\Steps\TransformStep.cs" />
+    <Compile Include="Logic\Steps\Step.cs" />
+    <Compile Include="Logic\Steps\StepManager.cs" />
+    <Compile Include="Logic\Steps\TransformStep.cs" />
     <Compile Include="Logic\Expressions\Value.cs" />
     <Compile Include="Controls\StepControl.cs">
       <SubType>UserControl</SubType>
@@ -112,7 +112,7 @@
     <Compile Include="Controls\StepsListControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Logic\Storyboard\Steps\Transform\TransformType.cs" />
+    <Compile Include="Logic\Steps\Transform\TransformType.cs" />
     <Compile Include="Controls\StepEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

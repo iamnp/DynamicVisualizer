@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows;
-using DynamicVisualizer.Logic.Storyboard;
-using DynamicVisualizer.Logic.Storyboard.Figures;
-using DynamicVisualizer.Logic.Storyboard.Steps;
-using DynamicVisualizer.Logic.Storyboard.Steps.Draw;
+using DynamicVisualizer.Logic.Figures;
+using DynamicVisualizer.Logic.Steps;
+using DynamicVisualizer.Logic.Steps.Draw;
 
 namespace DynamicVisualizer
 {
@@ -18,7 +17,7 @@ namespace DynamicVisualizer
         public Figure Start(Point pos)
         {
             _startPos = pos;
-            var snapped = Timeline.Snap(_startPos);
+            var snapped = StepManager.Snap(_startPos);
             if (snapped != null)
             {
                 _startPos = new Point(snapped.X.CachedValue.AsDouble, snapped.Y.CachedValue.AsDouble);
@@ -44,7 +43,7 @@ namespace DynamicVisualizer
                         break;
                 }
             }
-            Timeline.Insert(_nowDrawing, Timeline.CurrentStepIndex == -1 ? 0 : Timeline.CurrentStepIndex + 1);
+            StepManager.Insert(_nowDrawing, StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
             return _nowDrawing.Figure;
         }
 
@@ -52,7 +51,7 @@ namespace DynamicVisualizer
         {
             if (_nowDrawing != null)
             {
-                var snapped = Timeline.Snap(pos, _nowDrawing.Figure);
+                var snapped = StepManager.Snap(pos, _nowDrawing.Figure);
                 if (snapped != null)
                     switch (DrawStepType)
                     {

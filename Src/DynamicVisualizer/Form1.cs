@@ -3,12 +3,10 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using DynamicVisualizer.Controls;
 using DynamicVisualizer.Logic.Expressions;
-using DynamicVisualizer.Logic.Storyboard;
-using DynamicVisualizer.Logic.Storyboard.Figures;
-using DynamicVisualizer.Logic.Storyboard.Steps;
-using DynamicVisualizer.Logic.Storyboard.Steps.Transform;
+using DynamicVisualizer.Logic.Figures;
+using DynamicVisualizer.Logic.Steps;
+using DynamicVisualizer.Logic.Steps.Transform;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
@@ -36,7 +34,7 @@ namespace DynamicVisualizer
         {
             InitializeComponent();
 
-            Timeline.StepEditor = stepEditor1;
+            StepManager.StepEditor = stepEditor1;
 
             DataStorage.Add(new ScalarExpression("canvas", "height", CanvasHeight.ToString()));
             DataStorage.Add(new ScalarExpression("canvas", "width", CanvasWidth.ToString()));
@@ -48,7 +46,7 @@ namespace DynamicVisualizer
             var w = new ScalarExpression("a", "a", "canvas.width", true);
             var h = new ScalarExpression("a", "a", "canvas.height", true);
 
-            Timeline.CanvasMagnets = new[]
+            StepManager.CanvasMagnets = new[]
             {
                 new Magnet(x1, y1),
                 new Magnet(x1, h),
@@ -83,15 +81,15 @@ namespace DynamicVisualizer
             dc.DrawRectangle(null, _canvasStroke, _canvasRect);
             dc.DrawRectangle(Brushes.White, null, _canvasRect);
 
-            foreach (var magnet in Timeline.CanvasMagnets)
+            foreach (var magnet in StepManager.CanvasMagnets)
                 dc.DrawEllipse(Brushes.Yellow, new Pen(Brushes.Black, 1),
                     new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
                     4, 4);
 
-            foreach (var figure in Timeline.Figures)
+            foreach (var figure in StepManager.Figures)
                 figure.Draw(dc);
 
-            foreach (var figure in Timeline.Figures)
+            foreach (var figure in StepManager.Figures)
                 if (figure.IsSelected || _figureMover.NowMoving || _figureDrawer.NowDrawing || _figureScaler.NowScailing ||
                     _figureResizer.NowResizing)
                     if (figure.IsSelected)
@@ -113,9 +111,9 @@ namespace DynamicVisualizer
                 _selected.IsSelected = false;
                 _selected = null;
             }
-            for (var i = Timeline.Figures.Count - 1; i >= 0; --i)
+            for (var i = StepManager.Figures.Count - 1; i >= 0; --i)
             {
-                var f = Timeline.Figures[i];
+                var f = StepManager.Figures[i];
                 if ((f.Name != "staticrect") && (f.Name != "staticcircle") && f.IsMouseOver(pos.X, pos.Y))
                 {
                     _selected = f;
@@ -267,14 +265,7 @@ namespace DynamicVisualizer
 
         private void label8_Click(object sender, EventArgs e)
         {
-            for (var i = 0; i < stepsListControl1.MarkedControls.Count; ++i)
-            {
-                stepsListControl1.MarkedControls[i].Step.MakeIterable(ArrayExpressionEditor.Len);
-                stepsListControl1.MarkedControls[i].RespectIterable();
-            }
-            stepsListControl1.ClearMarked();
-            stepsListControl1.MarkAsSelecgted(stepsListControl1.CurrentSelection);
-            Timeline.SetCurrentStepIndex(Timeline.CurrentStepIndex, true);
+            stepsListControl1.CurrentSelectionToIterableGroup();
         }
     }
 }
