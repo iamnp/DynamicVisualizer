@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using DynamicVisualizer.Logic.Expressions;
+using DynamicVisualizer.Expressions;
 
 namespace DynamicVisualizer.Controls
 {

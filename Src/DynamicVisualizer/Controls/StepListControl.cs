@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using DynamicVisualizer.Logic.Steps;
+using DynamicVisualizer.Steps;
 
 namespace DynamicVisualizer.Controls
 {
@@ -45,7 +45,7 @@ namespace DynamicVisualizer.Controls
                 MarkedControls[i].Step.MakeIterable(ArrayExpressionEditor.Len);
                 MarkedControls[i].RespectIterable();
             }
-            StepManager.IterableGroups.Add(new StepManager.IterableGroup
+            StepManager.IterableGroups.Add(new IterableStepGroup
             {
                 StartIndex = min,
                 EndIndex = max

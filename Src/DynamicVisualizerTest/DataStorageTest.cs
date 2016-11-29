@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using DynamicVisualizer.Logic.Expressions;
+using DynamicVisualizer.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DynamicVisualizerTest

@@ -3,10 +3,10 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using DynamicVisualizer.Logic.Expressions;
-using DynamicVisualizer.Logic.Figures;
-using DynamicVisualizer.Logic.Steps;
-using DynamicVisualizer.Logic.Steps.Transform;
+using DynamicVisualizer.Expressions;
+using DynamicVisualizer.Figures;
+using DynamicVisualizer.Manipulators;
+using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
@@ -28,7 +28,7 @@ namespace DynamicVisualizer
         private readonly Rect _hostRect = new Rect(0, 0, 1000, 700);
         private readonly MainGraphicOutput _mainGraphics;
         private Figure _selected;
-        private TransformType _transformType = TransformType.Move;
+        private TransformStep.TransformType _transformType = TransformStep.TransformType.Move;
 
         public Form1()
         {
@@ -181,13 +181,13 @@ namespace DynamicVisualizer
             if ((e.RightButton == MouseButtonState.Pressed) && (_selected != null))
                 switch (_transformType)
                 {
-                    case TransformType.Move:
+                    case TransformStep.TransformType.Move:
                         _figureMover.Move(_selected, pos);
                         break;
-                    case TransformType.Scale:
+                    case TransformStep.TransformType.Scale:
                         _figureScaler.Move(_selected, pos);
                         break;
-                    case TransformType.Resize:
+                    case TransformStep.TransformType.Resize:
                         _figureResizer.Move(_selected, pos);
                         break;
                 }
@@ -200,13 +200,13 @@ namespace DynamicVisualizer
             var downPos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
             switch (_transformType)
             {
-                case TransformType.Move:
+                case TransformStep.TransformType.Move:
                     _figureMover.SetDownPos(downPos);
                     break;
-                case TransformType.Scale:
+                case TransformStep.TransformType.Scale:
                     _figureScaler.SetDownPos(downPos);
                     break;
-                case TransformType.Resize:
+                case TransformStep.TransformType.Resize:
                     _figureResizer.SetDownPos(downPos);
                     break;
             }
@@ -234,7 +234,7 @@ namespace DynamicVisualizer
 
         private void label5_Click(object sender, EventArgs e)
         {
-            _transformType = TransformType.Move;
+            _transformType = TransformStep.TransformType.Move;
             label5.ForeColor = SystemColors.ControlText;
             label6.ForeColor = SystemColors.ControlDark;
             label10.ForeColor = SystemColors.ControlDark;
@@ -242,7 +242,7 @@ namespace DynamicVisualizer
 
         private void label6_Click(object sender, EventArgs e)
         {
-            _transformType = TransformType.Scale;
+            _transformType = TransformStep.TransformType.Scale;
             label6.ForeColor = SystemColors.ControlText;
             label5.ForeColor = SystemColors.ControlDark;
             label10.ForeColor = SystemColors.ControlDark;
@@ -250,7 +250,7 @@ namespace DynamicVisualizer
 
         private void label10_Click(object sender, EventArgs e)
         {
-            _transformType = TransformType.Resize;
+            _transformType = TransformStep.TransformType.Resize;
             label6.ForeColor = SystemColors.ControlDark;
             label5.ForeColor = SystemColors.ControlDark;
             label10.ForeColor = SystemColors.ControlText;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using DynamicVisualizer.Logic.Expressions;
+using DynamicVisualizer.Expressions;
 
 namespace DynamicVisualizer.Controls
 {

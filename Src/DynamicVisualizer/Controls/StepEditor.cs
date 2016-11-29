@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
-using DynamicVisualizer.Logic.Steps;
-using DynamicVisualizer.Logic.Steps.Draw;
-using DynamicVisualizer.Logic.Steps.Transform;
+using DynamicVisualizer.Steps;
+using DynamicVisualizer.Steps.Draw;
+using DynamicVisualizer.Steps.Move;
+using DynamicVisualizer.Steps.Scale;
 
 namespace DynamicVisualizer.Controls
 {
