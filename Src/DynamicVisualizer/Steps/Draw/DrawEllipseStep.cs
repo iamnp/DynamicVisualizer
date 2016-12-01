@@ -74,18 +74,17 @@ namespace DynamicVisualizer.Steps.Draw
 
         public override void IterateNext()
         {
-            EllipseFigure.X =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, CompletedIterations,
-                    Figure.IsGuide));
-            EllipseFigure.Y =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, CompletedIterations,
-                    Figure.IsGuide));
-            EllipseFigure.Radius1 =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "radius1", Radius, CompletedIterations,
-                    Figure.IsGuide));
-            EllipseFigure.Radius2 =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "radius2", Radius, CompletedIterations,
-                    Figure.IsGuide));
+            EllipseFigure.X.IndexInArray = CompletedIterations;
+            EllipseFigure.X.SetRawExpression(X);
+
+            EllipseFigure.Y.IndexInArray = CompletedIterations;
+            EllipseFigure.Y.SetRawExpression(Y);
+
+            EllipseFigure.Radius1.IndexInArray = CompletedIterations;
+            EllipseFigure.Radius1.SetRawExpression(Radius);
+
+            EllipseFigure.Radius2.IndexInArray = CompletedIterations;
+            EllipseFigure.Radius2.SetRawExpression(Radius);
         }
 
         public override void CopyStaticFigure()

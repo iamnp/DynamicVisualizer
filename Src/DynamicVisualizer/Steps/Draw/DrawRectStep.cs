@@ -89,18 +89,17 @@ namespace DynamicVisualizer.Steps.Draw
 
         public override void IterateNext()
         {
-            RectFigure.X =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, CompletedIterations,
-                    Figure.IsGuide));
-            RectFigure.Y =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, CompletedIterations,
-                    Figure.IsGuide));
-            RectFigure.Width =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "width", Width, CompletedIterations,
-                    Figure.IsGuide));
-            RectFigure.Height =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "height", Height, CompletedIterations,
-                    Figure.IsGuide));
+            RectFigure.X.IndexInArray = CompletedIterations;
+            RectFigure.X.SetRawExpression(X);
+
+            RectFigure.Y.IndexInArray = CompletedIterations;
+            RectFigure.Y.SetRawExpression(Y);
+
+            RectFigure.Width.IndexInArray = CompletedIterations;
+            RectFigure.Width.SetRawExpression(Width);
+
+            RectFigure.Height.IndexInArray = CompletedIterations;
+            RectFigure.Height.SetRawExpression(Height);
         }
 
         public override void CopyStaticFigure()
