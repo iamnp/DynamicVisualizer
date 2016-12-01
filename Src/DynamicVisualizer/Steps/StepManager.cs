@@ -219,7 +219,8 @@ namespace DynamicVisualizer.Steps
             }
             else
             {
-                Steps[CurrentStepIndex].CompletedIterations -= 1;
+                if (Steps[CurrentStepIndex].CompletedIterations > 0)
+                    Steps[CurrentStepIndex].CompletedIterations -= 1;
                 BackwardsAndAgain(CurrentStepIndex - 1);
             }
         }
