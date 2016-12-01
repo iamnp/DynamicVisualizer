@@ -21,12 +21,17 @@ namespace DynamicVisualizer.Figures
             Name = name;
         }
 
+        public EllipseFigure()
+        {
+            IsStatic = true;
+        }
+
         public override FigureType Type => FigureType.Ellipse;
 
         public override Magnet[] GetMagnets()
         {
-            if (Name == "staticcircle")
-                return new Magnet[0];
+            if (IsStatic)
+                return null;
             var x = new ScalarExpression(Name, "a", Name + ".x", true);
             var y = new ScalarExpression(Name, "a", Name + ".y", true);
             Center = new Magnet(x, y);

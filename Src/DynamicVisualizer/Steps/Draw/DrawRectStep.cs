@@ -104,7 +104,7 @@ namespace DynamicVisualizer.Steps.Draw
 
         public override void CopyStaticFigure()
         {
-            var rf = new RectFigure("staticrect")
+            var rf = new RectFigure
             {
                 X = new ScalarExpression("a", "a", RectFigure.X.CachedValue.Str),
                 Y = new ScalarExpression("a", "a", RectFigure.Y.CachedValue.Str),

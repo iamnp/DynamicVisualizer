@@ -98,10 +98,14 @@ namespace DynamicVisualizer
                                 new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
                                 5, 5);
                     else
-                        foreach (var magnet in figure.GetMagnets())
+                    {
+                        var magnets = figure.GetMagnets();
+                        if (magnets == null) continue;
+                        foreach (var magnet in magnets)
                             dc.DrawEllipse(Brushes.Yellow, new Pen(Brushes.Black, 1),
                                 new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
                                 4, 4);
+                    }
         }
 
         private void PerformFigureSelection(Point pos)
@@ -114,7 +118,7 @@ namespace DynamicVisualizer
             for (var i = StepManager.Figures.Count - 1; i >= 0; --i)
             {
                 var f = StepManager.Figures[i];
-                if ((f.Name != "staticrect") && (f.Name != "staticcircle") && f.IsMouseOver(pos.X, pos.Y))
+                if (!f.IsStatic && f.IsMouseOver(pos.X, pos.Y))
                 {
                     _selected = f;
                     _selected.IsSelected = true;

@@ -20,6 +20,7 @@ namespace DynamicVisualizer.Figures
         public int IndexInLoop = -1;
         public bool IsGuide;
         public bool IsSelected;
+        public bool IsStatic;
         public string Name { get; protected set; }
         public abstract FigureType Type { get; }
 

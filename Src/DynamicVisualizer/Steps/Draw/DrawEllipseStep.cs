@@ -89,7 +89,7 @@ namespace DynamicVisualizer.Steps.Draw
 
         public override void CopyStaticFigure()
         {
-            var rf = new EllipseFigure("staticcircle")
+            var rf = new EllipseFigure
             {
                 X = new ScalarExpression("a", "a", EllipseFigure.X.CachedValue.Str),
                 Y = new ScalarExpression("a", "a", EllipseFigure.Y.CachedValue.Str),

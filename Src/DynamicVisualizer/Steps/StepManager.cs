@@ -37,7 +37,9 @@ namespace DynamicVisualizer.Steps
             foreach (var figure in Figures)
             {
                 if (figure == exclude) continue;
-                foreach (var magnet in figure.GetMagnets())
+                var magnets = figure.GetMagnets();
+                if (magnets == null) continue;
+                foreach (var magnet in magnets)
                 {
                     var dx = p.X - magnet.X.CachedValue.AsDouble;
                     var dy = p.Y - magnet.Y.CachedValue.AsDouble;

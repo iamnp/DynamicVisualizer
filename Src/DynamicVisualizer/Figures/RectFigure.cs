@@ -21,12 +21,17 @@ namespace DynamicVisualizer.Figures
             Name = name;
         }
 
+        public RectFigure()
+        {
+            IsStatic = true;
+        }
+
         public override FigureType Type => FigureType.Rect;
 
         public override Magnet[] GetMagnets()
         {
-            if (Name == "staticrect")
-                return new Magnet[0];
+            if (IsStatic)
+                return null;
             var w = new ScalarExpression(Name, "a", Name + ".x + " + Name + ".width", true);
             var h = new ScalarExpression(Name, "a", Name + ".y + " + Name + ".height", true);
 
