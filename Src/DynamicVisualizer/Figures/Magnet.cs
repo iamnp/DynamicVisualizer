@@ -12,5 +12,10 @@ namespace DynamicVisualizer.Figures
             X = x;
             Y = y;
         }
+
+        public bool EqualExprStrings(Magnet a)
+        {
+            return (X.ExprString == a.X.ExprString) && (Y.ExprString == a.Y.ExprString);
+        }
     }
 }

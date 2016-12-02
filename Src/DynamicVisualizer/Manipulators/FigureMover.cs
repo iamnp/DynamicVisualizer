@@ -57,24 +57,19 @@ namespace DynamicVisualizer.Manipulators
                         if ((snapped != null) &&
                             ((snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
                         {
-                            if ((snappedBy.X.ExprString == rf.TopLeft.X.ExprString)
-                                && (snappedBy.Y.ExprString == rf.TopLeft.Y.ExprString))
+                            if (snappedBy.EqualExprStrings(rf.TopLeft))
                                 ((MoveRectStep) _nowMoving).Move(snapped.X.ExprString, snapped.Y.ExprString);
-                            else if ((snappedBy.X.ExprString == rf.TopRight.X.ExprString)
-                                     && (snappedBy.Y.ExprString == rf.TopRight.Y.ExprString))
+                            else if (snappedBy.EqualExprStrings(rf.TopRight))
                                 ((MoveRectStep) _nowMoving).Move(
                                     "(" + snapped.X.ExprString + ") - (" + rf.Name + ".width)", snapped.Y.ExprString);
-                            else if ((snappedBy.X.ExprString == rf.BottomLeft.X.ExprString)
-                                     && (snappedBy.Y.ExprString == rf.BottomLeft.Y.ExprString))
+                            else if (snappedBy.EqualExprStrings(rf.BottomLeft))
                                 ((MoveRectStep) _nowMoving).Move(snapped.X.ExprString,
                                     "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height)");
-                            else if ((snappedBy.X.ExprString == rf.BottomRight.X.ExprString)
-                                     && (snappedBy.Y.ExprString == rf.BottomRight.Y.ExprString))
+                            else if (snappedBy.EqualExprStrings(rf.BottomRight))
                                 ((MoveRectStep) _nowMoving).Move(
                                     "(" + snapped.X.ExprString + ") - (" + rf.Name + ".width)",
                                     "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height)");
-                            else if ((snappedBy.X.ExprString == rf.Center.X.ExprString)
-                                     && (snappedBy.Y.ExprString == rf.Center.Y.ExprString))
+                            else if (snappedBy.EqualExprStrings(rf.Center))
                                 ((MoveRectStep) _nowMoving).Move(
                                     "(" + snapped.X.ExprString + ") - (" + rf.Name + ".width/2)",
                                     "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height/2)");
@@ -106,24 +101,19 @@ namespace DynamicVisualizer.Manipulators
                         if ((snapped != null) &&
                             ((snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
                         {
-                            if ((snappedBy.X.ExprString == cf.Left.X.ExprString)
-                                && (snappedBy.Y.ExprString == cf.Left.Y.ExprString))
+                            if (snappedBy.EqualExprStrings(cf.Left))
                                 ((MoveEllipseStep) _nowMoving).Move(
                                     "(" + snapped.X.ExprString + ") + (" + cf.Name + ".radius1)", snapped.Y.ExprString);
-                            else if ((snappedBy.X.ExprString == cf.Right.X.ExprString)
-                                     && (snappedBy.Y.ExprString == cf.Right.Y.ExprString))
+                            else if (snappedBy.EqualExprStrings(cf.Right))
                                 ((MoveEllipseStep) _nowMoving).Move(
                                     "(" + snapped.X.ExprString + ") - (" + cf.Name + ".radius1)", snapped.Y.ExprString);
-                            else if ((snappedBy.X.ExprString == cf.Top.X.ExprString)
-                                     && (snappedBy.Y.ExprString == cf.Top.Y.ExprString))
+                            else if (snappedBy.EqualExprStrings(cf.Top))
                                 ((MoveEllipseStep) _nowMoving).Move(snapped.X.ExprString,
                                     "(" + snapped.Y.ExprString + ") + (" + cf.Name + ".radius2)");
-                            else if ((snappedBy.X.ExprString == cf.Bottom.X.ExprString)
-                                     && (snappedBy.Y.ExprString == cf.Bottom.Y.ExprString))
+                            else if (snappedBy.EqualExprStrings(cf.Bottom))
                                 ((MoveEllipseStep) _nowMoving).Move(snapped.X.ExprString,
                                     "(" + snapped.Y.ExprString + ") - (" + cf.Name + ".radius2)");
-                            else if ((snappedBy.X.ExprString == cf.Center.X.ExprString)
-                                     && (snappedBy.Y.ExprString == cf.Center.Y.ExprString))
+                            else if (snappedBy.EqualExprStrings(cf.Center))
                                 ((MoveEllipseStep) _nowMoving).Move(snapped.X.ExprString, snapped.Y.ExprString);
                         }
                         else

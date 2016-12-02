@@ -46,10 +46,10 @@ namespace DynamicVisualizer.Steps.Move
             RectFigure.Width.IndexInArray = CompletedIterations;
             RectFigure.Height.IndexInArray = CompletedIterations;
 
-            RectFigure.X.SetRawExpression(X);
-            RectFigure.Y.SetRawExpression(Y);
             RectFigure.Width.SetRawExpression(RectFigure.Width.CachedValue.AsDouble.Str());
             RectFigure.Height.SetRawExpression(RectFigure.Height.CachedValue.AsDouble.Str());
+            RectFigure.X.SetRawExpression(X);
+            RectFigure.Y.SetRawExpression(Y);
         }
 
         public override void CopyStaticFigure()

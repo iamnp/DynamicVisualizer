@@ -46,10 +46,10 @@ namespace DynamicVisualizer.Steps.Move
             EllipseFigure.Radius1.IndexInArray = CompletedIterations;
             EllipseFigure.Radius2.IndexInArray = CompletedIterations;
 
-            EllipseFigure.X.SetRawExpression(X);
-            EllipseFigure.Y.SetRawExpression(Y);
             EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.AsDouble.Str());
             EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.AsDouble.Str());
+            EllipseFigure.X.SetRawExpression(X);
+            EllipseFigure.Y.SetRawExpression(Y);
         }
 
         public override void CopyStaticFigure()
