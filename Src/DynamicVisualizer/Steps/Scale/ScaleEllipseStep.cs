@@ -19,6 +19,8 @@ namespace DynamicVisualizer.Steps.Scale
         public double Radius1Orig;
         public string Radius2Expr;
         public double Radius2Orig;
+        public double XCachedDouble;
+        public double YCachedDouble;
 
         private ScaleEllipseStep(EllipseFigure figure, Side scaleAround)
         {
@@ -29,6 +31,8 @@ namespace DynamicVisualizer.Steps.Scale
             Radius2Expr = EllipseFigure.Radius2.ExprString;
             Radius1Orig = EllipseFigure.Radius1.CachedValue.AsDouble;
             Radius2Orig = EllipseFigure.Radius2.CachedValue.AsDouble;
+            XCachedDouble = EllipseFigure.X.CachedValue.AsDouble;
+            YCachedDouble = EllipseFigure.Y.CachedValue.AsDouble;
         }
 
         public ScaleEllipseStep(EllipseFigure figure, Side scaleAround, double factor) : this(figure, scaleAround)
@@ -48,9 +52,19 @@ namespace DynamicVisualizer.Steps.Scale
             Applied = true;
 
             if ((ScaleAround == Side.Left) || (ScaleAround == Side.Right))
-                EllipseFigure.Radius1.SetRawExpression("(" + Radius1Expr + ") * (" + Factor + ")");
+            {
+                EllipseFigure.X.SetRawExpression(XCachedDouble.Str());
+                EllipseFigure.Radius1.SetRawExpression(Radius1Orig.Str());
+
+                EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Name + ".radius1 * (" + Factor + ")");
+            }
             else if ((ScaleAround == Side.Top) || (ScaleAround == Side.Bottom))
-                EllipseFigure.Radius2.SetRawExpression("(" + Radius2Expr + ") * (" + Factor + ")");
+            {
+                EllipseFigure.Y.SetRawExpression(YCachedDouble.Str());
+                EllipseFigure.Radius2.SetRawExpression(Radius2Orig.Str());
+
+                EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Name + ".radius2 * (" + Factor + ")");
+            }
             if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
         }
 
@@ -59,12 +73,20 @@ namespace DynamicVisualizer.Steps.Scale
             if ((ScaleAround == Side.Left) || (ScaleAround == Side.Right))
             {
                 EllipseFigure.Radius1.IndexInArray = CompletedIterations;
-                EllipseFigure.Radius1.SetRawExpression("(" + Radius1Expr + ") * (" + Factor + ")");
+
+                EllipseFigure.X.SetRawExpression(XCachedDouble.Str());
+                EllipseFigure.Radius1.SetRawExpression(Radius1Orig.Str());
+
+                EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Name + ".radius1 * (" + Factor + ")");
             }
             else if ((ScaleAround == Side.Top) || (ScaleAround == Side.Bottom))
             {
                 EllipseFigure.Radius2.IndexInArray = CompletedIterations;
-                EllipseFigure.Radius2.SetRawExpression("(" + Radius2Expr + ") * (" + Factor + ")");
+
+                EllipseFigure.Y.SetRawExpression(YCachedDouble.Str());
+                EllipseFigure.Radius2.SetRawExpression(Radius2Orig.Str());
+
+                EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Name + ".radius2 * (" + Factor + ")");
             }
         }
 

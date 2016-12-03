@@ -1,4 +1,6 @@
-﻿using DynamicVisualizer.Figures;
+﻿using System;
+using DynamicVisualizer.Expressions;
+using DynamicVisualizer.Figures;
 
 namespace DynamicVisualizer.Steps.Scale
 {
@@ -20,7 +22,9 @@ namespace DynamicVisualizer.Steps.Scale
         public string WidthExpr;
         public double WidthOrig;
         public double XCachedDouble;
+        public string XExpr;
         public double YCachedDouble;
+        public string YExpr;
 
         private ScaleRectStep(RectFigure figure, Side scaleAround)
         {
@@ -33,6 +37,8 @@ namespace DynamicVisualizer.Steps.Scale
             YCachedDouble = RectFigure.Y.CachedValue.AsDouble;
             HeightOrig = RectFigure.Height.CachedValue.AsDouble;
             WidthOrig = RectFigure.Width.CachedValue.AsDouble;
+            XExpr = RectFigure.X.ExprString;
+            YExpr = RectFigure.Y.ExprString;
         }
 
         public ScaleRectStep(RectFigure figure, Side scaleAround, double factor) : this(figure, scaleAround)
@@ -53,25 +59,38 @@ namespace DynamicVisualizer.Steps.Scale
 
             if (ScaleAround == Side.Left)
             {
-                RectFigure.Width.SetRawExpression("(" + WidthExpr + ") * (" + Factor + ")");
-                RectFigure.X.SetRawExpression(RectFigure.X.CachedValue.AsDouble.Str());
+                RectFigure.X.SetRawExpression(XCachedDouble.Str());
+                RectFigure.Width.SetRawExpression(WidthOrig.Str());
+
+                RectFigure.Width.SetRawExpression(RectFigure.Name + ".width * (" + Factor + ")");
             }
             else if (ScaleAround == Side.Top)
             {
-                RectFigure.Height.SetRawExpression("(" + HeightExpr + ") * (" + Factor + ")");
-                RectFigure.Y.SetRawExpression(RectFigure.Y.CachedValue.AsDouble.Str());
+                RectFigure.Y.SetRawExpression(YCachedDouble.Str());
+                RectFigure.Height.SetRawExpression(HeightOrig.Str());
+
+                RectFigure.Height.SetRawExpression(RectFigure.Name + ".height * (" + Factor + ")");
             }
             else if (ScaleAround == Side.Right)
             {
-                RectFigure.Width.SetRawExpression("(" + WidthExpr + ") * (" + Factor + ")");
-                RectFigure.X.SetRawExpression("(" + XCachedDouble + ") + ((" + WidthExpr + ") * (1.0 - (" + Factor +
-                                              ")))");
+                RectFigure.X.SetRawExpression(XCachedDouble.Str());
+                RectFigure.Width.SetRawExpression(WidthOrig.Str());
+
+                DataStorage.SimultaneousSwap(
+                    new Tuple<ScalarExpression, string>(RectFigure.Width, RectFigure.Name + ".width * (" + Factor + ")"),
+                    new Tuple<ScalarExpression, string>(RectFigure.X,
+                        RectFigure.Name + ".x + (" + RectFigure.Name + ".width * (1.0 - (" + Factor + ")))"));
             }
             else if (ScaleAround == Side.Bottom)
             {
-                RectFigure.Height.SetRawExpression("(" + HeightExpr + ") * (" + Factor + ")");
-                RectFigure.Y.SetRawExpression("(" + YCachedDouble + ") + ((" + HeightExpr + ") * (1.0 - (" + Factor +
-                                              ")))");
+                RectFigure.Y.SetRawExpression(YCachedDouble.Str());
+                RectFigure.Height.SetRawExpression(HeightOrig.Str());
+
+                DataStorage.SimultaneousSwap(
+                    new Tuple<ScalarExpression, string>(RectFigure.Height,
+                        RectFigure.Name + ".height * (" + Factor + ")"),
+                    new Tuple<ScalarExpression, string>(RectFigure.Y,
+                        RectFigure.Name + ".y + (" + RectFigure.Name + ".height * (1.0 - (" + Factor + ")))"));
             }
             if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
         }
@@ -82,39 +101,48 @@ namespace DynamicVisualizer.Steps.Scale
             {
                 RectFigure.Width.IndexInArray = CompletedIterations;
                 RectFigure.X.IndexInArray = CompletedIterations;
-                RectFigure.Width.SetRawExpression("(" + WidthExpr + ") * (" + Factor + ")");
-                RectFigure.X.SetRawExpression(RectFigure.X.CachedValue.AsDouble.Str());
+
+                RectFigure.X.SetRawExpression(XCachedDouble.Str());
+                RectFigure.Width.SetRawExpression(WidthOrig.Str());
+
+                RectFigure.Width.SetRawExpression(RectFigure.Name + ".width * (" + Factor + ")");
             }
             else if (ScaleAround == Side.Top)
             {
                 RectFigure.Height.IndexInArray = CompletedIterations;
-                RectFigure.Height.SetRawExpression("(" + HeightExpr + ") * (" + Factor + ")");
                 RectFigure.Y.IndexInArray = CompletedIterations;
-                RectFigure.Y.SetRawExpression(RectFigure.Y.CachedValue.AsDouble.Str());
+
+                RectFigure.Y.SetRawExpression(YCachedDouble.Str());
+                RectFigure.Height.SetRawExpression(HeightOrig.Str());
+
+                RectFigure.Height.SetRawExpression(RectFigure.Name + ".height * (" + Factor + ")");
             }
             else if (ScaleAround == Side.Right)
             {
                 RectFigure.Width.IndexInArray = CompletedIterations;
                 RectFigure.X.IndexInArray = CompletedIterations;
 
-                // break the expr connection
-                RectFigure.X.SetRawExpression(RectFigure.X.CachedValue.Str);
-                RectFigure.Width.SetRawExpression("(" + WidthExpr + ") * (" + Factor + ")");
-                RectFigure.X.SetRawExpression("(" + RectFigure.X.CachedValue.Str + ") + ((" + WidthExpr + ") * (1.0 - (" +
-                                              Factor +
-                                              ")))");
+                RectFigure.X.SetRawExpression(XCachedDouble.Str());
+                RectFigure.Width.SetRawExpression(WidthOrig.Str());
+
+                DataStorage.SimultaneousSwap(
+                    new Tuple<ScalarExpression, string>(RectFigure.Width, RectFigure.Name + ".width * (" + Factor + ")"),
+                    new Tuple<ScalarExpression, string>(RectFigure.X,
+                        RectFigure.Name + ".x + (" + RectFigure.Name + ".width * (1.0 - (" + Factor + ")))"));
             }
             else if (ScaleAround == Side.Bottom)
             {
                 RectFigure.Height.IndexInArray = CompletedIterations;
                 RectFigure.Y.IndexInArray = CompletedIterations;
 
-                // break the expr connection
-                RectFigure.Y.SetRawExpression(RectFigure.Y.CachedValue.Str);
-                RectFigure.Height.SetRawExpression("(" + HeightExpr + ") * (" + Factor + ")");
-                RectFigure.Y.SetRawExpression("(" + RectFigure.Y.CachedValue.Str + ") + ((" + HeightExpr +
-                                              ") * (1.0 - (" + Factor +
-                                              ")))");
+                RectFigure.Y.SetRawExpression(YCachedDouble.Str());
+                RectFigure.Height.SetRawExpression(HeightOrig.Str());
+
+                DataStorage.SimultaneousSwap(
+                    new Tuple<ScalarExpression, string>(RectFigure.Height,
+                        RectFigure.Name + ".height * (" + Factor + ")"),
+                    new Tuple<ScalarExpression, string>(RectFigure.Y,
+                        RectFigure.Name + ".y + (" + RectFigure.Name + ".height * (1.0 - (" + Factor + ")))"));
             }
         }
 
