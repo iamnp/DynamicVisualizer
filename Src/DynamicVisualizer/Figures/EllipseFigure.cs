@@ -75,7 +75,7 @@ namespace DynamicVisualizer.Figures
         public override Point PosInside(double x, double y)
         {
             return new Point(x - (X.CachedValue.AsDouble - Radius1.CachedValue.AsDouble),
-                y - (Y.CachedValue.AsDouble - -Radius2.CachedValue.AsDouble));
+                y - (Y.CachedValue.AsDouble - Radius2.CachedValue.AsDouble));
         }
     }
 }
