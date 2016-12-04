@@ -17,28 +17,16 @@ namespace DynamicVisualizer.Steps.Scale
         public readonly RectFigure RectFigure;
         public readonly Side ScaleAround;
         public string Factor;
-        public string HeightExpr;
         public double HeightOrig;
-        public string WidthExpr;
         public double WidthOrig;
         public double XCachedDouble;
-        public string XExpr;
         public double YCachedDouble;
-        public string YExpr;
 
         private ScaleRectStep(RectFigure figure, Side scaleAround)
         {
-            ScaleAround = scaleAround;
             Figure = figure;
             RectFigure = figure;
-            WidthExpr = RectFigure.Width.ExprString;
-            HeightExpr = RectFigure.Height.ExprString;
-            XCachedDouble = RectFigure.X.CachedValue.AsDouble;
-            YCachedDouble = RectFigure.Y.CachedValue.AsDouble;
-            HeightOrig = RectFigure.Height.CachedValue.AsDouble;
-            WidthOrig = RectFigure.Width.CachedValue.AsDouble;
-            XExpr = RectFigure.X.ExprString;
-            YExpr = RectFigure.Y.ExprString;
+            ScaleAround = scaleAround;
         }
 
         public ScaleRectStep(RectFigure figure, Side scaleAround, double factor) : this(figure, scaleAround)
@@ -53,8 +41,17 @@ namespace DynamicVisualizer.Steps.Scale
 
         public override TransformStepType StepType => TransformStepType.ScaleRect;
 
+        private void CaptureBearings()
+        {
+            XCachedDouble = RectFigure.X.CachedValue.AsDouble;
+            YCachedDouble = RectFigure.Y.CachedValue.AsDouble;
+            HeightOrig = RectFigure.Height.CachedValue.AsDouble;
+            WidthOrig = RectFigure.Width.CachedValue.AsDouble;
+        }
+
         public override void Apply()
         {
+            if (!Applied) CaptureBearings();
             Applied = true;
 
             if (ScaleAround == Side.Left)
