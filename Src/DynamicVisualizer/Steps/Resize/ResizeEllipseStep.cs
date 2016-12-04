@@ -15,24 +15,16 @@ namespace DynamicVisualizer.Steps.Resize
         public readonly EllipseFigure EllipseFigure;
         public readonly Side ResizeAround;
         public string Delta;
-        public string Radius1Expr;
         public double Radius1Orig;
-        public string Radius2Expr;
         public double Radius2Orig;
         public double XCachedDouble;
         public double YCachedDouble;
 
         private ResizeEllipseStep(EllipseFigure figure, Side resizeAround)
         {
-            ResizeAround = resizeAround;
             Figure = figure;
             EllipseFigure = figure;
-            Radius1Expr = EllipseFigure.Radius1.ExprString;
-            Radius2Expr = EllipseFigure.Radius2.ExprString;
-            Radius1Orig = EllipseFigure.Radius1.CachedValue.AsDouble;
-            Radius2Orig = EllipseFigure.Radius2.CachedValue.AsDouble;
-            XCachedDouble = EllipseFigure.X.CachedValue.AsDouble;
-            YCachedDouble = EllipseFigure.Y.CachedValue.AsDouble;
+            ResizeAround = resizeAround;
         }
 
         public ResizeEllipseStep(EllipseFigure figure, Side resizeAround, double delta) : this(figure, resizeAround)
@@ -47,8 +39,17 @@ namespace DynamicVisualizer.Steps.Resize
 
         public override TransformStepType StepType => TransformStepType.ResizeEllipse;
 
+        private void CaptureBearings()
+        {
+            Radius1Orig = EllipseFigure.Radius1.CachedValue.AsDouble;
+            Radius2Orig = EllipseFigure.Radius2.CachedValue.AsDouble;
+            XCachedDouble = EllipseFigure.X.CachedValue.AsDouble;
+            YCachedDouble = EllipseFigure.Y.CachedValue.AsDouble;
+        }
+
         public override void Apply()
         {
+            if (!Applied) CaptureBearings();
             Applied = true;
 
             if ((ResizeAround == Side.Left) || (ResizeAround == Side.Right))
