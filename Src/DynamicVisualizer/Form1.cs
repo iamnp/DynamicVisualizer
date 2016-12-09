@@ -18,6 +18,8 @@ namespace DynamicVisualizer
         private const int CanvasHeight = 600;
         private const int CanvasOffsetX = 100;
         private const int CanvasOffsetY = 50;
+
+        public static Action RedrawNeeded;
         private readonly Rect _canvasRect = new Rect(0, 0, CanvasWidth, CanvasHeight);
         private readonly Pen _canvasStroke = new Pen(Brushes.Gray, 1);
         private readonly TranslateTransform _canvasTranslate = new TranslateTransform(CanvasOffsetX, CanvasOffsetY);
@@ -65,8 +67,6 @@ namespace DynamicVisualizer
             _mainGraphics.MouseUp += MainGraphicsOnMouseUp;
             _mainGraphics.MouseLeave += MainGraphicsOnMouseLeave;
         }
-
-        public static Action RedrawNeeded;
 
         private void Redraw()
         {

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using DynamicVisualizer.Expressions;
+using DynamicVisualizer.Steps;
 
 namespace DynamicVisualizer.Controls
 {
@@ -118,6 +119,8 @@ namespace DynamicVisualizer.Controls
                         }
                         textBox2.Text = Expr.CachedValue.Str;
                         textBox1.Focus();
+                        StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex, true);
+                        Form1.RedrawNeeded?.Invoke();
                     }
         }
     }
