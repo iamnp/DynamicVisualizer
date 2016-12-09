@@ -34,6 +34,8 @@ namespace DynamicVisualizer
         {
             InitializeComponent();
 
+            RedrawNeeded = Redraw;
+
             StepManager.StepEditor = stepEditor1;
 
             DataStorage.Add(new ScalarExpression("canvas", "height", CanvasHeight.ToString()));
@@ -62,12 +64,11 @@ namespace DynamicVisualizer
             _mainGraphics.MouseMove += MainGraphicsOnMouseMove;
             _mainGraphics.MouseUp += MainGraphicsOnMouseUp;
             _mainGraphics.MouseLeave += MainGraphicsOnMouseLeave;
-
-            _stepListControl1.RedrawNeeded += RedrawNeeded;
-            stepEditor1.RedrawNeeded += RedrawNeeded;
         }
 
-        private void RedrawNeeded()
+        public static Action RedrawNeeded;
+
+        private void Redraw()
         {
             _mainGraphics.InvalidateVisual();
             _stepListControl1.ReSetText();
@@ -165,7 +166,7 @@ namespace DynamicVisualizer
             }
             if (e.ChangedButton == MouseButton.Left)
                 _figureDrawer.Finish();
-            RedrawNeeded();
+            Redraw();
         }
 
         private void MainGraphicsOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
@@ -174,7 +175,7 @@ namespace DynamicVisualizer
             _figureMover.Reset();
             _figureScaler.Reset();
             _figureResizer.Reset();
-            RedrawNeeded();
+            Redraw();
         }
 
         private void MainGraphicsOnMouseMove(object sender, MouseEventArgs e)
@@ -196,7 +197,7 @@ namespace DynamicVisualizer
                         break;
                 }
 
-            RedrawNeeded();
+            Redraw();
         }
 
         private void MainGraphicsOnMouseDown(object sender, MouseButtonEventArgs e)
@@ -219,7 +220,7 @@ namespace DynamicVisualizer
             if (e.ChangedButton == MouseButton.Right)
                 if ((_selected == null) || !_selected.IsMouseOver(downPos.X, downPos.Y))
                     PerformFigureSelection(downPos);
-            RedrawNeeded();
+            Redraw();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -264,7 +265,7 @@ namespace DynamicVisualizer
         {
             _selected.IsGuide = !_selected.IsGuide;
             label7.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
-            RedrawNeeded();
+            Redraw();
         }
 
         private void label8_Click(object sender, EventArgs e)

@@ -17,8 +17,6 @@ namespace DynamicVisualizer.Controls
             InitializeComponent();
         }
 
-        public event Action RedrawNeeded;
-
         public void Redraw()
         {
             ShowStep(_step);
@@ -181,7 +179,7 @@ namespace DynamicVisualizer.Controls
                 else if (ts.StepType == TransformStep.TransformStepType.ScaleEllipse)
                     ((ScaleEllipseStep) ts).Scale(textBox1.Text);
             }
-            RedrawNeeded?.Invoke();
+            Form1.RedrawNeeded?.Invoke();
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -203,7 +201,7 @@ namespace DynamicVisualizer.Controls
                 else if (ts.StepType == TransformStep.TransformStepType.MoveEllipse)
                     ((MoveEllipseStep) ts).MoveY(textBox2.Text);
             }
-            RedrawNeeded?.Invoke();
+            Form1.RedrawNeeded?.Invoke();
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -217,7 +215,7 @@ namespace DynamicVisualizer.Controls
                 else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
                     ((DrawEllipseStep) ds).ReInit(textBox3.Text);
             }
-            RedrawNeeded?.Invoke();
+            Form1.RedrawNeeded?.Invoke();
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
@@ -229,7 +227,7 @@ namespace DynamicVisualizer.Controls
                 if (ds.StepType == DrawStep.DrawStepType.DrawRect)
                     ((DrawRectStep) ds).ReInitHeight(textBox4.Text);
             }
-            RedrawNeeded?.Invoke();
+            Form1.RedrawNeeded?.Invoke();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace DynamicVisualizer.Controls
                 _currentSelection = value;
                 if ((_currentSelection != null) && !_ignoreSelectionChanged)
                     StepManager.SetCurrentStepIndex(_currentSelection.Index);
-                RedrawNeeded?.Invoke();
+                Form1.RedrawNeeded?.Invoke();
             }
         }
 
@@ -124,8 +124,6 @@ namespace DynamicVisualizer.Controls
                 _stepControls[i].Index = i;
             _ignoreSelectionChanged = false;
         }
-
-        public event Action RedrawNeeded;
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
