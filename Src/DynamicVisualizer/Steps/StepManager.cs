@@ -199,6 +199,24 @@ namespace DynamicVisualizer.Steps
                 }
         }
 
+        public static void NextLoopFromCurrentPos()
+        {
+            int top, bot;
+            GetGroupBounds(CurrentStepIndex, out top, out bot);
+            var len = bot - top + 1;
+            for (var i = 0; i < len; ++i)
+                NextIterationFromCurrentPos();
+        }
+
+        public static void PrevLoopFromCurrentPos()
+        {
+            int top, bot;
+            GetGroupBounds(CurrentStepIndex, out top, out bot);
+            var len = bot - top + 1;
+            for (var i = 0; i < len; ++i)
+                PrevIterationFromCurrentPos();
+        }
+
         public static void NextIterationFromCurrentPos()
         {
             int top, bot;

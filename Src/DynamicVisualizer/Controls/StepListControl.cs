@@ -109,11 +109,28 @@ namespace DynamicVisualizer.Controls
                     StepManager.SetCurrentStepIndex(_currentSelection.Index + 1);
                 return true;
             }
+
+            if (keyData == Keys.Right)
+            {
+                if ((_currentSelection.Step.Iterations != -1)
+                    && (_currentSelection.Step.CompletedIterations != _currentSelection.Step.Iterations))
+                    StepManager.NextLoopFromCurrentPos();
+                return true;
+            }
+            if (keyData == Keys.Left)
+            {
+                if ((_currentSelection.Step.Iterations != -1)
+                    && (_currentSelection.Step.CompletedIterations != 0))
+                    StepManager.PrevLoopFromCurrentPos();
+                return true;
+            }
+
             if (keyData == Keys.Delete)
             {
                 if (_currentSelection != null) StepManager.Remove(_currentSelection.Index);
                 return true;
             }
+
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
