@@ -181,7 +181,6 @@ namespace DynamicVisualizer
             // 
             this._stepListControl1.AutoScroll = true;
             this._stepListControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this._stepListControl1.CurrentSelection = null;
             this._stepListControl1.Location = new System.Drawing.Point(2, 360);
             this._stepListControl1.Name = "_stepListControl1";
             this._stepListControl1.Size = new System.Drawing.Size(200, 342);
@@ -220,6 +219,7 @@ namespace DynamicVisualizer
             this.Controls.Add(this._stepListControl1);
             this.Controls.Add(this.elementHost1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";

@@ -11,27 +11,11 @@ namespace DynamicVisualizer.Controls
         private readonly List<StepItem> _stepControls = new List<StepItem>();
         public readonly List<StepItem> MarkedControls = new List<StepItem>();
         private StepItem _currentSelection;
-        private bool _ignoreSelectionChanged;
 
         public StepListControl()
         {
             BorderStyle = BorderStyle.FixedSingle;
             AutoScroll = true;
-
-            StepManager.StepInserted += TimelineOnStepInserted;
-            StepManager.StepRemoved += TimelineOnStepRemoved;
-        }
-
-        public StepItem CurrentSelection
-        {
-            get { return _currentSelection; }
-            set
-            {
-                _currentSelection = value;
-                if ((_currentSelection != null) && !_ignoreSelectionChanged)
-                    StepManager.SetCurrentStepIndex(_currentSelection.Index);
-                Form1.RedrawNeeded?.Invoke();
-            }
         }
 
         public void CurrentSelectionToIterableGroup()
@@ -52,33 +36,20 @@ namespace DynamicVisualizer.Controls
             });
             StepManager.IterableGroups.Sort((a, b) => a.StartIndex.CompareTo(b.StartIndex));
             ClearMarked();
-            MarkAsSelecgted(CurrentSelection);
             StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex, true);
         }
 
-        private void TimelineOnStepRemoved(int index)
+        public void TimelineOnStepRemoved(int index)
         {
             Controls.RemoveAt(index);
             _stepControls.RemoveAt(index);
             if (_stepControls.Count != 0)
-            {
                 for (var i = index; i < _stepControls.Count; ++i)
                 {
                     var scc = _stepControls[i];
                     scc.Index = index;
                     scc.Location = new Point(0, scc.Location.Y - scc.Height);
                 }
-
-                _ignoreSelectionChanged = true;
-                if (index <= _stepControls.Count - 1)
-                    MarkAsSelecgted(_stepControls[index]);
-                else MarkAsSelecgted(_stepControls[index - 1]);
-                _ignoreSelectionChanged = false;
-            }
-            else
-            {
-                CurrentSelection = null;
-            }
         }
 
         public void ClearMarked()
@@ -97,10 +68,8 @@ namespace DynamicVisualizer.Controls
                 _stepControls[i].SetText();
         }
 
-        private void TimelineOnStepInserted(int index)
+        public void TimelineOnStepInserted(int index)
         {
-            _ignoreSelectionChanged = true;
-
             for (var i = index; i < _stepControls.Count; ++i)
             {
                 var scc = _stepControls[i];
@@ -118,11 +87,8 @@ namespace DynamicVisualizer.Controls
             sc.MouseClick += OnMouseClick;
             Controls.Add(sc);
             _stepControls.Insert(index, sc);
-            if (_currentSelection == null) MarkAsSelecgted(_stepControls[0]);
-            else MarkAsSelecgted(_stepControls[_currentSelection.Index + 1]);
             for (var i = 0; i < _stepControls.Count; ++i)
                 _stepControls[i].Index = i;
-            _ignoreSelectionChanged = false;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -130,27 +96,17 @@ namespace DynamicVisualizer.Controls
             if (keyData == Keys.Up)
             {
                 if (_currentSelection.Step.Iterations != -1)
-                {
                     StepManager.PrevIterationFromCurrentPos();
-                    _ignoreSelectionChanged = true;
-                    MarkAsSelecgted(_stepControls[StepManager.CurrentStepIndex]);
-                    _ignoreSelectionChanged = false;
-                }
                 else if (_currentSelection.Index > 0)
-                    MarkAsSelecgted(_stepControls[_currentSelection.Index - 1]);
+                    StepManager.SetCurrentStepIndex(_currentSelection.Index - 1);
                 return true;
             }
             if (keyData == Keys.Down)
             {
                 if (_currentSelection.Step.Iterations != -1)
-                {
                     StepManager.NextIterationFromCurrentPos();
-                    _ignoreSelectionChanged = true;
-                    MarkAsSelecgted(_stepControls[StepManager.CurrentStepIndex]);
-                    _ignoreSelectionChanged = false;
-                }
                 else if (_currentSelection.Index < _stepControls.Count - 1)
-                    MarkAsSelecgted(_stepControls[_currentSelection.Index + 1]);
+                    StepManager.SetCurrentStepIndex(_currentSelection.Index + 1);
                 return true;
             }
             if (keyData == Keys.Delete)
@@ -161,33 +117,31 @@ namespace DynamicVisualizer.Controls
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        public void MarkAsSelecgted(StepItem sc)
+        public void MarkAsSelecgted(int index)
         {
-            if ((CurrentSelection != null) && !CurrentSelection.Marked)
-                CurrentSelection.BackColor = BackColor;
-            CurrentSelection = sc;
-            CurrentSelection.BackColor = Color.Aqua;
+            if ((_currentSelection != null) && !_currentSelection.Marked)
+                _currentSelection.BackColor = BackColor;
+            _currentSelection = _stepControls[index];
+            _currentSelection.BackColor = Color.Aqua;
+            Form1.RedrawNeeded?.Invoke();
         }
 
         private void OnMouseClick(object sender, MouseEventArgs e)
         {
-            StepManager.ResetIterations();
-            MarkAsSelecgted((StepItem) sender);
-            if (e.Button == MouseButtons.Left)
+            StepManager.SetCurrentStepIndex(((StepItem) sender).Index);
+            if (StepManager.CurrentStep.Iterations == -1)
+                StepManager.ResetIterations(StepManager.CurrentStepIndex);
+            if (e.Button == MouseButtons.Right)
             {
-                ClearMarked();
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                CurrentSelection.Marked = true;
-                CurrentSelection.BackColor = Color.DarkGray;
-                MarkedControls.Add(CurrentSelection);
+                _currentSelection.Marked = true;
+                _currentSelection.BackColor = Color.DarkGray;
+                MarkedControls.Add(_currentSelection);
             }
         }
 
         private void OnMouseLeave(object sender, EventArgs eventArgs)
         {
-            if (sender != CurrentSelection)
+            if (sender != _currentSelection)
             {
                 var c = (StepItem) sender;
                 if (!c.Marked) c.BackColor = BackColor;
@@ -196,7 +150,7 @@ namespace DynamicVisualizer.Controls
 
         private void OnMouseEnter(object sender, EventArgs eventArgs)
         {
-            if (sender != CurrentSelection)
+            if (sender != _currentSelection)
             {
                 var c = (StepItem) sender;
                 if (!c.Marked) c.BackColor = Color.Aqua;

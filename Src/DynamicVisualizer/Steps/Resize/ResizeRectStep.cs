@@ -96,8 +96,8 @@ namespace DynamicVisualizer.Steps.Resize
                 RectFigure.Width.IndexInArray = CompletedIterations;
                 RectFigure.X.IndexInArray = CompletedIterations;
 
-                RectFigure.X.SetRawExpression(XCachedDouble.Str());
-                RectFigure.Width.SetRawExpression(WidthOrig.Str());
+                RectFigure.X.SetRawExpression(RectFigure.X.CachedValue.AsDouble.Str());
+                RectFigure.Width.SetRawExpression(RectFigure.Width.CachedValue.AsDouble.Str());
 
                 RectFigure.Width.SetRawExpression(RectFigure.Name + ".width + (" + Delta + ")");
             }
@@ -106,8 +106,8 @@ namespace DynamicVisualizer.Steps.Resize
                 RectFigure.Height.IndexInArray = CompletedIterations;
                 RectFigure.Y.IndexInArray = CompletedIterations;
 
-                RectFigure.Y.SetRawExpression(YCachedDouble.Str());
-                RectFigure.Height.SetRawExpression(HeightOrig.Str());
+                RectFigure.Y.SetRawExpression(RectFigure.Y.CachedValue.AsDouble.Str());
+                RectFigure.Height.SetRawExpression(RectFigure.Height.CachedValue.AsDouble.Str());
 
                 RectFigure.Height.SetRawExpression(RectFigure.Name + ".height + (" + Delta + ")");
             }
@@ -116,8 +116,8 @@ namespace DynamicVisualizer.Steps.Resize
                 RectFigure.Width.IndexInArray = CompletedIterations;
                 RectFigure.X.IndexInArray = CompletedIterations;
 
-                RectFigure.X.SetRawExpression(XCachedDouble.Str());
-                RectFigure.Width.SetRawExpression(WidthOrig.Str());
+                RectFigure.X.SetRawExpression(RectFigure.X.CachedValue.AsDouble.Str());
+                RectFigure.Width.SetRawExpression(RectFigure.Width.CachedValue.AsDouble.Str());
 
                 DataStorage.SimultaneousSwap(
                     new Tuple<ScalarExpression, string>(RectFigure.X, RectFigure.Name + ".x + (" + Delta + ")"),
@@ -128,8 +128,8 @@ namespace DynamicVisualizer.Steps.Resize
                 RectFigure.Height.IndexInArray = CompletedIterations;
                 RectFigure.Y.IndexInArray = CompletedIterations;
 
-                RectFigure.Y.SetRawExpression(YCachedDouble.Str());
-                RectFigure.Height.SetRawExpression(HeightOrig.Str());
+                RectFigure.Y.SetRawExpression(RectFigure.Y.CachedValue.AsDouble.Str());
+                RectFigure.Height.SetRawExpression(RectFigure.Height.CachedValue.AsDouble.Str());
 
                 DataStorage.SimultaneousSwap(
                     new Tuple<ScalarExpression, string>(RectFigure.Y, RectFigure.Name + ".y + (" + Delta + ")"),

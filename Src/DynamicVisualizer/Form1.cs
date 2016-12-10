@@ -39,6 +39,7 @@ namespace DynamicVisualizer
             RedrawNeeded = Redraw;
 
             StepManager.StepEditor = stepEditor1;
+            StepManager.StepListControl = _stepListControl1;
 
             DataStorage.Add(new ScalarExpression("canvas", "height", CanvasHeight.ToString()));
             DataStorage.Add(new ScalarExpression("canvas", "width", CanvasWidth.ToString()));
