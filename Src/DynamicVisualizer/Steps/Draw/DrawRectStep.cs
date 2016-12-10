@@ -75,14 +75,28 @@ namespace DynamicVisualizer.Steps.Draw
         public override void Apply()
         {
             if (!Applied) StepManager.Figures.Add(RectFigure);
-            Applied = true;
 
-            RectFigure.X = DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, Figure.IsGuide));
-            RectFigure.Y = DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, Figure.IsGuide));
-            RectFigure.Width =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "width", Width, Figure.IsGuide));
-            RectFigure.Height =
-                DataStorage.Add(new ScalarExpression(Figure.Name, "height", Height, Figure.IsGuide));
+            if (RectFigure.X == null || !Applied)
+                RectFigure.X = DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, Figure.IsGuide));
+            else
+                RectFigure.X.SetRawExpression(X);
+
+            if (RectFigure.Y == null || !Applied)
+                RectFigure.Y = DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, Figure.IsGuide));
+            else
+                RectFigure.Y.SetRawExpression(Y);
+
+            if (RectFigure.Width == null || !Applied)
+                RectFigure.Width = DataStorage.Add(new ScalarExpression(Figure.Name, "width", Width, Figure.IsGuide));
+            else
+                RectFigure.Width.SetRawExpression(Width);
+
+            if (RectFigure.Height == null || !Applied)
+                RectFigure.Height = DataStorage.Add(new ScalarExpression(Figure.Name, "height", Height, Figure.IsGuide));
+            else
+                RectFigure.Height.SetRawExpression(Height);
+
+            Applied = true;
 
             if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
         }
