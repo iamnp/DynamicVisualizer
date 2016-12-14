@@ -5,7 +5,8 @@ namespace DynamicVisualizer.Steps
         public enum DrawStepType
         {
             DrawRect,
-            DrawEllipse
+            DrawEllipse,
+            DrawLine
         }
 
         public abstract DrawStepType StepType { get; }

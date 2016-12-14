@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using DynamicVisualizer.Controls;
@@ -41,7 +42,8 @@ namespace DynamicVisualizer.Steps
                     var dx = p.X - magnet.X.CachedValue.AsDouble;
                     var dy = p.Y - magnet.Y.CachedValue.AsDouble;
                     var distSquared = dx*dx + dy*dy;
-                    if (distSquared < minDistSquared)
+                    if ((distSquared < minDistSquared) ||
+                        ((Math.Abs(distSquared - minDistSquared) < double.Epsilon) && figure.IsSelected))
                     {
                         closestMagnet = magnet;
                         minDistSquared = distSquared;

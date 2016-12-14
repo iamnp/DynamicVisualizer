@@ -108,6 +108,21 @@ namespace DynamicVisualizer.Controls
 
                     ShowFirst(3);
                 }
+                else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
+                {
+                    var dls = (DrawLineStep) ds;
+                    label1.Text = "X";
+                    label2.Text = "Y";
+                    label3.Text = "Width";
+                    label4.Text = "Height";
+
+                    textBox1.Text = dls.X;
+                    textBox2.Text = dls.Y;
+                    textBox3.Text = dls.Width;
+                    textBox4.Text = dls.Height;
+
+                    ShowFirst(4);
+                }
             }
             else if (step is TransformStep)
             {
@@ -166,6 +181,8 @@ namespace DynamicVisualizer.Controls
                     ((DrawRectStep) ds).ReInitX(textBox1.Text);
                 else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
                     ((DrawEllipseStep) ds).ReInitX(textBox1.Text);
+                else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
+                    ((DrawLineStep) ds).ReInitX(textBox1.Text);
             }
             else if (_step is TransformStep)
             {
@@ -192,6 +209,8 @@ namespace DynamicVisualizer.Controls
                     ((DrawRectStep) ds).ReInitY(textBox2.Text);
                 else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
                     ((DrawEllipseStep) ds).ReInitY(textBox2.Text);
+                else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
+                    ((DrawLineStep) ds).ReInitY(textBox2.Text);
             }
             else if (_step is TransformStep)
             {
@@ -214,6 +233,8 @@ namespace DynamicVisualizer.Controls
                     ((DrawRectStep) ds).ReInitWidth(textBox3.Text);
                 else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
                     ((DrawEllipseStep) ds).ReInit(textBox3.Text);
+                else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
+                    ((DrawLineStep) ds).ReInitWidth(textBox3.Text);
             }
             Form1.RedrawNeeded?.Invoke();
         }
@@ -226,6 +247,8 @@ namespace DynamicVisualizer.Controls
                 var ds = (DrawStep) _step;
                 if (ds.StepType == DrawStep.DrawStepType.DrawRect)
                     ((DrawRectStep) ds).ReInitHeight(textBox4.Text);
+                else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
+                    ((DrawLineStep) ds).ReInitHeight(textBox4.Text);
             }
             Form1.RedrawNeeded?.Invoke();
         }

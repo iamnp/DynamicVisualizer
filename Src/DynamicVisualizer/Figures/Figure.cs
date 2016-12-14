@@ -9,7 +9,8 @@ namespace DynamicVisualizer.Figures
         public enum FigureType
         {
             Rect,
-            Ellipse
+            Ellipse,
+            Line
         }
 
         protected readonly Pen GuidePen = new Pen(Brushes.CornflowerBlue, 3);

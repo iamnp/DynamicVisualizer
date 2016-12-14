@@ -42,15 +42,6 @@ namespace DynamicVisualizer.Controls
                 return;
             }
 
-            var moveRectStep = Step as MoveRectStep;
-            if (moveRectStep != null)
-            {
-                clickThroughLabel1.Text =
-                    string.Format("move {0} to ({1}; {2})",
-                        moveRectStep.Figure.Name, moveRectStep.X, moveRectStep.Y);
-                return;
-            }
-
             var drawEllipseStep = Step as DrawEllipseStep;
             if (drawEllipseStep != null)
             {
@@ -60,6 +51,24 @@ namespace DynamicVisualizer.Controls
                 return;
             }
 
+            var drawLineStep = Step as DrawLineStep;
+            if (drawLineStep != null)
+            {
+                clickThroughLabel1.Text =
+                    string.Format("draw {0} at ({1}; {2}) {3} width, {4} height",
+                        drawLineStep.Figure.Name, drawLineStep.X, drawLineStep.Y, drawLineStep.Width,
+                        drawLineStep.Height);
+                return;
+            }
+
+            var moveRectStep = Step as MoveRectStep;
+            if (moveRectStep != null)
+            {
+                clickThroughLabel1.Text =
+                    string.Format("move {0} to ({1}; {2})",
+                        moveRectStep.Figure.Name, moveRectStep.X, moveRectStep.Y);
+                return;
+            }
 
             var moveEllipseStep = Step as MoveEllipseStep;
             if (moveEllipseStep != null)

@@ -67,6 +67,7 @@
     <Compile Include="Controls\ScalarExpressionItem.Designer.cs">
       <DependentUpon>ScalarExpressionItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Figures\LineFigure.cs" />
     <Compile Include="Manipulators\FigureDrawer.cs" />
     <Compile Include="Manipulators\FigureMover.cs" />
     <Compile Include="Manipulators\FigureResizer.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Figures\EllipseFigure.cs" />
     <Compile Include="Figures\Magnet.cs" />
     <Compile Include="Steps\Draw\DrawEllipseStep.cs" />
+    <Compile Include="Steps\Draw\DrawLineStep.cs" />
     <Compile Include="Steps\Draw\DrawRectStep.cs" />
     <Compile Include="Steps\DrawStep.cs" />
     <Compile Include="Expressions\Evaluater.cs" />

@@ -229,6 +229,7 @@ namespace DynamicVisualizer
             _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawRect;
             label2.ForeColor = SystemColors.ControlText;
             label3.ForeColor = SystemColors.ControlDark;
+            label11.ForeColor = SystemColors.ControlDark;
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -236,6 +237,7 @@ namespace DynamicVisualizer
             _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawEllipse;
             label3.ForeColor = SystemColors.ControlText;
             label2.ForeColor = SystemColors.ControlDark;
+            label11.ForeColor = SystemColors.ControlDark;
         }
 
         private void label5_Click(object sender, EventArgs e)
@@ -272,6 +274,14 @@ namespace DynamicVisualizer
         private void label8_Click(object sender, EventArgs e)
         {
             _stepListControl1.CurrentSelectionToIterableGroup();
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+            _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawLine;
+            label3.ForeColor = SystemColors.ControlDark;
+            label2.ForeColor = SystemColors.ControlDark;
+            label11.ForeColor = SystemColors.ControlText;
         }
     }
 }
