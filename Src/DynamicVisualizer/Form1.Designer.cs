@@ -236,7 +236,7 @@ namespace DynamicVisualizer
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Dynamic Visualizer";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -15,6 +15,7 @@ namespace DynamicVisualizer.Controls
         public StepEditor()
         {
             InitializeComponent();
+            ShowFirst(0);
         }
 
         public void Redraw()
@@ -24,7 +25,18 @@ namespace DynamicVisualizer.Controls
 
         private void ShowFirst(int n)
         {
-            if (n == 1)
+            if (n == 0)
+            {
+                label1.Visible = false;
+                textBox1.Visible = false;
+                label2.Visible = false;
+                textBox2.Visible = false;
+                label3.Visible = false;
+                textBox3.Visible = false;
+                label4.Visible = false;
+                textBox4.Visible = false;
+            }
+            else if (n == 1)
             {
                 label1.Visible = true;
                 textBox1.Visible = true;
@@ -167,6 +179,10 @@ namespace DynamicVisualizer.Controls
 
                     ShowFirst(1);
                 }
+            }
+            else
+            {
+                ShowFirst(0);
             }
             _ignoreTextChanged = false;
         }

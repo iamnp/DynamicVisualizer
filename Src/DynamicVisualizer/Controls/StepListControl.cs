@@ -54,7 +54,7 @@ namespace DynamicVisualizer.Controls
                 for (var i = index; i < _stepControls.Count; ++i)
                 {
                     var scc = _stepControls[i];
-                    scc.Index = index;
+                    scc.Index = i;
                     scc.Location = new Point(0, scc.Location.Y - scc.Height);
                 }
             }
@@ -167,8 +167,15 @@ namespace DynamicVisualizer.Controls
             {
                 _currentSelection.BackColor = BackColor;
             }
-            _currentSelection = _stepControls[index];
-            _currentSelection.BackColor = Color.Aqua;
+            if (index < 0)
+            {
+                _currentSelection = null;
+            }
+            else
+            {
+                _currentSelection = _stepControls[index];
+                _currentSelection.BackColor = Color.Aqua;
+            }
             Form1.RedrawNeeded?.Invoke();
         }
 

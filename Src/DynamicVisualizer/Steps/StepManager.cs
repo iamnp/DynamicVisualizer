@@ -24,7 +24,17 @@ namespace DynamicVisualizer.Steps
             CurrentStepIndex = -1;
         }
 
-        public static Step CurrentStep => Steps[CurrentStepIndex];
+        public static Step CurrentStep
+        {
+            get
+            {
+                if ((CurrentStepIndex >= 0) && (CurrentStepIndex <= Steps.Count - 1))
+                {
+                    return Steps[CurrentStepIndex];
+                }
+                return null;
+            }
+        }
 
         public static int CurrentStepIndex { get; private set; }
 
@@ -91,20 +101,6 @@ namespace DynamicVisualizer.Steps
             return minDistSquared <= ThresholdSquared ? closestMagnet : null;
         }
 
-        private static void BackwardsAndAgain(int index)
-        {
-            if (index < 0)
-            {
-                Reset();
-                CurrentStepIndex = -1;
-            }
-            else
-            {
-                SetCurrentStepIndex(0);
-                SetCurrentStepIndex(index);
-            }
-        }
-
         public static IterableStepGroup GetGroupByIndex(int index)
         {
             for (var i = 0; i < IterableGroups.Count; ++i)
@@ -130,12 +126,12 @@ namespace DynamicVisualizer.Steps
             }
             Steps.Insert(index, step);
             StepListControl?.TimelineOnStepInserted(index);
-            BackwardsAndAgain(index);
+            SetCurrentStepIndex(index);
         }
 
         public static void Remove(int pos)
         {
-            if (Steps[pos].Iterations > 0)
+            if (Steps[pos].Iterations > -1)
             {
                 GetGroupByIndex(pos).EndIndex -= 1;
             }
@@ -143,11 +139,11 @@ namespace DynamicVisualizer.Steps
             StepListControl?.TimelineOnStepRemoved(pos);
             if (pos <= Steps.Count - 1)
             {
-                BackwardsAndAgain(pos);
+                SetCurrentStepIndex(pos, true);
             }
             else
             {
-                BackwardsAndAgain(pos - 1);
+                SetCurrentStepIndex(pos - 1, true);
             }
         }
 
@@ -224,11 +220,8 @@ namespace DynamicVisualizer.Steps
                 }
             }
             CurrentStepIndex = index;
-            if (CurrentStepIndex != -1)
-            {
-                StepEditor?.ShowStep(CurrentStep);
-                StepListControl?.MarkAsSelecgted(CurrentStepIndex);
-            }
+            StepListControl?.MarkAsSelecgted(CurrentStepIndex);
+            StepEditor?.ShowStep(CurrentStep);
         }
 
         private static void GetGroupBounds(int index, out int top, out int bot)
@@ -313,13 +306,13 @@ namespace DynamicVisualizer.Steps
                 {
                     if (CurrentStepIndex > 0)
                     {
-                        BackwardsAndAgain(CurrentStepIndex - 1);
+                        SetCurrentStepIndex(CurrentStepIndex - 1);
                     }
                 }
                 else
                 {
                     Steps[CurrentStepIndex].CompletedIterations -= 1;
-                    BackwardsAndAgain(bot);
+                    SetCurrentStepIndex(bot);
                 }
             }
             else
@@ -328,7 +321,7 @@ namespace DynamicVisualizer.Steps
                 {
                     Steps[CurrentStepIndex].CompletedIterations -= 1;
                 }
-                BackwardsAndAgain(CurrentStepIndex - 1);
+                SetCurrentStepIndex(CurrentStepIndex - 1);
             }
         }
 
