@@ -34,9 +34,15 @@ namespace DynamicVisualizer.Steps
             Magnet closestMagnet = null;
             foreach (var figure in Figures)
             {
-                if (figure == exclude) continue;
+                if (figure == exclude)
+                {
+                    continue;
+                }
                 var magnets = figure.GetMagnets();
-                if (magnets == null) continue;
+                if (magnets == null)
+                {
+                    continue;
+                }
                 foreach (var magnet in magnets)
                 {
                     var dx = p.X - magnet.X.CachedValue.AsDouble;
@@ -51,6 +57,7 @@ namespace DynamicVisualizer.Steps
                 }
             }
             if (minDistSquared > ThresholdSquared)
+            {
                 foreach (var magnet in CanvasMagnets)
                 {
                     var dx = p.X - magnet.X.CachedValue.AsDouble;
@@ -62,6 +69,7 @@ namespace DynamicVisualizer.Steps
                         minDistSquared = distSquared;
                     }
                 }
+            }
             return minDistSquared <= ThresholdSquared ? closestMagnet : null;
         }
 
@@ -100,14 +108,21 @@ namespace DynamicVisualizer.Steps
         public static IterableStepGroup GetGroupByIndex(int index)
         {
             for (var i = 0; i < IterableGroups.Count; ++i)
+            {
                 if ((IterableGroups[i].StartIndex <= index) && (IterableGroups[i].EndIndex >= index))
+                {
                     return IterableGroups[i];
+                }
+            }
             return null;
         }
 
         public static void Insert(Step step, int index = -1)
         {
-            if (index < 0) index = Steps.Count;
+            if (index < 0)
+            {
+                index = Steps.Count;
+            }
             if ((CurrentStepIndex > -1) && (CurrentStep.Iterations > 0))
             {
                 step.MakeIterable(ArrayExpressionEditor.Len);
@@ -121,20 +136,30 @@ namespace DynamicVisualizer.Steps
         public static void Remove(int pos)
         {
             if (Steps[pos].Iterations > 0)
+            {
                 GetGroupByIndex(pos).EndIndex -= 1;
+            }
             Steps.RemoveAt(pos);
             StepListControl?.TimelineOnStepRemoved(pos);
             if (pos <= Steps.Count - 1)
+            {
                 BackwardsAndAgain(pos);
+            }
             else
+            {
                 BackwardsAndAgain(pos - 1);
+            }
         }
 
         public static void ResetIterations(int firstStep = 0)
         {
             for (var i = firstStep; i < Steps.Count; ++i)
+            {
                 if (Steps[i].Iterations != -1)
+                {
                     Steps[i].CompletedIterations = 0;
+                }
+            }
         }
 
         public static void SetCurrentStepIndex(int index, bool force = false)
@@ -143,6 +168,7 @@ namespace DynamicVisualizer.Steps
             {
                 Reset();
                 for (var i = 0; i <= index; ++i)
+                {
                     if (Steps[i].Iterations != -1) // we got first iterative step in a group
                     {
                         //finding the last one
@@ -156,30 +182,46 @@ namespace DynamicVisualizer.Steps
                             for (var n = i; (n <= bot) && (totalSteps > 0); ++n)
                             {
                                 Steps[n].CompletedIterations = 0;
-                                if (!Steps[n].Applied) Steps[n].Apply();
+                                if (!Steps[n].Applied)
+                                {
+                                    Steps[n].Apply();
+                                }
                                 totalSteps -= 1;
                             }
                             for (var k = 0; (k < Steps[i].Iterations) && (totalSteps > 0); ++k)
+                            {
                                 for (var n = i; (n <= bot) && (totalSteps > 0); ++n)
                                 {
                                     Steps[n].ApplyNextIteration();
                                     totalSteps -= 1;
                                 }
+                            }
                         }
                         else
                         {
                             for (var n = i; n <= bot; ++n)
                             {
                                 Steps[n].CompletedIterations = 0;
-                                if (!Steps[n].Applied) Steps[n].Apply();
+                                if (!Steps[n].Applied)
+                                {
+                                    Steps[n].Apply();
+                                }
                             }
                             for (var k = 0; k < Steps[i].Iterations; ++k)
+                            {
                                 for (var n = i; n <= bot; ++n)
+                                {
                                     Steps[n].ApplyNextIteration();
+                                }
+                            }
                         }
                         i = bot;
                     }
-                    else if (!Steps[i].Applied) Steps[i].Apply();
+                    else if (!Steps[i].Applied)
+                    {
+                        Steps[i].Apply();
+                    }
+                }
             }
             CurrentStepIndex = index;
             if (CurrentStepIndex != -1)
@@ -194,11 +236,13 @@ namespace DynamicVisualizer.Steps
             top = -1;
             bot = -1;
             for (var i = 0; i < IterableGroups.Count; ++i)
+            {
                 if ((IterableGroups[i].StartIndex <= index) && (IterableGroups[i].EndIndex >= index))
                 {
                     top = IterableGroups[i].StartIndex;
                     bot = IterableGroups[i].EndIndex;
                 }
+            }
         }
 
         public static void NextLoopFromCurrentPos()
@@ -207,7 +251,9 @@ namespace DynamicVisualizer.Steps
             GetGroupBounds(CurrentStepIndex, out top, out bot);
             var len = bot - top + 1;
             for (var i = 0; i < len; ++i)
+            {
                 NextIterationFromCurrentPos();
+            }
         }
 
         public static void PrevLoopFromCurrentPos()
@@ -216,7 +262,9 @@ namespace DynamicVisualizer.Steps
             GetGroupBounds(CurrentStepIndex, out top, out bot);
             var len = bot - top + 1;
             for (var i = 0; i < len; ++i)
+            {
                 PrevIterationFromCurrentPos();
+            }
         }
 
         public static void NextIterationFromCurrentPos()
@@ -229,7 +277,9 @@ namespace DynamicVisualizer.Steps
                 if (Steps[CurrentStepIndex].CompletedIterations == Steps[CurrentStepIndex].Iterations)
                 {
                     if (CurrentStepIndex < Steps.Count - 1)
+                    {
                         SetCurrentStepIndex(CurrentStepIndex + 1);
+                    }
                 }
                 else
                 {
@@ -239,8 +289,14 @@ namespace DynamicVisualizer.Steps
             }
             else
             {
-                if (!Steps[CurrentStepIndex + 1].Applied) Steps[CurrentStepIndex + 1].Apply();
-                else Steps[CurrentStepIndex + 1].ApplyNextIteration();
+                if (!Steps[CurrentStepIndex + 1].Applied)
+                {
+                    Steps[CurrentStepIndex + 1].Apply();
+                }
+                else
+                {
+                    Steps[CurrentStepIndex + 1].ApplyNextIteration();
+                }
                 CurrentStepIndex += 1;
             }
             StepListControl?.MarkAsSelecgted(CurrentStepIndex);
@@ -256,7 +312,9 @@ namespace DynamicVisualizer.Steps
                 if (Steps[CurrentStepIndex].CompletedIterations == 0)
                 {
                     if (CurrentStepIndex > 0)
+                    {
                         BackwardsAndAgain(CurrentStepIndex - 1);
+                    }
                 }
                 else
                 {
@@ -267,7 +325,9 @@ namespace DynamicVisualizer.Steps
             else
             {
                 if (Steps[CurrentStepIndex].CompletedIterations > 0)
+                {
                     Steps[CurrentStepIndex].CompletedIterations -= 1;
+                }
                 BackwardsAndAgain(CurrentStepIndex - 1);
             }
         }

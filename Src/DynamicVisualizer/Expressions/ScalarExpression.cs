@@ -15,7 +15,10 @@ namespace DynamicVisualizer.Expressions
         {
             _varEvaluater = s =>
             {
-                if (!s.Contains(".")) s = ObjectName + "." + s;
+                if (!s.Contains("."))
+                {
+                    s = ObjectName + "." + s;
+                }
                 var usedExpr = DataStorage.GetExpression(s);
                 if (!IsWeak && (usedExpr != this))
                 {
@@ -64,7 +67,9 @@ namespace DynamicVisualizer.Expressions
             // remove all the DependentOn values
             // e.g. remove the cross-references
             foreach (var e in DependentOn)
+            {
                 e.UsedBy.Remove(this);
+            }
             DependentOn.Clear();
 
             try
@@ -83,13 +88,17 @@ namespace DynamicVisualizer.Expressions
                     var copyOfUsedBy = new List<Expression>(UsedBy);
                     UsedBy.Clear();
                     foreach (var e in copyOfUsedBy)
+                    {
                         e.Recalculate();
+                    }
                 }
                 if (_parentArray != null)
                 {
                     var copyOfParentUsedBy = new List<Expression>(_parentArray.UsedBy);
                     foreach (var e in copyOfParentUsedBy)
+                    {
                         e.Recalculate();
+                    }
                 }
             }
         }

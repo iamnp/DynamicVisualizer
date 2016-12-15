@@ -74,31 +74,53 @@ namespace DynamicVisualizer.Steps.Draw
 
         public override void Apply()
         {
-            if (!Applied) StepManager.Figures.Add(LineFigure);
+            if (!Applied)
+            {
+                StepManager.Figures.Add(LineFigure);
+            }
 
             if ((LineFigure.X == null) || !Applied)
+            {
                 LineFigure.X = DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, Figure.IsGuide));
+            }
             else
+            {
                 LineFigure.X.SetRawExpression(X);
+            }
 
             if ((LineFigure.Y == null) || !Applied)
+            {
                 LineFigure.Y = DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, Figure.IsGuide));
+            }
             else
+            {
                 LineFigure.Y.SetRawExpression(Y);
+            }
 
             if ((LineFigure.Width == null) || !Applied)
+            {
                 LineFigure.Width = DataStorage.Add(new ScalarExpression(Figure.Name, "width", Width, Figure.IsGuide));
+            }
             else
+            {
                 LineFigure.Width.SetRawExpression(Width);
+            }
 
             if ((LineFigure.Height == null) || !Applied)
+            {
                 LineFigure.Height = DataStorage.Add(new ScalarExpression(Figure.Name, "height", Height, Figure.IsGuide));
+            }
             else
+            {
                 LineFigure.Height.SetRawExpression(Height);
+            }
 
             Applied = true;
 
-            if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
+            if ((Iterations != -1) && !Figure.IsGuide)
+            {
+                CopyStaticFigure();
+            }
         }
 
         public override void IterateNext()

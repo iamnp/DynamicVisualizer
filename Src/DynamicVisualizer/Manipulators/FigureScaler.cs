@@ -41,18 +41,29 @@ namespace DynamicVisualizer.Manipulators
                 var smallW = Math.Abs(rf.Width.CachedValue.AsDouble/6.0);
                 var smallH = Math.Abs(rf.Height.CachedValue.AsDouble/6.0);
                 if (p.X < smallW)
+                {
                     _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Right,
                         1 - (pos.X - _downPos.X)/rf.Width.CachedValue.AsDouble);
+                }
                 else if (p.X > 5.0*smallW)
+                {
                     _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Left,
                         1 + (pos.X - _downPos.X)/rf.Width.CachedValue.AsDouble);
+                }
                 else if (p.Y < smallH)
+                {
                     _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Bottom,
                         1 - (pos.Y - _downPos.Y)/rf.Height.CachedValue.AsDouble);
+                }
                 else if (p.Y > 5.0*smallH)
+                {
                     _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Top,
                         1 + (pos.Y - _downPos.Y)/rf.Height.CachedValue.AsDouble);
-                if (_nowScaling == null) return;
+                }
+                if (_nowScaling == null)
+                {
+                    return;
+                }
                 StepManager.Insert(_nowScaling,
                     StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
             }
@@ -61,13 +72,21 @@ namespace DynamicVisualizer.Manipulators
                 var srs = (ScaleRectStep) _nowScaling;
 
                 if (srs.ScaleAround == ScaleRectStep.Side.Right)
+                {
                     srs.Scale(1 - (pos.X - _downPos.X)/srs.WidthOrig);
+                }
                 else if (srs.ScaleAround == ScaleRectStep.Side.Left)
+                {
                     srs.Scale(1 + (pos.X - _downPos.X)/srs.WidthOrig);
+                }
                 else if (srs.ScaleAround == ScaleRectStep.Side.Top)
+                {
                     srs.Scale(1 + (pos.Y - _downPos.Y)/srs.HeightOrig);
+                }
                 else if (srs.ScaleAround == ScaleRectStep.Side.Bottom)
+                {
                     srs.Scale(1 - (pos.Y - _downPos.Y)/srs.HeightOrig);
+                }
             }
         }
 
@@ -86,18 +105,29 @@ namespace DynamicVisualizer.Manipulators
                 var smallW = Math.Abs(ef.Radius1.CachedValue.AsDouble/3.0);
                 var smallH = Math.Abs(ef.Radius2.CachedValue.AsDouble/3.0);
                 if (p.X < smallW)
+                {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Right,
                         1 - (pos.X - _downPos.X)/ef.Radius1.CachedValue.AsDouble);
+                }
                 else if (p.X > 5.0*smallW)
+                {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Left,
                         1 + (pos.X - _downPos.X)/ef.Radius1.CachedValue.AsDouble);
+                }
                 else if (p.Y < smallH)
+                {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Bottom,
                         1 + (pos.Y - _downPos.Y)/ef.Radius2.CachedValue.AsDouble);
+                }
                 else if (p.Y > 5.0*smallH)
+                {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Top,
                         1 - (pos.Y - _downPos.Y)/ef.Radius2.CachedValue.AsDouble);
-                if (_nowScaling == null) return;
+                }
+                if (_nowScaling == null)
+                {
+                    return;
+                }
                 StepManager.Insert(_nowScaling,
                     StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
             }
@@ -106,13 +136,21 @@ namespace DynamicVisualizer.Manipulators
                 var srs = (ScaleEllipseStep) _nowScaling;
 
                 if (srs.ScaleAround == ScaleEllipseStep.Side.Right)
+                {
                     srs.Scale(1 - (pos.X - _downPos.X)/srs.Radius1Orig);
+                }
                 else if (srs.ScaleAround == ScaleEllipseStep.Side.Left)
+                {
                     srs.Scale(1 + (pos.X - _downPos.X)/srs.Radius1Orig);
+                }
                 else if (srs.ScaleAround == ScaleEllipseStep.Side.Top)
+                {
                     srs.Scale(1 - (pos.Y - _downPos.Y)/srs.Radius2Orig);
+                }
                 else if (srs.ScaleAround == ScaleEllipseStep.Side.Bottom)
+                {
                     srs.Scale(1 + (pos.Y - _downPos.Y)/srs.Radius2Orig);
+                }
             }
         }
 

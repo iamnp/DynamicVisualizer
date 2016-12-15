@@ -10,14 +10,20 @@ namespace DynamicVisualizer.Expressions
         public static void SimultaneousSwap(params Tuple<ScalarExpression, string>[] swaps)
         {
             for (var i = 0; i < swaps.Length; ++i)
+            {
                 Add(new ScalarExpression(swaps[i].Item1.ObjectName, swaps[i].Item1.VarName,
                     swaps[i].Item1.CachedValue.AsDouble + "", true));
+            }
 
             for (var i = 0; i < swaps.Length; ++i)
+            {
                 swaps[i].Item1.SetRawExpression(swaps[i].Item2);
+            }
 
             for (var i = 0; i < swaps.Length; ++i)
+            {
                 Add(swaps[i].Item1);
+            }
         }
 
         public static ScalarExpression Add(ScalarExpression expr)
@@ -49,30 +55,44 @@ namespace DynamicVisualizer.Expressions
 
         public static void Remove(string fullName)
         {
-            if (Data[fullName].CanBeRemoved) Data.Remove(fullName);
+            if (Data[fullName].CanBeRemoved)
+            {
+                Data.Remove(fullName);
+            }
         }
 
         public static void Remove(Expression expr)
         {
-            if (expr.CanBeRemoved) Data.Remove(expr.FullName);
+            if (expr.CanBeRemoved)
+            {
+                Data.Remove(expr.FullName);
+            }
         }
 
         public static void WipeNonDataFields()
         {
             var toDel = new List<string>();
             foreach (var pair in Data)
+            {
                 if (!pair.Key.StartsWith("data.") && !pair.Key.StartsWith("canvas."))
+                {
                     toDel.Add(pair.Key);
+                }
+            }
             foreach (var s in toDel)
+            {
                 Data.Remove(s);
+            }
         }
 
         public static string Dump()
         {
             var s = "";
             foreach (var pair in Data)
+            {
                 s += pair.Key + " = " + pair.Value.ExprString + ": " + pair.Value.CachedValue.Str +
                      "\n";
+            }
             return s;
         }
     }

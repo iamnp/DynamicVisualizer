@@ -36,7 +36,10 @@ namespace DynamicVisualizer.Steps.Move
             EllipseFigure.X.SetRawExpression(X);
             EllipseFigure.Y.SetRawExpression(Y);
 
-            if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
+            if ((Iterations != -1) && !Figure.IsGuide)
+            {
+                CopyStaticFigure();
+            }
         }
 
         public override void IterateNext()

@@ -49,7 +49,10 @@ namespace DynamicVisualizer.Steps.Resize
 
         public override void Apply()
         {
-            if (!Applied) CaptureBearings();
+            if (!Applied)
+            {
+                CaptureBearings();
+            }
             Applied = true;
 
             if ((ResizeAround == Side.Left) || (ResizeAround == Side.Right))
@@ -66,7 +69,10 @@ namespace DynamicVisualizer.Steps.Resize
 
                 EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Name + ".radius2 - (" + Delta + ")");
             }
-            if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
+            if ((Iterations != -1) && !Figure.IsGuide)
+            {
+                CopyStaticFigure();
+            }
         }
 
         public override void IterateNext()
@@ -95,9 +101,13 @@ namespace DynamicVisualizer.Steps.Resize
         {
             var rf = (EllipseFigure) Figure.StaticLoopFigures[CompletedIterations];
             if ((ResizeAround == Side.Left) || (ResizeAround == Side.Right))
+            {
                 rf.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.Str);
+            }
             else if ((ResizeAround == Side.Top) || (ResizeAround == Side.Bottom))
+            {
                 rf.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.Str);
+            }
         }
 
         public void Resize(string delta)

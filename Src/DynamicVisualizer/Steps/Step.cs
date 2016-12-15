@@ -19,10 +19,16 @@ namespace DynamicVisualizer.Steps
 
         public void ApplyNextIteration()
         {
-            if (CompletedIterations >= Iterations) return;
+            if (CompletedIterations >= Iterations)
+            {
+                return;
+            }
             CompletedIterations++;
             IterateNext();
-            if (!Figure.IsGuide) CopyStaticFigure();
+            if (!Figure.IsGuide)
+            {
+                CopyStaticFigure();
+            }
         }
 
         public abstract void IterateNext();

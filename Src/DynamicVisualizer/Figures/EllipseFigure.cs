@@ -31,7 +31,9 @@ namespace DynamicVisualizer.Figures
         public override Magnet[] GetMagnets()
         {
             if (IsStatic)
+            {
                 return null;
+            }
             var x = new ScalarExpression(Name, "a", Name + ".x", true);
             var y = new ScalarExpression(Name, "a", Name + ".y", true);
             Center = new Magnet(x, y);
@@ -55,11 +57,15 @@ namespace DynamicVisualizer.Figures
             var r1 = Radius1.CachedValue.AsDouble;
             var r2 = Radius2.CachedValue.AsDouble;
             if (IsGuide)
+            {
                 dc.DrawEllipse(null, GuidePen,
                     new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble), r1, r2);
+            }
             else
+            {
                 dc.DrawEllipse(Brushes.Green, IsSelected ? SelectionPen : StrokePen,
                     new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble), r1, r2);
+            }
         }
 
         public override bool IsMouseOver(double x, double y)

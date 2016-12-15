@@ -13,7 +13,10 @@ namespace DynamicVisualizer.Controls
         public ScalarExpressionItem(bool isDummy)
         {
             InitializeComponent();
-            if (isDummy) textBox2.Visible = false;
+            if (isDummy)
+            {
+                textBox2.Visible = false;
+            }
         }
 
         public void MakeNotDummy()
@@ -29,19 +32,25 @@ namespace DynamicVisualizer.Controls
         private void ValueTextBoxLostFocus(object sender, EventArgs eventArgs)
         {
             if (Expr != null)
+            {
                 textBox2.Text = Expr.CachedValue.Str;
+            }
         }
 
         private void ValueTextBoxGotFocus(object sender, EventArgs eventArgs)
         {
             if (Expr != null)
+            {
                 textBox2.Text = Expr.ExprString;
+            }
         }
 
         private void ValueTextBoxKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char) Keys.Return)
+            {
                 if (!string.IsNullOrWhiteSpace(textBox2.Text))
+                {
                     if (Expr == null)
                     {
                         Expr = DataStorage.Add(
@@ -57,6 +66,8 @@ namespace DynamicVisualizer.Controls
                         StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex, true);
                         Form1.RedrawNeeded?.Invoke();
                     }
+                }
+            }
         }
     }
 }

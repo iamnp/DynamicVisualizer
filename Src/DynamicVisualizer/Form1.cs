@@ -84,30 +84,47 @@ namespace DynamicVisualizer
             dc.DrawRectangle(Brushes.White, null, _canvasRect);
 
             foreach (var magnet in StepManager.CanvasMagnets)
+            {
                 dc.DrawEllipse(Brushes.Yellow, new Pen(Brushes.Black, 1),
                     new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
                     4, 4);
+            }
 
             foreach (var figure in StepManager.Figures)
+            {
                 figure.Draw(dc);
+            }
 
             foreach (var figure in StepManager.Figures)
+            {
                 if (figure.IsSelected || _figureMover.NowMoving || _figureDrawer.NowDrawing || _figureScaler.NowScailing ||
                     _figureResizer.NowResizing)
+                {
                     if (figure.IsSelected)
+                    {
                         foreach (var magnet in figure.GetMagnets())
+                        {
                             dc.DrawEllipse(Brushes.DeepSkyBlue, new Pen(Brushes.Black, 1),
                                 new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
                                 5, 5);
+                        }
+                    }
                     else
                     {
                         var magnets = figure.GetMagnets();
-                        if (magnets == null) continue;
+                        if (magnets == null)
+                        {
+                            continue;
+                        }
                         foreach (var magnet in magnets)
+                        {
                             dc.DrawEllipse(Brushes.Yellow, new Pen(Brushes.Black, 1),
                                 new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
                                 4, 4);
+                        }
                     }
+                }
+            }
         }
 
         private void PerformFigureSelection(Point pos)
@@ -127,7 +144,10 @@ namespace DynamicVisualizer
                     break;
                 }
             }
-            if (_selected == null) label7.Visible = false;
+            if (_selected == null)
+            {
+                label7.Visible = false;
+            }
             else
             {
                 label7.Visible = true;
@@ -166,7 +186,9 @@ namespace DynamicVisualizer
                 PerformFigureSelection(upPos);
             }
             if (e.ChangedButton == MouseButton.Left)
+            {
                 _figureDrawer.Finish();
+            }
             Redraw();
         }
 
@@ -183,8 +205,11 @@ namespace DynamicVisualizer
         {
             var pos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
             if (e.LeftButton == MouseButtonState.Pressed)
+            {
                 _figureDrawer.Move(pos);
+            }
             if ((e.RightButton == MouseButtonState.Pressed) && (_selected != null))
+            {
                 switch (_transformType)
                 {
                     case TransformStep.TransformType.Move:
@@ -197,6 +222,7 @@ namespace DynamicVisualizer
                         _figureResizer.Move(_selected, pos);
                         break;
                 }
+            }
 
             Redraw();
         }
@@ -217,10 +243,16 @@ namespace DynamicVisualizer
                     break;
             }
             if (e.ChangedButton == MouseButton.Left)
+            {
                 PerformFigureSelection(_figureDrawer.Start(downPos));
+            }
             if (e.ChangedButton == MouseButton.Right)
+            {
                 if ((_selected == null) || !_selected.IsMouseOver(downPos.X, downPos.Y))
+                {
                     PerformFigureSelection(downPos);
+                }
+            }
             Redraw();
         }
 

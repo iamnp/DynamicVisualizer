@@ -21,7 +21,9 @@ namespace DynamicVisualizer.Expressions
         {
             var rawExprs = new string[n];
             for (var i = 0; i < n; ++i)
+            {
                 rawExprs[i] = rawExpr;
+            }
 
             _exprsStrings = new string[rawExprs.Length];
             Exprs = new ScalarExpression[rawExprs.Length];
@@ -35,16 +37,26 @@ namespace DynamicVisualizer.Expressions
             get
             {
                 for (var i = 0; i < Exprs.Length; ++i)
-                    if (Exprs[i].UsedBy.Count != 0) return false;
+                {
+                    if (Exprs[i].UsedBy.Count != 0)
+                    {
+                        return false;
+                    }
+                }
                 return UsedBy.Count == 0;
             }
         }
 
         public void SetRawExpressions(string[] rawExprs)
         {
-            if (rawExprs.Length != _exprsStrings.Length) throw new ArgumentException("Arrays lengths must be equual!");
+            if (rawExprs.Length != _exprsStrings.Length)
+            {
+                throw new ArgumentException("Arrays lengths must be equual!");
+            }
             for (var i = 0; i < rawExprs.Length; ++i)
+            {
                 _exprsStrings[i] = rawExprs[i];
+            }
             ExprString = _exprsStrings[0];
             Recalculate();
         }
@@ -52,7 +64,9 @@ namespace DynamicVisualizer.Expressions
         public void SetRawExpression(string rawExpr)
         {
             for (var i = 0; i < _exprsStrings.Length; ++i)
+            {
                 _exprsStrings[i] = rawExpr;
+            }
             ExprString = _exprsStrings[0];
             Recalculate();
         }
@@ -61,15 +75,23 @@ namespace DynamicVisualizer.Expressions
         {
             var s = "";
             for (var i = 0; i < _exprsStrings.Length; ++i)
+            {
                 if (i != _exprsStrings.Length - 1)
+                {
                     s += _exprsStrings[i] + "; ";
-                else s += _exprsStrings[i];
+                }
+                else
+                {
+                    s += _exprsStrings[i];
+                }
+            }
             return s;
         }
 
         public override void Recalculate()
         {
             for (var i = 0; i < Exprs.Length; ++i)
+            {
                 if (Exprs[i] == null)
                 {
                     var e = new ScalarExpression(ObjectName, VarName + (i + 1), _exprsStrings[i], i, this);
@@ -80,6 +102,7 @@ namespace DynamicVisualizer.Expressions
                 {
                     Exprs[i].SetRawExpression(_exprsStrings[i]);
                 }
+            }
         }
     }
 }

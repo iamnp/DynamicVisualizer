@@ -49,7 +49,10 @@ namespace DynamicVisualizer.Steps.Scale
 
         public override void Apply()
         {
-            if (!Applied) CaptureBearings();
+            if (!Applied)
+            {
+                CaptureBearings();
+            }
             Applied = true;
 
             if ((ScaleAround == Side.Left) || (ScaleAround == Side.Right))
@@ -66,7 +69,10 @@ namespace DynamicVisualizer.Steps.Scale
 
                 EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Name + ".radius2 * (" + Factor + ")");
             }
-            if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
+            if ((Iterations != -1) && !Figure.IsGuide)
+            {
+                CopyStaticFigure();
+            }
         }
 
         public override void IterateNext()
@@ -95,9 +101,13 @@ namespace DynamicVisualizer.Steps.Scale
         {
             var rf = (EllipseFigure) Figure.StaticLoopFigures[CompletedIterations];
             if ((ScaleAround == Side.Left) || (ScaleAround == Side.Right))
+            {
                 rf.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.Str);
+            }
             else if ((ScaleAround == Side.Top) || (ScaleAround == Side.Bottom))
+            {
                 rf.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.Str);
+            }
         }
 
         public void Scale(string factor)

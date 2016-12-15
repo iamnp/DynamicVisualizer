@@ -51,7 +51,10 @@ namespace DynamicVisualizer.Steps.Resize
 
         public override void Apply()
         {
-            if (!Applied) CaptureBearings();
+            if (!Applied)
+            {
+                CaptureBearings();
+            }
             Applied = true;
 
             if (ResizeAround == Side.Left)
@@ -86,7 +89,10 @@ namespace DynamicVisualizer.Steps.Resize
                     new Tuple<ScalarExpression, string>(RectFigure.Y, RectFigure.Name + ".y + (" + Delta + ")"),
                     new Tuple<ScalarExpression, string>(RectFigure.Height, RectFigure.Name + ".height - (" + Delta + ")"));
             }
-            if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
+            if ((Iterations != -1) && !Figure.IsGuide)
+            {
+                CopyStaticFigure();
+            }
         }
 
         public override void IterateNext()

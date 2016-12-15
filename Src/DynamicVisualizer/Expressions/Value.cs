@@ -37,14 +37,26 @@
         {
             get
             {
-                if (IsDouble) return "" + AsDouble;
-                if (IsString) return AsString;
+                if (IsDouble)
+                {
+                    return "" + AsDouble;
+                }
+                if (IsString)
+                {
+                    return AsString;
+                }
                 var s = "";
                 for (var i = 0; i < AsArray.Length; ++i)
+                {
                     if (i != AsArray.Length - 1)
+                    {
                         s += AsArray[i].Str + "; ";
+                    }
                     else
+                    {
                         s += AsArray[i].Str;
+                    }
+                }
                 return s;
             }
         }
@@ -54,9 +66,18 @@
             _double = null;
             AsString = null;
             AsArray = null;
-            if (v.IsDouble) _double = v.AsDouble;
-            if (v.IsString) AsString = v.AsString;
-            if (v.IsArray) AsArray = v.AsArray;
+            if (v.IsDouble)
+            {
+                _double = v.AsDouble;
+            }
+            if (v.IsString)
+            {
+                AsString = v.AsString;
+            }
+            if (v.IsArray)
+            {
+                AsArray = v.AsArray;
+            }
         }
     }
 }

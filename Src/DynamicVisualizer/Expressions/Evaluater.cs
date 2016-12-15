@@ -13,17 +13,26 @@ namespace DynamicVisualizer.Expressions
                 {
                     "+", (a, b) =>
                     {
-                        if (a.IsString && b.IsString) return new Value(a.AsString + b.AsString);
+                        if (a.IsString && b.IsString)
+                        {
+                            return new Value(a.AsString + b.AsString);
+                        }
                         if (a.IsString)
                         {
                             var op2 = b.IsDouble ? b : b.AsArray[_currentIndexInArray];
-                            if (op2.IsString) return new Value(a.AsString + op2.AsString);
+                            if (op2.IsString)
+                            {
+                                return new Value(a.AsString + op2.AsString);
+                            }
                             return new Value(a.AsString + op2.AsDouble);
                         }
                         if (b.IsString)
                         {
                             var op1 = a.IsDouble ? a : a.AsArray[_currentIndexInArray];
-                            if (op1.IsString) return new Value(op1.AsString + b.AsString);
+                            if (op1.IsString)
+                            {
+                                return new Value(op1.AsString + b.AsString);
+                            }
                             return new Value(op1.AsDouble + b.AsString);
                         }
                         var op11 = a.IsDouble ? a.AsDouble : a.AsArray[_currentIndexInArray].AsDouble;
@@ -67,7 +76,10 @@ namespace DynamicVisualizer.Expressions
                     {
                         double sum = 0;
                         var arr = a.AsArray;
-                        for (var j = 0; j < arr.Length; ++j) sum += arr[j].AsDouble;
+                        for (var j = 0; j < arr.Length; ++j)
+                        {
+                            sum += arr[j].AsDouble;
+                        }
                         return new Value(sum/arr.Length);
                     }
                 },
@@ -77,7 +89,12 @@ namespace DynamicVisualizer.Expressions
                         var arr = a.AsArray;
                         var max = arr[0].AsDouble;
                         for (var j = 1; j < arr.Length; ++j)
-                            if (arr[j].AsDouble > max) max = arr[j].AsDouble;
+                        {
+                            if (arr[j].AsDouble > max)
+                            {
+                                max = arr[j].AsDouble;
+                            }
+                        }
                         return new Value(max);
                     }
                 },
@@ -104,7 +121,10 @@ namespace DynamicVisualizer.Expressions
                     afterLeftBrace = true;
                     needToEval.Push(false);
                 }
-                if ((exprString[i] == ' ') || (exprString[i] == '(')) continue;
+                if ((exprString[i] == ' ') || (exprString[i] == '('))
+                {
+                    continue;
+                }
                 if (char.IsDigit(exprString[i])) // encountered a number
                 {
                     firstInExpr = true;
@@ -112,7 +132,10 @@ namespace DynamicVisualizer.Expressions
                     afterLeftBrace = false;
                     var start1 = i;
                     while ((i < exprString.Length) &&
-                           (char.IsDigit(exprString[i]) || (exprString[i] == '.') || (exprString[i] == ','))) ++i;
+                           (char.IsDigit(exprString[i]) || (exprString[i] == '.') || (exprString[i] == ',')))
+                    {
+                        ++i;
+                    }
                     i -= 1;
                     operands.Push(
                         new Value(double.Parse(exprString.Substring(start1, i - start1 + 1).Replace(".", ","))));
@@ -123,8 +146,14 @@ namespace DynamicVisualizer.Expressions
                     firstInExpr = true;
                     afterOp = false;
                     afterLeftBrace = false;
-                    if (!needToEval.Pop()) continue;
-                    if (operators.Count == 0) continue;
+                    if (!needToEval.Pop())
+                    {
+                        continue;
+                    }
+                    if (operators.Count == 0)
+                    {
+                        continue;
+                    }
                     var function = operators.Pop();
                     if (BinaryFunctions.ContainsKey(function))
                     {
@@ -148,7 +177,9 @@ namespace DynamicVisualizer.Expressions
                     var start = i;
                     while ((i < exprString.Length) &&
                            (char.IsLetter(exprString[i]) || char.IsDigit(exprString[i]) || (exprString[i] == '.')))
+                    {
                         ++i;
+                    }
                     i -= 1;
                     var funcOrVar = exprString.Substring(start, i - start + 1);
                     if (UnaryFunctions.ContainsKey(funcOrVar))
@@ -159,7 +190,9 @@ namespace DynamicVisualizer.Expressions
                         needToEval.Push(true);
                     }
                     else // variable
+                    {
                         operands.Push(variableEvaluater(funcOrVar));
+                    }
                     continue;
                 }
 
@@ -170,7 +203,10 @@ namespace DynamicVisualizer.Expressions
                     afterLeftBrace = false;
                     var start = i;
                     i += 1;
-                    while ((i < exprString.Length) && (exprString[i] != '"')) ++i;
+                    while ((i < exprString.Length) && (exprString[i] != '"'))
+                    {
+                        ++i;
+                    }
                     var funcOrVar = exprString.Substring(start, i - start + 1);
                     operands.Push(new Value(funcOrVar.Replace("\"", "")));
                     continue;
@@ -182,11 +218,13 @@ namespace DynamicVisualizer.Expressions
                     needToEval.Pop();
                     needToEval.Push(true);
                     if (exprString[i] == '-') // unary or binary
+                    {
                         if (!firstInExpr || afterOp || afterLeftBrace)
                         {
                             operators.Push("--");
                             continue;
                         }
+                    }
                     operators.Push(exprString[i].ToString());
                     afterOp = true;
                 }

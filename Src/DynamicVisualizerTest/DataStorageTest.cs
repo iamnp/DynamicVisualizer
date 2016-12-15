@@ -148,7 +148,9 @@ namespace DynamicVisualizerTest
             var a = DataStorage.GetArrayExpression("data.item");
             Assert.AreEqual(arr.Length, a.Exprs.Length);
             for (var i = 0; i < a.Exprs.Length; ++i)
+            {
                 Assert.AreEqual(a.Exprs[i].CachedValue.AsDouble + "", arr[i]);
+            }
         }
 
         [TestMethod]
@@ -162,13 +164,17 @@ namespace DynamicVisualizerTest
             var a = DataStorage.GetArrayExpression("data.item");
             Assert.AreEqual(arr.Length, a.Exprs.Length);
             for (var i = 0; i < a.Exprs.Length; ++i)
+            {
                 Assert.AreEqual(a.Exprs[i].CachedValue.AsDouble + "", arr[i]);
+            }
 
             DataStorage.Add(new ArrayExpression("data", "item2", "data.item*2", a.Exprs.Length));
             var b = DataStorage.GetArrayExpression("data.item2");
             Assert.AreEqual(arr.Length, b.Exprs.Length);
             for (var i = 0; i < b.Exprs.Length; ++i)
+            {
                 Assert.AreEqual(b.Exprs[i].CachedValue.AsDouble/2 + "", arr[i]);
+            }
         }
 
         [TestMethod]
@@ -182,13 +188,17 @@ namespace DynamicVisualizerTest
             var a = DataStorage.GetArrayExpression("data.item");
             Assert.AreEqual(arr.Length, a.Exprs.Length);
             for (var i = 0; i < a.Exprs.Length; ++i)
+            {
                 Assert.AreEqual(a.Exprs[i].CachedValue.AsDouble + "", arr[i]);
+            }
 
             DataStorage.Add(new ArrayExpression("data", "item2", "data.item*2", a.Exprs.Length));
             var b = DataStorage.GetArrayExpression("data.item2");
             Assert.AreEqual(arr.Length, b.Exprs.Length);
             for (var i = 0; i < b.Exprs.Length; ++i)
+            {
                 Assert.AreEqual(b.Exprs[i].CachedValue.AsDouble/2 + "", arr[i]);
+            }
 
             DataStorage.Add(new ScalarExpression("data", "arrlen", "len(data.item2)"));
             Assert.AreEqual(DataStorage.GetScalarExpression("data.arrlen").CachedValue.AsDouble, arr.Length,
@@ -206,13 +216,17 @@ namespace DynamicVisualizerTest
             var a = DataStorage.GetArrayExpression("data.item");
             Assert.AreEqual(arr.Length, a.Exprs.Length);
             for (var i = 0; i < a.Exprs.Length; ++i)
+            {
                 Assert.AreEqual(a.Exprs[i].CachedValue.AsDouble + "", arr[i]);
+            }
 
             DataStorage.Add(new ArrayExpression("data", "item2", "data.item*2", a.Exprs.Length));
             var b = DataStorage.GetArrayExpression("data.item2");
             Assert.AreEqual(arr.Length, b.Exprs.Length);
             for (var i = 0; i < b.Exprs.Length; ++i)
+            {
                 Assert.AreEqual(b.Exprs[i].CachedValue.AsDouble/2 + "", arr[i]);
+            }
 
             DataStorage.Add(new ScalarExpression("data", "arrlen", "len(data.item2)"));
             Assert.AreEqual(DataStorage.GetScalarExpression("data.arrlen").CachedValue.AsDouble, arr.Length,
@@ -229,10 +243,14 @@ namespace DynamicVisualizerTest
             Assert.AreEqual(DataStorage.GetScalarExpression("data.arrmean").CachedValue.AsDouble, 34, double.Epsilon);
 
             for (var i = 0; i < a.Exprs.Length; ++i)
+            {
                 Assert.AreEqual(a.Exprs[i].CachedValue.AsDouble + "", arr[i]);
+            }
 
             for (var i = 0; i < b.Exprs.Length; ++i)
+            {
                 Assert.AreEqual(b.Exprs[i].CachedValue.AsDouble/2 + "", arr[i]);
+            }
 
             DataStorage.Add(new ScalarExpression("data", "arrmax", "max(data.item2)"));
             // max (2, 4, 6, 8, 10, 194, 14) = 194

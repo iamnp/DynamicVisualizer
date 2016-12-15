@@ -41,14 +41,25 @@ namespace DynamicVisualizer.Manipulators
                 var smallW = Math.Abs(rf.Width.CachedValue.AsDouble/6.0);
                 var smallH = Math.Abs(rf.Height.CachedValue.AsDouble/6.0);
                 if (p.X < smallW)
+                {
                     _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Right, pos.X - _downPos.X);
+                }
                 else if (p.X > 5.0*smallW)
+                {
                     _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Left, pos.X - _downPos.X);
+                }
                 else if (p.Y < smallH)
+                {
                     _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Bottom, pos.Y - _downPos.Y);
+                }
                 else if (p.Y > 5.0*smallH)
+                {
                     _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Top, pos.Y - _downPos.Y);
-                if (_nowResizing == null) return;
+                }
+                if (_nowResizing == null)
+                {
+                    return;
+                }
                 StepManager.Insert(_nowResizing,
                     StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
             }
@@ -59,26 +70,42 @@ namespace DynamicVisualizer.Manipulators
                 if (snapped != null)
                 {
                     if (rrs.ResizeAround == ResizeRectStep.Side.Right)
+                    {
                         rrs.Resize("(" + snapped.X.ExprString + ") - " + rrs.Figure.Name + ".x");
+                    }
                     else if (rrs.ResizeAround == ResizeRectStep.Side.Left)
+                    {
                         rrs.Resize("(" + snapped.X.ExprString + ") - (" + rrs.Figure.Name + ".x + (" +
                                    rrs.Figure.Name + ".width))");
+                    }
                     else if (rrs.ResizeAround == ResizeRectStep.Side.Top)
+                    {
                         rrs.Resize("(" + snapped.Y.ExprString + ") - (" + rrs.Figure.Name + ".y + (" +
                                    rrs.Figure.Name + ".height))");
+                    }
                     else if (rrs.ResizeAround == ResizeRectStep.Side.Bottom)
+                    {
                         rrs.Resize("(" + snapped.Y.ExprString + ") - " + rrs.Figure.Name + ".y");
+                    }
                 }
                 else
                 {
                     if (rrs.ResizeAround == ResizeRectStep.Side.Right)
+                    {
                         rrs.Resize(pos.X - _downPos.X);
+                    }
                     else if (rrs.ResizeAround == ResizeRectStep.Side.Left)
+                    {
                         rrs.Resize(pos.X - _downPos.X);
+                    }
                     else if (rrs.ResizeAround == ResizeRectStep.Side.Top)
+                    {
                         rrs.Resize(pos.Y - _downPos.Y);
+                    }
                     else if (rrs.ResizeAround == ResizeRectStep.Side.Bottom)
+                    {
                         rrs.Resize(pos.Y - _downPos.Y);
+                    }
                 }
             }
         }
@@ -98,14 +125,25 @@ namespace DynamicVisualizer.Manipulators
                 var smallW = Math.Abs(ef.Radius1.CachedValue.AsDouble/3.0);
                 var smallH = Math.Abs(ef.Radius2.CachedValue.AsDouble/3.0);
                 if (p.X < smallW)
+                {
                     _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Right, pos.X - _downPos.X);
+                }
                 else if (p.X > 5.0*smallW)
+                {
                     _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Left, pos.X - _downPos.X);
+                }
                 else if (p.Y < smallH)
+                {
                     _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Bottom, pos.Y - _downPos.Y);
+                }
                 else if (p.Y > 5.0*smallH)
+                {
                     _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Top, pos.Y - _downPos.Y);
-                if (_nowResizing == null) return;
+                }
+                if (_nowResizing == null)
+                {
+                    return;
+                }
                 StepManager.Insert(_nowResizing,
                     StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
             }
@@ -116,28 +154,44 @@ namespace DynamicVisualizer.Manipulators
                 if (snapped != null)
                 {
                     if (res.ResizeAround == ResizeEllipseStep.Side.Right)
+                    {
                         res.Resize("(" + res.Figure.Name + ".x - " + res.Figure.Name + ".radius1 ) - (" +
                                    snapped.X.ExprString + ")");
+                    }
                     else if (res.ResizeAround == ResizeEllipseStep.Side.Left)
+                    {
                         res.Resize("(" + snapped.X.ExprString + ") - (" + res.Figure.Name + ".x + (" +
                                    res.Figure.Name + ".radius1))");
+                    }
                     else if (res.ResizeAround == ResizeEllipseStep.Side.Top)
+                    {
                         res.Resize("(" + res.Figure.Name + ".y + " + res.Figure.Name + ".radius2 ) - (" +
                                    snapped.Y.ExprString + ")");
+                    }
                     else if (res.ResizeAround == ResizeEllipseStep.Side.Bottom)
+                    {
                         res.Resize("(" + snapped.Y.ExprString + ") - (" + res.Figure.Name + ".y - (" +
                                    res.Figure.Name + ".radius2))");
+                    }
                 }
                 else
                 {
                     if (res.ResizeAround == ResizeEllipseStep.Side.Right)
+                    {
                         res.Resize(_downPos.X - pos.X);
+                    }
                     else if (res.ResizeAround == ResizeEllipseStep.Side.Left)
+                    {
                         res.Resize(pos.X - _downPos.X);
+                    }
                     else if (res.ResizeAround == ResizeEllipseStep.Side.Top)
+                    {
                         res.Resize(_downPos.Y - pos.Y);
+                    }
                     else if (res.ResizeAround == ResizeEllipseStep.Side.Bottom)
+                    {
                         res.Resize(pos.Y - _downPos.Y);
+                    }
                 }
             }
         }

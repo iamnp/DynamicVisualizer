@@ -31,7 +31,9 @@ namespace DynamicVisualizer.Figures
         public override Magnet[] GetMagnets()
         {
             if (IsStatic)
+            {
                 return null;
+            }
             var w = new ScalarExpression(Name, "a", Name + ".x + " + Name + ".width", true);
             var h = new ScalarExpression(Name, "a", Name + ".y + " + Name + ".height", true);
 
@@ -74,10 +76,14 @@ namespace DynamicVisualizer.Figures
             }
 
             if (IsGuide)
+            {
                 dc.DrawRectangle(null, GuidePen, new Rect(x, y, width, height));
+            }
             else
+            {
                 dc.DrawRectangle(Brushes.Green, IsSelected ? SelectionPen : StrokePen,
                     new Rect(x, y, width, height));
+            }
         }
 
         public override bool IsMouseOver(double x, double y)

@@ -35,7 +35,9 @@ namespace DynamicVisualizer.Controls
         {
             var di = _items[_items.Count - 1];
             if ((e.KeyChar == (char) Keys.Return) && !string.IsNullOrWhiteSpace(di.textBox1.Text))
+            {
                 MakeNotDummy(di);
+            }
         }
     }
 }

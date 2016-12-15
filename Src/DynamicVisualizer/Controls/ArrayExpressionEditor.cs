@@ -48,7 +48,9 @@ namespace DynamicVisualizer.Controls
             {
                 var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
                 if ((files.Length == 1) && files[0].EndsWith(".csv"))
+                {
                     e.Effect = DragDropEffects.Copy;
+                }
             }
         }
 
@@ -63,7 +65,9 @@ namespace DynamicVisualizer.Controls
         {
             var di = _items[_items.Count - 1];
             if ((e.KeyChar == (char) Keys.Return) && !string.IsNullOrWhiteSpace(di.textBox1.Text))
+            {
                 MakeNotDummy(di);
+            }
         }
     }
 }

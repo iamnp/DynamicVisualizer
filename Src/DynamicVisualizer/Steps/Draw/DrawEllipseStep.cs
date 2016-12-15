@@ -59,33 +59,55 @@ namespace DynamicVisualizer.Steps.Draw
 
         public override void Apply()
         {
-            if (!Applied) StepManager.Figures.Add(EllipseFigure);
+            if (!Applied)
+            {
+                StepManager.Figures.Add(EllipseFigure);
+            }
 
             if ((EllipseFigure.X == null) || !Applied)
+            {
                 EllipseFigure.X = DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, Figure.IsGuide));
+            }
             else
+            {
                 EllipseFigure.X.SetRawExpression(X);
+            }
 
             if ((EllipseFigure.Y == null) || !Applied)
+            {
                 EllipseFigure.Y = DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, Figure.IsGuide));
+            }
             else
+            {
                 EllipseFigure.Y.SetRawExpression(Y);
+            }
 
             if ((EllipseFigure.Radius1 == null) || !Applied)
+            {
                 EllipseFigure.Radius1 =
                     DataStorage.Add(new ScalarExpression(Figure.Name, "radius1", Radius, Figure.IsGuide));
+            }
             else
+            {
                 EllipseFigure.Radius1.SetRawExpression(Radius);
+            }
 
             if ((EllipseFigure.Radius2 == null) || !Applied)
+            {
                 EllipseFigure.Radius2 =
                     DataStorage.Add(new ScalarExpression(Figure.Name, "radius2", Radius, Figure.IsGuide));
+            }
             else
+            {
                 EllipseFigure.Radius2.SetRawExpression(Radius);
+            }
 
             Applied = true;
 
-            if ((Iterations != -1) && !Figure.IsGuide) CopyStaticFigure();
+            if ((Iterations != -1) && !Figure.IsGuide)
+            {
+                CopyStaticFigure();
+            }
         }
 
         public override void IterateNext()

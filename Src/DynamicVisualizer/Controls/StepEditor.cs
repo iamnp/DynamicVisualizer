@@ -173,82 +173,128 @@ namespace DynamicVisualizer.Controls
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (_ignoreTextChanged) return;
+            if (_ignoreTextChanged)
+            {
+                return;
+            }
             if (_step is DrawStep)
             {
                 var ds = (DrawStep) _step;
                 if (ds.StepType == DrawStep.DrawStepType.DrawRect)
+                {
                     ((DrawRectStep) ds).ReInitX(textBox1.Text);
+                }
                 else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
+                {
                     ((DrawEllipseStep) ds).ReInitX(textBox1.Text);
+                }
                 else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
+                {
                     ((DrawLineStep) ds).ReInitX(textBox1.Text);
+                }
             }
             else if (_step is TransformStep)
             {
                 var ts = (TransformStep) _step;
                 if (ts.StepType == TransformStep.TransformStepType.MoveRect)
+                {
                     ((MoveRectStep) ts).MoveX(textBox1.Text);
+                }
                 else if (ts.StepType == TransformStep.TransformStepType.MoveEllipse)
+                {
                     ((MoveEllipseStep) ts).MoveX(textBox1.Text);
+                }
                 else if (ts.StepType == TransformStep.TransformStepType.ScaleRect)
+                {
                     ((ScaleRectStep) ts).Scale(textBox1.Text);
+                }
                 else if (ts.StepType == TransformStep.TransformStepType.ScaleEllipse)
+                {
                     ((ScaleEllipseStep) ts).Scale(textBox1.Text);
+                }
             }
             Form1.RedrawNeeded?.Invoke();
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            if (_ignoreTextChanged) return;
+            if (_ignoreTextChanged)
+            {
+                return;
+            }
             if (_step is DrawStep)
             {
                 var ds = (DrawStep) _step;
                 if (ds.StepType == DrawStep.DrawStepType.DrawRect)
+                {
                     ((DrawRectStep) ds).ReInitY(textBox2.Text);
+                }
                 else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
+                {
                     ((DrawEllipseStep) ds).ReInitY(textBox2.Text);
+                }
                 else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
+                {
                     ((DrawLineStep) ds).ReInitY(textBox2.Text);
+                }
             }
             else if (_step is TransformStep)
             {
                 var ts = (TransformStep) _step;
                 if (ts.StepType == TransformStep.TransformStepType.MoveRect)
+                {
                     ((MoveRectStep) ts).MoveY(textBox2.Text);
+                }
                 else if (ts.StepType == TransformStep.TransformStepType.MoveEllipse)
+                {
                     ((MoveEllipseStep) ts).MoveY(textBox2.Text);
+                }
             }
             Form1.RedrawNeeded?.Invoke();
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-            if (_ignoreTextChanged) return;
+            if (_ignoreTextChanged)
+            {
+                return;
+            }
             if (_step is DrawStep)
             {
                 var ds = (DrawStep) _step;
                 if (ds.StepType == DrawStep.DrawStepType.DrawRect)
+                {
                     ((DrawRectStep) ds).ReInitWidth(textBox3.Text);
+                }
                 else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
+                {
                     ((DrawEllipseStep) ds).ReInit(textBox3.Text);
+                }
                 else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
+                {
                     ((DrawLineStep) ds).ReInitWidth(textBox3.Text);
+                }
             }
             Form1.RedrawNeeded?.Invoke();
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
-            if (_ignoreTextChanged) return;
+            if (_ignoreTextChanged)
+            {
+                return;
+            }
             if (_step is DrawStep)
             {
                 var ds = (DrawStep) _step;
                 if (ds.StepType == DrawStep.DrawStepType.DrawRect)
+                {
                     ((DrawRectStep) ds).ReInitHeight(textBox4.Text);
+                }
                 else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
+                {
                     ((DrawLineStep) ds).ReInitHeight(textBox4.Text);
+                }
             }
             Form1.RedrawNeeded?.Invoke();
         }

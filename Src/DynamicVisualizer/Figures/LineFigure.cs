@@ -29,7 +29,9 @@ namespace DynamicVisualizer.Figures
         public override Magnet[] GetMagnets()
         {
             if (IsStatic)
+            {
                 return null;
+            }
             var w = new ScalarExpression(Name, "a", Name + ".x + " + Name + ".width", true);
             var h = new ScalarExpression(Name, "a", Name + ".y + " + Name + ".height", true);
 
@@ -58,10 +60,14 @@ namespace DynamicVisualizer.Figures
             var height = Height.CachedValue.AsDouble;
 
             if (IsGuide)
+            {
                 dc.DrawLine(GuidePen, new Point(x, y), new Point(x + width, y + height));
+            }
             else
+            {
                 dc.DrawLine(IsSelected ? SelectionPen : StrokePen,
                     new Point(x, y), new Point(x + width, y + height));
+            }
         }
 
         public override bool IsMouseOver(double x, double y)

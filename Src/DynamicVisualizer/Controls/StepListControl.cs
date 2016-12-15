@@ -24,8 +24,14 @@ namespace DynamicVisualizer.Controls
             var max = -1;
             for (var i = 0; i < MarkedControls.Count; ++i)
             {
-                if (MarkedControls[i].Index < min) min = MarkedControls[i].Index;
-                if (MarkedControls[i].Index > max) max = MarkedControls[i].Index;
+                if (MarkedControls[i].Index < min)
+                {
+                    min = MarkedControls[i].Index;
+                }
+                if (MarkedControls[i].Index > max)
+                {
+                    max = MarkedControls[i].Index;
+                }
                 MarkedControls[i].Step.MakeIterable(ArrayExpressionEditor.Len);
                 MarkedControls[i].RespectIterable();
             }
@@ -44,12 +50,14 @@ namespace DynamicVisualizer.Controls
             Controls.RemoveAt(index);
             _stepControls.RemoveAt(index);
             if (_stepControls.Count != 0)
+            {
                 for (var i = index; i < _stepControls.Count; ++i)
                 {
                     var scc = _stepControls[i];
                     scc.Index = index;
                     scc.Location = new Point(0, scc.Location.Y - scc.Height);
                 }
+            }
         }
 
         public void ClearMarked()
@@ -65,7 +73,9 @@ namespace DynamicVisualizer.Controls
         public void ReSetText()
         {
             for (var i = 0; i < _stepControls.Count; i++)
+            {
                 _stepControls[i].SetText();
+            }
         }
 
         public void TimelineOnStepInserted(int index)
@@ -88,7 +98,9 @@ namespace DynamicVisualizer.Controls
             Controls.Add(sc);
             _stepControls.Insert(index, sc);
             for (var i = 0; i < _stepControls.Count; ++i)
+            {
                 _stepControls[i].Index = i;
+            }
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -96,17 +108,25 @@ namespace DynamicVisualizer.Controls
             if (keyData == Keys.Up)
             {
                 if (_currentSelection.Step.Iterations != -1)
+                {
                     StepManager.PrevIterationFromCurrentPos();
+                }
                 else if (_currentSelection.Index > 0)
+                {
                     StepManager.SetCurrentStepIndex(_currentSelection.Index - 1);
+                }
                 return true;
             }
             if (keyData == Keys.Down)
             {
                 if (_currentSelection.Step.Iterations != -1)
+                {
                     StepManager.NextIterationFromCurrentPos();
+                }
                 else if (_currentSelection.Index < _stepControls.Count - 1)
+                {
                     StepManager.SetCurrentStepIndex(_currentSelection.Index + 1);
+                }
                 return true;
             }
 
@@ -114,20 +134,27 @@ namespace DynamicVisualizer.Controls
             {
                 if ((_currentSelection.Step.Iterations != -1)
                     && (_currentSelection.Step.CompletedIterations != _currentSelection.Step.Iterations))
+                {
                     StepManager.NextLoopFromCurrentPos();
+                }
                 return true;
             }
             if (keyData == Keys.Left)
             {
                 if ((_currentSelection.Step.Iterations != -1)
                     && (_currentSelection.Step.CompletedIterations != 0))
+                {
                     StepManager.PrevLoopFromCurrentPos();
+                }
                 return true;
             }
 
             if (keyData == Keys.Delete)
             {
-                if (_currentSelection != null) StepManager.Remove(_currentSelection.Index);
+                if (_currentSelection != null)
+                {
+                    StepManager.Remove(_currentSelection.Index);
+                }
                 return true;
             }
 
@@ -137,7 +164,9 @@ namespace DynamicVisualizer.Controls
         public void MarkAsSelecgted(int index)
         {
             if ((_currentSelection != null) && !_currentSelection.Marked)
+            {
                 _currentSelection.BackColor = BackColor;
+            }
             _currentSelection = _stepControls[index];
             _currentSelection.BackColor = Color.Aqua;
             Form1.RedrawNeeded?.Invoke();
@@ -147,7 +176,9 @@ namespace DynamicVisualizer.Controls
         {
             StepManager.SetCurrentStepIndex(((StepItem) sender).Index);
             if (StepManager.CurrentStep.Iterations == -1)
+            {
                 StepManager.ResetIterations(StepManager.CurrentStepIndex);
+            }
             if (e.Button == MouseButtons.Right)
             {
                 _currentSelection.Marked = true;
@@ -161,7 +192,10 @@ namespace DynamicVisualizer.Controls
             if (sender != _currentSelection)
             {
                 var c = (StepItem) sender;
-                if (!c.Marked) c.BackColor = BackColor;
+                if (!c.Marked)
+                {
+                    c.BackColor = BackColor;
+                }
             }
         }
 
@@ -170,7 +204,10 @@ namespace DynamicVisualizer.Controls
             if (sender != _currentSelection)
             {
                 var c = (StepItem) sender;
-                if (!c.Marked) c.BackColor = Color.Aqua;
+                if (!c.Marked)
+                {
+                    c.BackColor = Color.Aqua;
+                }
             }
         }
     }

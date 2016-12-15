@@ -26,8 +26,10 @@ namespace DynamicVisualizer.Controls
         public void RespectIterable()
         {
             if (Step.Iterations > 0)
+            {
                 clickThroughLabel1.Location = new Point(clickThroughLabel1.Location.X + 10,
                     clickThroughLabel1.Location.Y);
+            }
         }
 
         public void SetText()
@@ -90,21 +92,27 @@ namespace DynamicVisualizer.Controls
 
             var scaleEllipseStep = Step as ScaleEllipseStep;
             if (scaleEllipseStep != null)
+            {
                 clickThroughLabel1.Text =
                     string.Format("scale {0} by factor {1} around {2} side",
                         scaleEllipseStep.Figure.Name, scaleEllipseStep.Factor, scaleEllipseStep.ScaleAround);
+            }
 
             var resizeRectStep = Step as ResizeRectStep;
             if (resizeRectStep != null)
+            {
                 clickThroughLabel1.Text =
                     string.Format("resize {0} by {1} around {2} side",
                         resizeRectStep.Figure.Name, resizeRectStep.Delta, resizeRectStep.ResizeAround);
+            }
 
             var resizeEllipseStep = Step as ResizeEllipseStep;
             if (resizeEllipseStep != null)
+            {
                 clickThroughLabel1.Text =
                     string.Format("resize {0} by {1} around {2} side",
                         resizeEllipseStep.Figure.Name, resizeEllipseStep.Delta, resizeEllipseStep.ResizeAround);
+            }
         }
     }
 }

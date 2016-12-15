@@ -24,19 +24,25 @@ namespace DynamicVisualizer.Controls
             {
                 var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
                 if ((files.Length == 1) && files[0].EndsWith(".csv"))
+                {
                     e.Effect = DragDropEffects.Copy;
+                }
             }
         }
 
         public void SetDataFromFile(string data, string filename = null)
         {
             if (filename != null)
+            {
                 textBox1.Text = filename;
+            }
 
             _definedAsConstVector = true;
             var items = data.Split(';');
             for (var i = 0; i < items.Length; ++i)
+            {
                 items[i] = items[i].Trim();
+            }
             ArrayExpressionEditor.Len = items.Length;
             Expr = DataStorage.Add(new ArrayExpression("data", textBox1.Text, items));
 
@@ -67,22 +73,32 @@ namespace DynamicVisualizer.Controls
         private void ValueTextBoxLostFocus(object sender, EventArgs eventArgs)
         {
             if (Expr != null)
+            {
                 textBox2.Text = Expr.CachedValue.Str;
+            }
         }
 
         private void ValueTextBoxGotFocus(object sender, EventArgs eventArgs)
         {
             if (Expr != null)
+            {
                 if (_definedAsConstVector)
+                {
                     textBox2.Text = Expr.ExprStrings();
+                }
                 else
+                {
                     textBox2.Text = Expr.ExprString;
+                }
+            }
         }
 
         private void ValueTextBoxKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char) Keys.Return)
+            {
                 if (!string.IsNullOrWhiteSpace(textBox2.Text))
+                {
                     if (Expr == null)
                     {
                         if ((ArrayExpressionEditor.Len == -1) || textBox2.Text.Contains(";"))
@@ -90,7 +106,9 @@ namespace DynamicVisualizer.Controls
                             _definedAsConstVector = true;
                             var items = textBox2.Text.Split(';');
                             for (var i = 0; i < items.Length; ++i)
+                            {
                                 items[i] = items[i].Trim();
+                            }
                             ArrayExpressionEditor.Len = items.Length;
                             Expr = DataStorage.Add(new ArrayExpression("data", textBox1.Text, items));
                         }
@@ -110,7 +128,9 @@ namespace DynamicVisualizer.Controls
                         {
                             var items = textBox2.Text.Split(';');
                             for (var i = 0; i < items.Length; ++i)
+                            {
                                 items[i] = items[i].Trim();
+                            }
                             Expr.SetRawExpressions(items);
                         }
                         else
@@ -122,6 +142,8 @@ namespace DynamicVisualizer.Controls
                         StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex, true);
                         Form1.RedrawNeeded?.Invoke();
                     }
+                }
+            }
         }
     }
 }

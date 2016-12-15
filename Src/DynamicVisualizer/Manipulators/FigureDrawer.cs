@@ -18,7 +18,9 @@ namespace DynamicVisualizer.Manipulators
         {
             var snapped = StepManager.Snap(_startPos);
             if (snapped == null)
+            {
                 return new DrawRectStep(_startPos.X, _startPos.Y, 0, 0);
+            }
             return new DrawRectStep(snapped.X.ExprString, snapped.Y.ExprString, "0", "0");
         }
 
@@ -26,7 +28,9 @@ namespace DynamicVisualizer.Manipulators
         {
             var snapped = StepManager.Snap(_startPos);
             if (snapped == null)
+            {
                 return new DrawEllipseStep(_startPos.X, _startPos.Y, 0);
+            }
             return new DrawEllipseStep(snapped.X.ExprString, snapped.Y.ExprString, "0");
         }
 
@@ -34,7 +38,9 @@ namespace DynamicVisualizer.Manipulators
         {
             var snapped = StepManager.Snap(_startPos);
             if (snapped == null)
+            {
                 return new DrawLineStep(_startPos.X, _startPos.Y, 0, 0);
+            }
             return new DrawLineStep(snapped.X.ExprString, snapped.Y.ExprString, "0", "0");
         }
 
@@ -63,11 +69,15 @@ namespace DynamicVisualizer.Manipulators
         {
             var snapped = StepManager.Snap(pos, _nowDrawing.Figure);
             if (snapped == null)
+            {
                 ((DrawRectStep) _nowDrawing).ReInit(pos.X - _startPos.X, pos.Y - _startPos.Y);
+            }
             else
+            {
                 ((DrawRectStep) _nowDrawing).ReInit(
                     "(" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x",
                     "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y");
+            }
         }
 
         private void ResizeDrawnEllipse(Point pos)
@@ -93,16 +103,21 @@ namespace DynamicVisualizer.Manipulators
         {
             var snapped = StepManager.Snap(pos, _nowDrawing.Figure);
             if (snapped == null)
+            {
                 ((DrawLineStep) _nowDrawing).ReInit(pos.X - _startPos.X, pos.Y - _startPos.Y);
+            }
             else
+            {
                 ((DrawLineStep) _nowDrawing).ReInit(
                     "(" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x",
                     "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y");
+            }
         }
 
         public void Move(Point pos)
         {
             if (_nowDrawing != null)
+            {
                 switch (DrawStepType)
                 {
                     case DrawStep.DrawStepType.DrawRect:
@@ -115,6 +130,7 @@ namespace DynamicVisualizer.Manipulators
                         ResizeDrawnLine(pos);
                         break;
                 }
+            }
         }
 
         public void Finish()
