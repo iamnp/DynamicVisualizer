@@ -81,6 +81,15 @@ namespace DynamicVisualizer.Controls
                 return;
             }
 
+            var moveLineStep = Step as MoveLineStep;
+            if (moveLineStep != null)
+            {
+                clickThroughLabel1.Text =
+                    string.Format("move {0} to ({1}; {2})",
+                        moveLineStep.Figure.Name, moveLineStep.X, moveLineStep.Y);
+                return;
+            }
+
             var scaleRectStep = Step as ScaleRectStep;
             if (scaleRectStep != null)
             {
@@ -96,6 +105,14 @@ namespace DynamicVisualizer.Controls
                 clickThroughLabel1.Text =
                     string.Format("scale {0} by factor {1} around {2} side",
                         scaleEllipseStep.Figure.Name, scaleEllipseStep.Factor, scaleEllipseStep.ScaleAround);
+            }
+
+            var scaleLineStep = Step as ScaleLineStep;
+            if (scaleLineStep != null)
+            {
+                clickThroughLabel1.Text =
+                    string.Format("scale {0} by factor {1} around {2} side",
+                        scaleLineStep.Figure.Name, scaleLineStep.Factor, scaleLineStep.ScaleAround);
             }
 
             var resizeRectStep = Step as ResizeRectStep;

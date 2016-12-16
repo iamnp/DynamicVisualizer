@@ -92,9 +92,11 @@
     </Compile>
     <Compile Include="Steps\IterableStepGroup.cs" />
     <Compile Include="Steps\Move\MoveEllipseStep.cs" />
+    <Compile Include="Steps\Move\MoveLineStep.cs" />
     <Compile Include="Steps\Resize\ResizeEllipseStep.cs" />
     <Compile Include="Steps\Scale\ScaleEllipseStep.cs" />
     <Compile Include="Steps\Resize\ResizeRectStep.cs" />
+    <Compile Include="Steps\Scale\ScaleLineStep.cs" />
     <Compile Include="Steps\Scale\ScaleRectStep.cs" />
     <Compile Include="MainGraphicOutput.cs" />
     <Compile Include="Steps\Move\MoveRectStep.cs" />

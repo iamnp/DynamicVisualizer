@@ -133,11 +133,57 @@ namespace DynamicVisualizer.Manipulators
             }
         }
 
+        private void MoveLine(LineFigure lf, Point pos)
+        {
+            if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
+            {
+                _offsetX = _downPos.X - lf.X.CachedValue.AsDouble;
+                _offsetY = _downPos.Y - lf.Y.CachedValue.AsDouble;
+            }
+
+            if (_nowMoving == null)
+            {
+                _nowMoving = new MoveLineStep(lf, pos.X - _offsetX, pos.Y - _offsetY);
+                StepManager.Insert(_nowMoving,
+                    StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
+            }
+            else
+            {
+                var snapped = StepManager.Snap(pos, _nowMoving.Figure);
+                Magnet snappedBy = null;
+                if ((snapped != null) &&
+                    ((snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
+                {
+                    if (snappedBy.EqualExprStrings(lf.Start))
+                    {
+                        ((MoveLineStep) _nowMoving).Move(snapped.X.ExprString, snapped.Y.ExprString);
+                    }
+                    else if (snappedBy.EqualExprStrings(lf.Center))
+                    {
+                        ((MoveLineStep) _nowMoving).Move(
+                            "(" + snapped.X.ExprString + ") - (" + lf.Name + ".width/2)",
+                            "(" + snapped.Y.ExprString + ") - (" + lf.Name + ".height/2)");
+                    }
+                    else if (snappedBy.EqualExprStrings(lf.End))
+                    {
+                        ((MoveLineStep) _nowMoving).Move(
+                            "(" + snapped.X.ExprString + ") - (" + lf.Name + ".width)",
+                            "(" + snapped.Y.ExprString + ") - (" + lf.Name + ".height)");
+                    }
+                }
+                else
+                {
+                    ((MoveLineStep) _nowMoving).Move(pos.X - _offsetX, pos.Y - _offsetY);
+                }
+            }
+        }
+
         public void Move(Figure selected, Point pos)
         {
             if ((selected == StepManager.CurrentStep.Figure) &&
                 ((StepManager.CurrentStep is MoveRectStep && (selected.Type == Figure.FigureType.Rect))
-                 || (StepManager.CurrentStep is MoveEllipseStep && (selected.Type == Figure.FigureType.Ellipse))))
+                 || (StepManager.CurrentStep is MoveEllipseStep && (selected.Type == Figure.FigureType.Ellipse))
+                 || (StepManager.CurrentStep is MoveLineStep && (selected.Type == Figure.FigureType.Line))))
             {
                 _nowMoving = (TransformStep) StepManager.CurrentStep;
             }
@@ -153,6 +199,9 @@ namespace DynamicVisualizer.Manipulators
                     break;
                 case Figure.FigureType.Ellipse:
                     MoveEllipse((EllipseFigure) selected, pos);
+                    break;
+                case Figure.FigureType.Line:
+                    MoveLine((LineFigure) selected, pos);
                     break;
             }
         }

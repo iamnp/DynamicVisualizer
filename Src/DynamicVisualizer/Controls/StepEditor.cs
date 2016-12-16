@@ -161,6 +161,17 @@ namespace DynamicVisualizer.Controls
 
                     ShowFirst(2);
                 }
+                else if (ts.StepType == TransformStep.TransformStepType.MoveLine)
+                {
+                    var mls = (MoveLineStep) ts;
+                    label1.Text = "X";
+                    label2.Text = "Y";
+
+                    textBox1.Text = mls.X;
+                    textBox2.Text = mls.Y;
+
+                    ShowFirst(2);
+                }
                 else if (ts.StepType == TransformStep.TransformStepType.ScaleRect)
                 {
                     var srs = (ScaleRectStep) ts;
@@ -176,6 +187,15 @@ namespace DynamicVisualizer.Controls
                     label1.Text = "Factor";
 
                     textBox1.Text = ses.Factor;
+
+                    ShowFirst(1);
+                }
+                else if (ts.StepType == TransformStep.TransformStepType.ScaleLine)
+                {
+                    var sls = (ScaleLineStep) ts;
+                    label1.Text = "Factor";
+
+                    textBox1.Text = sls.Factor;
 
                     ShowFirst(1);
                 }
@@ -220,9 +240,17 @@ namespace DynamicVisualizer.Controls
                 {
                     ((MoveEllipseStep) ts).MoveX(textBox1.Text);
                 }
+                else if (ts.StepType == TransformStep.TransformStepType.MoveLine)
+                {
+                    ((MoveLineStep) ts).MoveX(textBox1.Text);
+                }
                 else if (ts.StepType == TransformStep.TransformStepType.ScaleRect)
                 {
                     ((ScaleRectStep) ts).Scale(textBox1.Text);
+                }
+                else if (ts.StepType == TransformStep.TransformStepType.ScaleLine)
+                {
+                    ((ScaleLineStep) ts).Scale(textBox1.Text);
                 }
                 else if (ts.StepType == TransformStep.TransformStepType.ScaleEllipse)
                 {
@@ -264,6 +292,10 @@ namespace DynamicVisualizer.Controls
                 else if (ts.StepType == TransformStep.TransformStepType.MoveEllipse)
                 {
                     ((MoveEllipseStep) ts).MoveY(textBox2.Text);
+                }
+                else if (ts.StepType == TransformStep.TransformStepType.MoveLine)
+                {
+                    ((MoveLineStep) ts).MoveY(textBox2.Text);
                 }
             }
             Form1.RedrawNeeded?.Invoke();

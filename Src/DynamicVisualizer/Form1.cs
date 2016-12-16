@@ -11,10 +11,11 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
 // TODO fix steps removing
+// TODO select figure when selected step changes
 // TODO make steps in list with proper text definition
 // TODO fix Snap() and SnapTo() methods
 // TODO rotate line step
-// TODO scale line step
+// TODO maybe fix order of iterative drawing
 
 namespace DynamicVisualizer
 {

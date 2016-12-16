@@ -154,6 +154,64 @@ namespace DynamicVisualizer.Manipulators
             }
         }
 
+        private void ScaleLine(LineFigure lf, Point pos)
+        {
+            if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
+            {
+                _offsetX = _downPos.X - lf.X.CachedValue.AsDouble;
+                _offsetY = _downPos.Y - lf.Y.CachedValue.AsDouble;
+            }
+
+            if (_nowScaling == null)
+            {
+                // start point
+                var dx = pos.X - lf.X.CachedValue.AsDouble;
+                var dy = pos.Y - lf.Y.CachedValue.AsDouble;
+                if (dx*dx + dy*dy <= StepManager.ThresholdSquared)
+                {
+                    var lineDx = lf.Width.CachedValue.AsDouble;
+                    var lineDy = lf.Height.CachedValue.AsDouble;
+                    _nowScaling = new ScaleLineStep(lf, ScaleLineStep.Side.End,
+                        1 - (pos.X - _downPos.X)/Math.Sqrt(lineDx*lineDx + lineDy*lineDy));
+                }
+                else
+                {
+                    // end point
+                    dx = pos.X - (lf.X.CachedValue.AsDouble + lf.Width.CachedValue.AsDouble);
+                    dy = pos.Y - (lf.Y.CachedValue.AsDouble + lf.Height.CachedValue.AsDouble);
+                    if (dx*dx + dy*dy <= StepManager.ThresholdSquared)
+                    {
+                        var lineDx = lf.X.CachedValue.AsDouble - lf.Width.CachedValue.AsDouble;
+                        var lineDy = lf.Y.CachedValue.AsDouble - lf.Height.CachedValue.AsDouble;
+                        _nowScaling = new ScaleLineStep(lf, ScaleLineStep.Side.Start,
+                            1 + (pos.X - _downPos.X)/Math.Sqrt(lineDx*lineDx + lineDy*lineDy));
+                    }
+                }
+
+                if (_nowScaling == null)
+                {
+                    return;
+                }
+                StepManager.Insert(_nowScaling,
+                    StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
+            }
+            else
+            {
+                var sls = (ScaleLineStep) _nowScaling;
+
+                if (sls.ScaleAround == ScaleLineStep.Side.Start)
+                {
+                    sls.Scale(1 + (pos.X - _downPos.X)/
+                              Math.Sqrt(sls.WidthOrig*sls.WidthOrig + sls.HeightOrig*sls.HeightOrig));
+                }
+                else if (sls.ScaleAround == ScaleLineStep.Side.End)
+                {
+                    sls.Scale(1 - (pos.X - _downPos.X)/
+                              Math.Sqrt(sls.WidthOrig*sls.WidthOrig + sls.HeightOrig*sls.HeightOrig));
+                }
+            }
+        }
+
         public void Move(Figure selected, Point pos)
         {
             switch (selected.Type)
@@ -163,6 +221,9 @@ namespace DynamicVisualizer.Manipulators
                     break;
                 case Figure.FigureType.Ellipse:
                     ScaleEllipse((EllipseFigure) selected, pos);
+                    break;
+                case Figure.FigureType.Line:
+                    ScaleLine((LineFigure) selected, pos);
                     break;
             }
         }

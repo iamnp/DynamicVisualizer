@@ -89,9 +89,9 @@ namespace DynamicVisualizer.Controls
 
             var sc = new StepItem(StepManager.Steps[index], index)
             {
-                Width = Width - 2
+                Width = Width - 2 - 17
             };
-            sc.Location = new Point(0, index*sc.Height);
+            sc.Location = new Point(0, index*sc.Height + AutoScrollPosition.Y);
             sc.MouseEnter += OnMouseEnter;
             sc.MouseLeave += OnMouseLeave;
             sc.MouseClick += OnMouseClick;
@@ -175,6 +175,7 @@ namespace DynamicVisualizer.Controls
             {
                 _currentSelection = _stepControls[index];
                 _currentSelection.BackColor = Color.Aqua;
+                ScrollControlIntoView(_currentSelection);
             }
             Form1.RedrawNeeded?.Invoke();
         }

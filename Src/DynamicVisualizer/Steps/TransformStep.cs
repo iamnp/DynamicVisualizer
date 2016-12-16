@@ -6,8 +6,10 @@
         {
             MoveRect,
             MoveEllipse,
+            MoveLine,
             ScaleRect,
             ScaleEllipse,
+            ScaleLine,
             ResizeRect,
             ResizeEllipse
         }
