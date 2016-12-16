@@ -79,7 +79,7 @@ namespace DynamicVisualizer.Steps.Draw
                 StepManager.Figures.Add(RectFigure);
             }
 
-            if ((RectFigure.X == null) || !Applied)
+            if (RectFigure.X == null || !Applied)
             {
                 RectFigure.X = DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, Figure.IsGuide));
             }
@@ -88,7 +88,7 @@ namespace DynamicVisualizer.Steps.Draw
                 RectFigure.X.SetRawExpression(X);
             }
 
-            if ((RectFigure.Y == null) || !Applied)
+            if (RectFigure.Y == null || !Applied)
             {
                 RectFigure.Y = DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, Figure.IsGuide));
             }
@@ -97,7 +97,7 @@ namespace DynamicVisualizer.Steps.Draw
                 RectFigure.Y.SetRawExpression(Y);
             }
 
-            if ((RectFigure.Width == null) || !Applied)
+            if (RectFigure.Width == null || !Applied)
             {
                 RectFigure.Width = DataStorage.Add(new ScalarExpression(Figure.Name, "width", Width, Figure.IsGuide));
             }
@@ -106,7 +106,7 @@ namespace DynamicVisualizer.Steps.Draw
                 RectFigure.Width.SetRawExpression(Width);
             }
 
-            if ((RectFigure.Height == null) || !Applied)
+            if (RectFigure.Height == null || !Applied)
             {
                 RectFigure.Height = DataStorage.Add(new ScalarExpression(Figure.Name, "height", Height, Figure.IsGuide));
             }
@@ -117,7 +117,7 @@ namespace DynamicVisualizer.Steps.Draw
 
             Applied = true;
 
-            if ((Iterations != -1) && !Figure.IsGuide)
+            if (Iterations != -1 && !Figure.IsGuide)
             {
                 CopyStaticFigure();
             }

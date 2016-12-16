@@ -53,7 +53,7 @@ namespace DynamicVisualizer.Expressions
                     {
                         var op1 = a.IsDouble ? a.AsDouble : a.AsArray[_currentIndexInArray].AsDouble;
                         var op2 = b.IsDouble ? b.AsDouble : b.AsArray[_currentIndexInArray].AsDouble;
-                        return new Value(op1*op2);
+                        return new Value(op1 * op2);
                     }
                 },
                 {
@@ -61,7 +61,7 @@ namespace DynamicVisualizer.Expressions
                     {
                         var op1 = a.IsDouble ? a.AsDouble : a.AsArray[_currentIndexInArray].AsDouble;
                         var op2 = b.IsDouble ? b.AsDouble : b.AsArray[_currentIndexInArray].AsDouble;
-                        return new Value(op1/op2);
+                        return new Value(op1 / op2);
                     }
                 }
             };
@@ -80,7 +80,7 @@ namespace DynamicVisualizer.Expressions
                         {
                             sum += arr[j].AsDouble;
                         }
-                        return new Value(sum/arr.Length);
+                        return new Value(sum / arr.Length);
                     }
                 },
                 {
@@ -121,7 +121,7 @@ namespace DynamicVisualizer.Expressions
                     afterLeftBrace = true;
                     needToEval.Push(false);
                 }
-                if ((exprString[i] == ' ') || (exprString[i] == '('))
+                if (exprString[i] == ' ' || exprString[i] == '(')
                 {
                     continue;
                 }
@@ -131,8 +131,8 @@ namespace DynamicVisualizer.Expressions
                     afterOp = false;
                     afterLeftBrace = false;
                     var start1 = i;
-                    while ((i < exprString.Length) &&
-                           (char.IsDigit(exprString[i]) || (exprString[i] == '.') || (exprString[i] == ',')))
+                    while (i < exprString.Length &&
+                           (char.IsDigit(exprString[i]) || exprString[i] == '.' || exprString[i] == ','))
                     {
                         ++i;
                     }
@@ -175,8 +175,8 @@ namespace DynamicVisualizer.Expressions
                     afterOp = false;
                     afterLeftBrace = false;
                     var start = i;
-                    while ((i < exprString.Length) &&
-                           (char.IsLetter(exprString[i]) || char.IsDigit(exprString[i]) || (exprString[i] == '.')))
+                    while (i < exprString.Length &&
+                           (char.IsLetter(exprString[i]) || char.IsDigit(exprString[i]) || exprString[i] == '.'))
                     {
                         ++i;
                     }
@@ -203,7 +203,7 @@ namespace DynamicVisualizer.Expressions
                     afterLeftBrace = false;
                     var start = i;
                     i += 1;
-                    while ((i < exprString.Length) && (exprString[i] != '"'))
+                    while (i < exprString.Length && exprString[i] != '"')
                     {
                         ++i;
                     }

@@ -36,7 +36,7 @@ namespace DynamicVisualizer.Steps.Move
             LineFigure.X.SetRawExpression(X);
             LineFigure.Y.SetRawExpression(Y);
 
-            if ((Iterations != -1) && !Figure.IsGuide)
+            if (Iterations != -1 && !Figure.IsGuide)
             {
                 CopyStaticFigure();
             }

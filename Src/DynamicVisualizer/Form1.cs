@@ -10,12 +10,15 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO fix steps removing
 // TODO select figure when selected step changes
-// TODO make steps in list with proper text definition
 // TODO fix Snap() and SnapTo() methods
+// TODO make steps in list with proper text definition
 // TODO rotate line step
 // TODO maybe fix order of iterative drawing
+// TODO fix removing steps from group
+// TODO fix adding steps before group (shift groups)
+// TODO fix adding steps into group
+// TODO fix exception when moving line-like rect
 
 namespace DynamicVisualizer
 {
@@ -215,7 +218,7 @@ namespace DynamicVisualizer
             {
                 _figureDrawer.Move(pos);
             }
-            if ((e.RightButton == MouseButtonState.Pressed) && (_selected != null))
+            if (e.RightButton == MouseButtonState.Pressed && _selected != null)
             {
                 switch (_transformType)
                 {
@@ -255,7 +258,7 @@ namespace DynamicVisualizer
             }
             if (e.ChangedButton == MouseButton.Right)
             {
-                if ((_selected == null) || !_selected.IsMouseOver(downPos.X, downPos.Y))
+                if (_selected == null || !_selected.IsMouseOver(downPos.X, downPos.Y))
                 {
                     PerformFigureSelection(downPos);
                 }

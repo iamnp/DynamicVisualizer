@@ -20,7 +20,7 @@ namespace DynamicVisualizer.Expressions
                     s = ObjectName + "." + s;
                 }
                 var usedExpr = DataStorage.GetExpression(s);
-                if (!IsWeak && (usedExpr != this))
+                if (!IsWeak && usedExpr != this)
                 {
                     usedExpr.UsedBy.Add(this);
                     DependentOn.Add(usedExpr);
@@ -54,7 +54,7 @@ namespace DynamicVisualizer.Expressions
         {
         }
 
-        public override bool CanBeRemoved => (UsedBy.Count == 0) && (_parentArray == null);
+        public override bool CanBeRemoved => UsedBy.Count == 0 && _parentArray == null;
 
         public void SetRawExpression(string rawExpr)
         {

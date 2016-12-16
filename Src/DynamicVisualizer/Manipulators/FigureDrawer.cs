@@ -87,7 +87,7 @@ namespace DynamicVisualizer.Manipulators
             {
                 var dx = pos.X - _startPos.X;
                 var dy = pos.Y - _startPos.Y;
-                ((DrawEllipseStep) _nowDrawing).ReInit(Math.Sqrt(dx*dx + dy*dy));
+                ((DrawEllipseStep) _nowDrawing).ReInit(Math.Sqrt(dx * dx + dy * dy));
             }
             else
             {

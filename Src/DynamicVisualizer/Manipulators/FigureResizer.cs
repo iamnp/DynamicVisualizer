@@ -38,13 +38,13 @@ namespace DynamicVisualizer.Manipulators
             {
                 var p = rf.PosInside(pos.X, pos.Y);
                 p = new Point(Math.Abs(p.X), Math.Abs(p.Y));
-                var smallW = Math.Abs(rf.Width.CachedValue.AsDouble/6.0);
-                var smallH = Math.Abs(rf.Height.CachedValue.AsDouble/6.0);
+                var smallW = Math.Abs(rf.Width.CachedValue.AsDouble / 6.0);
+                var smallH = Math.Abs(rf.Height.CachedValue.AsDouble / 6.0);
                 if (p.X < smallW)
                 {
                     _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Right, pos.X - _downPos.X);
                 }
-                else if (p.X > 5.0*smallW)
+                else if (p.X > 5.0 * smallW)
                 {
                     _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Left, pos.X - _downPos.X);
                 }
@@ -52,7 +52,7 @@ namespace DynamicVisualizer.Manipulators
                 {
                     _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Bottom, pos.Y - _downPos.Y);
                 }
-                else if (p.Y > 5.0*smallH)
+                else if (p.Y > 5.0 * smallH)
                 {
                     _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Top, pos.Y - _downPos.Y);
                 }
@@ -122,13 +122,13 @@ namespace DynamicVisualizer.Manipulators
             {
                 var p = ef.PosInside(pos.X, pos.Y);
                 p = new Point(Math.Abs(p.X), Math.Abs(p.Y));
-                var smallW = Math.Abs(ef.Radius1.CachedValue.AsDouble/3.0);
-                var smallH = Math.Abs(ef.Radius2.CachedValue.AsDouble/3.0);
+                var smallW = Math.Abs(ef.Radius1.CachedValue.AsDouble / 3.0);
+                var smallH = Math.Abs(ef.Radius2.CachedValue.AsDouble / 3.0);
                 if (p.X < smallW)
                 {
                     _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Right, pos.X - _downPos.X);
                 }
-                else if (p.X > 5.0*smallW)
+                else if (p.X > 5.0 * smallW)
                 {
                     _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Left, pos.X - _downPos.X);
                 }
@@ -136,7 +136,7 @@ namespace DynamicVisualizer.Manipulators
                 {
                     _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Bottom, pos.Y - _downPos.Y);
                 }
-                else if (p.Y > 5.0*smallH)
+                else if (p.Y > 5.0 * smallH)
                 {
                     _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Top, pos.Y - _downPos.Y);
                 }

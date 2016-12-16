@@ -43,8 +43,8 @@ namespace DynamicVisualizer.Manipulators
             {
                 var snapped = StepManager.Snap(pos, _nowMoving.Figure);
                 Magnet snappedBy = null;
-                if ((snapped != null) &&
-                    ((snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
+                if (snapped != null &&
+                    (snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null)
                 {
                     if (snappedBy.EqualExprStrings(rf.TopLeft))
                     {
@@ -98,8 +98,8 @@ namespace DynamicVisualizer.Manipulators
             {
                 var snapped = StepManager.Snap(pos, _nowMoving.Figure);
                 Magnet snappedBy = null;
-                if ((snapped != null) &&
-                    ((snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
+                if (snapped != null &&
+                    (snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null)
                 {
                     if (snappedBy.EqualExprStrings(ef.Left))
                     {
@@ -151,8 +151,8 @@ namespace DynamicVisualizer.Manipulators
             {
                 var snapped = StepManager.Snap(pos, _nowMoving.Figure);
                 Magnet snappedBy = null;
-                if ((snapped != null) &&
-                    ((snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
+                if (snapped != null &&
+                    (snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null)
                 {
                     if (snappedBy.EqualExprStrings(lf.Start))
                     {
@@ -180,10 +180,10 @@ namespace DynamicVisualizer.Manipulators
 
         public void Move(Figure selected, Point pos)
         {
-            if ((selected == StepManager.CurrentStep.Figure) &&
-                ((StepManager.CurrentStep is MoveRectStep && (selected.Type == Figure.FigureType.Rect))
-                 || (StepManager.CurrentStep is MoveEllipseStep && (selected.Type == Figure.FigureType.Ellipse))
-                 || (StepManager.CurrentStep is MoveLineStep && (selected.Type == Figure.FigureType.Line))))
+            if (selected == StepManager.CurrentStep.Figure &&
+                (StepManager.CurrentStep is MoveRectStep && selected.Type == Figure.FigureType.Rect
+                 || StepManager.CurrentStep is MoveEllipseStep && selected.Type == Figure.FigureType.Ellipse
+                 || StepManager.CurrentStep is MoveLineStep && selected.Type == Figure.FigureType.Line))
             {
                 _nowMoving = (TransformStep) StepManager.CurrentStep;
             }

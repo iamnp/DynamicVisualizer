@@ -77,17 +77,17 @@ namespace DynamicVisualizer.Figures
             var point = new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble);
             var dx = point.X - x;
             var dy = point.Y - y;
-            if (dx*dx + dy*dy <= StepManager.ThresholdSquared)
+            if (dx * dx + dy * dy <= StepManager.ThresholdSquared)
             {
                 return true;
             }
 
             // center point
-            point = new Point(X.CachedValue.AsDouble + Width.CachedValue.AsDouble/2.0,
-                Y.CachedValue.AsDouble + Height.CachedValue.AsDouble/2.0);
+            point = new Point(X.CachedValue.AsDouble + Width.CachedValue.AsDouble / 2.0,
+                Y.CachedValue.AsDouble + Height.CachedValue.AsDouble / 2.0);
             dx = point.X - x;
             dy = point.Y - y;
-            if (dx*dx + dy*dy <= StepManager.ThresholdSquared)
+            if (dx * dx + dy * dy <= StepManager.ThresholdSquared)
             {
                 return true;
             }
@@ -97,7 +97,7 @@ namespace DynamicVisualizer.Figures
                 Y.CachedValue.AsDouble + Height.CachedValue.AsDouble);
             dx = point.X - x;
             dy = point.Y - y;
-            if (dx*dx + dy*dy <= StepManager.ThresholdSquared)
+            if (dx * dx + dy * dy <= StepManager.ThresholdSquared)
             {
                 return true;
             }

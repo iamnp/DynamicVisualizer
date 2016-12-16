@@ -75,7 +75,7 @@ namespace DynamicVisualizer.Figures
             var r1 = Radius1.CachedValue.AsDouble;
             var r2 = Radius2.CachedValue.AsDouble;
 
-            return dx*dx/(r1*r1) + dy*dy/(r2*r2) <= 1.0;
+            return dx * dx / (r1 * r1) + dy * dy / (r2 * r2) <= 1.0;
         }
 
         public override Point PosInside(double x, double y)

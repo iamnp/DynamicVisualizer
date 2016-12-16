@@ -64,7 +64,7 @@ namespace DynamicVisualizer.Steps.Draw
                 StepManager.Figures.Add(EllipseFigure);
             }
 
-            if ((EllipseFigure.X == null) || !Applied)
+            if (EllipseFigure.X == null || !Applied)
             {
                 EllipseFigure.X = DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, Figure.IsGuide));
             }
@@ -73,7 +73,7 @@ namespace DynamicVisualizer.Steps.Draw
                 EllipseFigure.X.SetRawExpression(X);
             }
 
-            if ((EllipseFigure.Y == null) || !Applied)
+            if (EllipseFigure.Y == null || !Applied)
             {
                 EllipseFigure.Y = DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, Figure.IsGuide));
             }
@@ -82,7 +82,7 @@ namespace DynamicVisualizer.Steps.Draw
                 EllipseFigure.Y.SetRawExpression(Y);
             }
 
-            if ((EllipseFigure.Radius1 == null) || !Applied)
+            if (EllipseFigure.Radius1 == null || !Applied)
             {
                 EllipseFigure.Radius1 =
                     DataStorage.Add(new ScalarExpression(Figure.Name, "radius1", Radius, Figure.IsGuide));
@@ -92,7 +92,7 @@ namespace DynamicVisualizer.Steps.Draw
                 EllipseFigure.Radius1.SetRawExpression(Radius);
             }
 
-            if ((EllipseFigure.Radius2 == null) || !Applied)
+            if (EllipseFigure.Radius2 == null || !Applied)
             {
                 EllipseFigure.Radius2 =
                     DataStorage.Add(new ScalarExpression(Figure.Name, "radius2", Radius, Figure.IsGuide));
@@ -104,7 +104,7 @@ namespace DynamicVisualizer.Steps.Draw
 
             Applied = true;
 
-            if ((Iterations != -1) && !Figure.IsGuide)
+            if (Iterations != -1 && !Figure.IsGuide)
             {
                 CopyStaticFigure();
             }

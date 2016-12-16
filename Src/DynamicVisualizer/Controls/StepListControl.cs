@@ -83,7 +83,7 @@ namespace DynamicVisualizer.Controls
             for (var i = index; i < _stepControls.Count; ++i)
             {
                 var scc = _stepControls[i];
-                scc.Index = index + 1;
+                scc.Index = i + 1;
                 scc.Location = new Point(0, scc.Location.Y + scc.Height);
             }
 
@@ -91,16 +91,13 @@ namespace DynamicVisualizer.Controls
             {
                 Width = Width - 2 - 17
             };
-            sc.Location = new Point(0, index*sc.Height + AutoScrollPosition.Y);
+            sc.Location = new Point(0, index * sc.Height + AutoScrollPosition.Y);
             sc.MouseEnter += OnMouseEnter;
             sc.MouseLeave += OnMouseLeave;
             sc.MouseClick += OnMouseClick;
             Controls.Add(sc);
+            Controls.SetChildIndex(sc, index);
             _stepControls.Insert(index, sc);
-            for (var i = 0; i < _stepControls.Count; ++i)
-            {
-                _stepControls[i].Index = i;
-            }
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -132,8 +129,8 @@ namespace DynamicVisualizer.Controls
 
             if (keyData == Keys.Right)
             {
-                if ((_currentSelection.Step.Iterations != -1)
-                    && (_currentSelection.Step.CompletedIterations != _currentSelection.Step.Iterations))
+                if (_currentSelection.Step.Iterations != -1
+                    && _currentSelection.Step.CompletedIterations != _currentSelection.Step.Iterations)
                 {
                     StepManager.NextLoopFromCurrentPos();
                 }
@@ -141,8 +138,8 @@ namespace DynamicVisualizer.Controls
             }
             if (keyData == Keys.Left)
             {
-                if ((_currentSelection.Step.Iterations != -1)
-                    && (_currentSelection.Step.CompletedIterations != 0))
+                if (_currentSelection.Step.Iterations != -1
+                    && _currentSelection.Step.CompletedIterations != 0)
                 {
                     StepManager.PrevLoopFromCurrentPos();
                 }
@@ -163,7 +160,7 @@ namespace DynamicVisualizer.Controls
 
         public void MarkAsSelecgted(int index)
         {
-            if ((_currentSelection != null) && !_currentSelection.Marked)
+            if (_currentSelection != null && !_currentSelection.Marked)
             {
                 _currentSelection.BackColor = BackColor;
             }

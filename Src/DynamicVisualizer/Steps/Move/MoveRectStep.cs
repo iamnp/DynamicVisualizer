@@ -36,7 +36,7 @@ namespace DynamicVisualizer.Steps.Move
             RectFigure.X.SetRawExpression(X);
             RectFigure.Y.SetRawExpression(Y);
 
-            if ((Iterations != -1) && !Figure.IsGuide)
+            if (Iterations != -1 && !Figure.IsGuide)
             {
                 CopyStaticFigure();
             }

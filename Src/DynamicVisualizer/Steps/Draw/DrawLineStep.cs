@@ -79,7 +79,7 @@ namespace DynamicVisualizer.Steps.Draw
                 StepManager.Figures.Add(LineFigure);
             }
 
-            if ((LineFigure.X == null) || !Applied)
+            if (LineFigure.X == null || !Applied)
             {
                 LineFigure.X = DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, Figure.IsGuide));
             }
@@ -88,7 +88,7 @@ namespace DynamicVisualizer.Steps.Draw
                 LineFigure.X.SetRawExpression(X);
             }
 
-            if ((LineFigure.Y == null) || !Applied)
+            if (LineFigure.Y == null || !Applied)
             {
                 LineFigure.Y = DataStorage.Add(new ScalarExpression(Figure.Name, "y", Y, Figure.IsGuide));
             }
@@ -97,7 +97,7 @@ namespace DynamicVisualizer.Steps.Draw
                 LineFigure.Y.SetRawExpression(Y);
             }
 
-            if ((LineFigure.Width == null) || !Applied)
+            if (LineFigure.Width == null || !Applied)
             {
                 LineFigure.Width = DataStorage.Add(new ScalarExpression(Figure.Name, "width", Width, Figure.IsGuide));
             }
@@ -106,7 +106,7 @@ namespace DynamicVisualizer.Steps.Draw
                 LineFigure.Width.SetRawExpression(Width);
             }
 
-            if ((LineFigure.Height == null) || !Applied)
+            if (LineFigure.Height == null || !Applied)
             {
                 LineFigure.Height = DataStorage.Add(new ScalarExpression(Figure.Name, "height", Height, Figure.IsGuide));
             }
@@ -117,7 +117,7 @@ namespace DynamicVisualizer.Steps.Draw
 
             Applied = true;
 
-            if ((Iterations != -1) && !Figure.IsGuide)
+            if (Iterations != -1 && !Figure.IsGuide)
             {
                 CopyStaticFigure();
             }

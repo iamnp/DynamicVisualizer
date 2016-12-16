@@ -17,7 +17,7 @@ namespace DynamicVisualizer.Controls
         {
             var item = new ScalarExpressionItem(true)
             {
-                Location = new Point(0, _items.Count*ArrayExpressionItem.ItemHeight)
+                Location = new Point(0, _items.Count * ArrayExpressionItem.ItemHeight)
             };
             item.textBox1.KeyPress += DummyItemNameKeyPress;
             _items.Add(item);
@@ -34,7 +34,7 @@ namespace DynamicVisualizer.Controls
         private void DummyItemNameKeyPress(object sender, KeyPressEventArgs e)
         {
             var di = _items[_items.Count - 1];
-            if ((e.KeyChar == (char) Keys.Return) && !string.IsNullOrWhiteSpace(di.textBox1.Text))
+            if (e.KeyChar == (char) Keys.Return && !string.IsNullOrWhiteSpace(di.textBox1.Text))
             {
                 MakeNotDummy(di);
             }

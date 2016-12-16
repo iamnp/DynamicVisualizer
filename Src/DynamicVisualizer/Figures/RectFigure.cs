@@ -106,7 +106,7 @@ namespace DynamicVisualizer.Figures
                 y2 = t;
             }
 
-            return (x >= x1) && (x <= x2) && (y >= y1) && (y <= y2);
+            return x >= x1 && x <= x2 && y >= y1 && y <= y2;
         }
 
         public override Point PosInside(double x, double y)

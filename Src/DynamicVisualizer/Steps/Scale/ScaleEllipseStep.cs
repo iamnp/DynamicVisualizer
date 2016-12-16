@@ -55,21 +55,21 @@ namespace DynamicVisualizer.Steps.Scale
             }
             Applied = true;
 
-            if ((ScaleAround == Side.Left) || (ScaleAround == Side.Right))
+            if (ScaleAround == Side.Left || ScaleAround == Side.Right)
             {
                 EllipseFigure.X.SetRawExpression(XCachedDouble.Str());
                 EllipseFigure.Radius1.SetRawExpression(Radius1Orig.Str());
 
                 EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Name + ".radius1 * (" + Factor + ")");
             }
-            else if ((ScaleAround == Side.Top) || (ScaleAround == Side.Bottom))
+            else if (ScaleAround == Side.Top || ScaleAround == Side.Bottom)
             {
                 EllipseFigure.Y.SetRawExpression(YCachedDouble.Str());
                 EllipseFigure.Radius2.SetRawExpression(Radius2Orig.Str());
 
                 EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Name + ".radius2 * (" + Factor + ")");
             }
-            if ((Iterations != -1) && !Figure.IsGuide)
+            if (Iterations != -1 && !Figure.IsGuide)
             {
                 CopyStaticFigure();
             }
@@ -77,20 +77,20 @@ namespace DynamicVisualizer.Steps.Scale
 
         public override void IterateNext()
         {
-            if ((ScaleAround == Side.Left) || (ScaleAround == Side.Right))
+            if (ScaleAround == Side.Left || ScaleAround == Side.Right)
             {
                 EllipseFigure.Radius1.IndexInArray = CompletedIterations;
 
-                EllipseFigure.X.SetRawExpression(XCachedDouble.Str());
+                EllipseFigure.X.SetRawExpression(EllipseFigure.X.CachedValue.AsDouble.Str());
                 EllipseFigure.Radius1.SetRawExpression(Radius1Orig.Str());
 
                 EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Name + ".radius1 * (" + Factor + ")");
             }
-            else if ((ScaleAround == Side.Top) || (ScaleAround == Side.Bottom))
+            else if (ScaleAround == Side.Top || ScaleAround == Side.Bottom)
             {
                 EllipseFigure.Radius2.IndexInArray = CompletedIterations;
 
-                EllipseFigure.Y.SetRawExpression(YCachedDouble.Str());
+                EllipseFigure.Y.SetRawExpression(EllipseFigure.Y.CachedValue.AsDouble.Str());
                 EllipseFigure.Radius2.SetRawExpression(Radius2Orig.Str());
 
                 EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Name + ".radius2 * (" + Factor + ")");
@@ -100,11 +100,11 @@ namespace DynamicVisualizer.Steps.Scale
         public override void CopyStaticFigure()
         {
             var rf = (EllipseFigure) Figure.StaticLoopFigures[CompletedIterations];
-            if ((ScaleAround == Side.Left) || (ScaleAround == Side.Right))
+            if (ScaleAround == Side.Left || ScaleAround == Side.Right)
             {
                 rf.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.Str);
             }
-            else if ((ScaleAround == Side.Top) || (ScaleAround == Side.Bottom))
+            else if (ScaleAround == Side.Top || ScaleAround == Side.Bottom)
             {
                 rf.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.Str);
             }

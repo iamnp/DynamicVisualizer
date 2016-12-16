@@ -15,7 +15,7 @@ namespace DynamicVisualizer.Figures
 
         public bool EqualExprStrings(Magnet a)
         {
-            return (X.ExprString == a.X.ExprString) && (Y.ExprString == a.Y.ExprString);
+            return X.ExprString == a.X.ExprString && Y.ExprString == a.Y.ExprString;
         }
     }
 }

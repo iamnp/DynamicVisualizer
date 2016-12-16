@@ -23,7 +23,7 @@ namespace DynamicVisualizer.Controls
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
-                if ((files.Length == 1) && files[0].EndsWith(".csv"))
+                if (files.Length == 1 && files[0].EndsWith(".csv"))
                 {
                     e.Effect = DragDropEffects.Copy;
                 }
@@ -101,7 +101,7 @@ namespace DynamicVisualizer.Controls
                 {
                     if (Expr == null)
                     {
-                        if ((ArrayExpressionEditor.Len == -1) || textBox2.Text.Contains(";"))
+                        if (ArrayExpressionEditor.Len == -1 || textBox2.Text.Contains(";"))
                         {
                             _definedAsConstVector = true;
                             var items = textBox2.Text.Split(';');
