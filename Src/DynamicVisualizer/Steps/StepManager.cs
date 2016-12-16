@@ -9,7 +9,7 @@ namespace DynamicVisualizer.Steps
 {
     public static class StepManager
     {
-        private const int ThresholdSquared = 10*10;
+        public const int ThresholdSquared = 10*10;
 
         public static readonly List<IterableStepGroup> IterableGroups = new List<IterableStepGroup>();
 

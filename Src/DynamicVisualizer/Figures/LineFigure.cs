@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using DynamicVisualizer.Expressions;
+using DynamicVisualizer.Steps;
 
 namespace DynamicVisualizer.Figures
 {
@@ -72,26 +73,35 @@ namespace DynamicVisualizer.Figures
 
         public override bool IsMouseOver(double x, double y)
         {
-            // TODO implement
-            //var x1 = X.CachedValue.AsDouble;
-            //var y1 = Y.CachedValue.AsDouble;
-            //var x2 = x1 + Width.CachedValue.AsDouble;
-            //var y2 = y1 + Height.CachedValue.AsDouble;
+            // start point
+            var point = new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble);
+            var dx = point.X - x;
+            var dy = point.Y - y;
+            if (dx*dx + dy*dy <= StepManager.ThresholdSquared)
+            {
+                return true;
+            }
 
-            //if (x1 > x2)
-            //{
-            //    var t = x1;
-            //    x1 = x2;
-            //    x2 = t;
-            //}
-            //if (y1 > y2)
-            //{
-            //    var t = y1;
-            //    y1 = y2;
-            //    y2 = t;
-            //}
+            // center point
+            point = new Point(X.CachedValue.AsDouble + Width.CachedValue.AsDouble/2.0,
+                Y.CachedValue.AsDouble + Height.CachedValue.AsDouble/2.0);
+            dx = point.X - x;
+            dy = point.Y - y;
+            if (dx*dx + dy*dy <= StepManager.ThresholdSquared)
+            {
+                return true;
+            }
 
-            //return (x >= x1) && (x <= x2) && (y >= y1) && (y <= y2);
+            // утв point
+            point = new Point(X.CachedValue.AsDouble + Width.CachedValue.AsDouble,
+                Y.CachedValue.AsDouble + Height.CachedValue.AsDouble);
+            dx = point.X - x;
+            dy = point.Y - y;
+            if (dx*dx + dy*dy <= StepManager.ThresholdSquared)
+            {
+                return true;
+            }
+
             return false;
         }
 

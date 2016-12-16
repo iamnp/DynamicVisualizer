@@ -10,6 +10,12 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
+// TODO fix steps removing
+// TODO make steps in list with proper text definition
+// TODO fix Snap() and SnapTo() methods
+// TODO rotate line step
+// TODO scale line step
+
 namespace DynamicVisualizer
 {
     public partial class Form1 : Form
