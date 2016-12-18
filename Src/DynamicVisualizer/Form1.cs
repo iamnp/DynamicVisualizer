@@ -10,7 +10,6 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO select figure when selected step changes
 // TODO fix Snap() and SnapTo() methods
 // TODO make steps in list with proper text definition
 // TODO rotate line step
@@ -50,6 +49,7 @@ namespace DynamicVisualizer
 
             StepManager.StepEditor = stepEditor1;
             StepManager.StepListControl = _stepListControl1;
+            _stepListControl1.Form1 = this;
 
             DataStorage.Add(new ScalarExpression("canvas", "height", CanvasHeight.ToString()));
             DataStorage.Add(new ScalarExpression("canvas", "width", CanvasWidth.ToString()));
@@ -165,7 +165,7 @@ namespace DynamicVisualizer
             }
         }
 
-        private void PerformFigureSelection(Figure figure)
+        public void PerformFigureSelection(Figure figure)
         {
             if (_selected != null)
             {
@@ -254,7 +254,7 @@ namespace DynamicVisualizer
             }
             if (e.ChangedButton == MouseButton.Left)
             {
-                PerformFigureSelection(_figureDrawer.Start(downPos));
+                _figureDrawer.Start(downPos);
             }
             if (e.ChangedButton == MouseButton.Right)
             {

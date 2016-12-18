@@ -11,6 +11,7 @@ namespace DynamicVisualizer.Controls
         private readonly List<StepItem> _stepControls = new List<StepItem>();
         public readonly List<StepItem> MarkedControls = new List<StepItem>();
         private StepItem _currentSelection;
+        public Form1 Form1;
 
         public StepListControl()
         {
@@ -175,6 +176,7 @@ namespace DynamicVisualizer.Controls
                 ScrollControlIntoView(_currentSelection);
             }
             Form1.RedrawNeeded?.Invoke();
+            Form1.PerformFigureSelection(_currentSelection?.Step.Figure);
         }
 
         private void OnMouseClick(object sender, MouseEventArgs e)

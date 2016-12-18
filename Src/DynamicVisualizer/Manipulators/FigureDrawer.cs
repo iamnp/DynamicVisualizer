@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using DynamicVisualizer.Figures;
 using DynamicVisualizer.Steps;
 using DynamicVisualizer.Steps.Draw;
 
@@ -44,7 +43,7 @@ namespace DynamicVisualizer.Manipulators
             return new DrawLineStep(snapped.X.ExprString, snapped.Y.ExprString, "0", "0");
         }
 
-        public Figure Start(Point pos)
+        public void Start(Point pos)
         {
             _startPos = pos;
 
@@ -62,7 +61,6 @@ namespace DynamicVisualizer.Manipulators
             }
 
             StepManager.Insert(_nowDrawing, StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
-            return _nowDrawing.Figure;
         }
 
         private void ResizeDrawnRect(Point pos)
