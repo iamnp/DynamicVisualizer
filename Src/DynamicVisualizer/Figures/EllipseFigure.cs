@@ -36,14 +36,16 @@ namespace DynamicVisualizer.Figures
             }
             var x = new ScalarExpression(Name, "a", Name + ".x", true);
             var y = new ScalarExpression(Name, "a", Name + ".y", true);
-            Center = new Magnet(x, y, "Center");
+            var name = Name + "'s ";
+            Center = new Magnet(x, y, name + "center");
             Left = new Magnet(new ScalarExpression(Name, "a", Name + ".x - " + Name + ".radius1", true), y,
-                "Left radius");
+                name + "left radius");
             Right = new Magnet(new ScalarExpression(Name, "a", Name + ".x + " + Name + ".radius1", true), y,
-                "Right radius");
+                name + "right radius");
             Bottom = new Magnet(x, new ScalarExpression(Name, "a", Name + ".y + " + Name + ".radius2", true),
-                "Bottom radius");
-            Top = new Magnet(x, new ScalarExpression(Name, "a", Name + ".y - " + Name + ".radius2", true), "Top radius");
+                name + "bottom radius");
+            Top = new Magnet(x, new ScalarExpression(Name, "a", Name + ".y - " + Name + ".radius2", true),
+                name + "top radius");
 
             return new[]
             {

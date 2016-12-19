@@ -64,12 +64,12 @@ namespace DynamicVisualizer
 
             StepManager.CanvasMagnets = new[]
             {
-                new Magnet(x1, y1, "Top-Left"),
-                new Magnet(x1, h, "Bottom-Left"),
-                new Magnet(w, y1, "Top-Right"),
-                new Magnet(w, h, "Bottom-Right"),
+                new Magnet(x1, y1, "canvas's top-left"),
+                new Magnet(x1, h, "canvas's bottom-left"),
+                new Magnet(w, y1, "canvas's top-right"),
+                new Magnet(w, h, "canvas's bottom-right"),
                 new Magnet(new ScalarExpression("a", "a", "canvas.width/2", true),
-                    new ScalarExpression("a", "a", "canvas.height/2", true), "Center")
+                    new ScalarExpression("a", "a", "canvas.height/2", true), "canvas's center")
             };
 
             _mainGraphics = new MainGraphicOutput {DrawingFunc = DrawScene};
