@@ -10,14 +10,15 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO fix Snap() and SnapTo() methods
 // TODO make steps in list with proper text definition
+// TODO perform selection by dragging magnets
 // TODO rotate line step
 // TODO maybe fix order of iterative drawing
 // TODO fix removing steps from group
 // TODO fix adding steps before group (shift groups)
 // TODO fix adding steps into group
 // TODO fix exception when moving line-like rect
+// TODO fix exception when scaling to division by zero
 
 namespace DynamicVisualizer
 {

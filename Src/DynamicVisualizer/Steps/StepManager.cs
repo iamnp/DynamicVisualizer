@@ -9,7 +9,8 @@ namespace DynamicVisualizer.Steps
 {
     public static class StepManager
     {
-        public const int ThresholdSquared = 10 * 10;
+        public const int ThresholdSquared = 8 * 8;
+        private const double MaxDist = 1e9;
 
         public static readonly List<IterableStepGroup> IterableGroups = new List<IterableStepGroup>();
 
@@ -40,7 +41,7 @@ namespace DynamicVisualizer.Steps
 
         public static Magnet Snap(Point p, Figure exclude = null)
         {
-            var minDistSquared = 1e9;
+            var minDistSquared = MaxDist;
             Magnet closestMagnet = null;
             foreach (var figure in Figures)
             {
@@ -85,7 +86,7 @@ namespace DynamicVisualizer.Steps
 
         public static Magnet SnapTo(Point p, Magnet[] magnets)
         {
-            var minDistSquared = 1e9;
+            var minDistSquared = MaxDist;
             Magnet closestMagnet = null;
             foreach (var magnet in magnets)
             {
