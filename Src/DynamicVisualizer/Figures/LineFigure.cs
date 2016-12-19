@@ -39,10 +39,10 @@ namespace DynamicVisualizer.Figures
             var x = new ScalarExpression(Name, "a", Name + ".x", true);
             var y = new ScalarExpression(Name, "a", Name + ".y", true);
 
-            Start = new Magnet(x, y);
-            End = new Magnet(w, h);
+            Start = new Magnet(x, y, "Start");
+            End = new Magnet(w, h, "End");
             Center = new Magnet(new ScalarExpression(Name, "a", Name + ".x + (" + Name + ".width/2)", true),
-                new ScalarExpression(Name, "a", Name + ".y + (" + Name + ".height/2)", true));
+                new ScalarExpression(Name, "a", Name + ".y + (" + Name + ".height/2)", true), "Center");
 
             return new[]
             {

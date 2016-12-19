@@ -40,12 +40,12 @@ namespace DynamicVisualizer.Figures
             var x = new ScalarExpression(Name, "a", Name + ".x", true);
             var y = new ScalarExpression(Name, "a", Name + ".y", true);
 
-            TopLeft = new Magnet(x, y);
-            BottomLeft = new Magnet(x, h);
-            TopRight = new Magnet(w, y);
-            BottomRight = new Magnet(w, h);
+            TopLeft = new Magnet(x, y, "Top-Left");
+            BottomLeft = new Magnet(x, h, "Bottom-Left");
+            TopRight = new Magnet(w, y, "Top-RIght");
+            BottomRight = new Magnet(w, h, "Bottom-Right");
             Center = new Magnet(new ScalarExpression(Name, "a", Name + ".x + (" + Name + ".width/2)", true),
-                new ScalarExpression(Name, "a", Name + ".y + (" + Name + ".height/2)", true));
+                new ScalarExpression(Name, "a", Name + ".y + (" + Name + ".height/2)", true), "Center");
 
             return new[]
             {
