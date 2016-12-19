@@ -106,7 +106,7 @@ namespace DynamicVisualizer.Steps.Scale
                 RectFigure.X.IndexInArray = CompletedIterations;
 
                 RectFigure.X.SetRawExpression(RectFigure.X.CachedValue.AsDouble.Str());
-                RectFigure.Width.SetRawExpression(WidthOrig.Str());
+                RectFigure.Width.SetRawExpression(RectFigure.Width.CachedValue.AsDouble.Str());
 
                 RectFigure.Width.SetRawExpression(RectFigure.Name + ".width * (" + Factor + ")");
             }
@@ -116,7 +116,7 @@ namespace DynamicVisualizer.Steps.Scale
                 RectFigure.Y.IndexInArray = CompletedIterations;
 
                 RectFigure.Y.SetRawExpression(RectFigure.Y.CachedValue.AsDouble.Str());
-                RectFigure.Height.SetRawExpression(HeightOrig.Str());
+                RectFigure.Height.SetRawExpression(RectFigure.Height.CachedValue.AsDouble.Str());
 
                 RectFigure.Height.SetRawExpression(RectFigure.Name + ".height * (" + Factor + ")");
             }
@@ -126,7 +126,7 @@ namespace DynamicVisualizer.Steps.Scale
                 RectFigure.X.IndexInArray = CompletedIterations;
 
                 RectFigure.X.SetRawExpression(RectFigure.X.CachedValue.AsDouble.Str());
-                RectFigure.Width.SetRawExpression(WidthOrig.Str());
+                RectFigure.Width.SetRawExpression(RectFigure.Width.CachedValue.AsDouble.Str());
 
                 DataStorage.SimultaneousSwap(
                     new Tuple<ScalarExpression, string>(RectFigure.Width, RectFigure.Name + ".width * (" + Factor + ")"),
@@ -139,7 +139,7 @@ namespace DynamicVisualizer.Steps.Scale
                 RectFigure.Y.IndexInArray = CompletedIterations;
 
                 RectFigure.Y.SetRawExpression(RectFigure.Y.CachedValue.AsDouble.Str());
-                RectFigure.Height.SetRawExpression(HeightOrig.Str());
+                RectFigure.Height.SetRawExpression(RectFigure.Height.CachedValue.AsDouble.Str());
 
                 DataStorage.SimultaneousSwap(
                     new Tuple<ScalarExpression, string>(RectFigure.Height,

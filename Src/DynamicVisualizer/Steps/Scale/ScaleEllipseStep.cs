@@ -82,7 +82,7 @@ namespace DynamicVisualizer.Steps.Scale
                 EllipseFigure.Radius1.IndexInArray = CompletedIterations;
 
                 EllipseFigure.X.SetRawExpression(EllipseFigure.X.CachedValue.AsDouble.Str());
-                EllipseFigure.Radius1.SetRawExpression(Radius1Orig.Str());
+                EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.AsDouble.Str());
 
                 EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Name + ".radius1 * (" + Factor + ")");
             }
@@ -91,7 +91,7 @@ namespace DynamicVisualizer.Steps.Scale
                 EllipseFigure.Radius2.IndexInArray = CompletedIterations;
 
                 EllipseFigure.Y.SetRawExpression(EllipseFigure.Y.CachedValue.AsDouble.Str());
-                EllipseFigure.Radius2.SetRawExpression(Radius2Orig.Str());
+                EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.AsDouble.Str());
 
                 EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Name + ".radius2 * (" + Factor + ")");
             }
