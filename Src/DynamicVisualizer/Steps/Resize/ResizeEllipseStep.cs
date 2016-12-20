@@ -2,7 +2,7 @@
 
 namespace DynamicVisualizer.Steps.Resize
 {
-    public class ResizeEllipseStep : TransformStep
+    public class ResizeEllipseStep : ResizeStep
     {
         public enum Side
         {
@@ -37,7 +37,7 @@ namespace DynamicVisualizer.Steps.Resize
             Resize(delta);
         }
 
-        public override TransformStepType StepType => TransformStepType.ResizeEllipse;
+        public override ResizeStepType StepType => ResizeStepType.ResizeEllipse;
 
         private void CaptureBearings()
         {

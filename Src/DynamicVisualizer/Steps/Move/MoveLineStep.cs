@@ -2,7 +2,7 @@
 
 namespace DynamicVisualizer.Steps.Move
 {
-    public class MoveLineStep : TransformStep
+    public class MoveLineStep : MoveStep
     {
         public readonly LineFigure LineFigure;
         public string X;
@@ -24,7 +24,7 @@ namespace DynamicVisualizer.Steps.Move
             Move(x, y);
         }
 
-        public override TransformStepType StepType => TransformStepType.MoveLine;
+        public override MoveStepType StepType => MoveStepType.MoveLine;
 
         public override void Apply()
         {

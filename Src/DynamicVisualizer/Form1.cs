@@ -19,6 +19,8 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO fix adding steps into group
 // TODO fix exception when moving line-like rect
 // TODO fix exception when scaling to division by zero
+// TODO fix changing array's length
+// TODO add modifiable iterative group counter
 
 namespace DynamicVisualizer
 {

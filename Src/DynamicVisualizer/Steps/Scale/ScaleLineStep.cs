@@ -4,7 +4,7 @@ using DynamicVisualizer.Figures;
 
 namespace DynamicVisualizer.Steps.Scale
 {
-    public class ScaleLineStep : TransformStep
+    public class ScaleLineStep : ScaleStep
     {
         public enum Side
         {
@@ -37,7 +37,7 @@ namespace DynamicVisualizer.Steps.Scale
             Scale(factor);
         }
 
-        public override TransformStepType StepType => TransformStepType.ScaleLine;
+        public override ScaleStepType StepType => ScaleStepType.ScaleLine;
 
         private void CaptureBearings()
         {

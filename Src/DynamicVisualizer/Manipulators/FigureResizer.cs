@@ -9,7 +9,7 @@ namespace DynamicVisualizer.Manipulators
     internal class FigureResizer
     {
         private Point _downPos;
-        private TransformStep _nowResizing;
+        private ResizeStep _nowResizing;
         private double _offsetX = double.NaN;
         private double _offsetY = double.NaN;
 

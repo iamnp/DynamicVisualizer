@@ -8,7 +8,7 @@ namespace DynamicVisualizer.Manipulators
     internal class FigureMover
     {
         private Point _downPos;
-        private TransformStep _nowMoving;
+        private MoveStep _nowMoving;
         private double _offsetX = double.NaN;
         private double _offsetY = double.NaN;
 
@@ -185,7 +185,7 @@ namespace DynamicVisualizer.Manipulators
                  || StepManager.CurrentStep is MoveEllipseStep && selected.Type == Figure.FigureType.Ellipse
                  || StepManager.CurrentStep is MoveLineStep && selected.Type == Figure.FigureType.Line))
             {
-                _nowMoving = (TransformStep) StepManager.CurrentStep;
+                _nowMoving = (MoveStep) StepManager.CurrentStep;
             }
             else
             {

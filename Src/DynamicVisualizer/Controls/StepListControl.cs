@@ -11,6 +11,7 @@ namespace DynamicVisualizer.Controls
         private readonly List<StepItem> _stepControls = new List<StepItem>();
         public readonly List<StepItem> MarkedControls = new List<StepItem>();
         private StepItem _currentSelection;
+        private bool _ignoreMarkAsSelected;
         public Form1 Form1;
 
         public StepListControl()
@@ -133,7 +134,9 @@ namespace DynamicVisualizer.Controls
                 if (_currentSelection.Step.Iterations != -1
                     && _currentSelection.Step.CompletedIterations != _currentSelection.Step.Iterations)
                 {
+                    _ignoreMarkAsSelected = true;
                     StepManager.NextLoopFromCurrentPos();
+                    _ignoreMarkAsSelected = false;
                 }
                 return true;
             }
@@ -142,7 +145,9 @@ namespace DynamicVisualizer.Controls
                 if (_currentSelection.Step.Iterations != -1
                     && _currentSelection.Step.CompletedIterations != 0)
                 {
+                    _ignoreMarkAsSelected = true;
                     StepManager.PrevLoopFromCurrentPos();
+                    _ignoreMarkAsSelected = false;
                 }
                 return true;
             }
@@ -161,6 +166,10 @@ namespace DynamicVisualizer.Controls
 
         public void MarkAsSelecgted(int index)
         {
+            if (_ignoreMarkAsSelected)
+            {
+                return;
+            }
             if (_currentSelection != null && !_currentSelection.Marked)
             {
                 _currentSelection.BackColor = BackColor;

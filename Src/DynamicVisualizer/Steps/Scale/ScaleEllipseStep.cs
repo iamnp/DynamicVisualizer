@@ -2,7 +2,7 @@
 
 namespace DynamicVisualizer.Steps.Scale
 {
-    public class ScaleEllipseStep : TransformStep
+    public class ScaleEllipseStep : ScaleStep
     {
         public enum Side
         {
@@ -37,7 +37,7 @@ namespace DynamicVisualizer.Steps.Scale
             Scale(factor);
         }
 
-        public override TransformStepType StepType => TransformStepType.ScaleEllipse;
+        public override ScaleStepType StepType => ScaleStepType.ScaleEllipse;
 
         private void CaptureBearings()
         {

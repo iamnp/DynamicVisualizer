@@ -2,7 +2,7 @@
 
 namespace DynamicVisualizer.Steps.Move
 {
-    public class MoveEllipseStep : TransformStep
+    public class MoveEllipseStep : MoveStep
     {
         public readonly EllipseFigure EllipseFigure;
         public string X;
@@ -24,7 +24,7 @@ namespace DynamicVisualizer.Steps.Move
             Move(x, y);
         }
 
-        public override TransformStepType StepType => TransformStepType.MoveEllipse;
+        public override MoveStepType StepType => MoveStepType.MoveEllipse;
 
         public override void Apply()
         {

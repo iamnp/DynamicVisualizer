@@ -4,7 +4,7 @@ using DynamicVisualizer.Figures;
 
 namespace DynamicVisualizer.Steps.Resize
 {
-    public class ResizeRectStep : TransformStep
+    public class ResizeRectStep : ResizeStep
     {
         public enum Side
         {
@@ -39,7 +39,7 @@ namespace DynamicVisualizer.Steps.Resize
             Resize(value);
         }
 
-        public override TransformStepType StepType => TransformStepType.ResizeRect;
+        public override ResizeStepType StepType => ResizeStepType.ResizeRect;
 
         private void CaptureBearings()
         {

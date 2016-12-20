@@ -9,7 +9,7 @@ namespace DynamicVisualizer.Manipulators
     internal class FigureScaler
     {
         private Point _downPos;
-        private TransformStep _nowScaling;
+        private ScaleStep _nowScaling;
         private double _offsetX = double.NaN;
         private double _offsetY = double.NaN;
 
