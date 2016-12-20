@@ -17,43 +17,69 @@ namespace DynamicVisualizer.Steps.Draw
             EllipseFigure = (EllipseFigure) Figure;
         }
 
-        public DrawEllipseStep(string x, string y, string radius) : this()
+        public DrawEllipseStep(string x, string y, string radius, string startDef = null) : this()
         {
             X = x;
             Y = y;
+            SetStartDef(startDef);
             ReInit(radius);
         }
 
-        public DrawEllipseStep(double x, double y, double radius) : this()
+        public DrawEllipseStep(double x, double y, double radius) : this(x.Str(), y.Str(), radius.Str())
         {
-            X = x.Str();
-            Y = y.Str();
-            ReInit(radius);
         }
 
         public override DrawStepType StepType => DrawStepType.DrawEllipse;
 
-        public void ReInit(string radius)
+        public void SetStartDef(string point)
+        {
+            if (point == null)
+            {
+                StartDef = string.Format("Draw {0} around ({1}; {2})", EllipseFigure.Name, X, Y);
+            }
+            else
+            {
+                StartDef = string.Format("Draw {0} around {1}", EllipseFigure.Name, point);
+            }
+            Def = StartDef + EndDef;
+        }
+
+        public void SetEndDef(string point)
+        {
+            if (point == null)
+            {
+                EndDef = string.Format(", {0} radius", Radius);
+            }
+            else
+            {
+                EndDef = string.Format(" to {0}", point);
+            }
+            Def = StartDef + EndDef;
+        }
+
+        public void ReInit(string radius, string endDef = null)
         {
             Radius = radius;
+            SetEndDef(endDef);
             Apply();
         }
 
         public void ReInit(double radius)
         {
-            Radius = radius.Str();
-            Apply();
+            ReInit(radius.Str());
         }
 
         public void ReInitX(string x)
         {
             X = x;
+            SetStartDef(null);
             Apply();
         }
 
         public void ReInitY(string y)
         {
             Y = y;
+            SetStartDef(null);
             Apply();
         }
 

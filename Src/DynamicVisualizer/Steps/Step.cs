@@ -6,6 +6,7 @@ namespace DynamicVisualizer.Steps
     {
         public bool Applied;
         public int CompletedIterations = -1;
+        public string Def;
         public Figure Figure;
         public int Iterations = -1;
 

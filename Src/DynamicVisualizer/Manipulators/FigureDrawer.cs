@@ -20,7 +20,7 @@ namespace DynamicVisualizer.Manipulators
             {
                 return new DrawRectStep(_startPos.X, _startPos.Y, 0, 0);
             }
-            return new DrawRectStep(snapped.X.ExprString, snapped.Y.ExprString, "0", "0");
+            return new DrawRectStep(snapped.X.ExprString, snapped.Y.ExprString, "0", "0", snapped.Def);
         }
 
         private DrawEllipseStep StartDrawEllipse()
@@ -30,7 +30,7 @@ namespace DynamicVisualizer.Manipulators
             {
                 return new DrawEllipseStep(_startPos.X, _startPos.Y, 0);
             }
-            return new DrawEllipseStep(snapped.X.ExprString, snapped.Y.ExprString, "0");
+            return new DrawEllipseStep(snapped.X.ExprString, snapped.Y.ExprString, "0", snapped.Def);
         }
 
         private DrawLineStep StartDrawLine()
@@ -40,7 +40,7 @@ namespace DynamicVisualizer.Manipulators
             {
                 return new DrawLineStep(_startPos.X, _startPos.Y, 0, 0);
             }
-            return new DrawLineStep(snapped.X.ExprString, snapped.Y.ExprString, "0", "0");
+            return new DrawLineStep(snapped.X.ExprString, snapped.Y.ExprString, "0", "0", snapped.Def);
         }
 
         public void Start(Point pos)
@@ -74,7 +74,7 @@ namespace DynamicVisualizer.Manipulators
             {
                 ((DrawRectStep) _nowDrawing).ReInit(
                     "(" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x",
-                    "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y");
+                    "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y", snapped.Def);
             }
         }
 
@@ -93,7 +93,7 @@ namespace DynamicVisualizer.Manipulators
                 var dy = "((" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y)";
                 ((DrawEllipseStep) _nowDrawing).ReInit("sqrt((" + dx + " * " + dx + ") + (" + dy + " * " +
                                                        dy +
-                                                       "))");
+                                                       "))", snapped.Def);
             }
         }
 
@@ -108,7 +108,7 @@ namespace DynamicVisualizer.Manipulators
             {
                 ((DrawLineStep) _nowDrawing).ReInit(
                     "(" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x",
-                    "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y");
+                    "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y", snapped.Def);
             }
         }
 

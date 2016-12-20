@@ -9,6 +9,9 @@ namespace DynamicVisualizer.Steps
             DrawLine
         }
 
+        public string EndDef;
+        public string StartDef;
+
         public abstract DrawStepType StepType { get; }
     }
 }

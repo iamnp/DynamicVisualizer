@@ -4,15 +4,15 @@ namespace DynamicVisualizer.Figures
 {
     public class Magnet
     {
-        public string Definition;
-        public ScalarExpression X;
-        public ScalarExpression Y;
+        public readonly string Def;
+        public readonly ScalarExpression X;
+        public readonly ScalarExpression Y;
 
-        public Magnet(ScalarExpression x, ScalarExpression y, string definition)
+        public Magnet(ScalarExpression x, ScalarExpression y, string def)
         {
             X = x;
             Y = y;
-            Definition = definition;
+            Def = def;
         }
 
         public bool EqualExprStrings(Magnet a)

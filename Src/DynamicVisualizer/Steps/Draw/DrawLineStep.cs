@@ -18,58 +18,86 @@ namespace DynamicVisualizer.Steps.Draw
             LineFigure = (LineFigure) Figure;
         }
 
-        public DrawLineStep(string x, string y, string width, string height) : this()
+        public DrawLineStep(string x, string y, string width, string height, string startDef = null) : this()
         {
             X = x;
             Y = y;
+            SetStartDef(startDef);
             ReInit(width, height);
         }
 
-        public DrawLineStep(double x, double y, double width, double height) : this()
+        public DrawLineStep(double x, double y, double width, double height)
+            : this(x.Str(), y.Str(), width.Str(), height.Str())
         {
-            X = x.Str();
-            Y = y.Str();
-            ReInit(width, height);
         }
 
         public override DrawStepType StepType => DrawStepType.DrawLine;
 
-        public void ReInit(string width, string height)
+        public void SetStartDef(string point)
+        {
+            if (point == null)
+            {
+                StartDef = string.Format("Draw {0} from ({1}; {2})", LineFigure.Name, X, Y);
+            }
+            else
+            {
+                StartDef = string.Format("Draw {0} from {1}", LineFigure.Name, point);
+            }
+            Def = StartDef + EndDef;
+        }
+
+        public void SetEndDef(string point)
+        {
+            if (point == null)
+            {
+                EndDef = string.Format(", {0} width, {1} height", Width, Height);
+            }
+            else
+            {
+                EndDef = string.Format(" to {0}", point);
+            }
+            Def = StartDef + EndDef;
+        }
+
+        public void ReInit(string width, string height, string endDef = null)
         {
             Width = width;
             Height = height;
+            SetEndDef(endDef);
             Apply();
         }
 
         public void ReInitWidth(string width)
         {
             Width = width;
+            SetEndDef(null);
             Apply();
         }
 
         public void ReInitHeight(string height)
         {
             Height = height;
+            SetEndDef(null);
             Apply();
         }
 
         public void ReInitX(string x)
         {
             X = x;
+            SetStartDef(null);
             Apply();
         }
 
         public void ReInitY(string y)
         {
             Y = y;
+            SetStartDef(null);
             Apply();
         }
 
         public void ReInit(double width, double height)
         {
-            Width = width.Str();
-            Height = height.Str();
-            Apply();
+            ReInit(width.Str(), height.Str());
         }
 
         public override void Apply()
