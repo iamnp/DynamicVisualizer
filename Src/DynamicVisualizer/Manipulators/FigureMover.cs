@@ -48,29 +48,31 @@ namespace DynamicVisualizer.Manipulators
                 {
                     if (snappedBy.EqualExprStrings(rf.TopLeft))
                     {
-                        ((MoveRectStep) _nowMoving).Move(snapped.X.ExprString, snapped.Y.ExprString);
+                        ((MoveRectStep) _nowMoving).Move(snapped.X.ExprString, snapped.Y.ExprString, snappedBy.Def,
+                            snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(rf.TopRight))
                     {
                         ((MoveRectStep) _nowMoving).Move(
-                            "(" + snapped.X.ExprString + ") - (" + rf.Name + ".width)", snapped.Y.ExprString);
+                            "(" + snapped.X.ExprString + ") - (" + rf.Name + ".width)", snapped.Y.ExprString,
+                            snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(rf.BottomLeft))
                     {
                         ((MoveRectStep) _nowMoving).Move(snapped.X.ExprString,
-                            "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height)");
+                            "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(rf.BottomRight))
                     {
                         ((MoveRectStep) _nowMoving).Move(
                             "(" + snapped.X.ExprString + ") - (" + rf.Name + ".width)",
-                            "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height)");
+                            "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(rf.Center))
                     {
                         ((MoveRectStep) _nowMoving).Move(
                             "(" + snapped.X.ExprString + ") - (" + rf.Name + ".width/2)",
-                            "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height/2)");
+                            "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height/2)", snappedBy.Def, snapped.Def);
                     }
                 }
                 else
@@ -104,26 +106,29 @@ namespace DynamicVisualizer.Manipulators
                     if (snappedBy.EqualExprStrings(ef.Left))
                     {
                         ((MoveEllipseStep) _nowMoving).Move(
-                            "(" + snapped.X.ExprString + ") + (" + ef.Name + ".radius1)", snapped.Y.ExprString);
+                            "(" + snapped.X.ExprString + ") + (" + ef.Name + ".radius1)", snapped.Y.ExprString,
+                            snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(ef.Right))
                     {
                         ((MoveEllipseStep) _nowMoving).Move(
-                            "(" + snapped.X.ExprString + ") - (" + ef.Name + ".radius1)", snapped.Y.ExprString);
+                            "(" + snapped.X.ExprString + ") - (" + ef.Name + ".radius1)", snapped.Y.ExprString,
+                            snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(ef.Top))
                     {
                         ((MoveEllipseStep) _nowMoving).Move(snapped.X.ExprString,
-                            "(" + snapped.Y.ExprString + ") + (" + ef.Name + ".radius2)");
+                            "(" + snapped.Y.ExprString + ") + (" + ef.Name + ".radius2)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(ef.Bottom))
                     {
                         ((MoveEllipseStep) _nowMoving).Move(snapped.X.ExprString,
-                            "(" + snapped.Y.ExprString + ") - (" + ef.Name + ".radius2)");
+                            "(" + snapped.Y.ExprString + ") - (" + ef.Name + ".radius2)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(ef.Center))
                     {
-                        ((MoveEllipseStep) _nowMoving).Move(snapped.X.ExprString, snapped.Y.ExprString);
+                        ((MoveEllipseStep) _nowMoving).Move(snapped.X.ExprString, snapped.Y.ExprString, snappedBy.Def,
+                            snapped.Def);
                     }
                 }
                 else
@@ -156,19 +161,20 @@ namespace DynamicVisualizer.Manipulators
                 {
                     if (snappedBy.EqualExprStrings(lf.Start))
                     {
-                        ((MoveLineStep) _nowMoving).Move(snapped.X.ExprString, snapped.Y.ExprString);
+                        ((MoveLineStep) _nowMoving).Move(snapped.X.ExprString, snapped.Y.ExprString, snappedBy.Def,
+                            snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(lf.Center))
                     {
                         ((MoveLineStep) _nowMoving).Move(
                             "(" + snapped.X.ExprString + ") - (" + lf.Name + ".width/2)",
-                            "(" + snapped.Y.ExprString + ") - (" + lf.Name + ".height/2)");
+                            "(" + snapped.Y.ExprString + ") - (" + lf.Name + ".height/2)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(lf.End))
                     {
                         ((MoveLineStep) _nowMoving).Move(
                             "(" + snapped.X.ExprString + ") - (" + lf.Name + ".width)",
-                            "(" + snapped.Y.ExprString + ") - (" + lf.Name + ".height)");
+                            "(" + snapped.Y.ExprString + ") - (" + lf.Name + ".height)", snappedBy.Def, snapped.Def);
                     }
                 }
                 else

@@ -14,17 +14,28 @@ namespace DynamicVisualizer.Steps.Move
             EllipseFigure = figure;
         }
 
-        public MoveEllipseStep(EllipseFigure figure, double x, double y) : this(figure)
-        {
-            Move(x, y);
-        }
-
         public MoveEllipseStep(EllipseFigure figure, string x, string y) : this(figure)
         {
             Move(x, y);
         }
 
+        public MoveEllipseStep(EllipseFigure figure, double x, double y) : this(figure, x.Str(), y.Str())
+        {
+        }
+
         public override MoveStepType StepType => MoveStepType.MoveEllipse;
+
+        public void SetDef(string what, string where)
+        {
+            if (what == null || where == null)
+            {
+                Def = string.Format("Move {0} to ({1}; {2})", EllipseFigure.Name, X, Y);
+            }
+            else
+            {
+                Def = string.Format("Move {0} so {1} meets {2}", EllipseFigure.Name, what, where);
+            }
+        }
 
         public override void Apply()
         {
@@ -65,29 +76,30 @@ namespace DynamicVisualizer.Steps.Move
             ef.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.Str);
         }
 
-        public void Move(string x, string y)
+        public void Move(string x, string y, string what = null, string where = null)
         {
             X = x;
             Y = y;
+            SetDef(what, where);
             Apply();
         }
 
         public void Move(double x, double y)
         {
-            X = x.Str();
-            Y = y.Str();
-            Apply();
+            Move(x.Str(), y.Str());
         }
 
         public void MoveX(string x)
         {
             X = x;
+            SetDef(null, null);
             Apply();
         }
 
         public void MoveY(string y)
         {
             Y = y;
+            SetDef(null, null);
             Apply();
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using DynamicVisualizer.Steps;
-using DynamicVisualizer.Steps.Move;
 using DynamicVisualizer.Steps.Resize;
 using DynamicVisualizer.Steps.Scale;
 
@@ -33,36 +32,9 @@ namespace DynamicVisualizer.Controls
 
         public void SetText()
         {
-            if (Step is DrawStep)
+            if (Step is DrawStep || Step is MoveStep)
             {
                 clickThroughLabel1.Text = Step.Def;
-                return;
-            }
-
-            var moveRectStep = Step as MoveRectStep;
-            if (moveRectStep != null)
-            {
-                clickThroughLabel1.Text =
-                    string.Format("move {0} to ({1}; {2})",
-                        moveRectStep.Figure.Name, moveRectStep.X, moveRectStep.Y);
-                return;
-            }
-
-            var moveEllipseStep = Step as MoveEllipseStep;
-            if (moveEllipseStep != null)
-            {
-                clickThroughLabel1.Text =
-                    string.Format("move {0} to ({1}; {2})",
-                        moveEllipseStep.Figure.Name, moveEllipseStep.X, moveEllipseStep.Y);
-                return;
-            }
-
-            var moveLineStep = Step as MoveLineStep;
-            if (moveLineStep != null)
-            {
-                clickThroughLabel1.Text =
-                    string.Format("move {0} to ({1}; {2})",
-                        moveLineStep.Figure.Name, moveLineStep.X, moveLineStep.Y);
                 return;
             }
 

@@ -13,7 +13,6 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO make steps in list with proper text definition
 // TODO perform selection by dragging magnets
 // TODO rotate line step
-// TODO maybe fix order of iterative drawing
 // TODO fix removing steps from group
 // TODO fix adding steps before group (shift groups)
 // TODO fix adding steps into group
@@ -21,6 +20,9 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO fix exception when scaling to division by zero
 // TODO fix changing array's length
 // TODO add modifiable iterative group counter
+
+// TODO ? fix order of iterative drawing
+// TODO ? change move step from absolute to relative
 
 namespace DynamicVisualizer
 {
