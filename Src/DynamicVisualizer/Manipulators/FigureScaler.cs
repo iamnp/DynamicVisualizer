@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using DynamicVisualizer.Figures;
 using DynamicVisualizer.Steps;
 using DynamicVisualizer.Steps.Scale;
@@ -36,26 +35,23 @@ namespace DynamicVisualizer.Manipulators
 
             if (_nowScaling == null)
             {
-                var p = rf.PosInside(pos.X, pos.Y);
-                p = new Point(Math.Abs(p.X), Math.Abs(p.Y));
-                var smallW = Math.Abs(rf.Width.CachedValue.AsDouble / 6.0);
-                var smallH = Math.Abs(rf.Height.CachedValue.AsDouble / 6.0);
-                if (p.X < smallW)
+                var snappedTo = StepManager.SnapTo(pos, rf.GetMagnets());
+                if (snappedTo == rf.Left)
                 {
                     _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Right,
                         1 - (pos.X - _downPos.X) / rf.Width.CachedValue.AsDouble);
                 }
-                else if (p.X > 5.0 * smallW)
+                else if (snappedTo == rf.Right)
                 {
                     _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Left,
                         1 + (pos.X - _downPos.X) / rf.Width.CachedValue.AsDouble);
                 }
-                else if (p.Y < smallH)
+                else if (snappedTo == rf.Top)
                 {
                     _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Bottom,
                         1 - (pos.Y - _downPos.Y) / rf.Height.CachedValue.AsDouble);
                 }
-                else if (p.Y > 5.0 * smallH)
+                else if (snappedTo == rf.Bottom)
                 {
                     _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Top,
                         1 + (pos.Y - _downPos.Y) / rf.Height.CachedValue.AsDouble);
@@ -100,26 +96,23 @@ namespace DynamicVisualizer.Manipulators
 
             if (_nowScaling == null)
             {
-                var p = ef.PosInside(pos.X, pos.Y);
-                p = new Point(Math.Abs(p.X), Math.Abs(p.Y));
-                var smallW = Math.Abs(ef.Radius1.CachedValue.AsDouble / 3.0);
-                var smallH = Math.Abs(ef.Radius2.CachedValue.AsDouble / 3.0);
-                if (p.X < smallW)
+                var snappedTo = StepManager.SnapTo(pos, ef.GetMagnets());
+                if (snappedTo == ef.Left)
                 {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Right,
                         1 - (pos.X - _downPos.X) / ef.Radius1.CachedValue.AsDouble);
                 }
-                else if (p.X > 5.0 * smallW)
+                else if (snappedTo == ef.Right)
                 {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Left,
                         1 + (pos.X - _downPos.X) / ef.Radius1.CachedValue.AsDouble);
                 }
-                else if (p.Y < smallH)
+                else if (snappedTo == ef.Top)
                 {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Bottom,
                         1 + (pos.Y - _downPos.Y) / ef.Radius2.CachedValue.AsDouble);
                 }
-                else if (p.Y > 5.0 * smallH)
+                else if (snappedTo == ef.Bottom)
                 {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Top,
                         1 - (pos.Y - _downPos.Y) / ef.Radius2.CachedValue.AsDouble);
@@ -164,30 +157,31 @@ namespace DynamicVisualizer.Manipulators
 
             if (_nowScaling == null)
             {
-                // start point
-                var dx = pos.X - lf.X.CachedValue.AsDouble;
-                var dy = pos.Y - lf.Y.CachedValue.AsDouble;
-                if (dx * dx + dy * dy <= StepManager.ThresholdSquared)
+                var snappedTo = StepManager.SnapTo(pos, lf.GetMagnets());
+                if (snappedTo == lf.Start)
                 {
-                    var lineDx = lf.Width.CachedValue.AsDouble;
-                    var lineDy = lf.Height.CachedValue.AsDouble;
-                    _nowScaling = new ScaleLineStep(lf, ScaleLineStep.Side.End,
-                        1 - (pos.X - _downPos.X) / Math.Sqrt(lineDx * lineDx + lineDy * lineDy));
-                }
-                else
-                {
-                    // end point
-                    dx = pos.X - (lf.X.CachedValue.AsDouble + lf.Width.CachedValue.AsDouble);
-                    dy = pos.Y - (lf.Y.CachedValue.AsDouble + lf.Height.CachedValue.AsDouble);
-                    if (dx * dx + dy * dy <= StepManager.ThresholdSquared)
-                    {
-                        var lineDx = lf.X.CachedValue.AsDouble - lf.Width.CachedValue.AsDouble;
-                        var lineDy = lf.Y.CachedValue.AsDouble - lf.Height.CachedValue.AsDouble;
-                        _nowScaling = new ScaleLineStep(lf, ScaleLineStep.Side.Start,
-                            1 + (pos.X - _downPos.X) / Math.Sqrt(lineDx * lineDx + lineDy * lineDy));
-                    }
-                }
+                    var bx = lf.Width.CachedValue.AsDouble;
+                    var by = lf.Height.CachedValue.AsDouble;
+                    var bLenSquared = bx * bx + by * by;
 
+                    var ax = lf.X.CachedValue.AsDouble + lf.Width.CachedValue.AsDouble - pos.X;
+                    var ay = lf.Y.CachedValue.AsDouble + lf.Height.CachedValue.AsDouble - pos.Y;
+
+                    _nowScaling = new ScaleLineStep(lf, ScaleLineStep.Side.End,
+                        (ax * bx + ay * by) / bLenSquared);
+                }
+                else if (snappedTo == lf.End)
+                {
+                    var bx = lf.Width.CachedValue.AsDouble;
+                    var by = lf.Height.CachedValue.AsDouble;
+                    var bLenSquared = bx * bx + by * by;
+
+                    var ax = pos.X - lf.X.CachedValue.AsDouble;
+                    var ay = pos.Y - lf.Y.CachedValue.AsDouble;
+
+                    _nowScaling = new ScaleLineStep(lf, ScaleLineStep.Side.Start,
+                        (ax * bx + ay * by) / bLenSquared);
+                }
                 if (_nowScaling == null)
                 {
                     return;
@@ -201,13 +195,25 @@ namespace DynamicVisualizer.Manipulators
 
                 if (sls.ScaleAround == ScaleLineStep.Side.Start)
                 {
-                    sls.Scale(1 + (pos.X - _downPos.X) /
-                              Math.Sqrt(sls.WidthOrig * sls.WidthOrig + sls.HeightOrig * sls.HeightOrig));
+                    var bx = sls.WidthOrig;
+                    var by = sls.HeightOrig;
+                    var bLenSquared = bx * bx + by * by;
+
+                    var ax = pos.X - sls.XCachedDouble;
+                    var ay = pos.Y - sls.YCachedDouble;
+
+                    sls.Scale((ax * bx + ay * by) / bLenSquared);
                 }
                 else if (sls.ScaleAround == ScaleLineStep.Side.End)
                 {
-                    sls.Scale(1 - (pos.X - _downPos.X) /
-                              Math.Sqrt(sls.WidthOrig * sls.WidthOrig + sls.HeightOrig * sls.HeightOrig));
+                    var bx = sls.WidthOrig;
+                    var by = sls.HeightOrig;
+                    var bLenSquared = bx * bx + by * by;
+
+                    var ax = sls.XCachedDouble + sls.WidthOrig - pos.X;
+                    var ay = sls.YCachedDouble + sls.HeightOrig - pos.Y;
+
+                    sls.Scale((ax * bx + ay * by) / bLenSquared);
                 }
             }
         }

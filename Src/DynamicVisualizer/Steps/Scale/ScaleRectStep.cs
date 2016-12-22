@@ -29,17 +29,41 @@ namespace DynamicVisualizer.Steps.Scale
             ScaleAround = scaleAround;
         }
 
-        public ScaleRectStep(RectFigure figure, Side scaleAround, double factor) : this(figure, scaleAround)
-        {
-            Scale(factor);
-        }
-
         public ScaleRectStep(RectFigure figure, Side scaleAround, string factor) : this(figure, scaleAround)
         {
             Scale(factor);
         }
 
+        public ScaleRectStep(RectFigure figure, Side scaleAround, double factor)
+            : this(figure, scaleAround, factor.Str())
+        {
+        }
+
         public override ScaleStepType StepType => ScaleStepType.ScaleRect;
+
+        public void SetDef()
+        {
+            var dimension = ScaleAround == Side.Left || ScaleAround == Side.Right ? "width" : "height";
+            Magnet aroundMagnet;
+            switch (ScaleAround)
+            {
+                case Side.Left:
+                    aroundMagnet = RectFigure.Left;
+                    break;
+                case Side.Right:
+                    aroundMagnet = RectFigure.Right;
+                    break;
+                case Side.Top:
+                    aroundMagnet = RectFigure.Top;
+                    break;
+                default:
+                    aroundMagnet = RectFigure.Bottom;
+                    break;
+            }
+
+            Def = string.Format("Scale {0}'s {1} around {2} by {3}", RectFigure.Name, dimension, aroundMagnet.Def,
+                Factor);
+        }
 
         private void CaptureBearings()
         {
@@ -177,13 +201,13 @@ namespace DynamicVisualizer.Steps.Scale
         public void Scale(string factor)
         {
             Factor = factor;
+            SetDef();
             Apply();
         }
 
         public void Scale(double factor)
         {
-            Factor = factor.Str();
-            Apply();
+            Scale(factor.Str());
         }
     }
 }

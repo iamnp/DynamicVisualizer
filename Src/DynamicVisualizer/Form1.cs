@@ -116,7 +116,7 @@ namespace DynamicVisualizer
 
             foreach (var figure in StepManager.Figures)
             {
-                if (figure.IsSelected || _figureMover.NowMoving || _figureDrawer.NowDrawing || _figureScaler.NowScailing ||
+                if (figure.IsSelected || _figureMover.NowMoving || _figureDrawer.NowDrawing ||
                     _figureResizer.NowResizing)
                 {
                     if (figure.IsSelected)

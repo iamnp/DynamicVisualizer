@@ -27,17 +27,33 @@ namespace DynamicVisualizer.Steps.Scale
             ScaleAround = scaleAround;
         }
 
-        public ScaleLineStep(LineFigure figure, Side scaleAround, double factor) : this(figure, scaleAround)
-        {
-            Scale(factor);
-        }
-
         public ScaleLineStep(LineFigure figure, Side scaleAround, string factor) : this(figure, scaleAround)
         {
             Scale(factor);
         }
 
+        public ScaleLineStep(LineFigure figure, Side scaleAround, double factor)
+            : this(figure, scaleAround, factor.Str())
+        {
+        }
+
         public override ScaleStepType StepType => ScaleStepType.ScaleLine;
+
+        public void SetDef()
+        {
+            Magnet aroundMagnet;
+            switch (ScaleAround)
+            {
+                case Side.Start:
+                    aroundMagnet = LineFigure.Start;
+                    break;
+                default:
+                    aroundMagnet = LineFigure.End;
+                    break;
+            }
+
+            Def = string.Format("Scale {0} around {1} by {2}", LineFigure.Name, aroundMagnet.Def, Factor);
+        }
 
         private void CaptureBearings()
         {
@@ -149,13 +165,13 @@ namespace DynamicVisualizer.Steps.Scale
         public void Scale(string factor)
         {
             Factor = factor;
+            SetDef();
             Apply();
         }
 
         public void Scale(double factor)
         {
-            Factor = factor.Str();
-            Apply();
+            Scale(factor.Str());
         }
     }
 }
