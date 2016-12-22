@@ -137,6 +137,7 @@ namespace DynamicVisualizer.Controls
                     _ignoreMarkAsSelected = true;
                     StepManager.NextLoopFromCurrentPos();
                     _ignoreMarkAsSelected = false;
+                    MarkAsSelecgted(StepManager.CurrentStepIndex);
                 }
                 return true;
             }
@@ -148,6 +149,7 @@ namespace DynamicVisualizer.Controls
                     _ignoreMarkAsSelected = true;
                     StepManager.PrevLoopFromCurrentPos();
                     _ignoreMarkAsSelected = false;
+                    MarkAsSelecgted(StepManager.CurrentStepIndex);
                 }
                 return true;
             }

@@ -291,6 +291,7 @@ namespace DynamicVisualizer.Steps
                 {
                     Steps[top].ApplyNextIteration();
                     CurrentStepIndex = top;
+                    StepListControl?.MarkAsSelecgted(CurrentStepIndex);
                 }
             }
             else
@@ -304,8 +305,8 @@ namespace DynamicVisualizer.Steps
                     Steps[CurrentStepIndex + 1].ApplyNextIteration();
                 }
                 CurrentStepIndex += 1;
+                StepListControl?.MarkAsSelecgted(CurrentStepIndex);
             }
-            StepListControl?.MarkAsSelecgted(CurrentStepIndex);
         }
 
         public static void PrevIterationFromCurrentPos()
@@ -325,7 +326,7 @@ namespace DynamicVisualizer.Steps
                 else
                 {
                     Steps[CurrentStepIndex].CompletedIterations -= 1;
-                    SetCurrentStepIndex(bot);
+                    SetCurrentStepIndex(bot, true);
                 }
             }
             else
