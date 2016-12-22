@@ -6,10 +6,14 @@ namespace DynamicVisualizer.Figures
 {
     public class RectFigure : Figure
     {
+        public Magnet Bottom;
         public Magnet BottomLeft;
         public Magnet BottomRight;
         public Magnet Center;
         public ScalarExpression Height;
+        public Magnet Left;
+        public Magnet Right;
+        public Magnet Top;
         public Magnet TopLeft;
         public Magnet TopRight;
         public ScalarExpression Width;
@@ -36,6 +40,8 @@ namespace DynamicVisualizer.Figures
             }
             var w = new ScalarExpression(Name, "a", Name + ".x + " + Name + ".width", true);
             var h = new ScalarExpression(Name, "a", Name + ".y + " + Name + ".height", true);
+            var wover2 = new ScalarExpression(Name, "a", Name + ".x + (" + Name + ".width/2)", true);
+            var hover2 = new ScalarExpression(Name, "a", Name + ".y + (" + Name + ".height/2)", true);
 
             var x = new ScalarExpression(Name, "a", Name + ".x", true);
             var y = new ScalarExpression(Name, "a", Name + ".y", true);
@@ -44,8 +50,11 @@ namespace DynamicVisualizer.Figures
             BottomLeft = new Magnet(x, h, name + "bottom-left");
             TopRight = new Magnet(w, y, name + "top-right");
             BottomRight = new Magnet(w, h, name + "bottom-right");
-            Center = new Magnet(new ScalarExpression(Name, "a", Name + ".x + (" + Name + ".width/2)", true),
-                new ScalarExpression(Name, "a", Name + ".y + (" + Name + ".height/2)", true), name + "center");
+            Center = new Magnet(wover2, hover2, name + "center");
+            Left = new Magnet(x, hover2, name + "left");
+            Right = new Magnet(w, hover2, name + "right");
+            Top = new Magnet(wover2, y, name + "top");
+            Bottom = new Magnet(wover2, h, name + "bottom");
 
             return new[]
             {
@@ -53,7 +62,11 @@ namespace DynamicVisualizer.Figures
                 BottomLeft,
                 TopRight,
                 BottomRight,
-                Center
+                Center,
+                Left,
+                Right,
+                Top,
+                Bottom
             };
         }
 

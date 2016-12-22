@@ -10,10 +10,12 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO make steps in list with proper text definition
 // TODO perform selection by dragging magnets
+// TODO make steps in list with proper text definition
+// TODO fix iterating without draw steps (check if StaticFigures list is empty in CopyStaticFigure())
 // TODO rotate line step
 // TODO fix removing steps from group
+// TODO fix removing steps before group
 // TODO fix adding steps before group (shift groups)
 // TODO fix adding steps into group
 // TODO fix exception when moving line-like rect
@@ -21,7 +23,7 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO fix changing array's length
 // TODO add modifiable iterative group counter
 
-// TODO ? fix order of iterative drawing
+// TODO? fix order of iterative drawing
 
 namespace DynamicVisualizer
 {
@@ -64,6 +66,8 @@ namespace DynamicVisualizer
             var y1 = new ScalarExpression("a", "a", "canvas.y", true);
             var w = new ScalarExpression("a", "a", "canvas.width", true);
             var h = new ScalarExpression("a", "a", "canvas.height", true);
+            var wover2 = new ScalarExpression("a", "a", "canvas.width/2", true);
+            var hover2 = new ScalarExpression("a", "a", "canvas.height/2", true);
 
             StepManager.CanvasMagnets = new[]
             {
@@ -71,8 +75,11 @@ namespace DynamicVisualizer
                 new Magnet(x1, h, "canvas's bottom-left"),
                 new Magnet(w, y1, "canvas's top-right"),
                 new Magnet(w, h, "canvas's bottom-right"),
-                new Magnet(new ScalarExpression("a", "a", "canvas.width/2", true),
-                    new ScalarExpression("a", "a", "canvas.height/2", true), "canvas's center")
+                new Magnet(wover2, hover2, "canvas's center"),
+                new Magnet(wover2, y1, "canvas's top"),
+                new Magnet(wover2, h, "canvas's bottom"),
+                new Magnet(x1, hover2, "canvas's left"),
+                new Magnet(w, hover2, "canvas's right")
             };
 
             _mainGraphics = new MainGraphicOutput {DrawingFunc = DrawScene};
@@ -99,9 +106,7 @@ namespace DynamicVisualizer
 
             foreach (var magnet in StepManager.CanvasMagnets)
             {
-                dc.DrawEllipse(Brushes.Yellow, new Pen(Brushes.Black, 1),
-                    new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
-                    4, 4);
+                magnet.Draw(dc, false);
             }
 
             foreach (var figure in StepManager.Figures)
@@ -118,9 +123,7 @@ namespace DynamicVisualizer
                     {
                         foreach (var magnet in figure.GetMagnets())
                         {
-                            dc.DrawEllipse(Brushes.DeepSkyBlue, new Pen(Brushes.Black, 1),
-                                new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
-                                5, 5);
+                            magnet.Draw(dc, true);
                         }
                     }
                     else
@@ -132,9 +135,7 @@ namespace DynamicVisualizer
                         }
                         foreach (var magnet in magnets)
                         {
-                            dc.DrawEllipse(Brushes.Yellow, new Pen(Brushes.Black, 1),
-                                new Point(magnet.X.CachedValue.AsDouble, magnet.Y.CachedValue.AsDouble),
-                                4, 4);
+                            magnet.Draw(dc, false);
                         }
                     }
                 }

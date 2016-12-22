@@ -1,4 +1,6 @@
-﻿using DynamicVisualizer.Expressions;
+﻿using System.Windows;
+using System.Windows.Media;
+using DynamicVisualizer.Expressions;
 
 namespace DynamicVisualizer.Figures
 {
@@ -18,6 +20,22 @@ namespace DynamicVisualizer.Figures
         public bool EqualExprStrings(Magnet a)
         {
             return X.ExprString == a.X.ExprString && Y.ExprString == a.Y.ExprString;
+        }
+
+        public void Draw(DrawingContext dc, bool selected)
+        {
+            if (selected)
+            {
+                dc.DrawEllipse(Brushes.DeepSkyBlue, new Pen(Brushes.Black, 1),
+                    new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble),
+                    4, 4);
+            }
+            else
+            {
+                dc.DrawEllipse(Brushes.Yellow, new Pen(Brushes.Black, 1),
+                    new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble),
+                    3, 3);
+            }
         }
     }
 }
