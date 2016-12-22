@@ -5,8 +5,12 @@ namespace DynamicVisualizer.Steps.Move
     public class MoveRectStep : MoveStep
     {
         public readonly RectFigure RectFigure;
+        public double HCachedDouble;
+        public double WCachedDouble;
         public string X;
+        public double XCachedDouble;
         public string Y;
+        public double YCachedDouble;
 
         private MoveRectStep(RectFigure figure)
         {
@@ -29,7 +33,7 @@ namespace DynamicVisualizer.Steps.Move
         {
             if (what == null || where == null)
             {
-                Def = string.Format("Move {0} to ({1}; {2})", RectFigure.Name, X, Y);
+                Def = string.Format("Move {0}, {1} horizontally, {2} vertically)", RectFigure.Name, X, Y);
             }
             else
             {
@@ -37,15 +41,29 @@ namespace DynamicVisualizer.Steps.Move
             }
         }
 
+        private void CaptureBearings()
+        {
+            XCachedDouble = RectFigure.X.CachedValue.AsDouble;
+            YCachedDouble = RectFigure.Y.CachedValue.AsDouble;
+            WCachedDouble = RectFigure.Width.CachedValue.AsDouble;
+            HCachedDouble = RectFigure.Height.CachedValue.AsDouble;
+        }
+
         public override void Apply()
         {
+            if (!Applied)
+            {
+                CaptureBearings();
+            }
             Applied = true;
 
-            RectFigure.Width.SetRawExpression(RectFigure.Width.CachedValue.AsDouble.Str());
-            RectFigure.Height.SetRawExpression(RectFigure.Height.CachedValue.AsDouble.Str());
+            RectFigure.Width.SetRawExpression(WCachedDouble.Str());
+            RectFigure.Height.SetRawExpression(HCachedDouble.Str());
+            RectFigure.X.SetRawExpression(XCachedDouble.Str());
+            RectFigure.Y.SetRawExpression(YCachedDouble.Str());
 
-            RectFigure.X.SetRawExpression(X);
-            RectFigure.Y.SetRawExpression(Y);
+            RectFigure.X.SetRawExpression(RectFigure.Name + ".x + (" + X + ")");
+            RectFigure.Y.SetRawExpression(RectFigure.Name + ".y + (" + Y + ")");
 
             if (Iterations != -1 && !Figure.IsGuide)
             {
@@ -62,8 +80,11 @@ namespace DynamicVisualizer.Steps.Move
 
             RectFigure.Width.SetRawExpression(RectFigure.Width.CachedValue.AsDouble.Str());
             RectFigure.Height.SetRawExpression(RectFigure.Height.CachedValue.AsDouble.Str());
-            RectFigure.X.SetRawExpression(X);
-            RectFigure.Y.SetRawExpression(Y);
+            RectFigure.X.SetRawExpression(RectFigure.X.CachedValue.AsDouble.Str());
+            RectFigure.Y.SetRawExpression(RectFigure.Y.CachedValue.AsDouble.Str());
+
+            RectFigure.X.SetRawExpression(RectFigure.Name + ".x + (" + X + ")");
+            RectFigure.Y.SetRawExpression(RectFigure.Name + ".y + (" + Y + ")");
         }
 
         public override void CopyStaticFigure()

@@ -5,8 +5,12 @@ namespace DynamicVisualizer.Steps.Move
     public class MoveEllipseStep : MoveStep
     {
         public readonly EllipseFigure EllipseFigure;
+        public double R1CachedDouble;
+        public double R2CachedDouble;
         public string X;
+        public double XCachedDouble;
         public string Y;
+        public double YCachedDouble;
 
         private MoveEllipseStep(EllipseFigure figure)
         {
@@ -29,7 +33,7 @@ namespace DynamicVisualizer.Steps.Move
         {
             if (what == null || where == null)
             {
-                Def = string.Format("Move {0} to ({1}; {2})", EllipseFigure.Name, X, Y);
+                Def = string.Format("Move {0}, {1} horizontally, {2} vertically)", EllipseFigure.Name, X, Y);
             }
             else
             {
@@ -37,15 +41,29 @@ namespace DynamicVisualizer.Steps.Move
             }
         }
 
+        private void CaptureBearings()
+        {
+            XCachedDouble = EllipseFigure.X.CachedValue.AsDouble;
+            YCachedDouble = EllipseFigure.Y.CachedValue.AsDouble;
+            R1CachedDouble = EllipseFigure.Radius1.CachedValue.AsDouble;
+            R2CachedDouble = EllipseFigure.Radius2.CachedValue.AsDouble;
+        }
+
         public override void Apply()
         {
+            if (!Applied)
+            {
+                CaptureBearings();
+            }
             Applied = true;
 
-            EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.AsDouble.Str());
-            EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.AsDouble.Str());
+            EllipseFigure.Radius1.SetRawExpression(R1CachedDouble.Str());
+            EllipseFigure.Radius2.SetRawExpression(R2CachedDouble.Str());
+            EllipseFigure.X.SetRawExpression(XCachedDouble.Str());
+            EllipseFigure.Y.SetRawExpression(YCachedDouble.Str());
 
-            EllipseFigure.X.SetRawExpression(X);
-            EllipseFigure.Y.SetRawExpression(Y);
+            EllipseFigure.X.SetRawExpression(EllipseFigure.Name + ".x + (" + X + ")");
+            EllipseFigure.Y.SetRawExpression(EllipseFigure.Name + ".y + (" + Y + ")");
 
             if (Iterations != -1 && !Figure.IsGuide)
             {
@@ -62,8 +80,11 @@ namespace DynamicVisualizer.Steps.Move
 
             EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.AsDouble.Str());
             EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.AsDouble.Str());
-            EllipseFigure.X.SetRawExpression(X);
-            EllipseFigure.Y.SetRawExpression(Y);
+            EllipseFigure.X.SetRawExpression(EllipseFigure.X.CachedValue.AsDouble.Str());
+            EllipseFigure.Y.SetRawExpression(EllipseFigure.Y.CachedValue.AsDouble.Str());
+
+            EllipseFigure.X.SetRawExpression(EllipseFigure.Name + ".x + (" + X + ")");
+            EllipseFigure.Y.SetRawExpression(EllipseFigure.Name + ".y + (" + Y + ")");
         }
 
         public override void CopyStaticFigure()

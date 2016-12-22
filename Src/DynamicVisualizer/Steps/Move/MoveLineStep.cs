@@ -5,8 +5,12 @@ namespace DynamicVisualizer.Steps.Move
     public class MoveLineStep : MoveStep
     {
         public readonly LineFigure LineFigure;
+        public double HCachedDouble;
+        public double WCachedDouble;
         public string X;
+        public double XCachedDouble;
         public string Y;
+        public double YCachedDouble;
 
         private MoveLineStep(LineFigure figure)
         {
@@ -29,7 +33,7 @@ namespace DynamicVisualizer.Steps.Move
         {
             if (what == null || where == null)
             {
-                Def = string.Format("Move {0} to ({1}; {2})", LineFigure.Name, X, Y);
+                Def = string.Format("Move {0}, {1} horizontally, {2} vertically)", LineFigure.Name, X, Y);
             }
             else
             {
@@ -37,15 +41,30 @@ namespace DynamicVisualizer.Steps.Move
             }
         }
 
+        private void CaptureBearings()
+        {
+            XCachedDouble = LineFigure.X.CachedValue.AsDouble;
+            YCachedDouble = LineFigure.Y.CachedValue.AsDouble;
+            WCachedDouble = LineFigure.Width.CachedValue.AsDouble;
+            HCachedDouble = LineFigure.Height.CachedValue.AsDouble;
+        }
+
+
         public override void Apply()
         {
+            if (!Applied)
+            {
+                CaptureBearings();
+            }
             Applied = true;
 
-            LineFigure.Width.SetRawExpression(LineFigure.Width.CachedValue.AsDouble.Str());
-            LineFigure.Height.SetRawExpression(LineFigure.Height.CachedValue.AsDouble.Str());
+            LineFigure.Width.SetRawExpression(WCachedDouble.Str());
+            LineFigure.Height.SetRawExpression(HCachedDouble.Str());
+            LineFigure.X.SetRawExpression(XCachedDouble.Str());
+            LineFigure.Y.SetRawExpression(YCachedDouble.Str());
 
-            LineFigure.X.SetRawExpression(X);
-            LineFigure.Y.SetRawExpression(Y);
+            LineFigure.X.SetRawExpression(LineFigure.Name + ".x + (" + X + ")");
+            LineFigure.Y.SetRawExpression(LineFigure.Name + ".y + (" + Y + ")");
 
             if (Iterations != -1 && !Figure.IsGuide)
             {
@@ -62,8 +81,11 @@ namespace DynamicVisualizer.Steps.Move
 
             LineFigure.Width.SetRawExpression(LineFigure.Width.CachedValue.AsDouble.Str());
             LineFigure.Height.SetRawExpression(LineFigure.Height.CachedValue.AsDouble.Str());
-            LineFigure.X.SetRawExpression(X);
-            LineFigure.Y.SetRawExpression(Y);
+            LineFigure.X.SetRawExpression(LineFigure.X.CachedValue.AsDouble.Str());
+            LineFigure.Y.SetRawExpression(LineFigure.Y.CachedValue.AsDouble.Str());
+
+            LineFigure.X.SetRawExpression(LineFigure.Name + ".x + (" + X + ")");
+            LineFigure.Y.SetRawExpression(LineFigure.Name + ".y + (" + Y + ")");
         }
 
         public override void CopyStaticFigure()

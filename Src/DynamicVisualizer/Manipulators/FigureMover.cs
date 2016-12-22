@@ -9,14 +9,11 @@ namespace DynamicVisualizer.Manipulators
     {
         private Point _downPos;
         private MoveStep _nowMoving;
-        private double _offsetX = double.NaN;
-        private double _offsetY = double.NaN;
 
         public bool NowMoving => _nowMoving != null;
 
         public void Reset()
         {
-            _offsetX = _offsetY = double.NaN;
             _nowMoving = null;
         }
 
@@ -27,177 +24,173 @@ namespace DynamicVisualizer.Manipulators
 
         private void MoveRect(RectFigure rf, Point pos)
         {
-            if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
-            {
-                _offsetX = _downPos.X - rf.X.CachedValue.AsDouble;
-                _offsetY = _downPos.Y - rf.Y.CachedValue.AsDouble;
-            }
-
             if (_nowMoving == null)
             {
-                _nowMoving = new MoveRectStep(rf, pos.X - _offsetX, pos.Y - _offsetY);
+                _nowMoving = new MoveRectStep(rf, pos.X - _downPos.X, pos.Y - _downPos.Y);
                 StepManager.Insert(_nowMoving,
                     StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
             }
             else
             {
                 var snapped = StepManager.Snap(pos, _nowMoving.Figure);
-                Magnet snappedBy = null;
+                Magnet snappedBy;
                 if (snapped != null &&
                     (snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null)
                 {
                     if (snappedBy.EqualExprStrings(rf.TopLeft))
                     {
-                        ((MoveRectStep) _nowMoving).Move(snapped.X.ExprString, snapped.Y.ExprString, snappedBy.Def,
+                        ((MoveRectStep) _nowMoving).Move(
+                            "(" + snapped.X.ExprString + ") - (" + _nowMoving.Figure.Name + ".x)",
+                            "(" + snapped.Y.ExprString + ") - (" + _nowMoving.Figure.Name + ".y)", snappedBy.Def,
                             snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(rf.TopRight))
                     {
                         ((MoveRectStep) _nowMoving).Move(
-                            "(" + snapped.X.ExprString + ") - (" + rf.Name + ".width)", snapped.Y.ExprString,
-                            snappedBy.Def, snapped.Def);
+                            "((" + snapped.X.ExprString + ") - (" + rf.Name + ".width)) - (" + _nowMoving.Figure.Name +
+                            ".x)",
+                            "(" + snapped.Y.ExprString + ") - (" + _nowMoving.Figure.Name + ".y)", snappedBy.Def,
+                            snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(rf.BottomLeft))
                     {
-                        ((MoveRectStep) _nowMoving).Move(snapped.X.ExprString,
-                            "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height)", snappedBy.Def, snapped.Def);
+                        ((MoveRectStep) _nowMoving).Move(
+                            "(" + snapped.X.ExprString + ") - (" + _nowMoving.Figure.Name + ".x)",
+                            "((" + snapped.Y.ExprString + ") - (" + rf.Name + ".height)) - (" + _nowMoving.Figure.Name +
+                            ".y)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(rf.BottomRight))
                     {
                         ((MoveRectStep) _nowMoving).Move(
-                            "(" + snapped.X.ExprString + ") - (" + rf.Name + ".width)",
-                            "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height)", snappedBy.Def, snapped.Def);
+                            "((" + snapped.X.ExprString + ") - (" + rf.Name + ".width)) - (" + _nowMoving.Figure.Name +
+                            ".x)",
+                            "((" + snapped.Y.ExprString + ") - (" + rf.Name + ".height)) - (" + _nowMoving.Figure.Name +
+                            ".y)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(rf.Center))
                     {
                         ((MoveRectStep) _nowMoving).Move(
-                            "(" + snapped.X.ExprString + ") - (" + rf.Name + ".width/2)",
-                            "(" + snapped.Y.ExprString + ") - (" + rf.Name + ".height/2)", snappedBy.Def, snapped.Def);
+                            "((" + snapped.X.ExprString + ") - (" + rf.Name + ".width/2)) - (" + _nowMoving.Figure.Name +
+                            ".x)",
+                            "((" + snapped.Y.ExprString + ") - (" + rf.Name + ".height/2)) - (" + _nowMoving.Figure.Name +
+                            ".y)", snappedBy.Def, snapped.Def);
                     }
                 }
                 else
                 {
-                    ((MoveRectStep) _nowMoving).Move(pos.X - _offsetX, pos.Y - _offsetY);
+                    ((MoveRectStep) _nowMoving).Move(pos.X - _downPos.X, pos.Y - _downPos.Y);
                 }
             }
         }
 
         private void MoveEllipse(EllipseFigure ef, Point pos)
         {
-            if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
-            {
-                _offsetX = _downPos.X - ef.X.CachedValue.AsDouble;
-                _offsetY = _downPos.Y - ef.Y.CachedValue.AsDouble;
-            }
-
             if (_nowMoving == null)
             {
-                _nowMoving = new MoveEllipseStep(ef, pos.X - _offsetX, pos.Y - _offsetY);
+                _nowMoving = new MoveEllipseStep(ef, pos.X - _downPos.X, pos.Y - _downPos.Y);
                 StepManager.Insert(_nowMoving,
                     StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
             }
             else
             {
                 var snapped = StepManager.Snap(pos, _nowMoving.Figure);
-                Magnet snappedBy = null;
+                Magnet snappedBy;
                 if (snapped != null &&
                     (snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null)
                 {
                     if (snappedBy.EqualExprStrings(ef.Left))
                     {
                         ((MoveEllipseStep) _nowMoving).Move(
-                            "(" + snapped.X.ExprString + ") + (" + ef.Name + ".radius1)", snapped.Y.ExprString,
+                            "((" + snapped.X.ExprString + ") + (" + ef.Name + ".radius1)) - (" + _nowMoving.Figure.Name +
+                            ".x)",
+                            "(" + snapped.Y.ExprString + ") - (" + _nowMoving.Figure.Name + ".y)",
                             snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(ef.Right))
                     {
                         ((MoveEllipseStep) _nowMoving).Move(
-                            "(" + snapped.X.ExprString + ") - (" + ef.Name + ".radius1)", snapped.Y.ExprString,
+                            "((" + snapped.X.ExprString + ") - (" + ef.Name + ".radius1)) - (" + _nowMoving.Figure.Name +
+                            ".x)",
+                            "(" + snapped.Y.ExprString + ") - (" + _nowMoving.Figure.Name + ".y)",
                             snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(ef.Top))
                     {
-                        ((MoveEllipseStep) _nowMoving).Move(snapped.X.ExprString,
-                            "(" + snapped.Y.ExprString + ") + (" + ef.Name + ".radius2)", snappedBy.Def, snapped.Def);
+                        ((MoveEllipseStep) _nowMoving).Move(
+                            "(" + snapped.X.ExprString + ") - (" + _nowMoving.Figure.Name + ".x)",
+                            "((" + snapped.Y.ExprString + ") + (" + ef.Name + ".radius2)) - (" + _nowMoving.Figure.Name +
+                            ".y)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(ef.Bottom))
                     {
-                        ((MoveEllipseStep) _nowMoving).Move(snapped.X.ExprString,
-                            "(" + snapped.Y.ExprString + ") - (" + ef.Name + ".radius2)", snappedBy.Def, snapped.Def);
+                        ((MoveEllipseStep) _nowMoving).Move(
+                            "(" + snapped.X.ExprString + ") - (" + _nowMoving.Figure.Name + ".x)",
+                            "((" + snapped.Y.ExprString + ") - (" + ef.Name + ".radius2)) - (" + _nowMoving.Figure.Name +
+                            ".y)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(ef.Center))
                     {
-                        ((MoveEllipseStep) _nowMoving).Move(snapped.X.ExprString, snapped.Y.ExprString, snappedBy.Def,
+                        ((MoveEllipseStep) _nowMoving).Move(
+                            "(" + snapped.X.ExprString + ") - (" + _nowMoving.Figure.Name + ".x)",
+                            "(" + snapped.Y.ExprString + ") - (" + _nowMoving.Figure.Name + ".y)", snappedBy.Def,
                             snapped.Def);
                     }
                 }
                 else
                 {
-                    ((MoveEllipseStep) _nowMoving).Move(pos.X - _offsetX, pos.Y - _offsetY);
+                    ((MoveEllipseStep) _nowMoving).Move(pos.X - _downPos.X, pos.Y - _downPos.Y);
                 }
             }
         }
 
         private void MoveLine(LineFigure lf, Point pos)
         {
-            if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
-            {
-                _offsetX = _downPos.X - lf.X.CachedValue.AsDouble;
-                _offsetY = _downPos.Y - lf.Y.CachedValue.AsDouble;
-            }
-
             if (_nowMoving == null)
             {
-                _nowMoving = new MoveLineStep(lf, pos.X - _offsetX, pos.Y - _offsetY);
+                _nowMoving = new MoveLineStep(lf, pos.X - _downPos.X, pos.Y - _downPos.Y);
                 StepManager.Insert(_nowMoving,
                     StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
             }
             else
             {
                 var snapped = StepManager.Snap(pos, _nowMoving.Figure);
-                Magnet snappedBy = null;
+                Magnet snappedBy;
                 if (snapped != null &&
                     (snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null)
                 {
                     if (snappedBy.EqualExprStrings(lf.Start))
                     {
-                        ((MoveLineStep) _nowMoving).Move(snapped.X.ExprString, snapped.Y.ExprString, snappedBy.Def,
+                        ((MoveLineStep) _nowMoving).Move(
+                            "(" + snapped.X.ExprString + ") - (" + _nowMoving.Figure.Name + ".x)",
+                            "(" + snapped.Y.ExprString + ") - (" + _nowMoving.Figure.Name + ".y)", snappedBy.Def,
                             snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(lf.Center))
                     {
                         ((MoveLineStep) _nowMoving).Move(
-                            "(" + snapped.X.ExprString + ") - (" + lf.Name + ".width/2)",
-                            "(" + snapped.Y.ExprString + ") - (" + lf.Name + ".height/2)", snappedBy.Def, snapped.Def);
+                            "((" + snapped.X.ExprString + ") - (" + lf.Name + ".width/2)) - (" + _nowMoving.Figure.Name +
+                            ".x)",
+                            "((" + snapped.Y.ExprString + ") - (" + lf.Name + ".height/2)) - (" + _nowMoving.Figure.Name +
+                            ".y)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(lf.End))
                     {
                         ((MoveLineStep) _nowMoving).Move(
-                            "(" + snapped.X.ExprString + ") - (" + lf.Name + ".width)",
-                            "(" + snapped.Y.ExprString + ") - (" + lf.Name + ".height)", snappedBy.Def, snapped.Def);
+                            "((" + snapped.X.ExprString + ") - (" + lf.Name + ".width)) - (" + _nowMoving.Figure.Name +
+                            ".x)",
+                            "((" + snapped.Y.ExprString + ") - (" + lf.Name + ".height)) - (" + _nowMoving.Figure.Name +
+                            ".y)", snappedBy.Def, snapped.Def);
                     }
                 }
                 else
                 {
-                    ((MoveLineStep) _nowMoving).Move(pos.X - _offsetX, pos.Y - _offsetY);
+                    ((MoveLineStep) _nowMoving).Move(pos.X - _downPos.X, pos.Y - _downPos.Y);
                 }
             }
         }
 
         public void Move(Figure selected, Point pos)
         {
-            if (selected == StepManager.CurrentStep.Figure &&
-                (StepManager.CurrentStep is MoveRectStep && selected.Type == Figure.FigureType.Rect
-                 || StepManager.CurrentStep is MoveEllipseStep && selected.Type == Figure.FigureType.Ellipse
-                 || StepManager.CurrentStep is MoveLineStep && selected.Type == Figure.FigureType.Line))
-            {
-                _nowMoving = (MoveStep) StepManager.CurrentStep;
-            }
-            else
-            {
-                _nowMoving = null;
-            }
-
             switch (selected.Type)
             {
                 case Figure.FigureType.Rect:

@@ -22,7 +22,6 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO add modifiable iterative group counter
 
 // TODO ? fix order of iterative drawing
-// TODO ? change move step from absolute to relative
 
 namespace DynamicVisualizer
 {
