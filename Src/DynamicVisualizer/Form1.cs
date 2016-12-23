@@ -11,7 +11,6 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
 // TODO perform selection by dragging magnets
-// TODO make steps in list with proper text definition
 // TODO fix iterating without draw steps (check if StaticFigures list is empty in CopyStaticFigure())
 // TODO rotate line step
 // TODO fix removing steps from group

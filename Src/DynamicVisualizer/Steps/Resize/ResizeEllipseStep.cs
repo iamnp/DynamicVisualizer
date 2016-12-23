@@ -27,17 +27,50 @@ namespace DynamicVisualizer.Steps.Resize
             ResizeAround = resizeAround;
         }
 
-        public ResizeEllipseStep(EllipseFigure figure, Side resizeAround, double delta) : this(figure, resizeAround)
+        public ResizeEllipseStep(EllipseFigure figure, Side resizeAround, string delta, string where = null)
+            : this(figure, resizeAround)
         {
-            Resize(delta);
+            Resize(delta, where);
         }
 
-        public ResizeEllipseStep(EllipseFigure figure, Side resizeAround, string delta) : this(figure, resizeAround)
+        public ResizeEllipseStep(EllipseFigure figure, Side resizeAround, double delta)
+            : this(figure, resizeAround, delta.Str())
         {
-            Resize(delta);
         }
 
         public override ResizeStepType StepType => ResizeStepType.ResizeEllipse;
+
+        public void SetDef(string where)
+        {
+            var dimension = ResizeAround == Side.Left || ResizeAround == Side.Right
+                ? "horizontally"
+                : "vertically";
+            Magnet dragMagnet;
+            switch (ResizeAround)
+            {
+                case Side.Left:
+                    dragMagnet = EllipseFigure.Right;
+                    break;
+                case Side.Right:
+                    dragMagnet = EllipseFigure.Left;
+                    break;
+                case Side.Top:
+                    dragMagnet = EllipseFigure.Bottom;
+                    break;
+                default:
+                    dragMagnet = EllipseFigure.Top;
+                    break;
+            }
+
+            if (where == null)
+            {
+                Def = string.Format("Move {0}, {1} {2}", dragMagnet.Def, Delta, dimension);
+            }
+            else
+            {
+                Def = string.Format("Move {0} to {1}", dragMagnet.Def, where);
+            }
+        }
 
         private void CaptureBearings()
         {
@@ -110,16 +143,16 @@ namespace DynamicVisualizer.Steps.Resize
             }
         }
 
-        public void Resize(string delta)
+        public void Resize(string delta, string where = null)
         {
             Delta = delta;
+            SetDef(where);
             Apply();
         }
 
         public void Resize(double delta)
         {
-            Delta = delta.Str();
-            Apply();
+            Resize(delta.Str());
         }
     }
 }

@@ -29,17 +29,50 @@ namespace DynamicVisualizer.Steps.Resize
             ResizeAround = resizeAround;
         }
 
-        public ResizeRectStep(RectFigure figure, Side resizeAround, double value) : this(figure, resizeAround)
+        public ResizeRectStep(RectFigure figure, Side resizeAround, string value, string where = null)
+            : this(figure, resizeAround)
         {
-            Resize(value);
+            Resize(value, where);
         }
 
-        public ResizeRectStep(RectFigure figure, Side resizeAround, string value) : this(figure, resizeAround)
+        public ResizeRectStep(RectFigure figure, Side resizeAround, double value)
+            : this(figure, resizeAround, value.Str())
         {
-            Resize(value);
         }
 
         public override ResizeStepType StepType => ResizeStepType.ResizeRect;
+
+        public void SetDef(string where)
+        {
+            var dimension = ResizeAround == Side.Left || ResizeAround == Side.Right
+                ? "horizontally"
+                : "vertically";
+            Magnet dragMagnet;
+            switch (ResizeAround)
+            {
+                case Side.Left:
+                    dragMagnet = RectFigure.Right;
+                    break;
+                case Side.Right:
+                    dragMagnet = RectFigure.Left;
+                    break;
+                case Side.Top:
+                    dragMagnet = RectFigure.Bottom;
+                    break;
+                default:
+                    dragMagnet = RectFigure.Top;
+                    break;
+            }
+
+            if (where == null)
+            {
+                Def = string.Format("Move {0}, {1} {2}", dragMagnet.Def, Delta, dimension);
+            }
+            else
+            {
+                Def = string.Format("Move {0} to {1}", dragMagnet.Def, where);
+            }
+        }
 
         private void CaptureBearings()
         {
@@ -168,16 +201,16 @@ namespace DynamicVisualizer.Steps.Resize
             }
         }
 
-        public void Resize(string value)
+        public void Resize(string value, string where = null)
         {
             Delta = value;
+            SetDef(where);
             Apply();
         }
 
         public void Resize(double value)
         {
-            Delta = value.Str();
-            Apply();
+            Resize(value.Str());
         }
     }
 }

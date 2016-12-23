@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using DynamicVisualizer.Steps;
-using DynamicVisualizer.Steps.Resize;
 
 namespace DynamicVisualizer.Controls
 {
@@ -31,27 +30,7 @@ namespace DynamicVisualizer.Controls
 
         public void SetText()
         {
-            if (Step is DrawStep || Step is MoveStep || Step is ScaleStep)
-            {
-                clickThroughLabel1.Text = Step.Def;
-                return;
-            }
-
-            var resizeRectStep = Step as ResizeRectStep;
-            if (resizeRectStep != null)
-            {
-                clickThroughLabel1.Text =
-                    string.Format("resize {0} by {1} around {2} side",
-                        resizeRectStep.Figure.Name, resizeRectStep.Delta, resizeRectStep.ResizeAround);
-            }
-
-            var resizeEllipseStep = Step as ResizeEllipseStep;
-            if (resizeEllipseStep != null)
-            {
-                clickThroughLabel1.Text =
-                    string.Format("resize {0} by {1} around {2} side",
-                        resizeEllipseStep.Figure.Name, resizeEllipseStep.Delta, resizeEllipseStep.ResizeAround);
-            }
+            clickThroughLabel1.Text = Step.Def;
         }
     }
 }
