@@ -122,10 +122,8 @@ namespace DynamicVisualizer.Steps.Resize
                     new Tuple<ScalarExpression, string>(RectFigure.Y, RectFigure.Name + ".y + (" + Delta + ")"),
                     new Tuple<ScalarExpression, string>(RectFigure.Height, RectFigure.Name + ".height - (" + Delta + ")"));
             }
-            if (Iterations != -1 && !Figure.IsGuide)
-            {
-                CopyStaticFigure();
-            }
+
+            CopyStaticFigure();
         }
 
         public override void IterateNext()
@@ -178,6 +176,11 @@ namespace DynamicVisualizer.Steps.Resize
 
         public override void CopyStaticFigure()
         {
+            if (Iterations == -1 || Figure.IsGuide || Figure.StaticLoopFigures.Count - 1 < CompletedIterations)
+            {
+                return;
+            }
+
             var rf = (RectFigure) Figure.StaticLoopFigures[CompletedIterations];
             if (ResizeAround == Side.Left)
             {

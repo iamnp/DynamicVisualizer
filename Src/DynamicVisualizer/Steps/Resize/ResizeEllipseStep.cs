@@ -102,10 +102,8 @@ namespace DynamicVisualizer.Steps.Resize
 
                 EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Name + ".radius2 - (" + Delta + ")");
             }
-            if (Iterations != -1 && !Figure.IsGuide)
-            {
-                CopyStaticFigure();
-            }
+
+            CopyStaticFigure();
         }
 
         public override void IterateNext()
@@ -132,6 +130,11 @@ namespace DynamicVisualizer.Steps.Resize
 
         public override void CopyStaticFigure()
         {
+            if (Iterations == -1 || Figure.IsGuide || Figure.StaticLoopFigures.Count - 1 < CompletedIterations)
+            {
+                return;
+            }
+
             var rf = (EllipseFigure) Figure.StaticLoopFigures[CompletedIterations];
             if (ResizeAround == Side.Left || ResizeAround == Side.Right)
             {

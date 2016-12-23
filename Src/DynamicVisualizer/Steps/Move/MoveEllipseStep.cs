@@ -65,10 +65,8 @@ namespace DynamicVisualizer.Steps.Move
             EllipseFigure.X.SetRawExpression(EllipseFigure.Name + ".x + (" + X + ")");
             EllipseFigure.Y.SetRawExpression(EllipseFigure.Name + ".y + (" + Y + ")");
 
-            if (Iterations != -1 && !Figure.IsGuide)
-            {
-                CopyStaticFigure();
-            }
+
+            CopyStaticFigure();
         }
 
         public override void IterateNext()
@@ -89,6 +87,11 @@ namespace DynamicVisualizer.Steps.Move
 
         public override void CopyStaticFigure()
         {
+            if (Iterations == -1 || Figure.IsGuide || Figure.StaticLoopFigures.Count - 1 < CompletedIterations)
+            {
+                return;
+            }
+
             var ef = (EllipseFigure) Figure.StaticLoopFigures[CompletedIterations];
 
             ef.X.SetRawExpression(EllipseFigure.X.CachedValue.Str);

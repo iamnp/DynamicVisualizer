@@ -26,10 +26,7 @@ namespace DynamicVisualizer.Steps
             }
             CompletedIterations++;
             IterateNext();
-            if (!Figure.IsGuide)
-            {
-                CopyStaticFigure();
-            }
+            CopyStaticFigure();
         }
 
         public abstract void IterateNext();

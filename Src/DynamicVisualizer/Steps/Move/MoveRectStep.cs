@@ -65,10 +65,8 @@ namespace DynamicVisualizer.Steps.Move
             RectFigure.X.SetRawExpression(RectFigure.Name + ".x + (" + X + ")");
             RectFigure.Y.SetRawExpression(RectFigure.Name + ".y + (" + Y + ")");
 
-            if (Iterations != -1 && !Figure.IsGuide)
-            {
-                CopyStaticFigure();
-            }
+
+            CopyStaticFigure();
         }
 
         public override void IterateNext()
@@ -89,6 +87,11 @@ namespace DynamicVisualizer.Steps.Move
 
         public override void CopyStaticFigure()
         {
+            if (Iterations == -1 || Figure.IsGuide || Figure.StaticLoopFigures.Count - 1 < CompletedIterations)
+            {
+                return;
+            }
+
             var rf = (RectFigure) Figure.StaticLoopFigures[CompletedIterations];
 
             rf.X.SetRawExpression(RectFigure.X.CachedValue.Str);

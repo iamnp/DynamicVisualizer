@@ -97,10 +97,8 @@ namespace DynamicVisualizer.Steps.Scale
                     new Tuple<ScalarExpression, string>(LineFigure.Y,
                         LineFigure.Name + ".y + (" + LineFigure.Name + ".height * (1.0 - (" + Factor + ")))"));
             }
-            if (Iterations != -1 && !Figure.IsGuide)
-            {
-                CopyStaticFigure();
-            }
+
+            CopyStaticFigure();
         }
 
         public override void IterateNext()
@@ -145,6 +143,11 @@ namespace DynamicVisualizer.Steps.Scale
 
         public override void CopyStaticFigure()
         {
+            if (Iterations == -1 || Figure.IsGuide || Figure.StaticLoopFigures.Count - 1 < CompletedIterations)
+            {
+                return;
+            }
+
             var rf = (LineFigure) Figure.StaticLoopFigures[CompletedIterations];
             if (ScaleAround == Side.Start)
             {

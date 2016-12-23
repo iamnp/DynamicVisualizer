@@ -145,10 +145,8 @@ namespace DynamicVisualizer.Steps.Draw
 
             Applied = true;
 
-            if (Iterations != -1 && !Figure.IsGuide)
-            {
-                CopyStaticFigure();
-            }
+
+            CopyStaticFigure();
         }
 
         public override void IterateNext()
@@ -168,6 +166,11 @@ namespace DynamicVisualizer.Steps.Draw
 
         public override void CopyStaticFigure()
         {
+            if (Iterations == -1 || Figure.IsGuide)
+            {
+                return;
+            }
+
             var rf = new RectFigure
             {
                 X = new ScalarExpression("a", "a", RectFigure.X.CachedValue.Str),

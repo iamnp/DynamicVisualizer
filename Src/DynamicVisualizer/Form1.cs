@@ -10,7 +10,6 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO fix iterating without draw steps (check if StaticFigures list is empty in CopyStaticFigure())
 // TODO rotate line step
 // TODO fix removing steps from group
 // TODO fix removing steps before group
