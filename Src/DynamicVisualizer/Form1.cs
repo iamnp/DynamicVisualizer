@@ -10,7 +10,6 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO rotate line step
 // TODO fix removing steps from group
 // TODO fix removing steps before group
 // TODO fix adding steps before group (shift groups)
@@ -38,6 +37,7 @@ namespace DynamicVisualizer
         private readonly FigureDrawer _figureDrawer = new FigureDrawer();
         private readonly FigureMover _figureMover = new FigureMover();
         private readonly FigureResizer _figureResizer = new FigureResizer();
+        private readonly FigureRotater _figureRotater = new FigureRotater();
         private readonly FigureScaler _figureScaler = new FigureScaler();
         private readonly Rect _hostRect = new Rect(0, 0, 1000, 700);
         private readonly MainGraphicOutput _mainGraphics;
@@ -204,6 +204,9 @@ namespace DynamicVisualizer
                     case TransformStep.TransformType.Resize:
                         moved = _figureResizer.Reset();
                         break;
+                    case TransformStep.TransformType.Rotate:
+                        moved = _figureRotater.Reset();
+                        break;
                 }
                 if (!moved)
                 {
@@ -223,6 +226,7 @@ namespace DynamicVisualizer
             _figureMover.Reset();
             _figureScaler.Reset();
             _figureResizer.Reset();
+            _figureRotater.Reset();
             Redraw();
         }
 
@@ -246,6 +250,9 @@ namespace DynamicVisualizer
                     case TransformStep.TransformType.Resize:
                         _figureResizer.Move(_selected, pos);
                         break;
+                    case TransformStep.TransformType.Rotate:
+                        _figureRotater.Move(_selected, pos);
+                        break;
                 }
             }
 
@@ -265,6 +272,9 @@ namespace DynamicVisualizer
                     break;
                 case TransformStep.TransformType.Resize:
                     _figureResizer.SetDownPos(downPos);
+                    break;
+                case TransformStep.TransformType.Rotate:
+                    _figureRotater.SetDownPos(downPos);
                     break;
             }
             if (e.ChangedButton == MouseButton.Left)
@@ -296,6 +306,7 @@ namespace DynamicVisualizer
             label5.ForeColor = SystemColors.ControlText;
             label6.ForeColor = SystemColors.ControlDark;
             label10.ForeColor = SystemColors.ControlDark;
+            label12.ForeColor = SystemColors.ControlDark;
         }
 
         private void label6_Click(object sender, EventArgs e)
@@ -304,6 +315,7 @@ namespace DynamicVisualizer
             label6.ForeColor = SystemColors.ControlText;
             label5.ForeColor = SystemColors.ControlDark;
             label10.ForeColor = SystemColors.ControlDark;
+            label12.ForeColor = SystemColors.ControlDark;
         }
 
         private void label10_Click(object sender, EventArgs e)
@@ -312,6 +324,16 @@ namespace DynamicVisualizer
             label6.ForeColor = SystemColors.ControlDark;
             label5.ForeColor = SystemColors.ControlDark;
             label10.ForeColor = SystemColors.ControlText;
+            label12.ForeColor = SystemColors.ControlDark;
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+            _transformType = TransformStep.TransformType.Rotate;
+            label6.ForeColor = SystemColors.ControlDark;
+            label5.ForeColor = SystemColors.ControlDark;
+            label10.ForeColor = SystemColors.ControlDark;
+            label12.ForeColor = SystemColors.ControlText;
         }
 
         private void label7_Click(object sender, EventArgs e)

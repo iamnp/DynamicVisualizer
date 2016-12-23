@@ -10,8 +10,6 @@ namespace DynamicVisualizer.Manipulators
         private Point _downPos;
         private bool _moved;
         private ScaleStep _nowScaling;
-        private double _offsetX = double.NaN;
-        private double _offsetY = double.NaN;
 
         public bool NowScailing => _nowScaling != null;
 
@@ -23,19 +21,12 @@ namespace DynamicVisualizer.Manipulators
 
         public bool Reset()
         {
-            _offsetX = _offsetY = double.NaN;
             _nowScaling = null;
             return _moved;
         }
 
         private void ScaleRect(RectFigure rf, Point pos)
         {
-            if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
-            {
-                _offsetX = _downPos.X - rf.X.CachedValue.AsDouble;
-                _offsetY = _downPos.Y - rf.Y.CachedValue.AsDouble;
-            }
-
             if (_nowScaling == null)
             {
                 var snappedTo = StepManager.SnapTo(pos, rf.GetMagnets(), rf.Center);
@@ -91,12 +82,6 @@ namespace DynamicVisualizer.Manipulators
 
         private void ScaleEllipse(EllipseFigure ef, Point pos)
         {
-            if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
-            {
-                _offsetX = _downPos.X - ef.X.CachedValue.AsDouble;
-                _offsetY = _downPos.Y - ef.Y.CachedValue.AsDouble;
-            }
-
             if (_nowScaling == null)
             {
                 var snappedTo = StepManager.SnapTo(pos, ef.GetMagnets(), ef.Center);
@@ -152,12 +137,6 @@ namespace DynamicVisualizer.Manipulators
 
         private void ScaleLine(LineFigure lf, Point pos)
         {
-            if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
-            {
-                _offsetX = _downPos.X - lf.X.CachedValue.AsDouble;
-                _offsetY = _downPos.Y - lf.Y.CachedValue.AsDouble;
-            }
-
             if (_nowScaling == null)
             {
                 var snappedTo = StepManager.SnapTo(pos, lf.GetMagnets(), lf.Center);

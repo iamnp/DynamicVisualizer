@@ -71,12 +71,15 @@
     <Compile Include="Manipulators\FigureDrawer.cs" />
     <Compile Include="Manipulators\FigureMover.cs" />
     <Compile Include="Manipulators\FigureResizer.cs" />
+    <Compile Include="Manipulators\FigureRotater.cs" />
     <Compile Include="Manipulators\FigureScaler.cs" />
     <Compile Include="Expressions\ArrayExpression.cs" />
     <Compile Include="Expressions\DataStorage.cs" />
     <Compile Include="Figures\EllipseFigure.cs" />
     <Compile Include="Figures\Magnet.cs" />
+    <Compile Include="Steps\Class1.cs" />
     <Compile Include="Steps\ResizeStep.cs" />
+    <Compile Include="Steps\Rotate\RotateLineStep.cs" />
     <Compile Include="Steps\ScaleStep.cs" />
     <Compile Include="Steps\Draw\DrawEllipseStep.cs" />
     <Compile Include="Steps\Draw\DrawLineStep.cs" />

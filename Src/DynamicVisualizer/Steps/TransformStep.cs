@@ -6,7 +6,8 @@
         {
             Move,
             Scale,
-            Resize
+            Resize,
+            Rotate
         }
     }
 }

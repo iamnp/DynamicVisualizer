@@ -70,6 +70,9 @@ namespace DynamicVisualizer.Expressions
             <string, Func<Value, Value>>
             {
                 {"sqrt", a => new Value(Math.Sqrt(a.AsDouble))},
+                {"cos", a => new Value(Math.Cos(a.AsDouble))},
+                {"sin", a => new Value(Math.Sin(a.AsDouble))},
+                {"abs", a => new Value(Math.Abs(a.AsDouble))},
                 {"len", a => new Value(a.AsArray.Length)},
                 {
                     "mean", a =>

@@ -4,6 +4,7 @@ using DynamicVisualizer.Steps;
 using DynamicVisualizer.Steps.Draw;
 using DynamicVisualizer.Steps.Move;
 using DynamicVisualizer.Steps.Resize;
+using DynamicVisualizer.Steps.Rotate;
 using DynamicVisualizer.Steps.Scale;
 
 namespace DynamicVisualizer.Controls
@@ -227,6 +228,19 @@ namespace DynamicVisualizer.Controls
                     ShowFirst(1);
                 }
             }
+            else if (step is RotateStep)
+            {
+                var rs = (RotateStep) step;
+                if (rs.StepType == RotateStep.RotateStepType.RotateLine)
+                {
+                    var rls = (RotateLineStep) rs;
+                    label1.Text = "Factor";
+
+                    textBox1.Text = rls.Factor;
+
+                    ShowFirst(1);
+                }
+            }
             else
             {
                 ShowFirst(0);
@@ -298,6 +312,14 @@ namespace DynamicVisualizer.Controls
                 else if (rs.StepType == ResizeStep.ResizeStepType.ResizeEllipse)
                 {
                     ((ResizeEllipseStep) rs).Resize(textBox1.Text);
+                }
+            }
+            else if (_step is RotateStep)
+            {
+                var rs = (RotateStep) _step;
+                if (rs.StepType == RotateStep.RotateStepType.RotateLine)
+                {
+                    ((RotateLineStep) rs).Rotate(textBox1.Text);
                 }
             }
             Form1.RedrawNeeded?.Invoke();
