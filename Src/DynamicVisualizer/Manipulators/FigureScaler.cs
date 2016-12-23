@@ -8,6 +8,7 @@ namespace DynamicVisualizer.Manipulators
     internal class FigureScaler
     {
         private Point _downPos;
+        private bool _moved;
         private ScaleStep _nowScaling;
         private double _offsetX = double.NaN;
         private double _offsetY = double.NaN;
@@ -16,13 +17,15 @@ namespace DynamicVisualizer.Manipulators
 
         public void SetDownPos(Point pos)
         {
+            _moved = false;
             _downPos = pos;
         }
 
-        public void Reset()
+        public bool Reset()
         {
             _offsetX = _offsetY = double.NaN;
             _nowScaling = null;
+            return _moved;
         }
 
         private void ScaleRect(RectFigure rf, Point pos)
@@ -35,7 +38,7 @@ namespace DynamicVisualizer.Manipulators
 
             if (_nowScaling == null)
             {
-                var snappedTo = StepManager.SnapTo(pos, rf.GetMagnets());
+                var snappedTo = StepManager.SnapTo(pos, rf.GetMagnets(), rf.Center);
                 if (snappedTo == rf.Left)
                 {
                     _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Right,
@@ -96,7 +99,7 @@ namespace DynamicVisualizer.Manipulators
 
             if (_nowScaling == null)
             {
-                var snappedTo = StepManager.SnapTo(pos, ef.GetMagnets());
+                var snappedTo = StepManager.SnapTo(pos, ef.GetMagnets(), ef.Center);
                 if (snappedTo == ef.Left)
                 {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Right,
@@ -157,7 +160,7 @@ namespace DynamicVisualizer.Manipulators
 
             if (_nowScaling == null)
             {
-                var snappedTo = StepManager.SnapTo(pos, lf.GetMagnets());
+                var snappedTo = StepManager.SnapTo(pos, lf.GetMagnets(), lf.Center);
                 if (snappedTo == lf.Start)
                 {
                     var bx = lf.Width.CachedValue.AsDouble;
@@ -223,12 +226,15 @@ namespace DynamicVisualizer.Manipulators
             switch (selected.Type)
             {
                 case Figure.FigureType.Rect:
+                    _moved = true;
                     ScaleRect((RectFigure) selected, pos);
                     break;
                 case Figure.FigureType.Ellipse:
+                    _moved = true;
                     ScaleEllipse((EllipseFigure) selected, pos);
                     break;
                 case Figure.FigureType.Line:
+                    _moved = true;
                     ScaleLine((LineFigure) selected, pos);
                     break;
             }

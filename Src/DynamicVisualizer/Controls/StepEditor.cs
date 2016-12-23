@@ -281,11 +281,11 @@ namespace DynamicVisualizer.Controls
                 }
                 else if (ss.StepType == ScaleStep.ScaleStepType.ScaleEllipse)
                 {
-                    ((ScaleLineStep) ss).Scale(textBox1.Text);
+                    ((ScaleEllipseStep) ss).Scale(textBox1.Text);
                 }
                 else if (ss.StepType == ScaleStep.ScaleStepType.ScaleLine)
                 {
-                    ((ScaleEllipseStep) ss).Scale(textBox1.Text);
+                    ((ScaleLineStep) ss).Scale(textBox1.Text);
                 }
             }
             else if (_step is ResizeStep)

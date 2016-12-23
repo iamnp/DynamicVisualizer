@@ -8,17 +8,20 @@ namespace DynamicVisualizer.Manipulators
     internal class FigureMover
     {
         private Point _downPos;
+        private bool _moved;
         private MoveStep _nowMoving;
 
         public bool NowMoving => _nowMoving != null;
 
-        public void Reset()
+        public bool Reset()
         {
             _nowMoving = null;
+            return _moved;
         }
 
         public void SetDownPos(Point pos)
         {
+            _moved = false;
             _downPos = pos;
         }
 
@@ -194,12 +197,15 @@ namespace DynamicVisualizer.Manipulators
             switch (selected.Type)
             {
                 case Figure.FigureType.Rect:
+                    _moved = true;
                     MoveRect((RectFigure) selected, pos);
                     break;
                 case Figure.FigureType.Ellipse:
+                    _moved = true;
                     MoveEllipse((EllipseFigure) selected, pos);
                     break;
                 case Figure.FigureType.Line:
+                    _moved = true;
                     MoveLine((LineFigure) selected, pos);
                     break;
             }

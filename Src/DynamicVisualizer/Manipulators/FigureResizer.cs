@@ -8,34 +8,28 @@ namespace DynamicVisualizer.Manipulators
     internal class FigureResizer
     {
         private Point _downPos;
+        private bool _moved;
         private ResizeStep _nowResizing;
-        private double _offsetX = double.NaN;
-        private double _offsetY = double.NaN;
 
         public bool NowResizing => _nowResizing != null;
 
         public void SetDownPos(Point pos)
         {
+            _moved = false;
             _downPos = pos;
         }
 
-        public void Reset()
+        public bool Reset()
         {
-            _offsetX = _offsetY = double.NaN;
             _nowResizing = null;
+            return _moved;
         }
 
         private void ResizeRect(RectFigure rf, Point pos)
         {
-            if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
-            {
-                _offsetX = _downPos.X - rf.X.CachedValue.AsDouble;
-                _offsetY = _downPos.Y - rf.Y.CachedValue.AsDouble;
-            }
-
             if (_nowResizing == null)
             {
-                var snappedTo = StepManager.SnapTo(pos, rf.GetMagnets());
+                var snappedTo = StepManager.SnapTo(pos, rf.GetMagnets(), rf.Center);
                 if (snappedTo == rf.Left)
                 {
                     _nowResizing = new ResizeRectStep(rf, ResizeRectStep.Side.Right, pos.X - _downPos.X);
@@ -108,15 +102,9 @@ namespace DynamicVisualizer.Manipulators
 
         private void ResizeEllipse(EllipseFigure ef, Point pos)
         {
-            if (double.IsNaN(_offsetX) || double.IsNaN(_offsetY))
-            {
-                _offsetX = _downPos.X - ef.X.CachedValue.AsDouble;
-                _offsetY = _downPos.Y - ef.Y.CachedValue.AsDouble;
-            }
-
             if (_nowResizing == null)
             {
-                var snappedTo = StepManager.SnapTo(pos, ef.GetMagnets());
+                var snappedTo = StepManager.SnapTo(pos, ef.GetMagnets(), ef.Center);
                 if (snappedTo == ef.Left)
                 {
                     _nowResizing = new ResizeEllipseStep(ef, ResizeEllipseStep.Side.Right, pos.X - _downPos.X);
@@ -194,9 +182,11 @@ namespace DynamicVisualizer.Manipulators
             switch (selected.Type)
             {
                 case Figure.FigureType.Rect:
+                    _moved = true;
                     ResizeRect((RectFigure) selected, pos);
                     break;
                 case Figure.FigureType.Ellipse:
+                    _moved = true;
                     ResizeEllipse((EllipseFigure) selected, pos);
                     break;
             }

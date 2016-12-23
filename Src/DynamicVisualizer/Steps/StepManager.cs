@@ -84,12 +84,16 @@ namespace DynamicVisualizer.Steps
             return minDistSquared <= ThresholdSquared ? closestMagnet : null;
         }
 
-        public static Magnet SnapTo(Point p, Magnet[] magnets)
+        public static Magnet SnapTo(Point p, Magnet[] magnets, Magnet exclude = null)
         {
             var minDistSquared = MaxDist;
             Magnet closestMagnet = null;
             foreach (var magnet in magnets)
             {
+                if (magnet == exclude)
+                {
+                    continue;
+                }
                 var dx = p.X - magnet.X.CachedValue.AsDouble;
                 var dy = p.Y - magnet.Y.CachedValue.AsDouble;
                 var distSquared = dx * dx + dy * dy;

@@ -10,7 +10,6 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO perform selection by dragging magnets
 // TODO fix iterating without draw steps (check if StaticFigures list is empty in CopyStaticFigure())
 // TODO rotate line step
 // TODO fix removing steps from group
@@ -194,10 +193,23 @@ namespace DynamicVisualizer
             var upPos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
             if (e.ChangedButton == MouseButton.Right)
             {
-                _figureMover.Reset();
-                _figureScaler.Reset();
-                _figureResizer.Reset();
-                PerformFigureSelection(upPos);
+                var moved = false;
+                switch (_transformType)
+                {
+                    case TransformStep.TransformType.Move:
+                        moved = _figureMover.Reset();
+                        break;
+                    case TransformStep.TransformType.Scale:
+                        moved = _figureScaler.Reset();
+                        break;
+                    case TransformStep.TransformType.Resize:
+                        moved = _figureResizer.Reset();
+                        break;
+                }
+                if (!moved)
+                {
+                    PerformFigureSelection(upPos);
+                }
             }
             if (e.ChangedButton == MouseButton.Left)
             {
@@ -259,13 +271,6 @@ namespace DynamicVisualizer
             if (e.ChangedButton == MouseButton.Left)
             {
                 _figureDrawer.Start(downPos);
-            }
-            if (e.ChangedButton == MouseButton.Right)
-            {
-                if (_selected == null || !_selected.IsMouseOver(downPos.X, downPos.Y))
-                {
-                    PerformFigureSelection(downPos);
-                }
             }
             Redraw();
         }
