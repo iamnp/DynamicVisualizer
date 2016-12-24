@@ -60,7 +60,7 @@ namespace DynamicVisualizer.Manipulators
                     break;
             }
 
-            StepManager.Insert(_nowDrawing, StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
+            StepManager.InsertNext(_nowDrawing);
         }
 
         private void ResizeDrawnRect(Point pos)

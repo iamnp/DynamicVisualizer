@@ -42,7 +42,7 @@ namespace DynamicVisualizer.Steps.Resize
 
         public void SetDef(string where)
         {
-            var dimension = ResizeAround == Side.Left || ResizeAround == Side.Right
+            var dimension = (ResizeAround == Side.Left) || (ResizeAround == Side.Right)
                 ? "horizontally"
                 : "vertically";
             Magnet dragMagnet;
@@ -88,14 +88,14 @@ namespace DynamicVisualizer.Steps.Resize
             }
             Applied = true;
 
-            if (ResizeAround == Side.Left || ResizeAround == Side.Right)
+            if ((ResizeAround == Side.Left) || (ResizeAround == Side.Right))
             {
                 EllipseFigure.X.SetRawExpression(XCachedDouble.Str());
                 EllipseFigure.Radius1.SetRawExpression(Radius1Orig.Str());
 
                 EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Name + ".radius1 + (" + Delta + ")");
             }
-            else if (ResizeAround == Side.Top || ResizeAround == Side.Bottom)
+            else if ((ResizeAround == Side.Top) || (ResizeAround == Side.Bottom))
             {
                 EllipseFigure.Y.SetRawExpression(YCachedDouble.Str());
                 EllipseFigure.Radius2.SetRawExpression(Radius2Orig.Str());
@@ -108,7 +108,7 @@ namespace DynamicVisualizer.Steps.Resize
 
         public override void IterateNext()
         {
-            if (ResizeAround == Side.Left || ResizeAround == Side.Right)
+            if ((ResizeAround == Side.Left) || (ResizeAround == Side.Right))
             {
                 EllipseFigure.Radius1.IndexInArray = CompletedIterations;
 
@@ -117,7 +117,7 @@ namespace DynamicVisualizer.Steps.Resize
 
                 EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Name + ".radius1 + (" + Delta + ")");
             }
-            else if (ResizeAround == Side.Top || ResizeAround == Side.Bottom)
+            else if ((ResizeAround == Side.Top) || (ResizeAround == Side.Bottom))
             {
                 EllipseFigure.Radius2.IndexInArray = CompletedIterations;
 
@@ -130,17 +130,17 @@ namespace DynamicVisualizer.Steps.Resize
 
         public override void CopyStaticFigure()
         {
-            if (Iterations == -1 || Figure.IsGuide || Figure.StaticLoopFigures.Count - 1 < CompletedIterations)
+            if ((Iterations == -1) || Figure.IsGuide || (Figure.StaticLoopFigures.Count - 1 < CompletedIterations))
             {
                 return;
             }
 
             var rf = (EllipseFigure) Figure.StaticLoopFigures[CompletedIterations];
-            if (ResizeAround == Side.Left || ResizeAround == Side.Right)
+            if ((ResizeAround == Side.Left) || (ResizeAround == Side.Right))
             {
                 rf.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.Str);
             }
-            else if (ResizeAround == Side.Top || ResizeAround == Side.Bottom)
+            else if ((ResizeAround == Side.Top) || (ResizeAround == Side.Bottom))
             {
                 rf.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.Str);
             }

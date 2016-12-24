@@ -41,7 +41,7 @@ namespace DynamicVisualizer.Steps.Scale
 
         public void SetDef()
         {
-            var dimension = ScaleAround == Side.Left || ScaleAround == Side.Right ? "width" : "height";
+            var dimension = (ScaleAround == Side.Left) || (ScaleAround == Side.Right) ? "width" : "height";
             Magnet aroundMagnet;
             switch (ScaleAround)
             {
@@ -79,14 +79,14 @@ namespace DynamicVisualizer.Steps.Scale
             }
             Applied = true;
 
-            if (ScaleAround == Side.Left || ScaleAround == Side.Right)
+            if ((ScaleAround == Side.Left) || (ScaleAround == Side.Right))
             {
                 EllipseFigure.X.SetRawExpression(XCachedDouble.Str());
                 EllipseFigure.Radius1.SetRawExpression(Radius1Orig.Str());
 
                 EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Name + ".radius1 * (" + Factor + ")");
             }
-            else if (ScaleAround == Side.Top || ScaleAround == Side.Bottom)
+            else if ((ScaleAround == Side.Top) || (ScaleAround == Side.Bottom))
             {
                 EllipseFigure.Y.SetRawExpression(YCachedDouble.Str());
                 EllipseFigure.Radius2.SetRawExpression(Radius2Orig.Str());
@@ -99,7 +99,7 @@ namespace DynamicVisualizer.Steps.Scale
 
         public override void IterateNext()
         {
-            if (ScaleAround == Side.Left || ScaleAround == Side.Right)
+            if ((ScaleAround == Side.Left) || (ScaleAround == Side.Right))
             {
                 EllipseFigure.Radius1.IndexInArray = CompletedIterations;
 
@@ -108,7 +108,7 @@ namespace DynamicVisualizer.Steps.Scale
 
                 EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Name + ".radius1 * (" + Factor + ")");
             }
-            else if (ScaleAround == Side.Top || ScaleAround == Side.Bottom)
+            else if ((ScaleAround == Side.Top) || (ScaleAround == Side.Bottom))
             {
                 EllipseFigure.Radius2.IndexInArray = CompletedIterations;
 
@@ -121,17 +121,17 @@ namespace DynamicVisualizer.Steps.Scale
 
         public override void CopyStaticFigure()
         {
-            if (Iterations == -1 || Figure.IsGuide || Figure.StaticLoopFigures.Count - 1 < CompletedIterations)
+            if ((Iterations == -1) || Figure.IsGuide || (Figure.StaticLoopFigures.Count - 1 < CompletedIterations))
             {
                 return;
             }
 
             var rf = (EllipseFigure) Figure.StaticLoopFigures[CompletedIterations];
-            if (ScaleAround == Side.Left || ScaleAround == Side.Right)
+            if ((ScaleAround == Side.Left) || (ScaleAround == Side.Right))
             {
                 rf.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.Str);
             }
-            else if (ScaleAround == Side.Top || ScaleAround == Side.Bottom)
+            else if ((ScaleAround == Side.Top) || (ScaleAround == Side.Bottom))
             {
                 rf.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.Str);
             }

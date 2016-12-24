@@ -143,7 +143,7 @@ namespace DynamicVisualizer.Steps.Scale
 
         public override void CopyStaticFigure()
         {
-            if (Iterations == -1 || Figure.IsGuide || Figure.StaticLoopFigures.Count - 1 < CompletedIterations)
+            if ((Iterations == -1) || Figure.IsGuide || (Figure.StaticLoopFigures.Count - 1 < CompletedIterations))
             {
                 return;
             }

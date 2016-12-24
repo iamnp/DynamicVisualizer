@@ -34,7 +34,7 @@ namespace DynamicVisualizer.Controls
         private void DummyItemNameKeyPress(object sender, KeyPressEventArgs e)
         {
             var di = _items[_items.Count - 1];
-            if (e.KeyChar == (char) Keys.Return && !string.IsNullOrWhiteSpace(di.textBox1.Text))
+            if ((e.KeyChar == (char) Keys.Return) && !string.IsNullOrWhiteSpace(di.textBox1.Text))
             {
                 MakeNotDummy(di);
             }

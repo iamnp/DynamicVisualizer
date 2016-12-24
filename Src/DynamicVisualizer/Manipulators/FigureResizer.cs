@@ -50,8 +50,7 @@ namespace DynamicVisualizer.Manipulators
                 {
                     return;
                 }
-                StepManager.Insert(_nowResizing,
-                    StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
+                StepManager.InsertNext(_nowResizing);
             }
             else
             {
@@ -125,8 +124,7 @@ namespace DynamicVisualizer.Manipulators
                 {
                     return;
                 }
-                StepManager.Insert(_nowResizing,
-                    StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
+                StepManager.InsertNext(_nowResizing);
             }
             else
             {

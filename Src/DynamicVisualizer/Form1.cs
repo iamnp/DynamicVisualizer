@@ -10,10 +10,6 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO fix removing steps from group
-// TODO fix removing steps before group
-// TODO fix adding steps before group (shift groups)
-// TODO fix adding steps into group
 // TODO fix exception when moving line-like rect
 // TODO fix exception when scaling to division by zero
 // TODO fix changing array's length
@@ -85,6 +81,63 @@ namespace DynamicVisualizer
             _mainGraphics.MouseMove += MainGraphicsOnMouseMove;
             _mainGraphics.MouseUp += MainGraphicsOnMouseUp;
             _mainGraphics.MouseLeave += MainGraphicsOnMouseLeave;
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Up)
+            {
+                if (StepManager.CurrentStep.Iterations != -1)
+                {
+                    StepManager.PrevIterationFromCurrentPos();
+                }
+                else if (StepManager.CurrentStepIndex > 0)
+                {
+                    StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex - 1);
+                }
+                return true;
+            }
+            if (keyData == Keys.Down)
+            {
+                if (StepManager.CurrentStep.Iterations != -1)
+                {
+                    StepManager.NextIterationFromCurrentPos();
+                }
+                else if (StepManager.CurrentStepIndex < StepManager.Steps.Count - 1)
+                {
+                    StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex + 1);
+                }
+                return true;
+            }
+
+            if (keyData == Keys.Right)
+            {
+                if ((StepManager.CurrentStep.Iterations != -1)
+                    && (StepManager.CurrentStep.CompletedIterations != StepManager.CurrentStep.Iterations))
+                {
+                    StepManager.NextLoopFromCurrentPos();
+                }
+                return true;
+            }
+            if (keyData == Keys.Left)
+            {
+                if ((StepManager.CurrentStep.Iterations != -1) && (StepManager.CurrentStep.CompletedIterations != 0))
+                {
+                    StepManager.PrevLoopFromCurrentPos();
+                }
+                return true;
+            }
+
+            if (keyData == Keys.Delete)
+            {
+                if (StepManager.CurrentStepIndex != -1)
+                {
+                    StepManager.Remove(StepManager.CurrentStepIndex);
+                }
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void Redraw()
@@ -237,7 +290,7 @@ namespace DynamicVisualizer
             {
                 _figureDrawer.Move(pos);
             }
-            if (e.RightButton == MouseButtonState.Pressed && _selected != null)
+            if ((e.RightButton == MouseButtonState.Pressed) && (_selected != null))
             {
                 switch (_transformType)
                 {
@@ -261,6 +314,7 @@ namespace DynamicVisualizer
 
         private void MainGraphicsOnMouseDown(object sender, MouseButtonEventArgs e)
         {
+            ActiveControl = _stepListControl1;
             var downPos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
             switch (_transformType)
             {
@@ -354,6 +408,34 @@ namespace DynamicVisualizer
             label3.ForeColor = SystemColors.ControlDark;
             label2.ForeColor = SystemColors.ControlDark;
             label11.ForeColor = SystemColors.ControlText;
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+            if (StepManager.AddStepBeforeCurrent)
+            {
+                label14.Text = "After current";
+                StepManager.AddStepBeforeCurrent = false;
+            }
+            else
+            {
+                label14.Text = "Before current";
+                StepManager.AddStepBeforeCurrent = true;
+            }
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+            if (StepManager.AddStepLooped)
+            {
+                label15.Text = "Not looped";
+                StepManager.AddStepLooped = false;
+            }
+            else
+            {
+                label15.Text = "Looped";
+                StepManager.AddStepLooped = true;
+            }
         }
     }
 }

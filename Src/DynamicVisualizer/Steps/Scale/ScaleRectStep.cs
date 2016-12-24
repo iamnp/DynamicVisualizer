@@ -43,7 +43,7 @@ namespace DynamicVisualizer.Steps.Scale
 
         public void SetDef()
         {
-            var dimension = ScaleAround == Side.Left || ScaleAround == Side.Right ? "width" : "height";
+            var dimension = (ScaleAround == Side.Left) || (ScaleAround == Side.Right) ? "width" : "height";
             Magnet aroundMagnet;
             switch (ScaleAround)
             {
@@ -173,7 +173,7 @@ namespace DynamicVisualizer.Steps.Scale
 
         public override void CopyStaticFigure()
         {
-            if (Iterations == -1 || Figure.IsGuide || Figure.StaticLoopFigures.Count - 1 < CompletedIterations)
+            if ((Iterations == -1) || Figure.IsGuide || (Figure.StaticLoopFigures.Count - 1 < CompletedIterations))
             {
                 return;
             }

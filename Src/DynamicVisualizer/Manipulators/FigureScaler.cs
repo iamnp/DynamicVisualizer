@@ -54,8 +54,7 @@ namespace DynamicVisualizer.Manipulators
                 {
                     return;
                 }
-                StepManager.Insert(_nowScaling,
-                    StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
+                StepManager.InsertNext(_nowScaling);
             }
             else
             {
@@ -109,8 +108,7 @@ namespace DynamicVisualizer.Manipulators
                 {
                     return;
                 }
-                StepManager.Insert(_nowScaling,
-                    StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
+                StepManager.InsertNext(_nowScaling);
             }
             else
             {
@@ -168,8 +166,7 @@ namespace DynamicVisualizer.Manipulators
                 {
                     return;
                 }
-                StepManager.Insert(_nowScaling,
-                    StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
+                StepManager.InsertNext(_nowScaling);
             }
             else
             {

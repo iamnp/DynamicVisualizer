@@ -47,7 +47,7 @@ namespace DynamicVisualizer.Controls
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
-                if (files.Length == 1 && files[0].EndsWith(".csv"))
+                if ((files.Length == 1) && files[0].EndsWith(".csv"))
                 {
                     e.Effect = DragDropEffects.Copy;
                 }
@@ -64,7 +64,7 @@ namespace DynamicVisualizer.Controls
         private void DummyItemNameKeyPress(object sender, KeyPressEventArgs e)
         {
             var di = _items[_items.Count - 1];
-            if (e.KeyChar == (char) Keys.Return && !string.IsNullOrWhiteSpace(di.textBox1.Text))
+            if ((e.KeyChar == (char) Keys.Return) && !string.IsNullOrWhiteSpace(di.textBox1.Text))
             {
                 MakeNotDummy(di);
             }

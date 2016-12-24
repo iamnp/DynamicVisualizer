@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using DynamicVisualizer.Expressions;
 using DynamicVisualizer.Figures;
 
@@ -92,10 +91,6 @@ namespace DynamicVisualizer.Steps.Rotate
             }
             else if (RotateAround == Side.End)
             {
-                Debug.WriteLine(
-                    "X = {0}, Y = {1}, W = {2}, H = {3}", XCachedDouble.Str(), YCachedDouble.Str(), WidthOrig.Str(),
-                    HeightOrig.Str());
-
                 LineFigure.X.SetRawExpression(XCachedDouble.Str());
                 LineFigure.Y.SetRawExpression(YCachedDouble.Str());
                 LineFigure.Width.SetRawExpression(WidthOrig.Str());
@@ -182,7 +177,7 @@ namespace DynamicVisualizer.Steps.Rotate
 
         public override void CopyStaticFigure()
         {
-            if (Iterations == -1 || Figure.IsGuide || Figure.StaticLoopFigures.Count - 1 < CompletedIterations)
+            if ((Iterations == -1) || Figure.IsGuide || (Figure.StaticLoopFigures.Count - 1 < CompletedIterations))
             {
                 return;
             }

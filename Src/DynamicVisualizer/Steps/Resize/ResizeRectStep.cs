@@ -44,7 +44,7 @@ namespace DynamicVisualizer.Steps.Resize
 
         public void SetDef(string where)
         {
-            var dimension = ResizeAround == Side.Left || ResizeAround == Side.Right
+            var dimension = (ResizeAround == Side.Left) || (ResizeAround == Side.Right)
                 ? "horizontally"
                 : "vertically";
             Magnet dragMagnet;
@@ -176,7 +176,7 @@ namespace DynamicVisualizer.Steps.Resize
 
         public override void CopyStaticFigure()
         {
-            if (Iterations == -1 || Figure.IsGuide || Figure.StaticLoopFigures.Count - 1 < CompletedIterations)
+            if ((Iterations == -1) || Figure.IsGuide || (Figure.StaticLoopFigures.Count - 1 < CompletedIterations))
             {
                 return;
             }

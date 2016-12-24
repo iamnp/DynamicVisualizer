@@ -31,7 +31,7 @@ namespace DynamicVisualizer.Steps.Move
 
         public void SetDef(string what, string where)
         {
-            if (what == null || where == null)
+            if ((what == null) || (where == null))
             {
                 Def = string.Format("Move {0}, {1} horizontally, {2} vertically)", EllipseFigure.Name, X, Y);
             }
@@ -87,7 +87,7 @@ namespace DynamicVisualizer.Steps.Move
 
         public override void CopyStaticFigure()
         {
-            if (Iterations == -1 || Figure.IsGuide || Figure.StaticLoopFigures.Count - 1 < CompletedIterations)
+            if ((Iterations == -1) || Figure.IsGuide || (Figure.StaticLoopFigures.Count - 1 < CompletedIterations))
             {
                 return;
             }

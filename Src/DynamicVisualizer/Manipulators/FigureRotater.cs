@@ -62,8 +62,7 @@ namespace DynamicVisualizer.Manipulators
                 {
                     return;
                 }
-                StepManager.Insert(_nowRotating,
-                    StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
+                StepManager.InsertNext(_nowRotating);
             }
             else
             {

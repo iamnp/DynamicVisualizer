@@ -2,7 +2,8 @@
 {
     public class IterableStepGroup
     {
-        public int EndIndex;
+        public int Length;
         public int StartIndex;
+        public int EndIndex => StartIndex + Length - 1;
     }
 }

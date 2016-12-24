@@ -30,15 +30,14 @@ namespace DynamicVisualizer.Manipulators
             if (_nowMoving == null)
             {
                 _nowMoving = new MoveRectStep(rf, pos.X - _downPos.X, pos.Y - _downPos.Y);
-                StepManager.Insert(_nowMoving,
-                    StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
+                StepManager.InsertNext(_nowMoving);
             }
             else
             {
                 var snapped = StepManager.Snap(pos, _nowMoving.Figure);
                 Magnet snappedBy;
-                if (snapped != null &&
-                    (snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null)
+                if ((snapped != null) &&
+                    ((snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
                 {
                     if (snappedBy.EqualExprStrings(rf.TopLeft))
                     {
@@ -91,15 +90,14 @@ namespace DynamicVisualizer.Manipulators
             if (_nowMoving == null)
             {
                 _nowMoving = new MoveEllipseStep(ef, pos.X - _downPos.X, pos.Y - _downPos.Y);
-                StepManager.Insert(_nowMoving,
-                    StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
+                StepManager.InsertNext(_nowMoving);
             }
             else
             {
                 var snapped = StepManager.Snap(pos, _nowMoving.Figure);
                 Magnet snappedBy;
-                if (snapped != null &&
-                    (snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null)
+                if ((snapped != null) &&
+                    ((snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
                 {
                     if (snappedBy.EqualExprStrings(ef.Left))
                     {
@@ -151,15 +149,14 @@ namespace DynamicVisualizer.Manipulators
             if (_nowMoving == null)
             {
                 _nowMoving = new MoveLineStep(lf, pos.X - _downPos.X, pos.Y - _downPos.Y);
-                StepManager.Insert(_nowMoving,
-                    StepManager.CurrentStepIndex == -1 ? 0 : StepManager.CurrentStepIndex + 1);
+                StepManager.InsertNext(_nowMoving);
             }
             else
             {
                 var snapped = StepManager.Snap(pos, _nowMoving.Figure);
                 Magnet snappedBy;
-                if (snapped != null &&
-                    (snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null)
+                if ((snapped != null) &&
+                    ((snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
                 {
                     if (snappedBy.EqualExprStrings(lf.Start))
                     {

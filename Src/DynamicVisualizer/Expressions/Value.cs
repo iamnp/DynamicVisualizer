@@ -26,7 +26,7 @@
         public bool IsDouble => _double != null;
         public bool IsString => AsString != null;
         public bool IsArray => AsArray != null;
-        public bool Empty => _double == null && AsString == null && AsArray == null;
+        public bool Empty => (_double == null) && (AsString == null) && (AsArray == null);
 
         public double AsDouble => _double.Value;
         public string AsString { get; private set; }
