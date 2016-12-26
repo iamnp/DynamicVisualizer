@@ -95,6 +95,11 @@ namespace DynamicVisualizer.Manipulators
                     RotateLine((LineFigure) selected, pos);
                     break;
             }
+
+            if ((_nowRotating != null) && (_nowRotating.Iterations != -1))
+            {
+                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+            }
         }
     }
 }

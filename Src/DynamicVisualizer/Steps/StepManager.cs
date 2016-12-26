@@ -20,7 +20,7 @@ namespace DynamicVisualizer.Steps
         public static StepEditor StepEditor;
         public static StepListControl StepListControl;
         public static bool AddStepBeforeCurrent;
-        public static bool AddStepLooped;
+        public static bool AddStepLooped = true;
 
         static StepManager()
         {
@@ -195,65 +195,63 @@ namespace DynamicVisualizer.Steps
 
         public static void SetCurrentStepIndex(int index)
         {
-            //if (CurrentStepIndex != index || force)
+            Reset();
+            for (var i = 0; i <= index; ++i)
             {
-                Reset();
-                for (var i = 0; i <= index; ++i)
+                if (Steps[i].Iterations != -1) // we got first iterative step in a group
                 {
-                    if (Steps[i].Iterations != -1) // we got first iterative step in a group
+                    //finding the last one
+                    int top, bot;
+                    GetGroupBounds(i, out top, out bot);
+                    // now Steps[bot] is the last step in iterative group
+                    var finalStepInGroup = index <= bot;
+                    if (finalStepInGroup)
                     {
-                        //finding the last one
-                        int top, bot;
-                        GetGroupBounds(i, out top, out bot);
-                        // now Steps[bot] is the last step in iterative group
-                        var finalStepInGroup = index <= bot;
-                        if (finalStepInGroup)
+                        var totalSteps = (bot - i + 1) * Steps[i].CompletedIterations + (index - i) + 1;
+                        for (var n = i; (n <= bot) && (totalSteps > 0); ++n)
                         {
-                            var totalSteps = (bot - i + 1) * Steps[i].CompletedIterations + (index - i) + 1;
+                            Steps[n].CompletedIterations = 0;
+                            if (!Steps[n].Applied)
+                            {
+                                Steps[n].Apply();
+                            }
+                            totalSteps -= 1;
+                        }
+                        for (var k = 0; (k < Steps[i].Iterations) && (totalSteps > 0); ++k)
+                        {
                             for (var n = i; (n <= bot) && (totalSteps > 0); ++n)
                             {
-                                Steps[n].CompletedIterations = 0;
-                                if (!Steps[n].Applied)
-                                {
-                                    Steps[n].Apply();
-                                }
+                                Steps[n].ApplyNextIteration();
                                 totalSteps -= 1;
                             }
-                            for (var k = 0; (k < Steps[i].Iterations) && (totalSteps > 0); ++k)
+                        }
+                    }
+                    else
+                    {
+                        for (var n = i; n <= bot; ++n)
+                        {
+                            Steps[n].CompletedIterations = 0;
+                            if (!Steps[n].Applied)
                             {
-                                for (var n = i; (n <= bot) && (totalSteps > 0); ++n)
-                                {
-                                    Steps[n].ApplyNextIteration();
-                                    totalSteps -= 1;
-                                }
+                                Steps[n].Apply();
                             }
                         }
-                        else
+                        for (var k = 0; k < Steps[i].Iterations; ++k)
                         {
                             for (var n = i; n <= bot; ++n)
                             {
-                                Steps[n].CompletedIterations = 0;
-                                if (!Steps[n].Applied)
-                                {
-                                    Steps[n].Apply();
-                                }
-                            }
-                            for (var k = 0; k < Steps[i].Iterations; ++k)
-                            {
-                                for (var n = i; n <= bot; ++n)
-                                {
-                                    Steps[n].ApplyNextIteration();
-                                }
+                                Steps[n].ApplyNextIteration();
                             }
                         }
-                        i = bot;
                     }
-                    else if (!Steps[i].Applied)
-                    {
-                        Steps[i].Apply();
-                    }
+                    i = bot;
+                }
+                else if (!Steps[i].Applied)
+                {
+                    Steps[i].Apply();
                 }
             }
+
             CurrentStepIndex = index;
             StepListControl?.MarkAsSelecgted(CurrentStepIndex);
             StepEditor?.ShowStep(CurrentStep);

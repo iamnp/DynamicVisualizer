@@ -214,6 +214,11 @@ namespace DynamicVisualizer.Manipulators
                     ScaleLine((LineFigure) selected, pos);
                     break;
             }
+
+            if ((_nowScaling != null) && (_nowScaling.Iterations != -1))
+            {
+                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+            }
         }
     }
 }

@@ -10,10 +10,12 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO fix exception when moving line-like rect
-// TODO fix exception when scaling to division by zero
 // TODO fix changing array's length
 // TODO add modifiable iterative group counter
+// TODO fix iterated line rotating (cached center point)
+// TODO fix exception when moving line-like rect
+// TODO fix exception on zero-width and hight line
+// TODO fix exception when scaling to division by zero
 
 // TODO? fix order of iterative drawing
 

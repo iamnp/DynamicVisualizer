@@ -322,7 +322,14 @@ namespace DynamicVisualizer.Controls
                     ((RotateLineStep) rs).Rotate(textBox1.Text);
                 }
             }
-            Form1.RedrawNeeded?.Invoke();
+            if (_step.Iterations != -1)
+            {
+                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+            }
+            else
+            {
+                Form1.RedrawNeeded?.Invoke();
+            }
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -363,7 +370,14 @@ namespace DynamicVisualizer.Controls
                     ((MoveLineStep) ms).MoveY(textBox2.Text);
                 }
             }
-            Form1.RedrawNeeded?.Invoke();
+            if (_step.Iterations != -1)
+            {
+                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+            }
+            else
+            {
+                Form1.RedrawNeeded?.Invoke();
+            }
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -388,7 +402,14 @@ namespace DynamicVisualizer.Controls
                     ((DrawLineStep) ds).ReInitWidth(textBox3.Text);
                 }
             }
-            Form1.RedrawNeeded?.Invoke();
+            if (_step.Iterations != -1)
+            {
+                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+            }
+            else
+            {
+                Form1.RedrawNeeded?.Invoke();
+            }
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
@@ -409,7 +430,14 @@ namespace DynamicVisualizer.Controls
                     ((DrawLineStep) ds).ReInitHeight(textBox4.Text);
                 }
             }
-            Form1.RedrawNeeded?.Invoke();
+            if (_step.Iterations != -1)
+            {
+                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+            }
+            else
+            {
+                Form1.RedrawNeeded?.Invoke();
+            }
         }
     }
 }

@@ -206,6 +206,11 @@ namespace DynamicVisualizer.Manipulators
                     MoveLine((LineFigure) selected, pos);
                     break;
             }
+
+            if ((_nowMoving != null) && (_nowMoving.Iterations != -1))
+            {
+                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+            }
         }
     }
 }

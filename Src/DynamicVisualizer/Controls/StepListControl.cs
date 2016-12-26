@@ -42,7 +42,6 @@ namespace DynamicVisualizer.Controls
                 StartIndex = min,
                 Length = max - min + 1
             });
-            StepManager.IterableGroups.Sort((a, b) => a.StartIndex.CompareTo(b.StartIndex));
             ClearMarked();
             StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
         }

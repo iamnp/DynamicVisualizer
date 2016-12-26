@@ -188,6 +188,11 @@ namespace DynamicVisualizer.Manipulators
                     ResizeEllipse((EllipseFigure) selected, pos);
                     break;
             }
+
+            if ((_nowResizing != null) && (_nowResizing.Iterations != -1))
+            {
+                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+            }
         }
     }
 }

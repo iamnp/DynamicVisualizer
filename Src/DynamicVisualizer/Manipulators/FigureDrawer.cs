@@ -61,6 +61,11 @@ namespace DynamicVisualizer.Manipulators
             }
 
             StepManager.InsertNext(_nowDrawing);
+
+            if (_nowDrawing.Iterations != -1)
+            {
+                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+            }
         }
 
         private void ResizeDrawnRect(Point pos)
@@ -127,6 +132,10 @@ namespace DynamicVisualizer.Manipulators
                     case DrawStep.DrawStepType.DrawLine:
                         ResizeDrawnLine(pos);
                         break;
+                }
+                if (_nowDrawing.Iterations != -1)
+                {
+                    StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
                 }
             }
         }
