@@ -66,8 +66,7 @@ namespace DynamicVisualizer.Figures
             }
             else
             {
-                dc.DrawLine(IsSelected ? SelectionPen : StrokePen,
-                    new Point(x, y), new Point(x + width, y + height));
+                dc.DrawLine(StrokePen, new Point(x, y), new Point(x + width, y + height));
             }
         }
 
@@ -92,7 +91,7 @@ namespace DynamicVisualizer.Figures
                 return true;
             }
 
-            // утв point
+            // end point
             point = new Point(X.CachedValue.AsDouble + Width.CachedValue.AsDouble,
                 Y.CachedValue.AsDouble + Height.CachedValue.AsDouble);
             dx = point.X - x;

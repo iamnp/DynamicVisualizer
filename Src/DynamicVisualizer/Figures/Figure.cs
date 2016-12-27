@@ -13,11 +13,10 @@ namespace DynamicVisualizer.Figures
             Line
         }
 
-        protected readonly Pen GuidePen = new Pen(Brushes.CornflowerBlue, 3);
-        protected readonly Pen SelectionPen = new Pen(Brushes.Yellow, 3);
+        protected readonly Pen GuidePen = new Pen(Brushes.CornflowerBlue, 2);
 
         public readonly List<Figure> StaticLoopFigures = new List<Figure>();
-        protected readonly Pen StrokePen = new Pen(Brushes.Black, 1);
+        protected readonly Pen StrokePen = new Pen(Brushes.Black, 2);
         public int IndexInLoop = -1;
         public bool IsGuide;
         public bool IsSelected;

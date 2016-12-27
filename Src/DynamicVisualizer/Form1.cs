@@ -16,6 +16,8 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO fix exception when moving line-like rect
 // TODO fix exception on zero-width and hight line
 // TODO fix exception when scaling to division by zero
+// TODO add color variable
+// TODO fix exception when drawing on disapperaning magnets (before step insertion)
 
 // TODO? fix order of iterative drawing
 

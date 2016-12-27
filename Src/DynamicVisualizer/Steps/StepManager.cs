@@ -254,7 +254,6 @@ namespace DynamicVisualizer.Steps
 
             CurrentStepIndex = index;
             StepListControl?.MarkAsSelecgted(CurrentStepIndex);
-            StepEditor?.ShowStep(CurrentStep);
         }
 
         private static void GetGroupBounds(int index, out int top, out int bot)

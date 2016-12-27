@@ -68,7 +68,7 @@ namespace DynamicVisualizer.Figures
             }
             else
             {
-                dc.DrawEllipse(Brushes.Green, IsSelected ? SelectionPen : StrokePen,
+                dc.DrawEllipse(Brushes.Green, StrokePen,
                     new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble), r1, r2);
             }
         }

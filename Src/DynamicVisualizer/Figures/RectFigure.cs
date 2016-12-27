@@ -94,7 +94,7 @@ namespace DynamicVisualizer.Figures
             }
             else
             {
-                dc.DrawRectangle(Brushes.Green, IsSelected ? SelectionPen : StrokePen,
+                dc.DrawRectangle(Brushes.Green, StrokePen,
                     new Rect(x, y, width, height));
             }
         }
