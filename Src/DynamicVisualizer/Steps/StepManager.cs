@@ -294,12 +294,16 @@ namespace DynamicVisualizer.Steps
             var len = bot - top + 1;
             for (var i = 0; i < len; ++i)
             {
-                PrevIterationFromCurrentPos();
+                PrevIterationFromCurrentPos(true);
             }
+            SetCurrentStepIndex(CurrentStepIndex);
             StepListControl.IgnoreMarkAsSelected = false;
             StepListControl.MarkAsSelecgted(CurrentStepIndex);
         }
 
+        /// <summary>
+        ///     Does not start from the first step, apllies only not applied steps.
+        /// </summary>
         public static void NextIterationFromCurrentPos()
         {
             int top, bot;
@@ -336,7 +340,13 @@ namespace DynamicVisualizer.Steps
             }
         }
 
-        public static void PrevIterationFromCurrentPos()
+        /// <summary>
+        /// </summary>
+        /// <param name="doNotSetCurrentStep">
+        ///     True if method shoud not apply all steps from the first one to cuurrent new - only
+        ///     change current index.
+        /// </param>
+        public static void PrevIterationFromCurrentPos(bool doNotSetCurrentStep = false)
         {
             int top, bot;
             GetGroupBounds(CurrentStepIndex, out top, out bot);
@@ -347,13 +357,27 @@ namespace DynamicVisualizer.Steps
                 {
                     if (CurrentStepIndex > 0)
                     {
-                        SetCurrentStepIndex(CurrentStepIndex - 1);
+                        if (doNotSetCurrentStep)
+                        {
+                            CurrentStepIndex -= 1;
+                        }
+                        else
+                        {
+                            SetCurrentStepIndex(CurrentStepIndex - 1);
+                        }
                     }
                 }
                 else
                 {
                     Steps[CurrentStepIndex].CompletedIterations -= 1;
-                    SetCurrentStepIndex(bot);
+                    if (doNotSetCurrentStep)
+                    {
+                        CurrentStepIndex = bot;
+                    }
+                    else
+                    {
+                        SetCurrentStepIndex(bot);
+                    }
                 }
             }
             else
@@ -362,7 +386,14 @@ namespace DynamicVisualizer.Steps
                 {
                     Steps[CurrentStepIndex].CompletedIterations -= 1;
                 }
-                SetCurrentStepIndex(CurrentStepIndex - 1);
+                if (doNotSetCurrentStep)
+                {
+                    CurrentStepIndex -= 1;
+                }
+                else
+                {
+                    SetCurrentStepIndex(CurrentStepIndex - 1);
+                }
             }
         }
 

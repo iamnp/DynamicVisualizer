@@ -158,6 +158,17 @@ namespace DynamicVisualizer.Controls
 
                     ShowFirst(1);
                 }
+                if (rs.StepType == ResizeStep.ResizeStepType.ResizeLine)
+                {
+                    var rls = (ResizeLineStep) rs;
+                    label1.Text = "DeltaX";
+                    label2.Text = "DeltaY";
+
+                    textBox1.Text = rls.DeltaX;
+                    textBox1.Text = rls.DeltaY;
+
+                    ShowFirst(2);
+                }
             }
             else if (StepManager.CurrentStep is RotateStep)
             {
@@ -306,6 +317,10 @@ namespace DynamicVisualizer.Controls
                 {
                     ((ResizeEllipseStep) rs).Resize(textBox1.Text);
                 }
+                else if (rs.StepType == ResizeStep.ResizeStepType.ResizeLine)
+                {
+                    ((ResizeLineStep) rs).ResizeX(textBox1.Text);
+                }
             }
             else if (StepManager.CurrentStep is RotateStep)
             {
@@ -361,6 +376,14 @@ namespace DynamicVisualizer.Controls
                 else if (ms.StepType == MoveStep.MoveStepType.MoveLine)
                 {
                     ((MoveLineStep) ms).MoveY(textBox2.Text);
+                }
+            }
+            else if (StepManager.CurrentStep is ResizeStep)
+            {
+                var rs = (ResizeStep) StepManager.CurrentStep;
+                if (rs.StepType == ResizeStep.ResizeStepType.ResizeLine)
+                {
+                    ((ResizeLineStep) rs).ResizeY(textBox2.Text);
                 }
             }
             if (StepManager.CurrentStep.Iterations != -1)

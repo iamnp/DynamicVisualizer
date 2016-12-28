@@ -175,6 +175,60 @@ namespace DynamicVisualizer.Manipulators
             }
         }
 
+        private void ResizeLine(LineFigure lf, Point pos)
+        {
+            if (_nowResizing == null)
+            {
+                var snappedTo = StepManager.SnapTo(pos, lf.GetMagnets(), lf.Center);
+                if (snappedTo == lf.Start)
+                {
+                    _nowResizing = new ResizeLineStep(lf, ResizeLineStep.Side.End, pos.X - _downPos.X,
+                        pos.Y - _downPos.Y);
+                }
+                else if (snappedTo == lf.End)
+                {
+                    _nowResizing = new ResizeLineStep(lf, ResizeLineStep.Side.Start, pos.X - _downPos.X,
+                        pos.Y - _downPos.Y);
+                }
+                if (_nowResizing == null)
+                {
+                    return;
+                }
+                StepManager.InsertNext(_nowResizing);
+            }
+            else
+            {
+                var rls = (ResizeLineStep) _nowResizing;
+                var snapped = StepManager.Snap(pos, _nowResizing.Figure);
+                if (snapped != null)
+                {
+                    if (rls.ResizeAround == ResizeLineStep.Side.End)
+                    {
+                        rls.Resize("(" + snapped.X.ExprString + ") - " + rls.Figure.Name + ".x",
+                            "(" + snapped.Y.ExprString + ") - " + rls.Figure.Name + ".y", snapped.Def);
+                    }
+                    else if (rls.ResizeAround == ResizeLineStep.Side.Start)
+                    {
+                        rls.Resize("(" + snapped.X.ExprString + ") - (" + rls.Figure.Name + ".x + (" +
+                                   rls.Figure.Name + ".width))",
+                            "(" + snapped.Y.ExprString + ") - (" + rls.Figure.Name + ".y + (" +
+                            rls.Figure.Name + ".height))", snapped.Def);
+                    }
+                }
+                else
+                {
+                    if (rls.ResizeAround == ResizeLineStep.Side.End)
+                    {
+                        rls.Resize(pos.X - _downPos.X, pos.Y - _downPos.Y);
+                    }
+                    else if (rls.ResizeAround == ResizeLineStep.Side.Start)
+                    {
+                        rls.Resize(pos.X - _downPos.X, pos.Y - _downPos.Y);
+                    }
+                }
+            }
+        }
+
         public void Move(Figure selected, Point pos)
         {
             switch (selected.Type)
@@ -186,6 +240,10 @@ namespace DynamicVisualizer.Manipulators
                 case Figure.FigureType.Ellipse:
                     _moved = true;
                     ResizeEllipse((EllipseFigure) selected, pos);
+                    break;
+                case Figure.FigureType.Line:
+                    _moved = true;
+                    ResizeLine((LineFigure) selected, pos);
                     break;
             }
 

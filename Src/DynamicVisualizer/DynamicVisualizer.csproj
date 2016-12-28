@@ -79,6 +79,7 @@
     <Compile Include="Figures\Magnet.cs" />
     <Compile Include="Steps\Class1.cs" />
     <Compile Include="Steps\ResizeStep.cs" />
+    <Compile Include="Steps\Resize\ResizeLineStep.cs" />
     <Compile Include="Steps\Rotate\RotateLineStep.cs" />
     <Compile Include="Steps\ScaleStep.cs" />
     <Compile Include="Steps\Draw\DrawEllipseStep.cs" />

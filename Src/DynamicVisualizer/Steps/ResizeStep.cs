@@ -5,7 +5,8 @@
         public enum ResizeStepType
         {
             ResizeRect,
-            ResizeEllipse
+            ResizeEllipse,
+            ResizeLine
         }
 
         public abstract ResizeStepType StepType { get; }

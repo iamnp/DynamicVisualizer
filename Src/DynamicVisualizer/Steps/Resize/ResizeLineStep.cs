@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using DynamicVisualizer.Expressions;
 using DynamicVisualizer.Figures;
 
-namespace DynamicVisualizer.Steps.Scale
+namespace DynamicVisualizer.Steps.Resize
 {
-    public class ScaleLineStep : ScaleStep
+    public class ResizeLineStep : ResizeStep
     {
         public enum Side
         {
@@ -13,46 +13,55 @@ namespace DynamicVisualizer.Steps.Scale
         }
 
         public readonly LineFigure LineFigure;
-        public readonly Side ScaleAround;
-        public string Factor;
+        public readonly Side ResizeAround;
+        public string DeltaX;
+        public string DeltaY;
         public double HeightOrig;
         public double WidthOrig;
         public double XCachedDouble;
         public double YCachedDouble;
 
-        private ScaleLineStep(LineFigure figure, Side scaleAround)
+        private ResizeLineStep(LineFigure figure, Side resizeAround)
         {
             Figure = figure;
             LineFigure = figure;
-            ScaleAround = scaleAround;
+            ResizeAround = resizeAround;
         }
 
-        public ScaleLineStep(LineFigure figure, Side scaleAround, string factor) : this(figure, scaleAround)
+        public ResizeLineStep(LineFigure figure, Side resizeAround, string deltaX, string deltaY, string where = null)
+            : this(figure, resizeAround)
         {
-            Scale(factor);
+            Resize(deltaX, deltaY, where);
         }
 
-        public ScaleLineStep(LineFigure figure, Side scaleAround, double factor)
-            : this(figure, scaleAround, factor.Str())
+        public ResizeLineStep(LineFigure figure, Side resizeAround, double deltaX, double deltaY)
+            : this(figure, resizeAround, deltaX.Str(), deltaY.Str())
         {
         }
 
-        public override ScaleStepType StepType => ScaleStepType.ScaleLine;
+        public override ResizeStepType StepType => ResizeStepType.ResizeLine;
 
-        public void SetDef()
+        public void SetDef(string where)
         {
-            Magnet aroundMagnet;
-            switch (ScaleAround)
+            Magnet dragMagnet;
+            switch (ResizeAround)
             {
                 case Side.Start:
-                    aroundMagnet = LineFigure.Start;
+                    dragMagnet = LineFigure.End;
                     break;
                 default:
-                    aroundMagnet = LineFigure.End;
+                    dragMagnet = LineFigure.Start;
                     break;
             }
 
-            Def = string.Format("Scale {0} around {1} by {2}", LineFigure.Name, aroundMagnet.Def, Factor);
+            if (where == null)
+            {
+                Def = string.Format("Move {0}, {1} horizontally, {2} vertically", dragMagnet.Def, DeltaX, DeltaY);
+            }
+            else
+            {
+                Def = string.Format("Move {0} to {1}", dragMagnet.Def, where);
+            }
         }
 
         private void CaptureBearings()
@@ -71,17 +80,17 @@ namespace DynamicVisualizer.Steps.Scale
             }
             Applied = true;
 
-            if (ScaleAround == Side.Start)
+            if (ResizeAround == Side.Start)
             {
                 LineFigure.X.SetRawExpression(XCachedDouble.Str());
                 LineFigure.Y.SetRawExpression(YCachedDouble.Str());
                 LineFigure.Width.SetRawExpression(WidthOrig.Str());
                 LineFigure.Height.SetRawExpression(HeightOrig.Str());
 
-                LineFigure.Width.SetRawExpression(LineFigure.Name + ".width * (" + Factor + ")");
-                LineFigure.Height.SetRawExpression(LineFigure.Name + ".height * (" + Factor + ")");
+                LineFigure.Width.SetRawExpression(LineFigure.Name + ".width + (" + DeltaX + ")");
+                LineFigure.Height.SetRawExpression(LineFigure.Name + ".height + (" + DeltaY + ")");
             }
-            else if (ScaleAround == Side.End)
+            else if (ResizeAround == Side.End)
             {
                 LineFigure.X.SetRawExpression(XCachedDouble.Str());
                 LineFigure.Y.SetRawExpression(YCachedDouble.Str());
@@ -89,13 +98,11 @@ namespace DynamicVisualizer.Steps.Scale
                 LineFigure.Height.SetRawExpression(HeightOrig.Str());
 
                 DataStorage.SimultaneousSwap(
-                    new Tuple<ScalarExpression, string>(LineFigure.Width, LineFigure.Name + ".width * (" + Factor + ")"),
-                    new Tuple<ScalarExpression, string>(LineFigure.X,
-                        LineFigure.Name + ".x + (" + LineFigure.Name + ".width * (1.0 - (" + Factor + ")))"),
+                    new Tuple<ScalarExpression, string>(LineFigure.Width, LineFigure.Name + ".width - (" + DeltaX + ")"),
+                    new Tuple<ScalarExpression, string>(LineFigure.X, LineFigure.Name + ".x + (" + DeltaX + ")"),
                     new Tuple<ScalarExpression, string>(LineFigure.Height,
-                        LineFigure.Name + ".height * (" + Factor + ")"),
-                    new Tuple<ScalarExpression, string>(LineFigure.Y,
-                        LineFigure.Name + ".y + (" + LineFigure.Name + ".height * (1.0 - (" + Factor + ")))"));
+                        LineFigure.Name + ".height - (" + DeltaY + ")"),
+                    new Tuple<ScalarExpression, string>(LineFigure.Y, LineFigure.Name + ".y + (" + DeltaY + ")"));
             }
 
             CopyStaticFigure();
@@ -103,7 +110,7 @@ namespace DynamicVisualizer.Steps.Scale
 
         public override void IterateNext()
         {
-            if (ScaleAround == Side.Start)
+            if (ResizeAround == Side.Start)
             {
                 LineFigure.Width.IndexInArray = CompletedIterations;
                 LineFigure.X.IndexInArray = CompletedIterations;
@@ -115,10 +122,10 @@ namespace DynamicVisualizer.Steps.Scale
                 LineFigure.Y.SetRawExpression(LineFigure.Y.CachedValue.AsDouble.Str());
                 LineFigure.Height.SetRawExpression(LineFigure.Height.CachedValue.AsDouble.Str());
 
-                LineFigure.Width.SetRawExpression(LineFigure.Name + ".width * (" + Factor + ")");
-                LineFigure.Height.SetRawExpression(LineFigure.Name + ".height * (" + Factor + ")");
+                LineFigure.Width.SetRawExpression(LineFigure.Name + ".width + (" + DeltaX + ")");
+                LineFigure.Height.SetRawExpression(LineFigure.Name + ".height + (" + DeltaY + ")");
             }
-            else if (ScaleAround == Side.End)
+            else if (ResizeAround == Side.End)
             {
                 LineFigure.Width.IndexInArray = CompletedIterations;
                 LineFigure.X.IndexInArray = CompletedIterations;
@@ -131,13 +138,11 @@ namespace DynamicVisualizer.Steps.Scale
                 LineFigure.Height.SetRawExpression(LineFigure.Height.CachedValue.AsDouble.Str());
 
                 DataStorage.SimultaneousSwap(
-                    new Tuple<ScalarExpression, string>(LineFigure.Width, LineFigure.Name + ".width * (" + Factor + ")"),
-                    new Tuple<ScalarExpression, string>(LineFigure.X,
-                        LineFigure.Name + ".x + (" + LineFigure.Name + ".width * (1.0 - (" + Factor + ")))"),
+                    new Tuple<ScalarExpression, string>(LineFigure.Width, LineFigure.Name + ".width - (" + DeltaX + ")"),
+                    new Tuple<ScalarExpression, string>(LineFigure.X, LineFigure.Name + ".x + (" + DeltaX + ")"),
                     new Tuple<ScalarExpression, string>(LineFigure.Height,
-                        LineFigure.Name + ".height * (" + Factor + ")"),
-                    new Tuple<ScalarExpression, string>(LineFigure.Y,
-                        LineFigure.Name + ".y + (" + LineFigure.Name + ".height * (1.0 - (" + Factor + ")))"));
+                        LineFigure.Name + ".height - (" + DeltaY + ")"),
+                    new Tuple<ScalarExpression, string>(LineFigure.Y, LineFigure.Name + ".y + (" + DeltaY + ")"));
             }
         }
 
@@ -149,14 +154,14 @@ namespace DynamicVisualizer.Steps.Scale
             }
 
             var lf = (LineFigure) Figure.StaticLoopFigures[CompletedIterations];
-            if (ScaleAround == Side.Start)
+            if (ResizeAround == Side.Start)
             {
                 lf.Width.SetRawExpression(LineFigure.Width.CachedValue.Str);
                 lf.X.SetRawExpression(LineFigure.X.CachedValue.Str);
                 lf.Height.SetRawExpression(LineFigure.Height.CachedValue.Str);
                 lf.Y.SetRawExpression(LineFigure.Y.CachedValue.Str);
             }
-            else if (ScaleAround == Side.End)
+            else if (ResizeAround == Side.End)
             {
                 lf.Width.SetRawExpression(LineFigure.Width.CachedValue.Str);
                 lf.X.SetRawExpression(LineFigure.X.CachedValue.Str);
@@ -165,16 +170,31 @@ namespace DynamicVisualizer.Steps.Scale
             }
         }
 
-        public void Scale(string factor)
+        public void Resize(string deltaX, string deltaY, string where = null)
         {
-            Factor = factor;
-            SetDef();
+            DeltaX = deltaX;
+            DeltaY = deltaY;
+            SetDef(where);
             Apply();
         }
 
-        public void Scale(double factor)
+        public void Resize(double deltaX, double deltaY)
         {
-            Scale(factor.Str());
+            Resize(deltaX.Str(), deltaY.Str());
+        }
+
+        public void ResizeX(string deltaX)
+        {
+            DeltaX = deltaX;
+            SetDef(null);
+            Apply();
+        }
+
+        public void ResizeY(string deltaY)
+        {
+            DeltaY = deltaY;
+            SetDef(null);
+            Apply();
         }
     }
 }
