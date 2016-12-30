@@ -109,7 +109,6 @@ namespace DynamicVisualizer.Controls
                             {
                                 items[i] = items[i].Trim();
                             }
-                            ArrayExpressionEditor.Len = items.Length;
                             Expr = DataStorage.Add(new ArrayExpression("data", textBox1.Text, items));
                         }
                         else
@@ -118,9 +117,6 @@ namespace DynamicVisualizer.Controls
                                 DataStorage.Add(new ArrayExpression("data", textBox1.Text, textBox2.Text,
                                     ArrayExpressionEditor.Len));
                         }
-
-                        textBox2.Text = Expr.CachedValue.Str;
-                        textBox1.Focus();
                     }
                     else
                     {
@@ -137,11 +133,10 @@ namespace DynamicVisualizer.Controls
                         {
                             Expr.SetRawExpression(textBox2.Text);
                         }
-                        textBox2.Text = Expr.CachedValue.Str;
-                        textBox1.Focus();
-                        StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
-                        Form1.RedrawNeeded?.Invoke();
                     }
+                    ArrayExpressionEditor.Len = Expr.Exprs.Length;
+                    textBox1.Focus();
+                    StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
                 }
             }
         }

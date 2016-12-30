@@ -1,20 +1,14 @@
-﻿using System;
-
-namespace DynamicVisualizer.Expressions
+﻿namespace DynamicVisualizer.Expressions
 {
     public class ArrayExpression : Expression
     {
-        private readonly string[] _exprsStrings;
-        private readonly Value[] _values;
-        public readonly ScalarExpression[] Exprs;
+        private string[] _exprsStrings;
+        private Value[] _values;
+        public ScalarExpression[] Exprs;
 
         public ArrayExpression(string objectName, string varName, string[] rawExprs) : base(objectName, varName)
         {
-            _exprsStrings = new string[rawExprs.Length];
-            Exprs = new ScalarExpression[rawExprs.Length];
-            _values = new Value[rawExprs.Length];
             SetRawExpressions(rawExprs);
-            CachedValue.SwitchTo(new Value(_values));
         }
 
         public ArrayExpression(string objectName, string varName, string rawExpr, int n) : base(objectName, varName)
@@ -25,11 +19,7 @@ namespace DynamicVisualizer.Expressions
                 rawExprs[i] = rawExpr;
             }
 
-            _exprsStrings = new string[rawExprs.Length];
-            Exprs = new ScalarExpression[rawExprs.Length];
-            _values = new Value[rawExprs.Length];
             SetRawExpressions(rawExprs);
-            CachedValue.SwitchTo(new Value(_values));
         }
 
         public override bool CanBeRemoved
@@ -49,15 +39,15 @@ namespace DynamicVisualizer.Expressions
 
         public void SetRawExpressions(string[] rawExprs)
         {
-            if (rawExprs.Length != _exprsStrings.Length)
-            {
-                throw new ArgumentException("Arrays lengths must be equual!");
-            }
+            _exprsStrings = new string[rawExprs.Length];
+            Exprs = new ScalarExpression[rawExprs.Length];
+            _values = new Value[rawExprs.Length];
             for (var i = 0; i < rawExprs.Length; ++i)
             {
                 _exprsStrings[i] = rawExprs[i];
             }
             ExprString = _exprsStrings[0];
+            CachedValue.SwitchTo(new Value(_values));
             Recalculate();
         }
 

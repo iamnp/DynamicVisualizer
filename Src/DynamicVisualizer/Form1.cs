@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using DynamicVisualizer.Controls;
 using DynamicVisualizer.Expressions;
 using DynamicVisualizer.Figures;
 using DynamicVisualizer.Manipulators;
@@ -10,8 +11,8 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO fix changing array's length
 // TODO add modifiable iterative group counter
+// TODO fix not updating dependent array exprs
 // TODO fix iterated line rotating (cached center point)
 // TODO fix exception when moving line-like rect
 // TODO fix exception on zero-width and hight line
@@ -89,58 +90,62 @@ namespace DynamicVisualizer
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == Keys.Up)
+            if ((StepManager.CurrentStep != null) && (ActiveControl.GetType() != typeof(ArrayExpressionItem))
+                && (ActiveControl.GetType() != typeof(ScalarExpressionItem)) &&
+                (ActiveControl.GetType() != typeof(StepEditor)))
             {
-                if (StepManager.CurrentStep.Iterations != -1)
+                if (keyData == Keys.Up)
                 {
-                    StepManager.PrevIterationFromCurrentPos();
+                    if (StepManager.CurrentStep.Iterations != -1)
+                    {
+                        StepManager.PrevIterationFromCurrentPos();
+                    }
+                    else if (StepManager.CurrentStepIndex > 0)
+                    {
+                        StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex - 1);
+                    }
+                    return true;
                 }
-                else if (StepManager.CurrentStepIndex > 0)
+                if (keyData == Keys.Down)
                 {
-                    StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex - 1);
+                    if (StepManager.CurrentStep.Iterations != -1)
+                    {
+                        StepManager.NextIterationFromCurrentPos();
+                    }
+                    else if (StepManager.CurrentStepIndex < StepManager.Steps.Count - 1)
+                    {
+                        StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex + 1);
+                    }
+                    return true;
                 }
-                return true;
-            }
-            if (keyData == Keys.Down)
-            {
-                if (StepManager.CurrentStep.Iterations != -1)
-                {
-                    StepManager.NextIterationFromCurrentPos();
-                }
-                else if (StepManager.CurrentStepIndex < StepManager.Steps.Count - 1)
-                {
-                    StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex + 1);
-                }
-                return true;
-            }
 
-            if (keyData == Keys.Right)
-            {
-                if ((StepManager.CurrentStep.Iterations != -1)
-                    && (StepManager.CurrentStep.CompletedIterations != StepManager.CurrentStep.Iterations))
+                if (keyData == Keys.Right)
                 {
-                    StepManager.NextLoopFromCurrentPos();
+                    if ((StepManager.CurrentStep.Iterations != -1)
+                        && (StepManager.CurrentStep.CompletedIterations != StepManager.CurrentStep.Iterations))
+                    {
+                        StepManager.NextLoopFromCurrentPos();
+                    }
+                    return true;
                 }
-                return true;
-            }
-            if (keyData == Keys.Left)
-            {
-                if ((StepManager.CurrentStep.Iterations != -1) && (StepManager.CurrentStep.CompletedIterations != 0))
+                if (keyData == Keys.Left)
                 {
-                    StepManager.PrevLoopFromCurrentPos();
+                    if ((StepManager.CurrentStep.Iterations != -1) && (StepManager.CurrentStep.CompletedIterations != 0))
+                    {
+                        StepManager.PrevLoopFromCurrentPos();
+                    }
+                    return true;
                 }
-                return true;
-            }
 
-            if (keyData == Keys.Delete)
-            {
-                if (StepManager.CurrentStepIndex != -1)
+                if (keyData == Keys.Delete)
                 {
-                    StepManager.Remove(StepManager.CurrentStepIndex);
+                    if (StepManager.CurrentStepIndex != -1)
+                    {
+                        StepManager.Remove(StepManager.CurrentStepIndex);
+                    }
+                    return true;
                 }
-                return true;
             }
-
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
