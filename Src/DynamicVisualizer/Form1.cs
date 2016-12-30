@@ -11,11 +11,10 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO add modifiable iterative group counter
+// TODO fix loop bound not updated when scalar values changes
 // TODO fix not updating dependent array exprs
 // TODO fix iterated line rotating (cached center point)
 // TODO fix exception when moving line-like rect
-// TODO fix exception on zero-width and hight line
 // TODO fix exception when scaling to division by zero
 // TODO add color variable
 // TODO fix exception when drawing on disapperaning magnets (before step insertion)
@@ -92,7 +91,7 @@ namespace DynamicVisualizer
         {
             if ((StepManager.CurrentStep != null) && (ActiveControl.GetType() != typeof(ArrayExpressionItem))
                 && (ActiveControl.GetType() != typeof(ScalarExpressionItem)) &&
-                (ActiveControl.GetType() != typeof(StepEditor)))
+                (ActiveControl.GetType() != typeof(StepEditor)) && (ActiveControl.GetType() != typeof(GroupHeaderItem)))
             {
                 if (keyData == Keys.Up)
                 {

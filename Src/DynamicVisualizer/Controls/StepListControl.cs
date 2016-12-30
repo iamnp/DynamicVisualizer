@@ -34,31 +34,30 @@ namespace DynamicVisualizer.Controls
                 {
                     max = MarkedControls[i].Index;
                 }
-                MarkedControls[i].Step.MakeIterable(ArrayExpressionEditor.Len);
+                MarkedControls[i].Step.MakeIterable(ArrayExpressionEditor.Items.Count > 1
+                    ? ArrayExpressionEditor.Len
+                    : 2);
                 MarkedControls[i].RespectIterable();
             }
             StepManager.IterableGroups.Add(new IterableStepGroup
             {
                 StartIndex = min,
-                Length = max - min + 1
+                Length = max - min + 1,
+                Iterations = ArrayExpressionEditor.Items.Count > 1 ? ArrayExpressionEditor.Len : 2,
+                IterationsExpr =
+                    ArrayExpressionEditor.Items.Count > 1
+                        ? string.Format("len({0})", ArrayExpressionEditor.Items[0].Expr.FullName)
+                        : "2"
             });
             ClearMarked();
+            ConstructList();
             StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
         }
 
         public void TimelineOnStepRemoved(int index)
         {
-            Controls.RemoveAt(index);
             _stepControls.RemoveAt(index);
-            if (_stepControls.Count != 0)
-            {
-                for (var i = index; i < _stepControls.Count; ++i)
-                {
-                    var scc = _stepControls[i];
-                    scc.Index = i;
-                    scc.Location = new Point(0, scc.Location.Y - scc.Height);
-                }
-            }
+            ConstructList();
         }
 
         public void ClearMarked()
@@ -79,26 +78,47 @@ namespace DynamicVisualizer.Controls
             }
         }
 
-        public void TimelineOnStepInserted(int index)
+        private void ConstructList()
         {
-            for (var i = index; i < _stepControls.Count; ++i)
+            Controls.Clear();
+
+            var height = 0;
+            IterableStepGroup prevGroup = null;
+            for (var i = 0; i < _stepControls.Count; ++i)
             {
                 var scc = _stepControls[i];
-                scc.Index = i + 1;
-                scc.Location = new Point(0, scc.Location.Y + scc.Height);
+                if (scc.Step.Iterations != -1)
+                {
+                    var currentGroup = StepManager.GetGroupByIndex(i);
+                    if (currentGroup != prevGroup)
+                    {
+                        Controls.Add(new GroupHeaderItem(currentGroup)
+                        {
+                            Width = Width - 2 - 17,
+                            Location = new Point(0, height)
+                        });
+                        height += GroupHeaderItem.HeightValue;
+                    }
+                    prevGroup = currentGroup;
+                }
+                scc.Index = i;
+                scc.Location = new Point(0, height);
+                height += StepItem.HeightValue;
+                Controls.Add(scc);
             }
+        }
 
+        public void TimelineOnStepInserted(int index)
+        {
             var sc = new StepItem(StepManager.Steps[index], index)
             {
                 Width = Width - 2 - 17
             };
-            sc.Location = new Point(0, index * sc.Height + AutoScrollPosition.Y);
             sc.MouseEnter += OnMouseEnter;
             sc.MouseLeave += OnMouseLeave;
             sc.MouseClick += OnMouseClick;
-            Controls.Add(sc);
-            Controls.SetChildIndex(sc, index);
             _stepControls.Insert(index, sc);
+            ConstructList();
         }
 
         public void MarkAsSelecgted(int index)

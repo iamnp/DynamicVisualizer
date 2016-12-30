@@ -134,7 +134,7 @@ namespace DynamicVisualizer.Steps
                     (((index == g.StartIndex) || (index == g.StartIndex - 1) || (index == g.EndIndex) ||
                       (index == g.EndIndex + 1)) && AddStepLooped))
                 {
-                    step.MakeIterable(ArrayExpressionEditor.Len);
+                    step.MakeIterable(g.Iterations);
                     GetGroupByIndex(CurrentStepIndex).Length += 1;
                 }
             }

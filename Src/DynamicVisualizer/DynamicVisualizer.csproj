@@ -58,6 +58,12 @@
     <Compile Include="Controls\ClickThroughLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\GroupHeaderItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GroupHeaderItem.Designer.cs">
+      <DependentUpon>GroupHeaderItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ScalarExpressionEditor.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -77,7 +83,7 @@
     <Compile Include="Expressions\DataStorage.cs" />
     <Compile Include="Figures\EllipseFigure.cs" />
     <Compile Include="Figures\Magnet.cs" />
-    <Compile Include="Steps\Class1.cs" />
+    <Compile Include="Steps\RotateStep.cs" />
     <Compile Include="Steps\ResizeStep.cs" />
     <Compile Include="Steps\Resize\ResizeLineStep.cs" />
     <Compile Include="Steps\Rotate\RotateLineStep.cs" />
@@ -133,6 +139,9 @@
     <EmbeddedResource Include="Controls\ArrayExpressionItem.resx">
       <DependentUpon>ArrayExpressionItem.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GroupHeaderItem.resx">
+      <DependentUpon>GroupHeaderItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ScalarExpressionItem.resx">
       <DependentUpon>ScalarExpressionItem.cs</DependentUpon>

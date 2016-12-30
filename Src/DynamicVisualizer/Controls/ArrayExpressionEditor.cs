@@ -8,7 +8,7 @@ namespace DynamicVisualizer.Controls
     internal class ArrayExpressionEditor : Panel
     {
         public static int Len = -1;
-        private readonly List<ArrayExpressionItem> _items = new List<ArrayExpressionItem>();
+        public static readonly List<ArrayExpressionItem> Items = new List<ArrayExpressionItem>();
 
         public ArrayExpressionEditor()
         {
@@ -19,13 +19,13 @@ namespace DynamicVisualizer.Controls
         {
             var item = new ArrayExpressionItem
             {
-                Location = new Point(0, _items.Count * ArrayExpressionItem.ItemHeight),
+                Location = new Point(0, Items.Count * ArrayExpressionItem.ItemHeight),
                 AllowDrop = true
             };
             item.DragEnter += OnDummyItemDragEnter;
             item.DragDrop += OnDummyItemDragDrop;
             item.textBox1.KeyPress += DummyItemNameKeyPress;
-            _items.Add(item);
+            Items.Add(item);
             Controls.Add(item);
         }
 
@@ -63,7 +63,7 @@ namespace DynamicVisualizer.Controls
 
         private void DummyItemNameKeyPress(object sender, KeyPressEventArgs e)
         {
-            var di = _items[_items.Count - 1];
+            var di = Items[Items.Count - 1];
             if ((e.KeyChar == (char) Keys.Return) && !string.IsNullOrWhiteSpace(di.textBox1.Text))
             {
                 MakeNotDummy(di);

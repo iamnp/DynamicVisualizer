@@ -39,7 +39,7 @@
             {
                 if (IsDouble)
                 {
-                    return "" + AsDouble;
+                    return AsDouble.Str();
                 }
                 if (IsString)
                 {

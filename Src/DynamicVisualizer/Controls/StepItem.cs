@@ -6,6 +6,8 @@ namespace DynamicVisualizer.Controls
 {
     public partial class StepItem : UserControl
     {
+        public static int HeightValue = 50;
+
         public StepItem(Step step, int index)
         {
             InitializeComponent();
