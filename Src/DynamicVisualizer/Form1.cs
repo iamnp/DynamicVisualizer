@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -13,12 +14,14 @@ using SystemColors = System.Drawing.SystemColors;
 
 // TODO fix loop bound not updated when scalar values changes
 // TODO fix not updating dependent array exprs
-// TODO fix iterated line rotating (cached center point)
-// TODO fix exception when moving line-like rect
-// TODO fix exception when scaling to division by zero
 // TODO add color variable
+// TODO text figure (extend line figure ?)
 // TODO fix exception when drawing on disapperaning magnets (before step insertion)
-
+// TODO fix iterated line rotating (cached center point)
+// TODO deal with expr dependants, identify infinite resucrsion
+// TODO add global exception handler (for stack overflow too)
+// TODO deal with removing steps with dependants
+// TODO scaling 0-width rect gets scale by NaN
 // TODO? fix order of iterative drawing
 
 namespace DynamicVisualizer
@@ -40,6 +43,8 @@ namespace DynamicVisualizer
         private readonly FigureRotater _figureRotater = new FigureRotater();
         private readonly FigureScaler _figureScaler = new FigureScaler();
         private readonly Rect _hostRect = new Rect(0, 0, 1000, 700);
+
+        private readonly Dictionary<Keys, Action> _hotkeys;
         private readonly MainGraphicOutput _mainGraphics;
         private Figure _selected;
         private TransformStep.TransformType _transformType = TransformStep.TransformType.Move;
@@ -47,6 +52,19 @@ namespace DynamicVisualizer
         public Form1()
         {
             InitializeComponent();
+
+            _hotkeys = new Dictionary<Keys, Action>
+            {
+                {Keys.R, () => rectLabel_Click(rectLabel, EventArgs.Empty)},
+                {Keys.C, () => circleLabel_Click(circleLabel, EventArgs.Empty)},
+                {Keys.L, () => lineLabel_Click(lineLabel, EventArgs.Empty)},
+                {Keys.M, () => moveLabel_Click(moveLabel, EventArgs.Empty)},
+                {Keys.S, () => scaleLabel_Click(scaleLabel, EventArgs.Empty)},
+                {Keys.T, () => rotateLabel_Click(rotateLabel, EventArgs.Empty)},
+                {Keys.E, () => resizeLabel_Click(resizeLabel, EventArgs.Empty)},
+                {Keys.G, () => guideLabel_Click(guideLabel, EventArgs.Empty)},
+                {Keys.O, () => loopLabel_Click(loopLabel, EventArgs.Empty)}
+            };
 
             RedrawNeeded = Redraw;
 
@@ -144,6 +162,12 @@ namespace DynamicVisualizer
                     }
                     return true;
                 }
+
+                if (_hotkeys.ContainsKey(keyData))
+                {
+                    _hotkeys[keyData]();
+                    return true;
+                }
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -219,12 +243,12 @@ namespace DynamicVisualizer
             }
             if (_selected == null)
             {
-                label7.Visible = false;
+                guideLabel.Visible = false;
             }
             else
             {
-                label7.Visible = true;
-                label7.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
+                guideLabel.Visible = true;
+                guideLabel.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
             }
         }
 
@@ -239,12 +263,12 @@ namespace DynamicVisualizer
             {
                 _selected = figure;
                 _selected.IsSelected = true;
-                label7.Visible = true;
-                label7.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
+                guideLabel.Visible = true;
+                guideLabel.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
             }
             else
             {
-                label7.Visible = false;
+                guideLabel.Visible = false;
             }
         }
 
@@ -346,102 +370,105 @@ namespace DynamicVisualizer
             Redraw();
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void rectLabel_Click(object sender, EventArgs e)
         {
             _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawRect;
-            label2.ForeColor = SystemColors.ControlText;
-            label3.ForeColor = SystemColors.ControlDark;
-            label11.ForeColor = SystemColors.ControlDark;
+            rectLabel.ForeColor = SystemColors.ControlText;
+            circleLabel.ForeColor = SystemColors.ControlDark;
+            lineLabel.ForeColor = SystemColors.ControlDark;
         }
 
-        private void label3_Click(object sender, EventArgs e)
+        private void circleLabel_Click(object sender, EventArgs e)
         {
             _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawEllipse;
-            label3.ForeColor = SystemColors.ControlText;
-            label2.ForeColor = SystemColors.ControlDark;
-            label11.ForeColor = SystemColors.ControlDark;
+            circleLabel.ForeColor = SystemColors.ControlText;
+            rectLabel.ForeColor = SystemColors.ControlDark;
+            lineLabel.ForeColor = SystemColors.ControlDark;
         }
 
-        private void label5_Click(object sender, EventArgs e)
+        private void lineLabel_Click(object sender, EventArgs e)
+        {
+            _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawLine;
+            circleLabel.ForeColor = SystemColors.ControlDark;
+            rectLabel.ForeColor = SystemColors.ControlDark;
+            lineLabel.ForeColor = SystemColors.ControlText;
+        }
+
+        private void moveLabel_Click(object sender, EventArgs e)
         {
             _transformType = TransformStep.TransformType.Move;
-            label5.ForeColor = SystemColors.ControlText;
-            label6.ForeColor = SystemColors.ControlDark;
-            label10.ForeColor = SystemColors.ControlDark;
-            label12.ForeColor = SystemColors.ControlDark;
+            moveLabel.ForeColor = SystemColors.ControlText;
+            scaleLabel.ForeColor = SystemColors.ControlDark;
+            resizeLabel.ForeColor = SystemColors.ControlDark;
+            rotateLabel.ForeColor = SystemColors.ControlDark;
         }
 
-        private void label6_Click(object sender, EventArgs e)
+        private void scaleLabel_Click(object sender, EventArgs e)
         {
             _transformType = TransformStep.TransformType.Scale;
-            label6.ForeColor = SystemColors.ControlText;
-            label5.ForeColor = SystemColors.ControlDark;
-            label10.ForeColor = SystemColors.ControlDark;
-            label12.ForeColor = SystemColors.ControlDark;
+            scaleLabel.ForeColor = SystemColors.ControlText;
+            moveLabel.ForeColor = SystemColors.ControlDark;
+            resizeLabel.ForeColor = SystemColors.ControlDark;
+            rotateLabel.ForeColor = SystemColors.ControlDark;
         }
 
-        private void label10_Click(object sender, EventArgs e)
+        private void resizeLabel_Click(object sender, EventArgs e)
         {
             _transformType = TransformStep.TransformType.Resize;
-            label6.ForeColor = SystemColors.ControlDark;
-            label5.ForeColor = SystemColors.ControlDark;
-            label10.ForeColor = SystemColors.ControlText;
-            label12.ForeColor = SystemColors.ControlDark;
+            scaleLabel.ForeColor = SystemColors.ControlDark;
+            moveLabel.ForeColor = SystemColors.ControlDark;
+            resizeLabel.ForeColor = SystemColors.ControlText;
+            rotateLabel.ForeColor = SystemColors.ControlDark;
         }
 
-        private void label12_Click(object sender, EventArgs e)
+        private void rotateLabel_Click(object sender, EventArgs e)
         {
             _transformType = TransformStep.TransformType.Rotate;
-            label6.ForeColor = SystemColors.ControlDark;
-            label5.ForeColor = SystemColors.ControlDark;
-            label10.ForeColor = SystemColors.ControlDark;
-            label12.ForeColor = SystemColors.ControlText;
+            scaleLabel.ForeColor = SystemColors.ControlDark;
+            moveLabel.ForeColor = SystemColors.ControlDark;
+            resizeLabel.ForeColor = SystemColors.ControlDark;
+            rotateLabel.ForeColor = SystemColors.ControlText;
         }
 
-        private void label7_Click(object sender, EventArgs e)
+        private void guideLabel_Click(object sender, EventArgs e)
         {
             _selected.IsGuide = !_selected.IsGuide;
-            label7.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
+            guideLabel.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
             Redraw();
         }
 
-        private void label8_Click(object sender, EventArgs e)
+        private void loopLabel_Click(object sender, EventArgs e)
         {
-            _stepListControl1.CurrentSelectionToIterableGroup();
+            if (loopLabel.Visible)
+            {
+                _stepListControl1.CurrentSelectionToIterableGroup();
+            }
         }
 
-        private void label11_Click(object sender, EventArgs e)
-        {
-            _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawLine;
-            label3.ForeColor = SystemColors.ControlDark;
-            label2.ForeColor = SystemColors.ControlDark;
-            label11.ForeColor = SystemColors.ControlText;
-        }
-
-        private void label14_Click(object sender, EventArgs e)
+        private void addStepAfterLabel_Click(object sender, EventArgs e)
         {
             if (StepManager.AddStepBeforeCurrent)
             {
-                label14.Text = "After current";
+                addStepAfterLabel.Text = "After current";
                 StepManager.AddStepBeforeCurrent = false;
             }
             else
             {
-                label14.Text = "Before current";
+                addStepAfterLabel.Text = "Before current";
                 StepManager.AddStepBeforeCurrent = true;
             }
         }
 
-        private void label15_Click(object sender, EventArgs e)
+        private void addStepLoopedLabel_Click(object sender, EventArgs e)
         {
             if (StepManager.AddStepLooped)
             {
-                label15.Text = "Not looped";
+                addStepLoopedLabel.Text = "Not looped";
                 StepManager.AddStepLooped = false;
             }
             else
             {
-                label15.Text = "Looped";
+                addStepLoopedLabel.Text = "Looped";
                 StepManager.AddStepLooped = true;
             }
         }
