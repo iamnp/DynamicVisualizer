@@ -16,6 +16,8 @@ namespace DynamicVisualizer.Controls
             _iterableStepGroup = g;
             textBox1.Text = _iterableStepGroup.IterationsExpr;
             textBox1.TextChanged += textBox1_TextChanged;
+            ScalarExpressionItem.ScalarExprEdited += textBox1_TextChanged;
+            ArrayExpressionItem.ArrayExprEdited += textBox1_TextChanged;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

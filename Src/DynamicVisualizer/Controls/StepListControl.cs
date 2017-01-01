@@ -80,6 +80,13 @@ namespace DynamicVisualizer.Controls
 
         private void ConstructList()
         {
+            for (var i = Controls.Count - 1; i >= 0; --i)
+            {
+                if (Controls[i] is GroupHeaderItem)
+                {
+                    Controls[i].Dispose();
+                }
+            }
             Controls.Clear();
 
             var height = 0;

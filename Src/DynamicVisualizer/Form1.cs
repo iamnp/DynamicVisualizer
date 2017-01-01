@@ -12,14 +12,14 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO fix loop bound not updated when scalar values changes
 // TODO fix not updating dependent array exprs
-// TODO add color variable
-// TODO text figure (extend line figure ?)
+// TODO add color variable with transparency
+// TODO text figure (extend line figure ?) with text variable
 // TODO fix exception when drawing on disapperaning magnets (before step insertion)
 // TODO fix iterated line rotating (cached center point)
 // TODO deal with expr dependants, identify infinite resucrsion
 // TODO add global exception handler (for stack overflow too)
+// TODO deal with too many static members
 // TODO deal with removing steps with dependants
 // TODO scaling 0-width rect gets scale by NaN
 // TODO? fix order of iterative drawing

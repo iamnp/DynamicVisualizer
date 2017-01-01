@@ -77,10 +77,8 @@ namespace DynamicVisualizer.Expressions
                 var val = Evaluater.Evaluate(ExprString, _varEvaluater, IndexInArray);
                 CachedValue.SwitchTo(val.IsArray ? val.AsArray[IndexInArray] : val);
             }
-            catch (Exception ex)
+            catch
             {
-                var kx = ex;
-                var k = 1;
             }
 
             if (!IsWeak)

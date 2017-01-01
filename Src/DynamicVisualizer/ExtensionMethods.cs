@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Windows;
+﻿using System.Windows;
 
 namespace DynamicVisualizer
 {
@@ -9,11 +8,7 @@ namespace DynamicVisualizer
 
         public static string Str(this double d)
         {
-            if ((d < 1.0) && (d > -1.0))
-            {
-                return d.ToString(DoubleFixedPoint);
-            }
-            return d.ToString(CultureInfo.InvariantCulture);
+            return d.ToString(DoubleFixedPoint);
         }
 
         public static Point Move(this Point p, int x, int y)

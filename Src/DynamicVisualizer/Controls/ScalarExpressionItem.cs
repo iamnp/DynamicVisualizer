@@ -19,6 +19,8 @@ namespace DynamicVisualizer.Controls
             }
         }
 
+        public static event EventHandler ScalarExprEdited;
+
         public void MakeNotDummy()
         {
             textBox2.Visible = true;
@@ -64,8 +66,8 @@ namespace DynamicVisualizer.Controls
                         textBox2.Text = Expr.CachedValue.Str;
                         textBox1.Focus();
                         StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
-                        Form1.RedrawNeeded?.Invoke();
                     }
+                    ScalarExprEdited?.Invoke(this, EventArgs.Empty);
                 }
             }
         }

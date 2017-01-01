@@ -18,6 +18,8 @@ namespace DynamicVisualizer.Controls
             textBox2.Visible = false;
         }
 
+        public static event EventHandler ArrayExprEdited;
+
         private void OnTextBoxDragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -137,6 +139,7 @@ namespace DynamicVisualizer.Controls
                     ArrayExpressionEditor.Len = Expr.Exprs.Length;
                     textBox1.Focus();
                     StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+                    ArrayExprEdited?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
