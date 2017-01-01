@@ -55,11 +55,27 @@ namespace DynamicVisualizer.Expressions
         }
 
         public override bool CanBeRemoved => (UsedBy.Count == 0) && (_parentArray == null);
+        public event EventHandler ValueChanged;
 
         public void SetRawExpression(string rawExpr)
         {
             ExprString = rawExpr;
             Recalculate();
+        }
+
+        public void NotifyDependantArrays()
+        {
+            if (!IsWeak)
+            {
+                if (_parentArray != null)
+                {
+                    if (_parentArray.UsedBy.Count > 0)
+                    {
+                        _parentArray.UsedBy[0].NotifyDependantArrays();
+                    }
+                    _parentArray.ChildChanged();
+                }
+            }
         }
 
         public override void Recalculate()
@@ -101,6 +117,7 @@ namespace DynamicVisualizer.Expressions
                     }
                 }
             }
+            ValueChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

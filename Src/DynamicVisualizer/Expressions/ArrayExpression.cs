@@ -1,4 +1,6 @@
-﻿namespace DynamicVisualizer.Expressions
+﻿using System;
+
+namespace DynamicVisualizer.Expressions
 {
     public class ArrayExpression : Expression
     {
@@ -36,6 +38,8 @@
                 return UsedBy.Count == 0;
             }
         }
+
+        public event EventHandler ValueChanged;
 
         public void SetRawExpressions(string[] rawExprs)
         {
@@ -78,6 +82,11 @@
             return s;
         }
 
+        public void ChildChanged()
+        {
+            ValueChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         public override void Recalculate()
         {
             for (var i = 0; i < Exprs.Length; ++i)
@@ -93,6 +102,8 @@
                     Exprs[i].SetRawExpression(_exprsStrings[i]);
                 }
             }
+            Exprs[0].NotifyDependantArrays();
+            ValueChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

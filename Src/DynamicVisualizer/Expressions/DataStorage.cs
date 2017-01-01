@@ -12,7 +12,7 @@ namespace DynamicVisualizer.Expressions
             for (var i = 0; i < swaps.Length; ++i)
             {
                 Add(new ScalarExpression(swaps[i].Item1.ObjectName, swaps[i].Item1.VarName,
-                    swaps[i].Item1.CachedValue.AsDouble + "", true));
+                    swaps[i].Item1.CachedValue.AsDouble.Str(), true));
             }
 
             for (var i = 0; i < swaps.Length; ++i)

@@ -12,7 +12,6 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO fix not updating dependent array exprs
 // TODO add color variable with transparency
 // TODO text figure (extend line figure ?) with text variable
 // TODO fix exception when drawing on disapperaning magnets (before step insertion)
@@ -20,6 +19,7 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO deal with expr dependants, identify infinite resucrsion
 // TODO add global exception handler (for stack overflow too)
 // TODO deal with too many static members
+// TODO add 'eval-to-step' marker
 // TODO deal with removing steps with dependants
 // TODO scaling 0-width rect gets scale by NaN
 // TODO? fix order of iterative drawing
@@ -107,62 +107,65 @@ namespace DynamicVisualizer
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if ((StepManager.CurrentStep != null) && (ActiveControl.GetType() != typeof(ArrayExpressionItem))
+            if ((ActiveControl.GetType() != typeof(ArrayExpressionItem))
                 && (ActiveControl.GetType() != typeof(ScalarExpressionItem)) &&
                 (ActiveControl.GetType() != typeof(StepEditor)) && (ActiveControl.GetType() != typeof(GroupHeaderItem)))
             {
-                if (keyData == Keys.Up)
+                if (StepManager.CurrentStep != null)
                 {
-                    if (StepManager.CurrentStep.Iterations != -1)
+                    if (keyData == Keys.Up)
                     {
-                        StepManager.PrevIterationFromCurrentPos();
+                        if (StepManager.CurrentStep.Iterations != -1)
+                        {
+                            StepManager.PrevIterationFromCurrentPos();
+                        }
+                        else if (StepManager.CurrentStepIndex > 0)
+                        {
+                            StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex - 1);
+                        }
+                        return true;
                     }
-                    else if (StepManager.CurrentStepIndex > 0)
+                    if (keyData == Keys.Down)
                     {
-                        StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex - 1);
+                        if (StepManager.CurrentStep.Iterations != -1)
+                        {
+                            StepManager.NextIterationFromCurrentPos();
+                        }
+                        else if (StepManager.CurrentStepIndex < StepManager.Steps.Count - 1)
+                        {
+                            StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex + 1);
+                        }
+                        return true;
                     }
-                    return true;
-                }
-                if (keyData == Keys.Down)
-                {
-                    if (StepManager.CurrentStep.Iterations != -1)
-                    {
-                        StepManager.NextIterationFromCurrentPos();
-                    }
-                    else if (StepManager.CurrentStepIndex < StepManager.Steps.Count - 1)
-                    {
-                        StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex + 1);
-                    }
-                    return true;
-                }
 
-                if (keyData == Keys.Right)
-                {
-                    if ((StepManager.CurrentStep.Iterations != -1)
-                        && (StepManager.CurrentStep.CompletedIterations != StepManager.CurrentStep.Iterations))
+                    if (keyData == Keys.Right)
                     {
-                        StepManager.NextLoopFromCurrentPos();
+                        if ((StepManager.CurrentStep.Iterations != -1)
+                            && (StepManager.CurrentStep.CompletedIterations != StepManager.CurrentStep.Iterations))
+                        {
+                            StepManager.NextLoopFromCurrentPos();
+                        }
+                        return true;
                     }
-                    return true;
-                }
-                if (keyData == Keys.Left)
-                {
-                    if ((StepManager.CurrentStep.Iterations != -1) && (StepManager.CurrentStep.CompletedIterations != 0))
+                    if (keyData == Keys.Left)
                     {
-                        StepManager.PrevLoopFromCurrentPos();
+                        if ((StepManager.CurrentStep.Iterations != -1) &&
+                            (StepManager.CurrentStep.CompletedIterations != 0))
+                        {
+                            StepManager.PrevLoopFromCurrentPos();
+                        }
+                        return true;
                     }
-                    return true;
-                }
 
-                if (keyData == Keys.Delete)
-                {
-                    if (StepManager.CurrentStepIndex != -1)
+                    if (keyData == Keys.Delete)
                     {
-                        StepManager.Remove(StepManager.CurrentStepIndex);
+                        if (StepManager.CurrentStepIndex != -1)
+                        {
+                            StepManager.Remove(StepManager.CurrentStepIndex);
+                        }
+                        return true;
                     }
-                    return true;
                 }
-
                 if (_hotkeys.ContainsKey(keyData))
                 {
                     _hotkeys[keyData]();

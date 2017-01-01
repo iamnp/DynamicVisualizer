@@ -47,6 +47,7 @@ namespace DynamicVisualizer.Controls
             }
             ArrayExpressionEditor.Len = items.Length;
             Expr = DataStorage.Add(new ArrayExpression("data", textBox1.Text, items));
+            Expr.ValueChanged += ValueTextBoxLostFocus;
 
             textBox2.Text = Expr.CachedValue.Str;
             textBox1.Focus();
@@ -119,6 +120,7 @@ namespace DynamicVisualizer.Controls
                                 DataStorage.Add(new ArrayExpression("data", textBox1.Text, textBox2.Text,
                                     ArrayExpressionEditor.Len));
                         }
+                        Expr.ValueChanged += ValueTextBoxLostFocus;
                     }
                     else
                     {

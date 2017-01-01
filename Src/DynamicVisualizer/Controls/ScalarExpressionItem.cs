@@ -57,6 +57,7 @@ namespace DynamicVisualizer.Controls
                     {
                         Expr = DataStorage.Add(
                             new ScalarExpression("data", textBox1.Text, textBox2.Text));
+                        Expr.ValueChanged += ValueTextBoxLostFocus;
                         textBox2.Text = Expr.CachedValue.Str;
                         textBox1.Focus();
                     }
