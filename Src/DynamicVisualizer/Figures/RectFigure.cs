@@ -23,9 +23,10 @@ namespace DynamicVisualizer.Figures
         public RectFigure(string name)
         {
             Name = name;
+            FigureColor = new FigureColor(0, 0.5, 0, 1);
         }
 
-        public RectFigure()
+        public RectFigure() : this(null)
         {
             IsStatic = true;
         }
@@ -72,6 +73,11 @@ namespace DynamicVisualizer.Figures
 
         public override void Draw(DrawingContext dc)
         {
+            if (StaticLoopFigures.Count > 0)
+            {
+                return;
+            }
+
             var x = X.CachedValue.AsDouble;
             var width = Width.CachedValue.AsDouble;
             if (width < 0)
@@ -94,7 +100,7 @@ namespace DynamicVisualizer.Figures
             }
             else
             {
-                dc.DrawRectangle(Brushes.Green, StrokePen,
+                dc.DrawRectangle(FigureColor.Brush, StrokePen,
                     new Rect(x, y, width, height));
             }
         }

@@ -32,26 +32,30 @@ namespace DynamicVisualizer.Controls
                     label2.Text = "Y";
                     label3.Text = "Width";
                     label4.Text = "Height";
+                    label5.Text = "Color";
 
                     textBox1.Text = drs.X;
                     textBox2.Text = drs.Y;
                     textBox3.Text = drs.Width;
                     textBox4.Text = drs.Height;
+                    textBox5.Text = drs.Figure.FigureColor.StringExpr;
 
-                    ShowFirst(4);
+                    ShowFirst(5);
                 }
                 else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
                 {
-                    var drs = (DrawEllipseStep) ds;
+                    var des = (DrawEllipseStep) ds;
                     label1.Text = "X";
                     label2.Text = "Y";
                     label3.Text = "Radius";
+                    label4.Text = "Color";
 
-                    textBox1.Text = drs.X;
-                    textBox2.Text = drs.Y;
-                    textBox3.Text = drs.Radius;
+                    textBox1.Text = des.X;
+                    textBox2.Text = des.Y;
+                    textBox3.Text = des.Radius;
+                    textBox4.Text = des.Figure.FigureColor.StringExpr;
 
-                    ShowFirst(3);
+                    ShowFirst(4);
                 }
                 else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
                 {
@@ -60,13 +64,15 @@ namespace DynamicVisualizer.Controls
                     label2.Text = "Y";
                     label3.Text = "Width";
                     label4.Text = "Height";
+                    label5.Text = "Color";
 
                     textBox1.Text = dls.X;
                     textBox2.Text = dls.Y;
                     textBox3.Text = dls.Width;
                     textBox4.Text = dls.Height;
+                    textBox5.Text = dls.Figure.FigureColor.StringExpr;
 
-                    ShowFirst(4);
+                    ShowFirst(5);
                 }
             }
             else if (StepManager.CurrentStep is MoveStep)
@@ -202,6 +208,8 @@ namespace DynamicVisualizer.Controls
                 textBox3.Visible = false;
                 label4.Visible = false;
                 textBox4.Visible = false;
+                label5.Visible = false;
+                textBox5.Visible = false;
             }
             else if (n == 1)
             {
@@ -214,6 +222,8 @@ namespace DynamicVisualizer.Controls
                 textBox3.Visible = false;
                 label4.Visible = false;
                 textBox4.Visible = false;
+                label5.Visible = false;
+                textBox5.Visible = false;
             }
             else if (n == 2)
             {
@@ -226,6 +236,8 @@ namespace DynamicVisualizer.Controls
                 textBox3.Visible = false;
                 label4.Visible = false;
                 textBox4.Visible = false;
+                label5.Visible = false;
+                textBox5.Visible = false;
             }
             else if (n == 3)
             {
@@ -238,6 +250,8 @@ namespace DynamicVisualizer.Controls
 
                 label4.Visible = false;
                 textBox4.Visible = false;
+                label5.Visible = false;
+                textBox5.Visible = false;
             }
             else if (n == 4)
             {
@@ -249,6 +263,22 @@ namespace DynamicVisualizer.Controls
                 textBox3.Visible = true;
                 label4.Visible = true;
                 textBox4.Visible = true;
+
+                label5.Visible = false;
+                textBox5.Visible = false;
+            }
+            else if (n == 5)
+            {
+                label1.Visible = true;
+                textBox1.Visible = true;
+                label2.Visible = true;
+                textBox2.Visible = true;
+                label3.Visible = true;
+                textBox3.Visible = true;
+                label4.Visible = true;
+                textBox4.Visible = true;
+                label5.Visible = true;
+                textBox5.Visible = true;
             }
         }
 
@@ -444,6 +474,38 @@ namespace DynamicVisualizer.Controls
                 else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
                 {
                     ((DrawLineStep) ds).ReInitHeight(textBox4.Text);
+                }
+                else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
+                {
+                    ((DrawEllipseStep) ds).Figure.FigureColor.Parse(textBox4.Text);
+                }
+            }
+            if (StepManager.CurrentStep.Iterations != -1)
+            {
+                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+            }
+            else
+            {
+                Form1.RedrawNeeded?.Invoke();
+            }
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            if (_ignoreTextChanged)
+            {
+                return;
+            }
+            if (StepManager.CurrentStep is DrawStep)
+            {
+                var ds = (DrawStep) StepManager.CurrentStep;
+                if (ds.StepType == DrawStep.DrawStepType.DrawRect)
+                {
+                    ((DrawRectStep) ds).Figure.FigureColor.Parse(textBox5.Text);
+                }
+                else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
+                {
+                    ((DrawLineStep) ds).Figure.FigureColor.Parse(textBox5.Text);
                 }
             }
             if (StepManager.CurrentStep.Iterations != -1)

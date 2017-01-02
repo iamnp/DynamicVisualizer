@@ -18,9 +18,10 @@ namespace DynamicVisualizer.Figures
         public LineFigure(string name)
         {
             Name = name;
+            FigureColor = new FigureColor(0, 0.5, 0, 1);
         }
 
-        public LineFigure()
+        public LineFigure() : this(null)
         {
             IsStatic = true;
         }
@@ -54,6 +55,11 @@ namespace DynamicVisualizer.Figures
 
         public override void Draw(DrawingContext dc)
         {
+            if (StaticLoopFigures.Count > 0)
+            {
+                return;
+            }
+
             var x = X.CachedValue.AsDouble;
             var width = Width.CachedValue.AsDouble;
 
@@ -66,7 +72,7 @@ namespace DynamicVisualizer.Figures
             }
             else
             {
-                dc.DrawLine(StrokePen, new Point(x, y), new Point(x + width, y + height));
+                dc.DrawLine(FigureColor.Pen, new Point(x, y), new Point(x + width, y + height));
             }
         }
 

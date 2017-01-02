@@ -12,7 +12,6 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO add color variable with transparency
 // TODO text figure (extend line figure ?) with text variable
 // TODO fix exception when drawing on disapperaning magnets (before step insertion)
 // TODO fix iterated line rotating (cached center point)

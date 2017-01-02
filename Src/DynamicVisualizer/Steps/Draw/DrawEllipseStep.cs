@@ -90,6 +90,8 @@ namespace DynamicVisualizer.Steps.Draw
                 StepManager.Figures.Add(EllipseFigure);
             }
 
+            Figure.FigureColor.SetIndex(0);
+
             if ((EllipseFigure.X == null) || !Applied)
             {
                 EllipseFigure.X = DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, Figure.IsGuide));
@@ -146,6 +148,8 @@ namespace DynamicVisualizer.Steps.Draw
 
             EllipseFigure.Radius2.IndexInArray = CompletedIterations;
             EllipseFigure.Radius2.SetRawExpression(Radius);
+
+            Figure.FigureColor.SetIndex(CompletedIterations);
         }
 
         public override void CopyStaticFigure()
@@ -160,7 +164,8 @@ namespace DynamicVisualizer.Steps.Draw
                 X = new ScalarExpression("a", "a", EllipseFigure.X.CachedValue.Str),
                 Y = new ScalarExpression("a", "a", EllipseFigure.Y.CachedValue.Str),
                 Radius1 = new ScalarExpression("a", "a", EllipseFigure.Radius1.CachedValue.Str),
-                Radius2 = new ScalarExpression("a", "a", EllipseFigure.Radius2.CachedValue.Str)
+                Radius2 = new ScalarExpression("a", "a", EllipseFigure.Radius2.CachedValue.Str),
+                FigureColor = EllipseFigure.FigureColor.Copy()
             };
             Figure.StaticLoopFigures.Add(rf);
             StepManager.Figures.Add(rf);

@@ -107,6 +107,8 @@ namespace DynamicVisualizer.Steps.Draw
                 StepManager.Figures.Add(LineFigure);
             }
 
+            Figure.FigureColor.SetIndex(0);
+
             if ((LineFigure.X == null) || !Applied)
             {
                 LineFigure.X = DataStorage.Add(new ScalarExpression(Figure.Name, "x", X, Figure.IsGuide));
@@ -145,7 +147,6 @@ namespace DynamicVisualizer.Steps.Draw
 
             Applied = true;
 
-
             CopyStaticFigure();
         }
 
@@ -162,6 +163,8 @@ namespace DynamicVisualizer.Steps.Draw
 
             LineFigure.Height.IndexInArray = CompletedIterations;
             LineFigure.Height.SetRawExpression(Height);
+
+            Figure.FigureColor.SetIndex(CompletedIterations);
         }
 
         public override void CopyStaticFigure()
@@ -176,7 +179,8 @@ namespace DynamicVisualizer.Steps.Draw
                 X = new ScalarExpression("a", "a", LineFigure.X.CachedValue.Str),
                 Y = new ScalarExpression("a", "a", LineFigure.Y.CachedValue.Str),
                 Width = new ScalarExpression("a", "a", LineFigure.Width.CachedValue.Str),
-                Height = new ScalarExpression("a", "a", LineFigure.Height.CachedValue.Str)
+                Height = new ScalarExpression("a", "a", LineFigure.Height.CachedValue.Str),
+                FigureColor = LineFigure.FigureColor.Copy()
             };
             Figure.StaticLoopFigures.Add(lf);
             StepManager.Figures.Add(lf);

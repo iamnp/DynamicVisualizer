@@ -19,9 +19,10 @@ namespace DynamicVisualizer.Figures
         public EllipseFigure(string name)
         {
             Name = name;
+            FigureColor = new FigureColor(0, 0.5, 0, 1);
         }
 
-        public EllipseFigure()
+        public EllipseFigure() : this(null)
         {
             IsStatic = true;
         }
@@ -59,6 +60,11 @@ namespace DynamicVisualizer.Figures
 
         public override void Draw(DrawingContext dc)
         {
+            if (StaticLoopFigures.Count > 0)
+            {
+                return;
+            }
+
             var r1 = Radius1.CachedValue.AsDouble;
             var r2 = Radius2.CachedValue.AsDouble;
             if (IsGuide)
@@ -68,7 +74,7 @@ namespace DynamicVisualizer.Figures
             }
             else
             {
-                dc.DrawEllipse(Brushes.Green, StrokePen,
+                dc.DrawEllipse(FigureColor.Brush, StrokePen,
                     new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble), r1, r2);
             }
         }
