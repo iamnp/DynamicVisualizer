@@ -11,8 +11,8 @@ namespace DynamicVisualizer.Controls
         private readonly List<StepItem> _stepControls = new List<StepItem>();
         public readonly List<StepItem> MarkedControls = new List<StepItem>();
         private StepItem _currentSelection;
-        public Form1 Form1;
         public bool IgnoreMarkAsSelected;
+        public MainForm MainForm;
 
         public StepListControl()
         {
@@ -148,8 +148,8 @@ namespace DynamicVisualizer.Controls
                 _currentSelection.BackColor = Color.Aqua;
                 ScrollControlIntoView(_currentSelection);
             }
-            Form1.RedrawNeeded?.Invoke();
-            Form1.PerformFigureSelection(_currentSelection?.Step.Figure);
+            MainForm.RedrawNeeded?.Invoke();
+            MainForm.PerformFigureSelection(_currentSelection?.Step.Figure);
         }
 
         private void OnMouseClick(object sender, MouseEventArgs e)

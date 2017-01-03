@@ -473,7 +473,7 @@ namespace DynamicVisualizer.Controls
             }
             else
             {
-                Form1.RedrawNeeded?.Invoke();
+                MainForm.RedrawNeeded?.Invoke();
             }
         }
 
@@ -541,7 +541,7 @@ namespace DynamicVisualizer.Controls
             }
             else
             {
-                Form1.RedrawNeeded?.Invoke();
+                MainForm.RedrawNeeded?.Invoke();
             }
         }
 
@@ -577,7 +577,7 @@ namespace DynamicVisualizer.Controls
             }
             else
             {
-                Form1.RedrawNeeded?.Invoke();
+                MainForm.RedrawNeeded?.Invoke();
             }
         }
 
@@ -613,7 +613,7 @@ namespace DynamicVisualizer.Controls
             }
             else
             {
-                Form1.RedrawNeeded?.Invoke();
+                MainForm.RedrawNeeded?.Invoke();
             }
         }
 
@@ -645,7 +645,7 @@ namespace DynamicVisualizer.Controls
             }
             else
             {
-                Form1.RedrawNeeded?.Invoke();
+                MainForm.RedrawNeeded?.Invoke();
             }
         }
 
@@ -669,7 +669,7 @@ namespace DynamicVisualizer.Controls
             }
             else
             {
-                Form1.RedrawNeeded?.Invoke();
+                MainForm.RedrawNeeded?.Invoke();
             }
         }
     }

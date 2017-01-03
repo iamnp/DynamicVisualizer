@@ -6,11 +6,11 @@ namespace DynamicVisualizer
 {
     internal class MainGraphicOutput : Control
     {
-        public Action<DrawingContext> DrawingFunc;
+        public Action<DrawingContext, bool> DrawingFunc;
 
         protected override void OnRender(DrawingContext dc)
         {
-            DrawingFunc?.Invoke(dc);
+            DrawingFunc?.Invoke(dc, false);
         }
     }
 }

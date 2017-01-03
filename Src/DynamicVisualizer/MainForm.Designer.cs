@@ -2,7 +2,7 @@
 
 namespace DynamicVisualizer
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -61,6 +61,7 @@ namespace DynamicVisualizer
             this.oLabel = new System.Windows.Forms.Label();
             this.gLabel = new System.Windows.Forms.Label();
             this.pLabel = new System.Windows.Forms.Label();
+            this.exportButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // elementHost1
@@ -231,9 +232,9 @@ namespace DynamicVisualizer
             // addStepLoopedLabel
             // 
             this.addStepLoopedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addStepLoopedLabel.Location = new System.Drawing.Point(1255, 605);
+            this.addStepLoopedLabel.Location = new System.Drawing.Point(1225, 605);
             this.addStepLoopedLabel.Name = "addStepLoopedLabel";
-            this.addStepLoopedLabel.Size = new System.Drawing.Size(70, 20);
+            this.addStepLoopedLabel.Size = new System.Drawing.Size(100, 20);
             this.addStepLoopedLabel.TabIndex = 23;
             this.addStepLoopedLabel.Text = "Looped";
             this.addStepLoopedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -393,11 +394,22 @@ namespace DynamicVisualizer
             this.pLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.pLabel.Click += new System.EventHandler(this.loopLabel_Click);
             // 
-            // Form1
+            // exportButton
+            // 
+            this.exportButton.Location = new System.Drawing.Point(1204, 677);
+            this.exportButton.Name = "exportButton";
+            this.exportButton.Size = new System.Drawing.Size(150, 23);
+            this.exportButton.TabIndex = 35;
+            this.exportButton.Text = "Export";
+            this.exportButton.UseVisualStyleBackColor = true;
+            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 700);
+            this.Controls.Add(this.exportButton);
             this.Controls.Add(this.pLabel);
             this.Controls.Add(this.gLabel);
             this.Controls.Add(this.oLabel);
@@ -431,7 +443,7 @@ namespace DynamicVisualizer
             this.Controls.Add(this.elementHost1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dynamic Visualizer";
             this.ResumeLayout(false);
@@ -471,6 +483,7 @@ namespace DynamicVisualizer
         private System.Windows.Forms.Label oLabel;
         private System.Windows.Forms.Label gLabel;
         private System.Windows.Forms.Label pLabel;
+        private System.Windows.Forms.Button exportButton;
     }
 }
 

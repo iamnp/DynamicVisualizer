@@ -16,7 +16,7 @@ namespace DynamicVisualizer.Figures
         {
             _text = new ScalarExpression("a", "a", text, index, true);
             _size = new ScalarExpression("a", "a", size, index, true);
-            FormattedText = Text;
+            FormattedText = GetText();
             StringExpr = text + ";" + size;
         }
 
@@ -26,36 +26,35 @@ namespace DynamicVisualizer.Figures
         {
         }
 
-        private FormattedText Text
+        private FormattedText GetText()
         {
-            get
+            if (_text.CachedValue.Empty || _size.CachedValue.Empty || !_size.CachedValue.IsDouble ||
+                (_size.CachedValue.AsDouble < 0.0))
             {
-                if (_text.CachedValue.Empty || _size.CachedValue.Empty || !_size.CachedValue.IsDouble ||
-                    (_size.CachedValue.AsDouble < 0.0))
-                {
-                    return new FormattedText(
-                        "",
-                        CultureInfo.CurrentUICulture,
-                        FlowDirection.LeftToRight,
-                        new Typeface("Verdana"),
-                        14,
-                        Brushes.Black)
-                    {
-                        TextAlignment = TextAlignment.Center
-                    };
-                }
-
                 return new FormattedText(
-                    _text.CachedValue.Str,
+                    "",
                     CultureInfo.CurrentUICulture,
                     FlowDirection.LeftToRight,
                     new Typeface("Verdana"),
-                    _size.CachedValue.AsDouble,
+                    14,
                     Brushes.Black)
                 {
-                    TextAlignment = TextAlignment.Center
+                    TextAlignment = TextAlignment.Center,
+                    Trimming = TextTrimming.None
                 };
             }
+
+            return new FormattedText(
+                _text.CachedValue.Str,
+                CultureInfo.CurrentUICulture,
+                FlowDirection.LeftToRight,
+                new Typeface("Verdana"),
+                _size.CachedValue.AsDouble,
+                Brushes.Black)
+            {
+                TextAlignment = TextAlignment.Center,
+                Trimming = TextTrimming.None
+            };
         }
 
         public void Parse(string s)
@@ -69,7 +68,7 @@ namespace DynamicVisualizer.Figures
 
             _text.SetRawExpression(p[0]);
             _size.SetRawExpression(p[1]);
-            FormattedText = Text;
+            FormattedText = GetText();
         }
 
         public void SetIndex(int index)

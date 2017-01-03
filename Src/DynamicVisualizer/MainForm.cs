@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using DynamicVisualizer.Controls;
 using DynamicVisualizer.Expressions;
 using DynamicVisualizer.Figures;
 using DynamicVisualizer.Manipulators;
 using DynamicVisualizer.Steps;
+using MessageBox = System.Windows.Forms.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
@@ -17,13 +20,15 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO add global exception handler (for stack overflow too)
 // TODO deal with too many static members
 // TODO add 'eval-to-step' marker
+// TODO add empty steps to view results
+// TODO add pos func to get array's item position
 // TODO deal with removing steps with dependants
 // TODO scaling 0-width rect gets scale by NaN
 // TODO? fix order of iterative drawing
 
 namespace DynamicVisualizer
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private const int CanvasWidth = 800;
         private const int CanvasHeight = 600;
@@ -46,7 +51,7 @@ namespace DynamicVisualizer
         private Figure _selected;
         private TransformStep.TransformType _transformType = TransformStep.TransformType.Move;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -68,7 +73,7 @@ namespace DynamicVisualizer
 
             StepManager.StepEditor = stepEditor1;
             StepManager.StepListControl = _stepListControl1;
-            _stepListControl1.Form1 = this;
+            _stepListControl1.MainForm = this;
 
             DataStorage.Add(new ScalarExpression("canvas", "height", CanvasHeight.ToString()));
             DataStorage.Add(new ScalarExpression("canvas", "width", CanvasWidth.ToString()));
@@ -180,45 +185,63 @@ namespace DynamicVisualizer
             stepEditor1.Redraw();
         }
 
-        private void DrawScene(DrawingContext dc)
+        private void DrawScene(DrawingContext dc, bool forExport)
         {
-            dc.DrawRectangle(Brushes.LightGray, null, _hostRect);
-            dc.PushTransform(_canvasTranslate);
-            dc.DrawRectangle(null, _canvasStroke, _canvasRect);
-            dc.DrawRectangle(Brushes.White, null, _canvasRect);
-
-            foreach (var magnet in StepManager.CanvasMagnets)
+            if (forExport)
             {
-                magnet.Draw(dc, false);
-            }
+                dc.DrawRectangle(Brushes.White, null, _canvasRect);
 
-            foreach (var figure in StepManager.Figures)
-            {
-                figure.Draw(dc);
-            }
-
-            foreach (var figure in StepManager.Figures)
-            {
-                if (figure.IsSelected || _figureMover.NowMoving || _figureDrawer.NowDrawing ||
-                    _figureResizer.NowResizing)
+                foreach (var figure in StepManager.Figures)
                 {
-                    if (figure.IsSelected)
+                    if (!figure.IsGuide)
                     {
-                        foreach (var magnet in figure.GetMagnets())
-                        {
-                            magnet.Draw(dc, true);
-                        }
+                        figure.Draw(dc);
                     }
-                    else
+                }
+            }
+            else
+            {
+                dc.DrawRectangle(Brushes.LightGray, null, _hostRect);
+                dc.PushTransform(_canvasTranslate);
+                dc.DrawRectangle(null, _canvasStroke, _canvasRect);
+                dc.DrawRectangle(Brushes.White, null, _canvasRect);
+
+
+                foreach (var magnet in StepManager.CanvasMagnets)
+                {
+                    magnet.Draw(dc, false);
+                }
+
+
+                foreach (var figure in StepManager.Figures)
+                {
+                    figure.Draw(dc);
+                }
+
+
+                foreach (var figure in StepManager.Figures)
+                {
+                    if (figure.IsSelected || _figureMover.NowMoving || _figureDrawer.NowDrawing ||
+                        _figureResizer.NowResizing)
                     {
-                        var magnets = figure.GetMagnets();
-                        if (magnets == null)
+                        if (figure.IsSelected)
                         {
-                            continue;
+                            foreach (var magnet in figure.GetMagnets())
+                            {
+                                magnet.Draw(dc, true);
+                            }
                         }
-                        foreach (var magnet in magnets)
+                        else
                         {
-                            magnet.Draw(dc, false);
+                            var magnets = figure.GetMagnets();
+                            if (magnets == null)
+                            {
+                                continue;
+                            }
+                            foreach (var magnet in magnets)
+                            {
+                                magnet.Draw(dc, false);
+                            }
                         }
                     }
                 }
@@ -488,6 +511,46 @@ namespace DynamicVisualizer
                 addStepLoopedLabel.Text = "Looped";
                 StepManager.AddStepLooped = true;
             }
+        }
+
+        private void exportButton_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog {Filter = @"PNG files (*.png)|*.png"})
+            {
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    try
+                    {
+                        var pngBytes = GetScenePngBytes();
+                        File.WriteAllBytes(dialog.FileName, pngBytes);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Произошла ошибка при сохранении файла!\n" + ex.Message);
+                    }
+                }
+            }
+        }
+
+        public byte[] GetScenePngBytes()
+        {
+            var rtb = new RenderTargetBitmap(CanvasWidth, CanvasHeight,
+                96,
+                96, PixelFormats.Default);
+
+            var dv = new DrawingVisual();
+            using (var dc = dv.RenderOpen())
+            {
+                DrawScene(dc, true);
+            }
+            rtb.Render(dv);
+
+            BitmapEncoder pngEncoder = new PngBitmapEncoder();
+            pngEncoder.Frames.Add(BitmapFrame.Create(rtb));
+            var ms = new MemoryStream();
+            pngEncoder.Save(ms);
+            ms.Close();
+            return ms.ToArray();
         }
     }
 }
