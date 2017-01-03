@@ -6,7 +6,8 @@
         {
             MoveRect,
             MoveEllipse,
-            MoveLine
+            MoveLine,
+            MoveText
         }
 
         public abstract MoveStepType StepType { get; }

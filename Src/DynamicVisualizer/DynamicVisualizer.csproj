@@ -72,7 +72,9 @@
     <Compile Include="Controls\ScalarExpressionItem.Designer.cs">
       <DependentUpon>ScalarExpressionItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Figures\FigureText.cs" />
     <Compile Include="Figures\FigureColor.cs" />
+    <Compile Include="Figures\TextFigure.cs" />
     <Compile Include="Figures\LineFigure.cs" />
     <Compile Include="Manipulators\FigureDrawer.cs" />
     <Compile Include="Manipulators\FigureMover.cs" />
@@ -83,9 +85,13 @@
     <Compile Include="Expressions\DataStorage.cs" />
     <Compile Include="Figures\EllipseFigure.cs" />
     <Compile Include="Figures\Magnet.cs" />
+    <Compile Include="Steps\Draw\DrawTextStep.cs" />
+    <Compile Include="Steps\Move\MoveTextStep.cs" />
+    <Compile Include="Steps\Resize\ResizeTextStep.cs" />
     <Compile Include="Steps\RotateStep.cs" />
     <Compile Include="Steps\ResizeStep.cs" />
     <Compile Include="Steps\Resize\ResizeLineStep.cs" />
+    <Compile Include="Steps\Rotate\RotateTextStep.cs" />
     <Compile Include="Steps\Rotate\RotateLineStep.cs" />
     <Compile Include="Steps\ScaleStep.cs" />
     <Compile Include="Steps\Draw\DrawEllipseStep.cs" />
@@ -109,6 +115,7 @@
     <Compile Include="Steps\Resize\ResizeEllipseStep.cs" />
     <Compile Include="Steps\Scale\ScaleEllipseStep.cs" />
     <Compile Include="Steps\Resize\ResizeRectStep.cs" />
+    <Compile Include="Steps\Scale\ScaleTextStep.cs" />
     <Compile Include="Steps\Scale\ScaleLineStep.cs" />
     <Compile Include="Steps\Scale\ScaleRectStep.cs" />
     <Compile Include="MainGraphicOutput.cs" />

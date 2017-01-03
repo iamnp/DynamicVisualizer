@@ -12,7 +12,6 @@ using DynamicVisualizer.Steps;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO text figure (extend line figure ?) with text variable
 // TODO fix exception when drawing on disapperaning magnets (before step insertion)
 // TODO fix iterated line rotating (cached center point)
 // TODO deal with expr dependants, identify infinite resucrsion
@@ -57,12 +56,13 @@ namespace DynamicVisualizer
                 {Keys.R, () => rectLabel_Click(rectLabel, EventArgs.Empty)},
                 {Keys.C, () => circleLabel_Click(circleLabel, EventArgs.Empty)},
                 {Keys.L, () => lineLabel_Click(lineLabel, EventArgs.Empty)},
+                {Keys.T, () => textLabel_Click(textLabel, EventArgs.Empty)},
                 {Keys.M, () => moveLabel_Click(moveLabel, EventArgs.Empty)},
                 {Keys.S, () => scaleLabel_Click(scaleLabel, EventArgs.Empty)},
-                {Keys.T, () => rotateLabel_Click(rotateLabel, EventArgs.Empty)},
                 {Keys.E, () => resizeLabel_Click(resizeLabel, EventArgs.Empty)},
+                {Keys.O, () => rotateLabel_Click(rotateLabel, EventArgs.Empty)},
                 {Keys.G, () => guideLabel_Click(guideLabel, EventArgs.Empty)},
-                {Keys.O, () => loopLabel_Click(loopLabel, EventArgs.Empty)}
+                {Keys.P, () => loopLabel_Click(loopLabel, EventArgs.Empty)}
             };
 
             RedrawNeeded = Redraw;
@@ -378,6 +378,7 @@ namespace DynamicVisualizer
             rectLabel.ForeColor = SystemColors.ControlText;
             circleLabel.ForeColor = SystemColors.ControlDark;
             lineLabel.ForeColor = SystemColors.ControlDark;
+            textLabel.ForeColor = SystemColors.ControlDark;
         }
 
         private void circleLabel_Click(object sender, EventArgs e)
@@ -386,6 +387,7 @@ namespace DynamicVisualizer
             circleLabel.ForeColor = SystemColors.ControlText;
             rectLabel.ForeColor = SystemColors.ControlDark;
             lineLabel.ForeColor = SystemColors.ControlDark;
+            textLabel.ForeColor = SystemColors.ControlDark;
         }
 
         private void lineLabel_Click(object sender, EventArgs e)
@@ -394,6 +396,16 @@ namespace DynamicVisualizer
             circleLabel.ForeColor = SystemColors.ControlDark;
             rectLabel.ForeColor = SystemColors.ControlDark;
             lineLabel.ForeColor = SystemColors.ControlText;
+            textLabel.ForeColor = SystemColors.ControlDark;
+        }
+
+        private void textLabel_Click(object sender, EventArgs e)
+        {
+            _figureDrawer.DrawStepType = DrawStep.DrawStepType.DrawText;
+            circleLabel.ForeColor = SystemColors.ControlDark;
+            rectLabel.ForeColor = SystemColors.ControlDark;
+            lineLabel.ForeColor = SystemColors.ControlDark;
+            textLabel.ForeColor = SystemColors.ControlText;
         }
 
         private void moveLabel_Click(object sender, EventArgs e)

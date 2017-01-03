@@ -6,7 +6,8 @@ namespace DynamicVisualizer.Steps
         {
             DrawRect,
             DrawEllipse,
-            DrawLine
+            DrawLine,
+            DrawText
         }
 
         public string EndDef;

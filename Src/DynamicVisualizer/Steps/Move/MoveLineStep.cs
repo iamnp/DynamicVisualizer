@@ -33,7 +33,7 @@ namespace DynamicVisualizer.Steps.Move
         {
             if ((what == null) || (where == null))
             {
-                Def = string.Format("Move {0}, {1} horizontally, {2} vertically)", LineFigure.Name, X, Y);
+                Def = string.Format("Move {0}, {1} horizontally, {2} vertically", LineFigure.Name, X, Y);
             }
             else
             {

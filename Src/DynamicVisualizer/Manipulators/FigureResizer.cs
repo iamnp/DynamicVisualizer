@@ -229,6 +229,60 @@ namespace DynamicVisualizer.Manipulators
             }
         }
 
+        private void ResizeText(TextFigure tf, Point pos)
+        {
+            if (_nowResizing == null)
+            {
+                var snappedTo = StepManager.SnapTo(pos, tf.GetMagnets(), tf.Center);
+                if (snappedTo == tf.Start)
+                {
+                    _nowResizing = new ResizeTextStep(tf, ResizeTextStep.Side.End, pos.X - _downPos.X,
+                        pos.Y - _downPos.Y);
+                }
+                else if (snappedTo == tf.End)
+                {
+                    _nowResizing = new ResizeTextStep(tf, ResizeTextStep.Side.Start, pos.X - _downPos.X,
+                        pos.Y - _downPos.Y);
+                }
+                if (_nowResizing == null)
+                {
+                    return;
+                }
+                StepManager.InsertNext(_nowResizing);
+            }
+            else
+            {
+                var rts = (ResizeTextStep) _nowResizing;
+                var snapped = StepManager.Snap(pos, _nowResizing.Figure);
+                if (snapped != null)
+                {
+                    if (rts.ResizeAround == ResizeTextStep.Side.End)
+                    {
+                        rts.Resize("(" + snapped.X.ExprString + ") - " + rts.Figure.Name + ".x",
+                            "(" + snapped.Y.ExprString + ") - " + rts.Figure.Name + ".y", snapped.Def);
+                    }
+                    else if (rts.ResizeAround == ResizeTextStep.Side.Start)
+                    {
+                        rts.Resize("(" + snapped.X.ExprString + ") - (" + rts.Figure.Name + ".x + (" +
+                                   rts.Figure.Name + ".width))",
+                            "(" + snapped.Y.ExprString + ") - (" + rts.Figure.Name + ".y + (" +
+                            rts.Figure.Name + ".height))", snapped.Def);
+                    }
+                }
+                else
+                {
+                    if (rts.ResizeAround == ResizeTextStep.Side.End)
+                    {
+                        rts.Resize(pos.X - _downPos.X, pos.Y - _downPos.Y);
+                    }
+                    else if (rts.ResizeAround == ResizeTextStep.Side.Start)
+                    {
+                        rts.Resize(pos.X - _downPos.X, pos.Y - _downPos.Y);
+                    }
+                }
+            }
+        }
+
         public void Move(Figure selected, Point pos)
         {
             switch (selected.Type)
@@ -244,6 +298,10 @@ namespace DynamicVisualizer.Manipulators
                 case Figure.FigureType.Line:
                     _moved = true;
                     ResizeLine((LineFigure) selected, pos);
+                    break;
+                case Figure.FigureType.Text:
+                    _moved = true;
+                    ResizeText((TextFigure) selected, pos);
                     break;
             }
 

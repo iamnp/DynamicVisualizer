@@ -4,7 +4,8 @@
     {
         public enum RotateStepType
         {
-            RotateLine
+            RotateLine,
+            RotateText
         }
 
         public abstract RotateStepType StepType { get; }

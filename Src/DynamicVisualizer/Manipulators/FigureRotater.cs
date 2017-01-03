@@ -86,6 +86,57 @@ namespace DynamicVisualizer.Manipulators
             }
         }
 
+        private void RotateText(TextFigure tf, Point pos)
+        {
+            if (_nowRotating == null)
+            {
+                var snappedTo = StepManager.SnapTo(pos, tf.GetMagnets(), tf.Center);
+                if (snappedTo == tf.Start)
+                {
+                    var angle = AngleBetween(tf.X.CachedValue.AsDouble + tf.Width.CachedValue.AsDouble - pos.X,
+                        tf.Y.CachedValue.AsDouble + tf.Height.CachedValue.AsDouble - pos.Y,
+                        tf.Width.CachedValue.AsDouble,
+                        tf.Height.CachedValue.AsDouble);
+
+                    _nowRotating = new RotateTextStep(tf, RotateTextStep.Side.End,
+                        angle / (2 * Math.PI));
+                }
+                else if (snappedTo == tf.End)
+                {
+                    var angle = AngleBetween(pos.X - tf.X.CachedValue.AsDouble, pos.Y - tf.Y.CachedValue.AsDouble,
+                        tf.Width.CachedValue.AsDouble, tf.Height.CachedValue.AsDouble);
+
+                    _nowRotating = new RotateTextStep(tf, RotateTextStep.Side.Start,
+                        angle / (2 * Math.PI));
+                }
+                if (_nowRotating == null)
+                {
+                    return;
+                }
+                StepManager.InsertNext(_nowRotating);
+            }
+            else
+            {
+                var rls = (RotateTextStep) _nowRotating;
+
+                if (rls.RotateAround == RotateTextStep.Side.Start)
+                {
+                    var angle = AngleBetween(pos.X - rls.XCachedDouble, pos.Y - rls.YCachedDouble,
+                        rls.WidthOrig, rls.HeightOrig);
+
+                    rls.Rotate(angle / (2 * Math.PI));
+                }
+                else if (rls.RotateAround == RotateTextStep.Side.End)
+                {
+                    var angle = AngleBetween(rls.XCachedDouble + rls.WidthOrig - pos.X,
+                        rls.YCachedDouble + rls.HeightOrig - pos.Y,
+                        rls.WidthOrig, rls.HeightOrig);
+
+                    rls.Rotate(angle / (2 * Math.PI));
+                }
+            }
+        }
+
         public void Move(Figure selected, Point pos)
         {
             switch (selected.Type)
@@ -93,6 +144,10 @@ namespace DynamicVisualizer.Manipulators
                 case Figure.FigureType.Line:
                     _moved = true;
                     RotateLine((LineFigure) selected, pos);
+                    break;
+                case Figure.FigureType.Text:
+                    _moved = true;
+                    RotateText((TextFigure) selected, pos);
                     break;
             }
 

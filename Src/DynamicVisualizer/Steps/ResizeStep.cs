@@ -6,7 +6,8 @@
         {
             ResizeRect,
             ResizeEllipse,
-            ResizeLine
+            ResizeLine,
+            ResizeText
         }
 
         public abstract ResizeStepType StepType { get; }

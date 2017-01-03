@@ -43,6 +43,16 @@ namespace DynamicVisualizer.Manipulators
             return new DrawLineStep(snapped.X.ExprString, snapped.Y.ExprString, "0", "0", snapped.Def);
         }
 
+        private DrawTextStep StartDrawText()
+        {
+            var snapped = StepManager.Snap(_startPos);
+            if (snapped == null)
+            {
+                return new DrawTextStep(_startPos.X, _startPos.Y, 0, 0);
+            }
+            return new DrawTextStep(snapped.X.ExprString, snapped.Y.ExprString, "0", "0", snapped.Def);
+        }
+
         public void Start(Point pos)
         {
             _startPos = pos;
@@ -57,6 +67,9 @@ namespace DynamicVisualizer.Manipulators
                     break;
                 case DrawStep.DrawStepType.DrawLine:
                     _nowDrawing = StartDrawLine();
+                    break;
+                case DrawStep.DrawStepType.DrawText:
+                    _nowDrawing = StartDrawText();
                     break;
             }
 
@@ -117,6 +130,21 @@ namespace DynamicVisualizer.Manipulators
             }
         }
 
+        private void ResizeDrawnText(Point pos)
+        {
+            var snapped = StepManager.Snap(pos, _nowDrawing.Figure);
+            if (snapped == null)
+            {
+                ((DrawTextStep) _nowDrawing).ReInit(pos.X - _startPos.X, pos.Y - _startPos.Y);
+            }
+            else
+            {
+                ((DrawTextStep) _nowDrawing).ReInit(
+                    "(" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x",
+                    "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y", snapped.Def);
+            }
+        }
+
         public void Move(Point pos)
         {
             if (_nowDrawing != null)
@@ -131,6 +159,9 @@ namespace DynamicVisualizer.Manipulators
                         break;
                     case DrawStep.DrawStepType.DrawLine:
                         ResizeDrawnLine(pos);
+                        break;
+                    case DrawStep.DrawStepType.DrawText:
+                        ResizeDrawnText(pos);
                         break;
                 }
                 if (_nowDrawing.Iterations != -1)

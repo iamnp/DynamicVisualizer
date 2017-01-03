@@ -189,6 +189,51 @@ namespace DynamicVisualizer.Manipulators
             }
         }
 
+        private void MoveText(TextFigure tf, Point pos)
+        {
+            if (_nowMoving == null)
+            {
+                _nowMoving = new MoveTextStep(tf, pos.X - _downPos.X, pos.Y - _downPos.Y);
+                StepManager.InsertNext(_nowMoving);
+            }
+            else
+            {
+                var snapped = StepManager.Snap(pos, _nowMoving.Figure);
+                Magnet snappedBy;
+                if ((snapped != null) &&
+                    ((snappedBy = StepManager.SnapTo(pos, _nowMoving.Figure.GetMagnets())) != null))
+                {
+                    if (snappedBy.EqualExprStrings(tf.Start))
+                    {
+                        ((MoveTextStep) _nowMoving).Move(
+                            "(" + snapped.X.ExprString + ") - (" + _nowMoving.Figure.Name + ".x)",
+                            "(" + snapped.Y.ExprString + ") - (" + _nowMoving.Figure.Name + ".y)", snappedBy.Def,
+                            snapped.Def);
+                    }
+                    else if (snappedBy.EqualExprStrings(tf.Center))
+                    {
+                        ((MoveTextStep) _nowMoving).Move(
+                            "((" + snapped.X.ExprString + ") - (" + tf.Name + ".width/2)) - (" + _nowMoving.Figure.Name +
+                            ".x)",
+                            "((" + snapped.Y.ExprString + ") - (" + tf.Name + ".height/2)) - (" + _nowMoving.Figure.Name +
+                            ".y)", snappedBy.Def, snapped.Def);
+                    }
+                    else if (snappedBy.EqualExprStrings(tf.End))
+                    {
+                        ((MoveTextStep) _nowMoving).Move(
+                            "((" + snapped.X.ExprString + ") - (" + tf.Name + ".width)) - (" + _nowMoving.Figure.Name +
+                            ".x)",
+                            "((" + snapped.Y.ExprString + ") - (" + tf.Name + ".height)) - (" + _nowMoving.Figure.Name +
+                            ".y)", snappedBy.Def, snapped.Def);
+                    }
+                }
+                else
+                {
+                    ((MoveTextStep) _nowMoving).Move(pos.X - _downPos.X, pos.Y - _downPos.Y);
+                }
+            }
+        }
+
         public void Move(Figure selected, Point pos)
         {
             switch (selected.Type)
@@ -204,6 +249,10 @@ namespace DynamicVisualizer.Manipulators
                 case Figure.FigureType.Line:
                     _moved = true;
                     MoveLine((LineFigure) selected, pos);
+                    break;
+                case Figure.FigureType.Text:
+                    _moved = true;
+                    MoveText((TextFigure) selected, pos);
                     break;
             }
 

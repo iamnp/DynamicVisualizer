@@ -6,7 +6,8 @@
         {
             ScaleRect,
             ScaleEllipse,
-            ScaleLine
+            ScaleLine,
+            ScaleText
         }
 
         public abstract ScaleStepType StepType { get; }

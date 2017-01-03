@@ -197,6 +197,70 @@ namespace DynamicVisualizer.Manipulators
             }
         }
 
+        private void ScaleText(TextFigure tf, Point pos)
+        {
+            if (_nowScaling == null)
+            {
+                var snappedTo = StepManager.SnapTo(pos, tf.GetMagnets(), tf.Center);
+                if (snappedTo == tf.Start)
+                {
+                    var bx = tf.Width.CachedValue.AsDouble;
+                    var by = tf.Height.CachedValue.AsDouble;
+                    var bLenSquared = bx * bx + by * by;
+
+                    var ax = tf.X.CachedValue.AsDouble + tf.Width.CachedValue.AsDouble - pos.X;
+                    var ay = tf.Y.CachedValue.AsDouble + tf.Height.CachedValue.AsDouble - pos.Y;
+
+                    _nowScaling = new ScaleTextStep(tf, ScaleTextStep.Side.End,
+                        (ax * bx + ay * by) / bLenSquared);
+                }
+                else if (snappedTo == tf.End)
+                {
+                    var bx = tf.Width.CachedValue.AsDouble;
+                    var by = tf.Height.CachedValue.AsDouble;
+                    var bLenSquared = bx * bx + by * by;
+
+                    var ax = pos.X - tf.X.CachedValue.AsDouble;
+                    var ay = pos.Y - tf.Y.CachedValue.AsDouble;
+
+                    _nowScaling = new ScaleTextStep(tf, ScaleTextStep.Side.Start,
+                        (ax * bx + ay * by) / bLenSquared);
+                }
+                if (_nowScaling == null)
+                {
+                    return;
+                }
+                StepManager.InsertNext(_nowScaling);
+            }
+            else
+            {
+                var sls = (ScaleTextStep) _nowScaling;
+
+                if (sls.ScaleAround == ScaleTextStep.Side.Start)
+                {
+                    var bx = sls.WidthOrig;
+                    var by = sls.HeightOrig;
+                    var bLenSquared = bx * bx + by * by;
+
+                    var ax = pos.X - sls.XCachedDouble;
+                    var ay = pos.Y - sls.YCachedDouble;
+
+                    sls.Scale((ax * bx + ay * by) / bLenSquared);
+                }
+                else if (sls.ScaleAround == ScaleTextStep.Side.End)
+                {
+                    var bx = sls.WidthOrig;
+                    var by = sls.HeightOrig;
+                    var bLenSquared = bx * bx + by * by;
+
+                    var ax = sls.XCachedDouble + sls.WidthOrig - pos.X;
+                    var ay = sls.YCachedDouble + sls.HeightOrig - pos.Y;
+
+                    sls.Scale((ax * bx + ay * by) / bLenSquared);
+                }
+            }
+        }
+
         public void Move(Figure selected, Point pos)
         {
             switch (selected.Type)
@@ -212,6 +276,10 @@ namespace DynamicVisualizer.Manipulators
                 case Figure.FigureType.Line:
                     _moved = true;
                     ScaleLine((LineFigure) selected, pos);
+                    break;
+                case Figure.FigureType.Text:
+                    _moved = true;
+                    ScaleText((TextFigure) selected, pos);
                     break;
             }
 

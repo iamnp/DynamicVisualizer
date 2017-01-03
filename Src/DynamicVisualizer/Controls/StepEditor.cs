@@ -74,6 +74,25 @@ namespace DynamicVisualizer.Controls
 
                     ShowFirst(5);
                 }
+                else if (ds.StepType == DrawStep.DrawStepType.DrawText)
+                {
+                    var dts = (DrawTextStep) ds;
+                    label1.Text = "X";
+                    label2.Text = "Y";
+                    label3.Text = "Width";
+                    label4.Text = "Height";
+                    label5.Text = "Color";
+                    label6.Text = "Text";
+
+                    textBox1.Text = dts.X;
+                    textBox2.Text = dts.Y;
+                    textBox3.Text = dts.Width;
+                    textBox4.Text = dts.Height;
+                    textBox5.Text = dts.Figure.FigureColor.StringExpr;
+                    textBox6.Text = dts.TextFigure.FigureText.StringExpr;
+
+                    ShowFirst(6);
+                }
             }
             else if (StepManager.CurrentStep is MoveStep)
             {
@@ -111,6 +130,17 @@ namespace DynamicVisualizer.Controls
 
                     ShowFirst(2);
                 }
+                if (ms.StepType == MoveStep.MoveStepType.MoveText)
+                {
+                    var mts = (MoveTextStep) ms;
+                    label1.Text = "X";
+                    label2.Text = "Y";
+
+                    textBox1.Text = mts.X;
+                    textBox2.Text = mts.Y;
+
+                    ShowFirst(2);
+                }
             }
             else if (StepManager.CurrentStep is ScaleStep)
             {
@@ -139,6 +169,15 @@ namespace DynamicVisualizer.Controls
                     label1.Text = "Factor";
 
                     textBox1.Text = sls.Factor;
+
+                    ShowFirst(1);
+                }
+                if (ss.StepType == ScaleStep.ScaleStepType.ScaleText)
+                {
+                    var sts = (ScaleTextStep) ss;
+                    label1.Text = "Factor";
+
+                    textBox1.Text = sts.Factor;
 
                     ShowFirst(1);
                 }
@@ -175,6 +214,17 @@ namespace DynamicVisualizer.Controls
 
                     ShowFirst(2);
                 }
+                if (rs.StepType == ResizeStep.ResizeStepType.ResizeText)
+                {
+                    var rts = (ResizeTextStep) rs;
+                    label1.Text = "DeltaX";
+                    label2.Text = "DeltaY";
+
+                    textBox1.Text = rts.DeltaX;
+                    textBox1.Text = rts.DeltaY;
+
+                    ShowFirst(2);
+                }
             }
             else if (StepManager.CurrentStep is RotateStep)
             {
@@ -185,6 +235,15 @@ namespace DynamicVisualizer.Controls
                     label1.Text = "Factor";
 
                     textBox1.Text = rls.Factor;
+
+                    ShowFirst(1);
+                }
+                if (rs.StepType == RotateStep.RotateStepType.RotateText)
+                {
+                    var rts = (RotateTextStep) rs;
+                    label1.Text = "Factor";
+
+                    textBox1.Text = rts.Factor;
 
                     ShowFirst(1);
                 }
@@ -210,6 +269,8 @@ namespace DynamicVisualizer.Controls
                 textBox4.Visible = false;
                 label5.Visible = false;
                 textBox5.Visible = false;
+                label6.Visible = false;
+                textBox6.Visible = false;
             }
             else if (n == 1)
             {
@@ -224,6 +285,8 @@ namespace DynamicVisualizer.Controls
                 textBox4.Visible = false;
                 label5.Visible = false;
                 textBox5.Visible = false;
+                label6.Visible = false;
+                textBox6.Visible = false;
             }
             else if (n == 2)
             {
@@ -238,6 +301,8 @@ namespace DynamicVisualizer.Controls
                 textBox4.Visible = false;
                 label5.Visible = false;
                 textBox5.Visible = false;
+                label6.Visible = false;
+                textBox6.Visible = false;
             }
             else if (n == 3)
             {
@@ -252,6 +317,8 @@ namespace DynamicVisualizer.Controls
                 textBox4.Visible = false;
                 label5.Visible = false;
                 textBox5.Visible = false;
+                label6.Visible = false;
+                textBox6.Visible = false;
             }
             else if (n == 4)
             {
@@ -266,6 +333,8 @@ namespace DynamicVisualizer.Controls
 
                 label5.Visible = false;
                 textBox5.Visible = false;
+                label6.Visible = false;
+                textBox6.Visible = false;
             }
             else if (n == 5)
             {
@@ -279,6 +348,24 @@ namespace DynamicVisualizer.Controls
                 textBox4.Visible = true;
                 label5.Visible = true;
                 textBox5.Visible = true;
+
+                label6.Visible = false;
+                textBox6.Visible = false;
+            }
+            else if (n == 6)
+            {
+                label1.Visible = true;
+                textBox1.Visible = true;
+                label2.Visible = true;
+                textBox2.Visible = true;
+                label3.Visible = true;
+                textBox3.Visible = true;
+                label4.Visible = true;
+                textBox4.Visible = true;
+                label5.Visible = true;
+                textBox5.Visible = true;
+                label6.Visible = true;
+                textBox6.Visible = true;
             }
         }
 
@@ -303,6 +390,10 @@ namespace DynamicVisualizer.Controls
                 {
                     ((DrawLineStep) ds).ReInitX(textBox1.Text);
                 }
+                else if (ds.StepType == DrawStep.DrawStepType.DrawText)
+                {
+                    ((DrawTextStep) ds).ReInitX(textBox1.Text);
+                }
             }
             else if (StepManager.CurrentStep is MoveStep)
             {
@@ -318,6 +409,10 @@ namespace DynamicVisualizer.Controls
                 else if (ms.StepType == MoveStep.MoveStepType.MoveLine)
                 {
                     ((MoveLineStep) ms).MoveX(textBox1.Text);
+                }
+                else if (ms.StepType == MoveStep.MoveStepType.MoveText)
+                {
+                    ((MoveTextStep) ms).MoveX(textBox1.Text);
                 }
             }
             else if (StepManager.CurrentStep is ScaleStep)
@@ -335,6 +430,10 @@ namespace DynamicVisualizer.Controls
                 {
                     ((ScaleLineStep) ss).Scale(textBox1.Text);
                 }
+                else if (ss.StepType == ScaleStep.ScaleStepType.ScaleText)
+                {
+                    ((ScaleTextStep) ss).Scale(textBox1.Text);
+                }
             }
             else if (StepManager.CurrentStep is ResizeStep)
             {
@@ -351,6 +450,10 @@ namespace DynamicVisualizer.Controls
                 {
                     ((ResizeLineStep) rs).ResizeX(textBox1.Text);
                 }
+                else if (rs.StepType == ResizeStep.ResizeStepType.ResizeText)
+                {
+                    ((ResizeTextStep) rs).ResizeX(textBox1.Text);
+                }
             }
             else if (StepManager.CurrentStep is RotateStep)
             {
@@ -358,6 +461,10 @@ namespace DynamicVisualizer.Controls
                 if (rs.StepType == RotateStep.RotateStepType.RotateLine)
                 {
                     ((RotateLineStep) rs).Rotate(textBox1.Text);
+                }
+                if (rs.StepType == RotateStep.RotateStepType.RotateText)
+                {
+                    ((RotateTextStep) rs).Rotate(textBox1.Text);
                 }
             }
             if (StepManager.CurrentStep.Iterations != -1)
@@ -391,6 +498,10 @@ namespace DynamicVisualizer.Controls
                 {
                     ((DrawLineStep) ds).ReInitY(textBox2.Text);
                 }
+                else if (ds.StepType == DrawStep.DrawStepType.DrawText)
+                {
+                    ((DrawTextStep) ds).ReInitY(textBox2.Text);
+                }
             }
             else if (StepManager.CurrentStep is MoveStep)
             {
@@ -407,6 +518,10 @@ namespace DynamicVisualizer.Controls
                 {
                     ((MoveLineStep) ms).MoveY(textBox2.Text);
                 }
+                else if (ms.StepType == MoveStep.MoveStepType.MoveText)
+                {
+                    ((MoveTextStep) ms).MoveY(textBox2.Text);
+                }
             }
             else if (StepManager.CurrentStep is ResizeStep)
             {
@@ -414,6 +529,10 @@ namespace DynamicVisualizer.Controls
                 if (rs.StepType == ResizeStep.ResizeStepType.ResizeLine)
                 {
                     ((ResizeLineStep) rs).ResizeY(textBox2.Text);
+                }
+                if (rs.StepType == ResizeStep.ResizeStepType.ResizeRect)
+                {
+                    ((ResizeTextStep) rs).ResizeY(textBox2.Text);
                 }
             }
             if (StepManager.CurrentStep.Iterations != -1)
@@ -447,6 +566,10 @@ namespace DynamicVisualizer.Controls
                 {
                     ((DrawLineStep) ds).ReInitWidth(textBox3.Text);
                 }
+                else if (ds.StepType == DrawStep.DrawStepType.DrawText)
+                {
+                    ((DrawTextStep) ds).ReInitWidth(textBox3.Text);
+                }
             }
             if (StepManager.CurrentStep.Iterations != -1)
             {
@@ -471,13 +594,17 @@ namespace DynamicVisualizer.Controls
                 {
                     ((DrawRectStep) ds).ReInitHeight(textBox4.Text);
                 }
+                else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
+                {
+                    ((DrawEllipseStep) ds).Figure.FigureColor.Parse(textBox4.Text);
+                }
                 else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
                 {
                     ((DrawLineStep) ds).ReInitHeight(textBox4.Text);
                 }
-                else if (ds.StepType == DrawStep.DrawStepType.DrawEllipse)
+                else if (ds.StepType == DrawStep.DrawStepType.DrawText)
                 {
-                    ((DrawEllipseStep) ds).Figure.FigureColor.Parse(textBox4.Text);
+                    ((DrawTextStep) ds).ReInitHeight(textBox4.Text);
                 }
             }
             if (StepManager.CurrentStep.Iterations != -1)
@@ -506,6 +633,34 @@ namespace DynamicVisualizer.Controls
                 else if (ds.StepType == DrawStep.DrawStepType.DrawLine)
                 {
                     ((DrawLineStep) ds).Figure.FigureColor.Parse(textBox5.Text);
+                }
+                else if (ds.StepType == DrawStep.DrawStepType.DrawText)
+                {
+                    ((DrawTextStep) ds).Figure.FigureColor.Parse(textBox5.Text);
+                }
+            }
+            if (StepManager.CurrentStep.Iterations != -1)
+            {
+                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+            }
+            else
+            {
+                Form1.RedrawNeeded?.Invoke();
+            }
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+            if (_ignoreTextChanged)
+            {
+                return;
+            }
+            if (StepManager.CurrentStep is DrawStep)
+            {
+                var ds = (DrawStep) StepManager.CurrentStep;
+                if (ds.StepType == DrawStep.DrawStepType.DrawText)
+                {
+                    ((DrawTextStep) ds).TextFigure.FigureText.Parse(textBox6.Text);
                 }
             }
             if (StepManager.CurrentStep.Iterations != -1)

@@ -10,7 +10,8 @@ namespace DynamicVisualizer.Figures
         {
             Rect,
             Ellipse,
-            Line
+            Line,
+            Text
         }
 
         protected readonly Pen GuidePen = new Pen(Brushes.CornflowerBlue, 2);
