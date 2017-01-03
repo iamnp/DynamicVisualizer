@@ -74,6 +74,7 @@ namespace DynamicVisualizer.Expressions
                 {"sin", a => new Value(Math.Sin(a.AsDouble))},
                 {"abs", a => new Value(Math.Abs(a.AsDouble))},
                 {"len", a => new Value(a.AsArray.Length)},
+                {"pos", a => new Value(_currentIndexInArray)},
                 {
                     "mean", a =>
                     {

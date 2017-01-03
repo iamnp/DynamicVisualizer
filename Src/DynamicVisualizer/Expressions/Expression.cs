@@ -7,7 +7,7 @@ namespace DynamicVisualizer.Expressions
         public readonly Value CachedValue = new Value();
         public readonly List<Expression> DependentOn = new List<Expression>();
         public readonly string ObjectName;
-        public readonly List<ScalarExpression> UsedBy = new List<ScalarExpression>();
+        public readonly List<Expression> UsedBy = new List<Expression>();
         public readonly string VarName;
         public string ExprString;
 

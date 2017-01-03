@@ -5,13 +5,14 @@ namespace DynamicVisualizer.Expressions
 {
     public class ScalarExpression : Expression
     {
-        private readonly ArrayExpression _parentArray;
         private readonly Func<string, Value> _varEvaluater;
+        public readonly ArrayExpression ParentArray;
+        public bool AllowedToAddToParent;
         public int IndexInArray;
         public bool IsWeak;
 
         private ScalarExpression(string objectName, string varName, string rawExpr, int indexInArray,
-            ArrayExpression parentArray, bool isWeak) : base(objectName, varName)
+            bool allowedToAddToParent, ArrayExpression parentArray, bool isWeak) : base(objectName, varName)
         {
             _varEvaluater = s =>
             {
@@ -20,62 +21,64 @@ namespace DynamicVisualizer.Expressions
                     s = ObjectName + "." + s;
                 }
                 var usedExpr = DataStorage.GetExpression(s);
-                if (!IsWeak && (usedExpr != this))
+                if (!IsWeak)
                 {
-                    usedExpr.UsedBy.Add(this);
-                    DependentOn.Add(usedExpr);
+                    // used scalar expr
+                    if (usedExpr is ScalarExpression && (usedExpr != this))
+                    {
+                        usedExpr.UsedBy.Add(this);
+                        DependentOn.Add(usedExpr);
+                    }
+                    // used i-th element of array expr
+                    else if ((usedExpr != ParentArray) && AllowedToAddToParent)
+                    {
+                        usedExpr.UsedBy.Add(ParentArray);
+                        ParentArray.DependentOn.Add(usedExpr);
+                    }
+                    // used whole array expr
+                    else if (usedExpr != this)
+                    {
+                        usedExpr.UsedBy.Add(this);
+                        DependentOn.Add(usedExpr);
+                    }
                 }
                 return usedExpr.CachedValue;
             };
             IndexInArray = indexInArray;
             IsWeak = isWeak;
-            _parentArray = parentArray;
+            ParentArray = parentArray;
+            AllowedToAddToParent = allowedToAddToParent;
             SetRawExpression(rawExpr);
         }
 
         public ScalarExpression(string objectName, string varName, string rawExpr)
-            : this(objectName, varName, rawExpr, 0, null, false)
+            : this(objectName, varName, rawExpr, 0, false, null, false)
         {
         }
 
         public ScalarExpression(string objectName, string varName, string rawExpr, int indexInArray,
-            ArrayExpression parentArray = null)
-            : this(objectName, varName, rawExpr, indexInArray, parentArray, false)
+            bool allowedToAddToParent, ArrayExpression parentArray = null)
+            : this(objectName, varName, rawExpr, indexInArray, allowedToAddToParent, parentArray, false)
         {
         }
 
         public ScalarExpression(string objectName, string varName, string rawExpr, bool isWeak)
-            : this(objectName, varName, rawExpr, 0, null, isWeak)
+            : this(objectName, varName, rawExpr, 0, false, null, isWeak)
         {
         }
 
         public ScalarExpression(string objectName, string varName, string rawExpr, int indexInArray, bool isWeak)
-            : this(objectName, varName, rawExpr, indexInArray, null, isWeak)
+            : this(objectName, varName, rawExpr, indexInArray, false, null, isWeak)
         {
         }
 
-        public override bool CanBeRemoved => (UsedBy.Count == 0) && (_parentArray == null);
+        public override bool CanBeRemoved => (UsedBy.Count == 0) && (ParentArray == null);
         public event EventHandler ValueChanged;
 
         public void SetRawExpression(string rawExpr)
         {
             ExprString = rawExpr;
             Recalculate();
-        }
-
-        public void NotifyDependantArrays()
-        {
-            if (!IsWeak)
-            {
-                if (_parentArray != null)
-                {
-                    if (_parentArray.UsedBy.Count > 0)
-                    {
-                        _parentArray.UsedBy[0].NotifyDependantArrays();
-                    }
-                    _parentArray.ChildChanged();
-                }
-            }
         }
 
         public override void Recalculate()
@@ -108,14 +111,7 @@ namespace DynamicVisualizer.Expressions
                         e.Recalculate();
                     }
                 }
-                if (_parentArray != null)
-                {
-                    var copyOfParentUsedBy = new List<Expression>(_parentArray.UsedBy);
-                    foreach (var e in copyOfParentUsedBy)
-                    {
-                        e.Recalculate();
-                    }
-                }
+                ParentArray?.NotifyElementChanged();
             }
             ValueChanged?.Invoke(this, EventArgs.Empty);
         }

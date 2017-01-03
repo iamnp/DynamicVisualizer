@@ -15,15 +15,16 @@ using MessageBox = System.Windows.Forms.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
+// TODO identify infinite resucrsion
 // TODO fix exception when drawing on disapperaning magnets (before step insertion)
-// TODO deal with expr dependants, identify infinite resucrsion
 // TODO add global exception handler (for stack overflow too)
 // TODO deal with too many static members
 // TODO add 'eval-to-step' marker
 // TODO add empty steps to view results
-// TODO add pos func to get array's item position
 // TODO deal with removing steps with dependants
 // TODO scaling 0-width rect gets scale by NaN
+
+// TODO? deal with expr dependants
 // TODO? fix order of iterative drawing
 
 namespace DynamicVisualizer

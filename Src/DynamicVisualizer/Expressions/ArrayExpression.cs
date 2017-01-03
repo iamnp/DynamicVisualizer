@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DynamicVisualizer.Expressions
 {
     public class ArrayExpression : Expression
     {
         private string[] _exprsStrings;
+
+        private bool _ignoreNotifyElementChanged;
         private Value[] _values;
         public ScalarExpression[] Exprs;
 
@@ -89,21 +92,49 @@ namespace DynamicVisualizer.Expressions
 
         public override void Recalculate()
         {
+            foreach (var e in DependentOn)
+            {
+                e.UsedBy.Remove(this);
+            }
+            DependentOn.Clear();
+
+            _ignoreNotifyElementChanged = true;
             for (var i = 0; i < Exprs.Length; ++i)
             {
                 if (Exprs[i] == null)
                 {
-                    var e = new ScalarExpression(ObjectName, VarName + (i + 1), _exprsStrings[i], i, this);
+                    var e = new ScalarExpression(ObjectName, VarName + (i + 1), _exprsStrings[i], i, i == 0, this);
                     Exprs[i] = e;
                     _values[i] = e.CachedValue;
                 }
                 else
                 {
+                    Exprs[i].AllowedToAddToParent = i == 0;
                     Exprs[i].SetRawExpression(_exprsStrings[i]);
                 }
             }
-            Exprs[0].NotifyDependantArrays();
+            _ignoreNotifyElementChanged = false;
+
+            NotifyElementChanged();
+
             ValueChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void NotifyElementChanged()
+        {
+            if (_ignoreNotifyElementChanged)
+            {
+                return;
+            }
+            if (UsedBy.Count > 0)
+            {
+                var copyOfUsedBy = new List<Expression>(UsedBy);
+                UsedBy.Clear();
+                foreach (var e in copyOfUsedBy)
+                {
+                    e.Recalculate();
+                }
+            }
         }
     }
 }
