@@ -193,6 +193,11 @@ namespace DynamicVisualizer.Steps
             }
         }
 
+        public static void RefreshToCurrentStep()
+        {
+            SetCurrentStepIndex(CurrentStepIndex);
+        }
+
         public static void SetCurrentStepIndex(int index)
         {
             Reset();

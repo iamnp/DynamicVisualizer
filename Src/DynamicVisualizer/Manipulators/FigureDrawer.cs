@@ -77,7 +77,7 @@ namespace DynamicVisualizer.Manipulators
 
             if (_nowDrawing.Iterations != -1)
             {
-                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+                StepManager.RefreshToCurrentStep();
             }
         }
 
@@ -166,7 +166,7 @@ namespace DynamicVisualizer.Manipulators
                 }
                 if (_nowDrawing.Iterations != -1)
                 {
-                    StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+                    StepManager.RefreshToCurrentStep();
                 }
             }
         }

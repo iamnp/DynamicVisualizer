@@ -246,10 +246,12 @@ namespace DynamicVisualizer
             if (_selected == null)
             {
                 guideLabel.Visible = false;
+                gLabel.Visible = false;
             }
             else
             {
                 guideLabel.Visible = true;
+                gLabel.Visible = true;
                 guideLabel.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
             }
         }
@@ -266,11 +268,13 @@ namespace DynamicVisualizer
                 _selected = figure;
                 _selected.IsSelected = true;
                 guideLabel.Visible = true;
+                gLabel.Visible = true;
                 guideLabel.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
             }
             else
             {
                 guideLabel.Visible = false;
+                gLabel.Visible = false;
             }
         }
 
@@ -448,7 +452,7 @@ namespace DynamicVisualizer
         {
             _selected.IsGuide = !_selected.IsGuide;
             guideLabel.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
-            Redraw();
+            StepManager.RefreshToCurrentStep();
         }
 
         private void loopLabel_Click(object sender, EventArgs e)

@@ -27,7 +27,7 @@ namespace DynamicVisualizer.Controls
             {
                 _iterableStepGroup.Iterations = (int) expr.CachedValue.AsDouble;
                 _iterableStepGroup.IterationsExpr = textBox1.Text;
-                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+                StepManager.RefreshToCurrentStep();
             }
         }
     }

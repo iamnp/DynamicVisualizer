@@ -379,6 +379,7 @@ namespace DynamicVisualizer
             this.gLabel.TabIndex = 33;
             this.gLabel.Text = "g";
             this.gLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.gLabel.Visible = false;
             this.gLabel.Click += new System.EventHandler(this.guideLabel_Click);
             // 
             // pLabel

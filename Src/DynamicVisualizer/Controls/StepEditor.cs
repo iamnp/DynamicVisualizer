@@ -469,7 +469,7 @@ namespace DynamicVisualizer.Controls
             }
             if (StepManager.CurrentStep.Iterations != -1)
             {
-                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+                StepManager.RefreshToCurrentStep();
             }
             else
             {
@@ -537,7 +537,7 @@ namespace DynamicVisualizer.Controls
             }
             if (StepManager.CurrentStep.Iterations != -1)
             {
-                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+                StepManager.RefreshToCurrentStep();
             }
             else
             {
@@ -573,7 +573,7 @@ namespace DynamicVisualizer.Controls
             }
             if (StepManager.CurrentStep.Iterations != -1)
             {
-                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+                StepManager.RefreshToCurrentStep();
             }
             else
             {
@@ -609,7 +609,7 @@ namespace DynamicVisualizer.Controls
             }
             if (StepManager.CurrentStep.Iterations != -1)
             {
-                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+                StepManager.RefreshToCurrentStep();
             }
             else
             {
@@ -641,7 +641,7 @@ namespace DynamicVisualizer.Controls
             }
             if (StepManager.CurrentStep.Iterations != -1)
             {
-                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+                StepManager.RefreshToCurrentStep();
             }
             else
             {
@@ -665,7 +665,7 @@ namespace DynamicVisualizer.Controls
             }
             if (StepManager.CurrentStep.Iterations != -1)
             {
-                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+                StepManager.RefreshToCurrentStep();
             }
             else
             {

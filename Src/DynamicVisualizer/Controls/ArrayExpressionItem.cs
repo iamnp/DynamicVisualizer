@@ -140,7 +140,7 @@ namespace DynamicVisualizer.Controls
                     }
                     ArrayExpressionEditor.Len = Expr.Exprs.Length;
                     textBox1.Focus();
-                    StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+                    StepManager.RefreshToCurrentStep();
                     ArrayExprEdited?.Invoke(this, EventArgs.Empty);
                 }
             }

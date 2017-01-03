@@ -153,7 +153,7 @@ namespace DynamicVisualizer.Manipulators
 
             if ((_nowRotating != null) && (_nowRotating.Iterations != -1))
             {
-                StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+                StepManager.RefreshToCurrentStep();
             }
         }
     }

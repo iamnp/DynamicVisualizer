@@ -51,7 +51,7 @@ namespace DynamicVisualizer.Controls
             });
             ClearMarked();
             ConstructList();
-            StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+            StepManager.RefreshToCurrentStep();
         }
 
         public void TimelineOnStepRemoved(int index)

@@ -66,7 +66,7 @@ namespace DynamicVisualizer.Controls
                         Expr.SetRawExpression(textBox2.Text);
                         textBox2.Text = Expr.CachedValue.Str;
                         textBox1.Focus();
-                        StepManager.SetCurrentStepIndex(StepManager.CurrentStepIndex);
+                        StepManager.RefreshToCurrentStep();
                     }
                     ScalarExprEdited?.Invoke(this, EventArgs.Empty);
                 }
