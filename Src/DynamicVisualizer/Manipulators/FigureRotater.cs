@@ -10,6 +10,10 @@ namespace DynamicVisualizer.Manipulators
     {
         private bool _moved;
         private RotateStep _nowRotating;
+        private double _originalH;
+        private double _originalW;
+        private double _originalX;
+        private double _originalY;
 
         public bool NowRotating => _nowRotating != null;
 
@@ -24,7 +28,7 @@ namespace DynamicVisualizer.Manipulators
             return _moved;
         }
 
-        private double AngleBetween(double ax, double ay, double bx, double by)
+        private static double AngleBetween(double ax, double ay, double bx, double by)
         {
             var angle = Math.Acos((ax * bx + ay * by)
                                   / (Math.Sqrt(ax * ax + ay * ay) * Math.Sqrt(bx * bx + by * by)));
@@ -62,6 +66,10 @@ namespace DynamicVisualizer.Manipulators
                 {
                     return;
                 }
+                _originalX = lf.X.CachedValue.AsDouble;
+                _originalY = lf.Y.CachedValue.AsDouble;
+                _originalW = lf.Width.CachedValue.AsDouble;
+                _originalH = lf.Height.CachedValue.AsDouble;
                 StepManager.InsertNext(_nowRotating);
             }
             else
@@ -70,16 +78,16 @@ namespace DynamicVisualizer.Manipulators
 
                 if (rls.RotateAround == RotateLineStep.Side.Start)
                 {
-                    var angle = AngleBetween(pos.X - rls.XCachedDouble, pos.Y - rls.YCachedDouble,
-                        rls.WidthOrig, rls.HeightOrig);
+                    var angle = AngleBetween(pos.X - _originalX, pos.Y - _originalY,
+                        _originalW, _originalH);
 
                     rls.Rotate(angle / (2 * Math.PI));
                 }
                 else if (rls.RotateAround == RotateLineStep.Side.End)
                 {
-                    var angle = AngleBetween(rls.XCachedDouble + rls.WidthOrig - pos.X,
-                        rls.YCachedDouble + rls.HeightOrig - pos.Y,
-                        rls.WidthOrig, rls.HeightOrig);
+                    var angle = AngleBetween(_originalX + _originalW - pos.X,
+                        _originalY + _originalH - pos.Y,
+                        _originalW, _originalH);
 
                     rls.Rotate(angle / (2 * Math.PI));
                 }
@@ -113,6 +121,10 @@ namespace DynamicVisualizer.Manipulators
                 {
                     return;
                 }
+                _originalX = tf.X.CachedValue.AsDouble;
+                _originalY = tf.Y.CachedValue.AsDouble;
+                _originalW = tf.Width.CachedValue.AsDouble;
+                _originalH = tf.Height.CachedValue.AsDouble;
                 StepManager.InsertNext(_nowRotating);
             }
             else
@@ -121,16 +133,16 @@ namespace DynamicVisualizer.Manipulators
 
                 if (rls.RotateAround == RotateTextStep.Side.Start)
                 {
-                    var angle = AngleBetween(pos.X - rls.XCachedDouble, pos.Y - rls.YCachedDouble,
-                        rls.WidthOrig, rls.HeightOrig);
+                    var angle = AngleBetween(pos.X - _originalX, pos.Y - _originalY,
+                        _originalW, _originalH);
 
                     rls.Rotate(angle / (2 * Math.PI));
                 }
                 else if (rls.RotateAround == RotateTextStep.Side.End)
                 {
-                    var angle = AngleBetween(rls.XCachedDouble + rls.WidthOrig - pos.X,
-                        rls.YCachedDouble + rls.HeightOrig - pos.Y,
-                        rls.WidthOrig, rls.HeightOrig);
+                    var angle = AngleBetween(_originalX + _originalW - pos.X,
+                        _originalY + _originalH - pos.Y,
+                        _originalW, _originalH);
 
                     rls.Rotate(angle / (2 * Math.PI));
                 }

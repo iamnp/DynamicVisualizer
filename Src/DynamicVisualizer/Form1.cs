@@ -13,7 +13,6 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
 // TODO fix exception when drawing on disapperaning magnets (before step insertion)
-// TODO fix iterated line rotating (cached center point)
 // TODO deal with expr dependants, identify infinite resucrsion
 // TODO add global exception handler (for stack overflow too)
 // TODO deal with too many static members

@@ -10,6 +10,10 @@ namespace DynamicVisualizer.Manipulators
         private Point _downPos;
         private bool _moved;
         private ScaleStep _nowScaling;
+        private double _originalH;
+        private double _originalW;
+        private double _originalX;
+        private double _originalY;
 
         public bool NowScailing => _nowScaling != null;
 
@@ -54,6 +58,8 @@ namespace DynamicVisualizer.Manipulators
                 {
                     return;
                 }
+                _originalW = rf.Width.CachedValue.AsDouble;
+                _originalH = rf.Height.CachedValue.AsDouble;
                 StepManager.InsertNext(_nowScaling);
             }
             else
@@ -62,19 +68,19 @@ namespace DynamicVisualizer.Manipulators
 
                 if (srs.ScaleAround == ScaleRectStep.Side.Right)
                 {
-                    srs.Scale(1 - (pos.X - _downPos.X) / srs.WidthOrig);
+                    srs.Scale(1 - (pos.X - _downPos.X) / _originalW);
                 }
                 else if (srs.ScaleAround == ScaleRectStep.Side.Left)
                 {
-                    srs.Scale(1 + (pos.X - _downPos.X) / srs.WidthOrig);
+                    srs.Scale(1 + (pos.X - _downPos.X) / _originalW);
                 }
                 else if (srs.ScaleAround == ScaleRectStep.Side.Top)
                 {
-                    srs.Scale(1 + (pos.Y - _downPos.Y) / srs.HeightOrig);
+                    srs.Scale(1 + (pos.Y - _downPos.Y) / _originalH);
                 }
                 else if (srs.ScaleAround == ScaleRectStep.Side.Bottom)
                 {
-                    srs.Scale(1 - (pos.Y - _downPos.Y) / srs.HeightOrig);
+                    srs.Scale(1 - (pos.Y - _downPos.Y) / _originalH);
                 }
             }
         }
@@ -108,6 +114,8 @@ namespace DynamicVisualizer.Manipulators
                 {
                     return;
                 }
+                _originalW = ef.Radius1.CachedValue.AsDouble;
+                _originalH = ef.Radius2.CachedValue.AsDouble;
                 StepManager.InsertNext(_nowScaling);
             }
             else
@@ -116,19 +124,19 @@ namespace DynamicVisualizer.Manipulators
 
                 if (srs.ScaleAround == ScaleEllipseStep.Side.Right)
                 {
-                    srs.Scale(1 - (pos.X - _downPos.X) / srs.Radius1Orig);
+                    srs.Scale(1 - (pos.X - _downPos.X) / _originalW);
                 }
                 else if (srs.ScaleAround == ScaleEllipseStep.Side.Left)
                 {
-                    srs.Scale(1 + (pos.X - _downPos.X) / srs.Radius1Orig);
+                    srs.Scale(1 + (pos.X - _downPos.X) / _originalW);
                 }
                 else if (srs.ScaleAround == ScaleEllipseStep.Side.Top)
                 {
-                    srs.Scale(1 - (pos.Y - _downPos.Y) / srs.Radius2Orig);
+                    srs.Scale(1 - (pos.Y - _downPos.Y) / _originalH);
                 }
                 else if (srs.ScaleAround == ScaleEllipseStep.Side.Bottom)
                 {
-                    srs.Scale(1 + (pos.Y - _downPos.Y) / srs.Radius2Orig);
+                    srs.Scale(1 + (pos.Y - _downPos.Y) / _originalH);
                 }
             }
         }
@@ -166,6 +174,10 @@ namespace DynamicVisualizer.Manipulators
                 {
                     return;
                 }
+                _originalX = lf.X.CachedValue.AsDouble;
+                _originalY = lf.Y.CachedValue.AsDouble;
+                _originalW = lf.Width.CachedValue.AsDouble;
+                _originalH = lf.Height.CachedValue.AsDouble;
                 StepManager.InsertNext(_nowScaling);
             }
             else
@@ -174,23 +186,23 @@ namespace DynamicVisualizer.Manipulators
 
                 if (sls.ScaleAround == ScaleLineStep.Side.Start)
                 {
-                    var bx = sls.WidthOrig;
-                    var by = sls.HeightOrig;
+                    var bx = _originalW;
+                    var by = _originalH;
                     var bLenSquared = bx * bx + by * by;
 
-                    var ax = pos.X - sls.XCachedDouble;
-                    var ay = pos.Y - sls.YCachedDouble;
+                    var ax = pos.X - _originalX;
+                    var ay = pos.Y - _originalY;
 
                     sls.Scale((ax * bx + ay * by) / bLenSquared);
                 }
                 else if (sls.ScaleAround == ScaleLineStep.Side.End)
                 {
-                    var bx = sls.WidthOrig;
-                    var by = sls.HeightOrig;
+                    var bx = _originalW;
+                    var by = _originalH;
                     var bLenSquared = bx * bx + by * by;
 
-                    var ax = sls.XCachedDouble + sls.WidthOrig - pos.X;
-                    var ay = sls.YCachedDouble + sls.HeightOrig - pos.Y;
+                    var ax = _originalX + _originalW - pos.X;
+                    var ay = _originalY + _originalH - pos.Y;
 
                     sls.Scale((ax * bx + ay * by) / bLenSquared);
                 }
@@ -230,6 +242,10 @@ namespace DynamicVisualizer.Manipulators
                 {
                     return;
                 }
+                _originalX = tf.X.CachedValue.AsDouble;
+                _originalY = tf.Y.CachedValue.AsDouble;
+                _originalW = tf.Width.CachedValue.AsDouble;
+                _originalH = tf.Height.CachedValue.AsDouble;
                 StepManager.InsertNext(_nowScaling);
             }
             else
@@ -238,23 +254,23 @@ namespace DynamicVisualizer.Manipulators
 
                 if (sls.ScaleAround == ScaleTextStep.Side.Start)
                 {
-                    var bx = sls.WidthOrig;
-                    var by = sls.HeightOrig;
+                    var bx = _originalW;
+                    var by = _originalH;
                     var bLenSquared = bx * bx + by * by;
 
-                    var ax = pos.X - sls.XCachedDouble;
-                    var ay = pos.Y - sls.YCachedDouble;
+                    var ax = pos.X - _originalX;
+                    var ay = pos.Y - _originalY;
 
                     sls.Scale((ax * bx + ay * by) / bLenSquared);
                 }
                 else if (sls.ScaleAround == ScaleTextStep.Side.End)
                 {
-                    var bx = sls.WidthOrig;
-                    var by = sls.HeightOrig;
+                    var bx = _originalW;
+                    var by = _originalH;
                     var bLenSquared = bx * bx + by * by;
 
-                    var ax = sls.XCachedDouble + sls.WidthOrig - pos.X;
-                    var ay = sls.YCachedDouble + sls.HeightOrig - pos.Y;
+                    var ax = _originalX + _originalW - pos.X;
+                    var ay = _originalY + _originalH - pos.Y;
 
                     sls.Scale((ax * bx + ay * by) / bLenSquared);
                 }

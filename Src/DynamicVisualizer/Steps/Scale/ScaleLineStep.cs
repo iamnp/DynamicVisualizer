@@ -37,7 +37,7 @@ namespace DynamicVisualizer.Steps.Scale
         {
         }
 
-        public override ScaleStepType StepType => ScaleStepType.ScaleText;
+        public override ScaleStepType StepType => ScaleStepType.ScaleLine;
 
         public void SetDef()
         {
