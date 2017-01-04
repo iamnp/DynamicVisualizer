@@ -226,6 +226,7 @@ namespace DynamicVisualizer.Steps
                     //finding the last one
                     int top, bot;
                     GetGroupBounds(i, out top, out bot);
+                    GetGroupByIndex(i).IterationsExpr.Recalculate();
                     // now Steps[bot] is the last step in iterative group
                     var finalStepInGroup = index <= bot;
                     if (finalStepInGroup)

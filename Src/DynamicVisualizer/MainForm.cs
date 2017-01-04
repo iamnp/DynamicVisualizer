@@ -21,7 +21,6 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO scaling 0-width rect gets scale by NaN
 
 // TODO fix 'eval-to-step' marker (finalStepDeleted, etc.)
-// TODO? GroupHeaderItem update automatically
 // TODO? add empty steps to view results
 // TODO? deal with expr dependants
 // TODO? fix order of iterative drawing

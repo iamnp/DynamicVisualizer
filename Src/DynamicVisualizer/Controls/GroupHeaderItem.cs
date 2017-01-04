@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using DynamicVisualizer.Expressions;
 using DynamicVisualizer.Steps;
 
 namespace DynamicVisualizer.Controls
@@ -14,21 +13,13 @@ namespace DynamicVisualizer.Controls
         {
             InitializeComponent();
             _iterableStepGroup = g;
-            textBox1.Text = _iterableStepGroup.IterationsExpr;
+            textBox1.Text = _iterableStepGroup.IterationsExpr.ExprString;
             textBox1.TextChanged += textBox1_TextChanged;
-            ScalarExpressionItem.ScalarExprEdited += textBox1_TextChanged;
-            ArrayExpressionItem.ArrayExprEdited += textBox1_TextChanged;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            var expr = new ScalarExpression("a", "a", textBox1.Text, true);
-            if (!expr.CachedValue.Empty)
-            {
-                _iterableStepGroup.Iterations = (int) expr.CachedValue.AsDouble;
-                _iterableStepGroup.IterationsExpr = textBox1.Text;
-                StepManager.RefreshToCurrentStep();
-            }
+            _iterableStepGroup.IterationsExpr.SetRawExpression(textBox1.Text);
         }
     }
 }

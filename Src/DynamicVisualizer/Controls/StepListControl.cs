@@ -39,15 +39,12 @@ namespace DynamicVisualizer.Controls
                     : 2);
                 MarkedControls[i].RespectIterable();
             }
-            StepManager.IterableGroups.Add(new IterableStepGroup
+            StepManager.IterableGroups.Add(new IterableStepGroup(ArrayExpressionEditor.Items.Count > 1
+                ? string.Format("len({0})", ArrayExpressionEditor.Items[0].Expr.FullName)
+                : "2")
             {
                 StartIndex = min,
-                Length = max - min + 1,
-                Iterations = ArrayExpressionEditor.Items.Count > 1 ? ArrayExpressionEditor.Len : 2,
-                IterationsExpr =
-                    ArrayExpressionEditor.Items.Count > 1
-                        ? string.Format("len({0})", ArrayExpressionEditor.Items[0].Expr.FullName)
-                        : "2"
+                Length = max - min + 1
             });
             ClearMarked();
             ConstructList();
