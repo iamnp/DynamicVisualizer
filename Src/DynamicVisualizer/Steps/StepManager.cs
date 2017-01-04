@@ -15,6 +15,7 @@ namespace DynamicVisualizer.Steps
         public static readonly List<IterableStepGroup> IterableGroups = new List<IterableStepGroup>();
 
         public static readonly List<Step> Steps = new List<Step>();
+        public static Step FinalStep;
         public static readonly List<Figure> Figures = new List<Figure>();
         public static Magnet[] CanvasMagnets;
         public static StepEditor StepEditor;
@@ -200,6 +201,23 @@ namespace DynamicVisualizer.Steps
 
         public static void SetCurrentStepIndex(int index)
         {
+            CurrentStepIndex = index;
+            int pos;
+            if ((FinalStep != null) && ((pos = Steps.IndexOf(FinalStep)) != -1))
+            {
+                ApplySteps(pos);
+                Drawer.SaveCurrentScene();
+            }
+            else
+            {
+                Drawer.DeleteCurrentScene();
+            }
+            ApplySteps(index);
+            StepListControl?.MarkAsSelecgted(CurrentStepIndex);
+        }
+
+        private static void ApplySteps(int index)
+        {
             Reset();
             for (var i = 0; i <= index; ++i)
             {
@@ -256,9 +274,6 @@ namespace DynamicVisualizer.Steps
                     Steps[i].Apply();
                 }
             }
-
-            CurrentStepIndex = index;
-            StepListControl?.MarkAsSelecgted(CurrentStepIndex);
         }
 
         private static void GetGroupBounds(int index, out int top, out int bot)

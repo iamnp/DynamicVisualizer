@@ -20,7 +20,7 @@ namespace DynamicVisualizer.Figures
         public TextFigure(string name)
         {
             Name = name;
-            FigureColor = new FigureColor(0, 0.5, 0, 1);
+            FigureColor = new FigureColor(0, 0.0, 0, 1);
             FigureText = new FigureText("\"Hi!\"", "20");
         }
 

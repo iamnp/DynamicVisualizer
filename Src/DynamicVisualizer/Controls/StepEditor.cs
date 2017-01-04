@@ -467,7 +467,7 @@ namespace DynamicVisualizer.Controls
                     ((RotateTextStep) rs).Rotate(textBox1.Text);
                 }
             }
-            if (StepManager.CurrentStep.Iterations != -1)
+            if ((StepManager.CurrentStep.Iterations != -1) || (StepManager.FinalStep != null))
             {
                 StepManager.RefreshToCurrentStep();
             }
@@ -535,7 +535,7 @@ namespace DynamicVisualizer.Controls
                     ((ResizeTextStep) rs).ResizeY(textBox2.Text);
                 }
             }
-            if (StepManager.CurrentStep.Iterations != -1)
+            if ((StepManager.CurrentStep.Iterations != -1) || (StepManager.FinalStep != null))
             {
                 StepManager.RefreshToCurrentStep();
             }
@@ -571,7 +571,7 @@ namespace DynamicVisualizer.Controls
                     ((DrawTextStep) ds).ReInitWidth(textBox3.Text);
                 }
             }
-            if (StepManager.CurrentStep.Iterations != -1)
+            if ((StepManager.CurrentStep.Iterations != -1) || (StepManager.FinalStep != null))
             {
                 StepManager.RefreshToCurrentStep();
             }
@@ -607,7 +607,7 @@ namespace DynamicVisualizer.Controls
                     ((DrawTextStep) ds).ReInitHeight(textBox4.Text);
                 }
             }
-            if (StepManager.CurrentStep.Iterations != -1)
+            if ((StepManager.CurrentStep.Iterations != -1) || (StepManager.FinalStep != null))
             {
                 StepManager.RefreshToCurrentStep();
             }
@@ -639,7 +639,7 @@ namespace DynamicVisualizer.Controls
                     ((DrawTextStep) ds).Figure.FigureColor.Parse(textBox5.Text);
                 }
             }
-            if (StepManager.CurrentStep.Iterations != -1)
+            if ((StepManager.CurrentStep.Iterations != -1) || (StepManager.FinalStep != null))
             {
                 StepManager.RefreshToCurrentStep();
             }
@@ -663,7 +663,7 @@ namespace DynamicVisualizer.Controls
                     ((DrawTextStep) ds).TextFigure.FigureText.Parse(textBox6.Text);
                 }
             }
-            if (StepManager.CurrentStep.Iterations != -1)
+            if ((StepManager.CurrentStep.Iterations != -1) || (StepManager.FinalStep != null))
             {
                 StepManager.RefreshToCurrentStep();
             }

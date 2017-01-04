@@ -4,8 +4,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using DynamicVisualizer.Controls;
 using DynamicVisualizer.Expressions;
 using DynamicVisualizer.Figures;
@@ -15,15 +13,16 @@ using MessageBox = System.Windows.Forms.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO identify infinite resucrsion
-// TODO fix exception when drawing on disapperaning magnets (before step insertion)
+// TODO identify infinite resucrsion (stackoverflow errors in evaluator class)
+// TODO fix exception when drawing on disapperaning magnets (before step insertion, mb add empty step)
+// TODO deal with removing steps with dependants
 // TODO add global exception handler (for stack overflow too)
 // TODO deal with too many static members
-// TODO add 'eval-to-step' marker
-// TODO add empty steps to view results
-// TODO deal with removing steps with dependants
 // TODO scaling 0-width rect gets scale by NaN
 
+// TODO fix 'eval-to-step' marker (finalStepDeleted, etc.)
+// TODO? GroupHeaderItem update automatically
+// TODO? add empty steps to view results
 // TODO? deal with expr dependants
 // TODO? fix order of iterative drawing
 
@@ -31,21 +30,12 @@ namespace DynamicVisualizer
 {
     public partial class MainForm : Form
     {
-        private const int CanvasWidth = 800;
-        private const int CanvasHeight = 600;
-        private const int CanvasOffsetX = 100;
-        private const int CanvasOffsetY = 50;
-
         public static Action RedrawNeeded;
-        private readonly Rect _canvasRect = new Rect(0, 0, CanvasWidth, CanvasHeight);
-        private readonly Pen _canvasStroke = new Pen(Brushes.Gray, 1);
-        private readonly TranslateTransform _canvasTranslate = new TranslateTransform(CanvasOffsetX, CanvasOffsetY);
         private readonly FigureDrawer _figureDrawer = new FigureDrawer();
         private readonly FigureMover _figureMover = new FigureMover();
         private readonly FigureResizer _figureResizer = new FigureResizer();
         private readonly FigureRotater _figureRotater = new FigureRotater();
         private readonly FigureScaler _figureScaler = new FigureScaler();
-        private readonly Rect _hostRect = new Rect(0, 0, 1000, 700);
 
         private readonly Dictionary<Keys, Action> _hotkeys;
         private readonly MainGraphicOutput _mainGraphics;
@@ -76,8 +66,8 @@ namespace DynamicVisualizer
             StepManager.StepListControl = _stepListControl1;
             _stepListControl1.MainForm = this;
 
-            DataStorage.Add(new ScalarExpression("canvas", "height", CanvasHeight.ToString()));
-            DataStorage.Add(new ScalarExpression("canvas", "width", CanvasWidth.ToString()));
+            DataStorage.Add(new ScalarExpression("canvas", "height", Drawer.CanvasHeight.ToString()));
+            DataStorage.Add(new ScalarExpression("canvas", "width", Drawer.CanvasWidth.ToString()));
             DataStorage.Add(new ScalarExpression("canvas", "x", "0"));
             DataStorage.Add(new ScalarExpression("canvas", "y", "0"));
 
@@ -101,7 +91,7 @@ namespace DynamicVisualizer
                 new Magnet(w, hover2, "canvas's right")
             };
 
-            _mainGraphics = new MainGraphicOutput {DrawingFunc = DrawScene};
+            _mainGraphics = new MainGraphicOutput {DrawingFunc = Drawer.DrawScene};
             elementHost1.Child = _mainGraphics;
             _mainGraphics.MouseDown += MainGraphicsOnMouseDown;
             _mainGraphics.MouseMove += MainGraphicsOnMouseMove;
@@ -181,72 +171,10 @@ namespace DynamicVisualizer
 
         private void Redraw()
         {
+            Drawer.DrawMagnets = _figureMover.NowMoving || _figureDrawer.NowDrawing || _figureResizer.NowResizing;
             _mainGraphics.InvalidateVisual();
             _stepListControl1.ReSetText();
             stepEditor1.Redraw();
-        }
-
-        private void DrawScene(DrawingContext dc, bool forExport)
-        {
-            if (forExport)
-            {
-                dc.DrawRectangle(Brushes.White, null, _canvasRect);
-
-                foreach (var figure in StepManager.Figures)
-                {
-                    if (!figure.IsGuide)
-                    {
-                        figure.Draw(dc);
-                    }
-                }
-            }
-            else
-            {
-                dc.DrawRectangle(Brushes.LightGray, null, _hostRect);
-                dc.PushTransform(_canvasTranslate);
-                dc.DrawRectangle(null, _canvasStroke, _canvasRect);
-                dc.DrawRectangle(Brushes.White, null, _canvasRect);
-
-
-                foreach (var magnet in StepManager.CanvasMagnets)
-                {
-                    magnet.Draw(dc, false);
-                }
-
-
-                foreach (var figure in StepManager.Figures)
-                {
-                    figure.Draw(dc);
-                }
-
-
-                foreach (var figure in StepManager.Figures)
-                {
-                    if (figure.IsSelected || _figureMover.NowMoving || _figureDrawer.NowDrawing ||
-                        _figureResizer.NowResizing)
-                    {
-                        if (figure.IsSelected)
-                        {
-                            foreach (var magnet in figure.GetMagnets())
-                            {
-                                magnet.Draw(dc, true);
-                            }
-                        }
-                        else
-                        {
-                            var magnets = figure.GetMagnets();
-                            if (magnets == null)
-                            {
-                                continue;
-                            }
-                            foreach (var magnet in magnets)
-                            {
-                                magnet.Draw(dc, false);
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         private void PerformFigureSelection(Point pos)
@@ -303,7 +231,7 @@ namespace DynamicVisualizer
 
         private void MainGraphicsOnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            var upPos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
+            var upPos = e.GetPosition(_mainGraphics).Move(-Drawer.CanvasOffsetX, -Drawer.CanvasOffsetY);
             if (e.ChangedButton == MouseButton.Right)
             {
                 var moved = false;
@@ -346,7 +274,7 @@ namespace DynamicVisualizer
 
         private void MainGraphicsOnMouseMove(object sender, MouseEventArgs e)
         {
-            var pos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
+            var pos = e.GetPosition(_mainGraphics).Move(-Drawer.CanvasOffsetX, -Drawer.CanvasOffsetY);
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 _figureDrawer.Move(pos);
@@ -376,7 +304,7 @@ namespace DynamicVisualizer
         private void MainGraphicsOnMouseDown(object sender, MouseButtonEventArgs e)
         {
             ActiveControl = _stepListControl1;
-            var downPos = e.GetPosition(_mainGraphics).Move(-CanvasOffsetX, -CanvasOffsetY);
+            var downPos = e.GetPosition(_mainGraphics).Move(-Drawer.CanvasOffsetX, -Drawer.CanvasOffsetY);
             switch (_transformType)
             {
                 case TransformStep.TransformType.Move:
@@ -490,12 +418,12 @@ namespace DynamicVisualizer
         {
             if (StepManager.AddStepBeforeCurrent)
             {
-                addStepAfterLabel.Text = "After current";
+                addStepAfterLabel.Text = "Add after";
                 StepManager.AddStepBeforeCurrent = false;
             }
             else
             {
-                addStepAfterLabel.Text = "Before current";
+                addStepAfterLabel.Text = "Add before";
                 StepManager.AddStepBeforeCurrent = true;
             }
         }
@@ -522,7 +450,7 @@ namespace DynamicVisualizer
                 {
                     try
                     {
-                        var pngBytes = GetScenePngBytes();
+                        var pngBytes = Drawer.GetScenePngBytes();
                         File.WriteAllBytes(dialog.FileName, pngBytes);
                     }
                     catch (Exception ex)
@@ -533,25 +461,22 @@ namespace DynamicVisualizer
             }
         }
 
-        public byte[] GetScenePngBytes()
+        private void markAsFinalLabel_Click(object sender, EventArgs e)
         {
-            var rtb = new RenderTargetBitmap(CanvasWidth, CanvasHeight,
-                96,
-                96, PixelFormats.Default);
-
-            var dv = new DrawingVisual();
-            using (var dc = dv.RenderOpen())
+            if (StepManager.FinalStep == null)
             {
-                DrawScene(dc, true);
+                if (StepManager.CurrentStep.Iterations == -1)
+                {
+                    StepManager.FinalStep = StepManager.CurrentStep;
+                    markAsFinalLabel.Text = "Reset final";
+                }
             }
-            rtb.Render(dv);
-
-            BitmapEncoder pngEncoder = new PngBitmapEncoder();
-            pngEncoder.Frames.Add(BitmapFrame.Create(rtb));
-            var ms = new MemoryStream();
-            pngEncoder.Save(ms);
-            ms.Close();
-            return ms.ToArray();
+            else
+            {
+                StepManager.FinalStep = null;
+                markAsFinalLabel.Text = "Mark as final";
+            }
+            StepManager.RefreshToCurrentStep();
         }
     }
 }

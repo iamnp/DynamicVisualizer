@@ -72,6 +72,7 @@
     <Compile Include="Controls\ScalarExpressionItem.Designer.cs">
       <DependentUpon>ScalarExpressionItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Drawer.cs" />
     <Compile Include="Figures\FigureText.cs" />
     <Compile Include="Figures\FigureColor.cs" />
     <Compile Include="Figures\TextFigure.cs" />

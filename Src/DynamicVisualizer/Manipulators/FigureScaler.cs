@@ -299,7 +299,7 @@ namespace DynamicVisualizer.Manipulators
                     break;
             }
 
-            if ((_nowScaling != null) && (_nowScaling.Iterations != -1))
+            if ((_nowScaling != null) && ((_nowScaling.Iterations != -1) || (StepManager.FinalStep != null)))
             {
                 StepManager.RefreshToCurrentStep();
             }

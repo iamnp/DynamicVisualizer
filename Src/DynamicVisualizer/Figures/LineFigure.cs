@@ -18,7 +18,7 @@ namespace DynamicVisualizer.Figures
         public LineFigure(string name)
         {
             Name = name;
-            FigureColor = new FigureColor(0, 0.5, 0, 1);
+            FigureColor = new FigureColor(0, 0.0, 0, 1);
         }
 
         public LineFigure() : this(null)

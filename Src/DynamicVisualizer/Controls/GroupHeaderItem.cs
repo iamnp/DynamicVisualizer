@@ -22,7 +22,7 @@ namespace DynamicVisualizer.Controls
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            var expr = new ScalarExpression("a", "a", textBox1.Text);
+            var expr = new ScalarExpression("a", "a", textBox1.Text, true);
             if (!expr.CachedValue.Empty)
             {
                 _iterableStepGroup.Iterations = (int) expr.CachedValue.AsDouble;
