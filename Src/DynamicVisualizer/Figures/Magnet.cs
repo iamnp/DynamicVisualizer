@@ -26,13 +26,13 @@ namespace DynamicVisualizer.Figures
         {
             if (selected)
             {
-                dc.DrawEllipse(Brushes.DeepSkyBlue, new Pen(Brushes.Black, 1),
+                dc.DrawEllipse(Drawer.DeepSkyBlueBrush, Drawer.BlackPen,
                     new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble),
                     4, 4);
             }
             else
             {
-                dc.DrawEllipse(Brushes.Yellow, new Pen(Brushes.Black, 1),
+                dc.DrawEllipse(Drawer.YellowBrush, Drawer.BlackPen,
                     new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble),
                     3, 3);
             }

@@ -69,12 +69,12 @@ namespace DynamicVisualizer.Figures
             var r2 = Radius2.CachedValue.AsDouble;
             if (IsGuide)
             {
-                dc.DrawEllipse(null, GuidePen,
+                dc.DrawEllipse(null, Drawer.GuidePen,
                     new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble), r1, r2);
             }
             else
             {
-                dc.DrawEllipse(FigureColor.Brush, StrokePen,
+                dc.DrawEllipse(FigureColor.Brush, Drawer.StrokePen,
                     new Point(X.CachedValue.AsDouble, Y.CachedValue.AsDouble), r1, r2);
             }
         }

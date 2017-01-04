@@ -96,11 +96,11 @@ namespace DynamicVisualizer.Figures
 
             if (IsGuide)
             {
-                dc.DrawRectangle(null, GuidePen, new Rect(x, y, width, height));
+                dc.DrawRectangle(null, Drawer.GuidePen, new Rect(x, y, width, height));
             }
             else
             {
-                dc.DrawRectangle(FigureColor.Brush, StrokePen,
+                dc.DrawRectangle(FigureColor.Brush, Drawer.StrokePen,
                     new Rect(x, y, width, height));
             }
         }

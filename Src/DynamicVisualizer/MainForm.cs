@@ -19,10 +19,12 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO add global exception handler (for stack overflow too)
 // TODO deal with too many static members
 // TODO scaling 0-width rect gets scale by NaN
+// TODO inf in group iteration counter (div by zero, etc.)
 
 // TODO fix 'eval-to-step' marker (finalStepDeleted, etc.)
+// TODO check for memory leaks in dependants lists
 // TODO? add empty steps to view results
-// TODO? deal with expr dependants
+// TODO? deal with expr dependants system
 // TODO? fix order of iterative drawing
 
 namespace DynamicVisualizer

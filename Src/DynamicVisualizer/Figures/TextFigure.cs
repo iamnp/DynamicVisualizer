@@ -73,7 +73,9 @@ namespace DynamicVisualizer.Figures
 
             var x = X.CachedValue.AsDouble;
             var y = Y.CachedValue.AsDouble;
-            dc.PushTransform(new RotateTransform(angle * 180.0 / Math.PI, x, y));
+            var t = new RotateTransform(angle * 180.0 / Math.PI, x, y);
+            t.Freeze();
+            dc.PushTransform(t);
             dc.DrawText(FigureText.FormattedText, new Point(x, y - FigureText.FormattedText.Height));
             dc.Pop();
         }

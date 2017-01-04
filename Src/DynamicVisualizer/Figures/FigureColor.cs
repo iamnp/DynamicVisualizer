@@ -20,7 +20,9 @@ namespace DynamicVisualizer.Figures
             _b = new ScalarExpression("a", "a", b, index, true);
             _a = new ScalarExpression("a", "a", a, index, true);
             Brush = new SolidColorBrush(GetColor());
+            Brush.Freeze();
             Pen = new Pen(Brush, 2);
+            Pen.Freeze();
             StringExpr = r + ";" + g + ";" + b + ";" + a;
         }
 
@@ -62,7 +64,9 @@ namespace DynamicVisualizer.Figures
             _b.SetRawExpression(p[2]);
             _a.SetRawExpression(p[3]);
             Brush = new SolidColorBrush(GetColor());
+            Brush.Freeze();
             Pen = new Pen(Brush, 2);
+            Pen.Freeze();
         }
 
         public void SetIndex(int index)

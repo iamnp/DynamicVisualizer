@@ -37,7 +37,7 @@ namespace DynamicVisualizer.Figures
                     FlowDirection.LeftToRight,
                     new Typeface("Verdana"),
                     14,
-                    Brushes.Black)
+                    Drawer.BlackBrush)
                 {
                     TextAlignment = TextAlignment.Center,
                     Trimming = TextTrimming.None
@@ -50,7 +50,7 @@ namespace DynamicVisualizer.Figures
                 FlowDirection.LeftToRight,
                 new Typeface("Verdana"),
                 _size.CachedValue.AsDouble,
-                Brushes.Black)
+                Drawer.BlackBrush)
             {
                 TextAlignment = TextAlignment.Center,
                 Trimming = TextTrimming.None

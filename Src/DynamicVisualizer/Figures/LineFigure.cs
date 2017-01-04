@@ -68,7 +68,7 @@ namespace DynamicVisualizer.Figures
 
             if (IsGuide)
             {
-                dc.DrawLine(GuidePen, new Point(x, y), new Point(x + width, y + height));
+                dc.DrawLine(Drawer.GuidePen, new Point(x, y), new Point(x + width, y + height));
             }
             else
             {
