@@ -43,9 +43,10 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(95, 0);
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Location = new System.Drawing.Point(120, 0);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(99, 20);
+            this.textBox1.Size = new System.Drawing.Size(80, 20);
             this.textBox1.TabIndex = 1;
             // 
             // GroupHeaderItem
@@ -55,7 +56,7 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Name = "GroupHeaderItem";
-            this.Size = new System.Drawing.Size(194, 20);
+            this.Size = new System.Drawing.Size(200, 20);
             this.ResumeLayout(false);
             this.PerformLayout();
 

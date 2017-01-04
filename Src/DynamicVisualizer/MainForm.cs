@@ -17,12 +17,12 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO fix exception when drawing on disapperaning magnets (before step insertion, mb add empty step)
 // TODO deal with removing steps with dependants
 // TODO add global exception handler (for stack overflow too)
-// TODO deal with too many static members
 // TODO scaling 0-width rect gets scale by NaN
 // TODO inf in group iteration counter (div by zero, etc.)
 
-// TODO fix 'eval-to-step' marker (finalStepDeleted, etc.)
+// TODO GUI improvements (scalar and array(!) editors)
 // TODO check for memory leaks in dependants lists
+// TODO? deal with too many static members (refactoring)
 // TODO? add empty steps to view results
 // TODO? deal with expr dependants system
 // TODO? fix order of iterative drawing
@@ -156,6 +156,11 @@ namespace DynamicVisualizer
                     {
                         if (StepManager.CurrentStepIndex != -1)
                         {
+                            if (StepManager.CurrentStep == StepManager.FinalStep)
+                            {
+                                StepManager.FinalStep = null;
+                                markAsFinalLabel.Text = "Mark as final";
+                            }
                             StepManager.Remove(StepManager.CurrentStepIndex);
                         }
                         return true;

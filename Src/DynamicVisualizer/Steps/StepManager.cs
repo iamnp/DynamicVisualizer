@@ -202,7 +202,7 @@ namespace DynamicVisualizer.Steps
         public static void SetCurrentStepIndex(int index)
         {
             CurrentStepIndex = index;
-            int pos;
+            var pos = -1;
             if ((FinalStep != null) && ((pos = Steps.IndexOf(FinalStep)) != -1))
             {
                 ApplySteps(pos);
