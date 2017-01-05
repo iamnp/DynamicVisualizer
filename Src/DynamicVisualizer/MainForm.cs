@@ -18,7 +18,7 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO deal with removing steps with dependants
 // TODO add global exception handler (for stack overflow too)
 
-// TODO GUI improvements (scalar and array(!) editors, more hotkeys, immediate editors apply)
+// TODO GUI improvements (scalar and array(!) editors, step list, immediate editors apply)
 // TODO check for memory leaks in dependants lists
 // TODO? deal with too many static members (refactoring)
 // TODO? add empty steps to view results
@@ -57,7 +57,10 @@ namespace DynamicVisualizer
                 {Keys.O, () => rotateLabel_Click(rotateLabel, EventArgs.Empty)},
                 {Keys.G, () => guideLabel_Click(guideLabel, EventArgs.Empty)},
                 {Keys.P, () => loopLabel_Click(loopLabel, EventArgs.Empty)},
-                {Keys.H, () => straightLabel_Click(straightLabel, EventArgs.Empty)}
+                {Keys.H, () => straightLabel_Click(straightLabel, EventArgs.Empty)},
+                {Keys.A, () => addStepAfterLabel_Click(addStepAfterLabel, EventArgs.Empty)},
+                {Keys.D, () => addStepLoopedLabel_Click(addStepLoopedLabel, EventArgs.Empty)},
+                {Keys.F, () => markAsFinalLabel_Click(markAsFinalLabel, EventArgs.Empty)}
             };
 
             RedrawNeeded = Redraw;
@@ -493,6 +496,10 @@ namespace DynamicVisualizer
 
         private void markAsFinalLabel_Click(object sender, EventArgs e)
         {
+            if (StepManager.CurrentStep == null)
+            {
+                return;
+            }
             if (StepManager.FinalStep == null)
             {
                 if (StepManager.CurrentStep.Iterations == -1)
