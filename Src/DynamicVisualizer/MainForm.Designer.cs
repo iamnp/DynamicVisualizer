@@ -58,11 +58,13 @@ namespace DynamicVisualizer
             this.gLabel = new System.Windows.Forms.Label();
             this.pLabel = new System.Windows.Forms.Label();
             this.exportButton = new System.Windows.Forms.Button();
+            this.markAsFinalLabel = new System.Windows.Forms.Label();
+            this.straightLabel = new System.Windows.Forms.Label();
+            this.hLabel = new System.Windows.Forms.Label();
             this.arrayExpressionEditor1 = new DynamicVisualizer.Controls.ArrayExpressionEditor();
             this._scalarExpressionEditor1 = new DynamicVisualizer.Controls.ScalarExpressionEditor();
             this.stepEditor1 = new DynamicVisualizer.Controls.StepEditor();
             this._stepListControl1 = new DynamicVisualizer.Controls.StepListControl();
-            this.markAsFinalLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // elementHost1
@@ -71,6 +73,7 @@ namespace DynamicVisualizer
             this.elementHost1.Name = "elementHost1";
             this.elementHost1.Size = new System.Drawing.Size(1000, 700);
             this.elementHost1.TabIndex = 0;
+            this.elementHost1.TabStop = false;
             this.elementHost1.Text = "elementHost1";
             this.elementHost1.Child = null;
             // 
@@ -212,7 +215,7 @@ namespace DynamicVisualizer
             // addStepLabel
             // 
             this.addStepLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addStepLabel.Location = new System.Drawing.Point(1225, 555);
+            this.addStepLabel.Location = new System.Drawing.Point(1225, 580);
             this.addStepLabel.Name = "addStepLabel";
             this.addStepLabel.Size = new System.Drawing.Size(100, 20);
             this.addStepLabel.TabIndex = 21;
@@ -222,7 +225,7 @@ namespace DynamicVisualizer
             // addStepAfterLabel
             // 
             this.addStepAfterLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addStepAfterLabel.Location = new System.Drawing.Point(1225, 580);
+            this.addStepAfterLabel.Location = new System.Drawing.Point(1225, 605);
             this.addStepAfterLabel.Name = "addStepAfterLabel";
             this.addStepAfterLabel.Size = new System.Drawing.Size(100, 20);
             this.addStepAfterLabel.TabIndex = 22;
@@ -233,7 +236,7 @@ namespace DynamicVisualizer
             // addStepLoopedLabel
             // 
             this.addStepLoopedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addStepLoopedLabel.Location = new System.Drawing.Point(1225, 605);
+            this.addStepLoopedLabel.Location = new System.Drawing.Point(1225, 630);
             this.addStepLoopedLabel.Name = "addStepLoopedLabel";
             this.addStepLoopedLabel.Size = new System.Drawing.Size(100, 20);
             this.addStepLoopedLabel.TabIndex = 23;
@@ -370,9 +373,46 @@ namespace DynamicVisualizer
             this.exportButton.Name = "exportButton";
             this.exportButton.Size = new System.Drawing.Size(150, 23);
             this.exportButton.TabIndex = 35;
+            this.exportButton.TabStop = false;
             this.exportButton.Text = "Export";
             this.exportButton.UseVisualStyleBackColor = true;
             this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+            // 
+            // markAsFinalLabel
+            // 
+            this.markAsFinalLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.markAsFinalLabel.Location = new System.Drawing.Point(1225, 655);
+            this.markAsFinalLabel.Name = "markAsFinalLabel";
+            this.markAsFinalLabel.Size = new System.Drawing.Size(100, 20);
+            this.markAsFinalLabel.TabIndex = 36;
+            this.markAsFinalLabel.Text = "Mark as final";
+            this.markAsFinalLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.markAsFinalLabel.Click += new System.EventHandler(this.markAsFinalLabel_Click);
+            // 
+            // straightLabel
+            // 
+            this.straightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.straightLabel.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.straightLabel.Location = new System.Drawing.Point(1255, 540);
+            this.straightLabel.Name = "straightLabel";
+            this.straightLabel.Size = new System.Drawing.Size(70, 20);
+            this.straightLabel.TabIndex = 37;
+            this.straightLabel.Text = "Straight";
+            this.straightLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.straightLabel.Visible = false;
+            this.straightLabel.Click += new System.EventHandler(this.straightLabel_Click);
+            // 
+            // hLabel
+            // 
+            this.hLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.hLabel.Location = new System.Drawing.Point(1325, 540);
+            this.hLabel.Name = "hLabel";
+            this.hLabel.Size = new System.Drawing.Size(20, 20);
+            this.hLabel.TabIndex = 38;
+            this.hLabel.Text = "h";
+            this.hLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.hLabel.Visible = false;
+            this.hLabel.Click += new System.EventHandler(this.straightLabel_Click);
             // 
             // arrayExpressionEditor1
             // 
@@ -405,22 +445,13 @@ namespace DynamicVisualizer
             this._stepListControl1.Size = new System.Drawing.Size(200, 342);
             this._stepListControl1.TabIndex = 5;
             // 
-            // markAsFinalLabel
-            // 
-            this.markAsFinalLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.markAsFinalLabel.Location = new System.Drawing.Point(1225, 630);
-            this.markAsFinalLabel.Name = "markAsFinalLabel";
-            this.markAsFinalLabel.Size = new System.Drawing.Size(100, 20);
-            this.markAsFinalLabel.TabIndex = 36;
-            this.markAsFinalLabel.Text = "Mark as final";
-            this.markAsFinalLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.markAsFinalLabel.Click += new System.EventHandler(this.markAsFinalLabel_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 700);
+            this.Controls.Add(this.hLabel);
+            this.Controls.Add(this.straightLabel);
             this.Controls.Add(this.markAsFinalLabel);
             this.Controls.Add(this.exportButton);
             this.Controls.Add(this.pLabel);
@@ -498,6 +529,8 @@ namespace DynamicVisualizer
         private System.Windows.Forms.Label pLabel;
         private System.Windows.Forms.Button exportButton;
         private System.Windows.Forms.Label markAsFinalLabel;
+        private System.Windows.Forms.Label straightLabel;
+        private System.Windows.Forms.Label hLabel;
     }
 }
 

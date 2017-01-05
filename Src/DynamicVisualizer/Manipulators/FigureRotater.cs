@@ -28,17 +28,6 @@ namespace DynamicVisualizer.Manipulators
             return _moved;
         }
 
-        private static double AngleBetween(double ax, double ay, double bx, double by)
-        {
-            var angle = Math.Acos((ax * bx + ay * by)
-                                  / (Math.Sqrt(ax * ax + ay * ay) * Math.Sqrt(bx * bx + by * by)));
-            if (ax * by - ay * bx < 0)
-            {
-                return angle;
-            }
-            return -angle;
-        }
-
         private void RotateLine(LineFigure lf, Point pos)
         {
             if (_nowRotating == null)
@@ -46,7 +35,7 @@ namespace DynamicVisualizer.Manipulators
                 var snappedTo = StepManager.SnapTo(pos, lf.GetMagnets(), lf.Center);
                 if (snappedTo == lf.Start)
                 {
-                    var angle = AngleBetween(lf.X.CachedValue.AsDouble + lf.Width.CachedValue.AsDouble - pos.X,
+                    var angle = Utils.AngleBetween(lf.X.CachedValue.AsDouble + lf.Width.CachedValue.AsDouble - pos.X,
                         lf.Y.CachedValue.AsDouble + lf.Height.CachedValue.AsDouble - pos.Y,
                         lf.Width.CachedValue.AsDouble,
                         lf.Height.CachedValue.AsDouble);
@@ -56,7 +45,7 @@ namespace DynamicVisualizer.Manipulators
                 }
                 else if (snappedTo == lf.End)
                 {
-                    var angle = AngleBetween(pos.X - lf.X.CachedValue.AsDouble, pos.Y - lf.Y.CachedValue.AsDouble,
+                    var angle = Utils.AngleBetween(pos.X - lf.X.CachedValue.AsDouble, pos.Y - lf.Y.CachedValue.AsDouble,
                         lf.Width.CachedValue.AsDouble, lf.Height.CachedValue.AsDouble);
 
                     _nowRotating = new RotateLineStep(lf, RotateLineStep.Side.Start,
@@ -78,14 +67,14 @@ namespace DynamicVisualizer.Manipulators
 
                 if (rls.RotateAround == RotateLineStep.Side.Start)
                 {
-                    var angle = AngleBetween(pos.X - _originalX, pos.Y - _originalY,
+                    var angle = Utils.AngleBetween(pos.X - _originalX, pos.Y - _originalY,
                         _originalW, _originalH);
 
                     rls.Rotate(angle / (2 * Math.PI));
                 }
                 else if (rls.RotateAround == RotateLineStep.Side.End)
                 {
-                    var angle = AngleBetween(_originalX + _originalW - pos.X,
+                    var angle = Utils.AngleBetween(_originalX + _originalW - pos.X,
                         _originalY + _originalH - pos.Y,
                         _originalW, _originalH);
 
@@ -101,7 +90,7 @@ namespace DynamicVisualizer.Manipulators
                 var snappedTo = StepManager.SnapTo(pos, tf.GetMagnets(), tf.Center);
                 if (snappedTo == tf.Start)
                 {
-                    var angle = AngleBetween(tf.X.CachedValue.AsDouble + tf.Width.CachedValue.AsDouble - pos.X,
+                    var angle = Utils.AngleBetween(tf.X.CachedValue.AsDouble + tf.Width.CachedValue.AsDouble - pos.X,
                         tf.Y.CachedValue.AsDouble + tf.Height.CachedValue.AsDouble - pos.Y,
                         tf.Width.CachedValue.AsDouble,
                         tf.Height.CachedValue.AsDouble);
@@ -111,7 +100,7 @@ namespace DynamicVisualizer.Manipulators
                 }
                 else if (snappedTo == tf.End)
                 {
-                    var angle = AngleBetween(pos.X - tf.X.CachedValue.AsDouble, pos.Y - tf.Y.CachedValue.AsDouble,
+                    var angle = Utils.AngleBetween(pos.X - tf.X.CachedValue.AsDouble, pos.Y - tf.Y.CachedValue.AsDouble,
                         tf.Width.CachedValue.AsDouble, tf.Height.CachedValue.AsDouble);
 
                     _nowRotating = new RotateTextStep(tf, RotateTextStep.Side.Start,
@@ -133,14 +122,14 @@ namespace DynamicVisualizer.Manipulators
 
                 if (rls.RotateAround == RotateTextStep.Side.Start)
                 {
-                    var angle = AngleBetween(pos.X - _originalX, pos.Y - _originalY,
+                    var angle = Utils.AngleBetween(pos.X - _originalX, pos.Y - _originalY,
                         _originalW, _originalH);
 
                     rls.Rotate(angle / (2 * Math.PI));
                 }
                 else if (rls.RotateAround == RotateTextStep.Side.End)
                 {
-                    var angle = AngleBetween(_originalX + _originalW - pos.X,
+                    var angle = Utils.AngleBetween(_originalX + _originalW - pos.X,
                         _originalY + _originalH - pos.Y,
                         _originalW, _originalH);
 

@@ -37,22 +37,22 @@ namespace DynamicVisualizer.Manipulators
                 _originalW = rf.Width.CachedValue.AsDouble;
                 _originalH = rf.Height.CachedValue.AsDouble;
                 var snappedTo = StepManager.SnapTo(pos, rf.GetMagnets(), rf.Center);
-                if ((snappedTo == rf.Left) && (Math.Abs(_originalW) > DoubleExtensions.Tolerance))
+                if ((snappedTo == rf.Left) && (Math.Abs(_originalW) > Utils.Tolerance))
                 {
                     _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Right,
                         1 - (pos.X - _downPos.X) / _originalW);
                 }
-                else if ((snappedTo == rf.Right) && (Math.Abs(_originalW) > DoubleExtensions.Tolerance))
+                else if ((snappedTo == rf.Right) && (Math.Abs(_originalW) > Utils.Tolerance))
                 {
                     _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Left,
                         1 + (pos.X - _downPos.X) / _originalW);
                 }
-                else if ((snappedTo == rf.Top) && (Math.Abs(_originalH) > DoubleExtensions.Tolerance))
+                else if ((snappedTo == rf.Top) && (Math.Abs(_originalH) > Utils.Tolerance))
                 {
                     _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Bottom,
                         1 - (pos.Y - _downPos.Y) / _originalH);
                 }
-                else if ((snappedTo == rf.Bottom) && (Math.Abs(_originalH) > DoubleExtensions.Tolerance))
+                else if ((snappedTo == rf.Bottom) && (Math.Abs(_originalH) > Utils.Tolerance))
                 {
                     _nowScaling = new ScaleRectStep(rf, ScaleRectStep.Side.Top,
                         1 + (pos.Y - _downPos.Y) / _originalH);
@@ -93,22 +93,22 @@ namespace DynamicVisualizer.Manipulators
                 _originalW = ef.Radius1.CachedValue.AsDouble;
                 _originalH = ef.Radius2.CachedValue.AsDouble;
                 var snappedTo = StepManager.SnapTo(pos, ef.GetMagnets(), ef.Center);
-                if ((snappedTo == ef.Left) && (Math.Abs(_originalW) > DoubleExtensions.Tolerance))
+                if ((snappedTo == ef.Left) && (Math.Abs(_originalW) > Utils.Tolerance))
                 {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Right,
                         1 - (pos.X - _downPos.X) / _originalW);
                 }
-                else if ((snappedTo == ef.Right) && (Math.Abs(_originalW) > DoubleExtensions.Tolerance))
+                else if ((snappedTo == ef.Right) && (Math.Abs(_originalW) > Utils.Tolerance))
                 {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Left,
                         1 + (pos.X - _downPos.X) / _originalW);
                 }
-                else if ((snappedTo == ef.Top) && (Math.Abs(_originalH) > DoubleExtensions.Tolerance))
+                else if ((snappedTo == ef.Top) && (Math.Abs(_originalH) > Utils.Tolerance))
                 {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Bottom,
                         1 + (pos.Y - _downPos.Y) / _originalH);
                 }
-                else if ((snappedTo == ef.Bottom) && (Math.Abs(_originalH) > DoubleExtensions.Tolerance))
+                else if ((snappedTo == ef.Bottom) && (Math.Abs(_originalH) > Utils.Tolerance))
                 {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Top,
                         1 - (pos.Y - _downPos.Y) / _originalH);
@@ -152,7 +152,7 @@ namespace DynamicVisualizer.Manipulators
                 _originalH = lf.Height.CachedValue.AsDouble;
                 var snappedTo = StepManager.SnapTo(pos, lf.GetMagnets(), lf.Center);
                 var bLenSquared = _originalW * _originalW + _originalH * _originalH;
-                if ((snappedTo == lf.Start) && (Math.Abs(bLenSquared) > DoubleExtensions.Tolerance))
+                if ((snappedTo == lf.Start) && (Math.Abs(bLenSquared) > Utils.Tolerance))
                 {
                     var ax = _originalX + _originalW - pos.X;
                     var ay = _originalY + _originalH - pos.Y;
@@ -160,7 +160,7 @@ namespace DynamicVisualizer.Manipulators
                     _nowScaling = new ScaleLineStep(lf, ScaleLineStep.Side.End,
                         (ax * _originalW + ay * _originalH) / bLenSquared);
                 }
-                else if ((snappedTo == lf.End) && (Math.Abs(bLenSquared) > DoubleExtensions.Tolerance))
+                else if ((snappedTo == lf.End) && (Math.Abs(bLenSquared) > Utils.Tolerance))
                 {
                     var ax = pos.X - _originalX;
                     var ay = pos.Y - _originalY;
@@ -209,7 +209,7 @@ namespace DynamicVisualizer.Manipulators
                 _originalH = tf.Height.CachedValue.AsDouble;
                 var snappedTo = StepManager.SnapTo(pos, tf.GetMagnets(), tf.Center);
                 var bLenSquared = _originalW * _originalW + _originalH * _originalH;
-                if ((snappedTo == tf.Start) && (Math.Abs(bLenSquared) > DoubleExtensions.Tolerance))
+                if ((snappedTo == tf.Start) && (Math.Abs(bLenSquared) > Utils.Tolerance))
                 {
                     var ax = _originalX + _originalW - pos.X;
                     var ay = _originalY + _originalH - pos.Y;
@@ -217,7 +217,7 @@ namespace DynamicVisualizer.Manipulators
                     _nowScaling = new ScaleTextStep(tf, ScaleTextStep.Side.End,
                         (ax * _originalW + ay * _originalH) / bLenSquared);
                 }
-                else if ((snappedTo == tf.End) && (Math.Abs(bLenSquared) > DoubleExtensions.Tolerance))
+                else if ((snappedTo == tf.End) && (Math.Abs(bLenSquared) > Utils.Tolerance))
                 {
                     var ax = pos.X - _originalX;
                     var ay = pos.Y - _originalY;

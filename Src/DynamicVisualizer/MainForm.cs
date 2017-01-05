@@ -18,7 +18,7 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO deal with removing steps with dependants
 // TODO add global exception handler (for stack overflow too)
 
-// TODO GUI improvements (scalar and array(!) editors)
+// TODO GUI improvements (scalar and array(!) editors, more hotkeys, immediate editors apply)
 // TODO check for memory leaks in dependants lists
 // TODO? deal with too many static members (refactoring)
 // TODO? add empty steps to view results
@@ -56,7 +56,8 @@ namespace DynamicVisualizer
                 {Keys.E, () => resizeLabel_Click(resizeLabel, EventArgs.Empty)},
                 {Keys.O, () => rotateLabel_Click(rotateLabel, EventArgs.Empty)},
                 {Keys.G, () => guideLabel_Click(guideLabel, EventArgs.Empty)},
-                {Keys.P, () => loopLabel_Click(loopLabel, EventArgs.Empty)}
+                {Keys.P, () => loopLabel_Click(loopLabel, EventArgs.Empty)},
+                {Keys.H, () => straightLabel_Click(straightLabel, EventArgs.Empty)}
             };
 
             RedrawNeeded = Redraw;
@@ -338,6 +339,8 @@ namespace DynamicVisualizer
             circleLabel.ForeColor = SystemColors.ControlDark;
             lineLabel.ForeColor = SystemColors.ControlDark;
             textLabel.ForeColor = SystemColors.ControlDark;
+            straightLabel.Visible = false;
+            hLabel.Visible = false;
         }
 
         private void circleLabel_Click(object sender, EventArgs e)
@@ -347,6 +350,8 @@ namespace DynamicVisualizer
             rectLabel.ForeColor = SystemColors.ControlDark;
             lineLabel.ForeColor = SystemColors.ControlDark;
             textLabel.ForeColor = SystemColors.ControlDark;
+            straightLabel.Visible = false;
+            hLabel.Visible = false;
         }
 
         private void lineLabel_Click(object sender, EventArgs e)
@@ -356,6 +361,8 @@ namespace DynamicVisualizer
             rectLabel.ForeColor = SystemColors.ControlDark;
             lineLabel.ForeColor = SystemColors.ControlText;
             textLabel.ForeColor = SystemColors.ControlDark;
+            straightLabel.Visible = true;
+            hLabel.Visible = true;
         }
 
         private void textLabel_Click(object sender, EventArgs e)
@@ -365,6 +372,8 @@ namespace DynamicVisualizer
             rectLabel.ForeColor = SystemColors.ControlDark;
             lineLabel.ForeColor = SystemColors.ControlDark;
             textLabel.ForeColor = SystemColors.ControlText;
+            straightLabel.Visible = true;
+            hLabel.Visible = true;
         }
 
         private void moveLabel_Click(object sender, EventArgs e)
@@ -416,6 +425,23 @@ namespace DynamicVisualizer
             {
                 _stepListControl1.CurrentSelectionToIterableGroup();
             }
+        }
+
+        private void straightLabel_Click(object sender, EventArgs e)
+        {
+            if (!straightLabel.Visible)
+            {
+                return;
+            }
+            if (_figureDrawer.Straight)
+            {
+                straightLabel.ForeColor = SystemColors.ControlDark;
+            }
+            else
+            {
+                straightLabel.ForeColor = SystemColors.ControlText;
+            }
+            _figureDrawer.Straight = !_figureDrawer.Straight;
         }
 
         private void addStepAfterLabel_Click(object sender, EventArgs e)

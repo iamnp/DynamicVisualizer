@@ -37,6 +37,10 @@
         {
             get
             {
+                if (Empty)
+                {
+                    return "";
+                }
                 if (IsDouble)
                 {
                     return AsDouble.Str();

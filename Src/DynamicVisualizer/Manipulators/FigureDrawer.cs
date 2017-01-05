@@ -10,6 +10,7 @@ namespace DynamicVisualizer.Manipulators
         private DrawStep _nowDrawing;
         private Point _startPos;
         public DrawStep.DrawStepType DrawStepType = DrawStep.DrawStepType.DrawRect;
+        public bool Straight;
 
         public bool NowDrawing => _nowDrawing != null;
 
@@ -120,13 +121,45 @@ namespace DynamicVisualizer.Manipulators
             var snapped = StepManager.Snap(pos, _nowDrawing.Figure);
             if (snapped == null)
             {
-                ((DrawLineStep) _nowDrawing).ReInit(pos.X - _startPos.X, pos.Y - _startPos.Y);
+                if (Straight)
+                {
+                    if (Utils.PointSector(pos, _startPos))
+                    {
+                        ((DrawLineStep) _nowDrawing).ReInit(0, pos.Y - _startPos.Y);
+                    }
+                    else
+                    {
+                        ((DrawLineStep) _nowDrawing).ReInit(pos.X - _startPos.X, 0);
+                    }
+                }
+                else
+                {
+                    ((DrawLineStep) _nowDrawing).ReInit(pos.X - _startPos.X, pos.Y - _startPos.Y);
+                }
             }
             else
             {
-                ((DrawLineStep) _nowDrawing).ReInit(
-                    "(" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x",
-                    "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y", snapped.Def);
+                if (Straight)
+                {
+                    if (Utils.PointSector(pos, _startPos))
+                    {
+                        ((DrawLineStep) _nowDrawing).ReInit(
+                            "0",
+                            "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y", snapped.Def);
+                    }
+                    else
+                    {
+                        ((DrawLineStep) _nowDrawing).ReInit(
+                            "(" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x",
+                            "0", snapped.Def);
+                    }
+                }
+                else
+                {
+                    ((DrawLineStep) _nowDrawing).ReInit(
+                        "(" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x",
+                        "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y", snapped.Def);
+                }
             }
         }
 
@@ -135,13 +168,45 @@ namespace DynamicVisualizer.Manipulators
             var snapped = StepManager.Snap(pos, _nowDrawing.Figure);
             if (snapped == null)
             {
-                ((DrawTextStep) _nowDrawing).ReInit(pos.X - _startPos.X, pos.Y - _startPos.Y);
+                if (Straight)
+                {
+                    if (Utils.PointSector(pos, _startPos))
+                    {
+                        ((DrawTextStep) _nowDrawing).ReInit(0, pos.Y - _startPos.Y);
+                    }
+                    else
+                    {
+                        ((DrawTextStep) _nowDrawing).ReInit(pos.X - _startPos.X, 0);
+                    }
+                }
+                else
+                {
+                    ((DrawTextStep) _nowDrawing).ReInit(pos.X - _startPos.X, pos.Y - _startPos.Y);
+                }
             }
             else
             {
-                ((DrawTextStep) _nowDrawing).ReInit(
-                    "(" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x",
-                    "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y", snapped.Def);
+                if (Straight)
+                {
+                    if (Utils.PointSector(pos, _startPos))
+                    {
+                        ((DrawTextStep) _nowDrawing).ReInit(
+                            "0",
+                            "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y", snapped.Def);
+                    }
+                    else
+                    {
+                        ((DrawTextStep) _nowDrawing).ReInit(
+                            "(" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x",
+                            "0", snapped.Def);
+                    }
+                }
+                else
+                {
+                    ((DrawTextStep) _nowDrawing).ReInit(
+                        "(" + snapped.X.ExprString + ") - " + _nowDrawing.Figure.Name + ".x",
+                        "(" + snapped.Y.ExprString + ") - " + _nowDrawing.Figure.Name + ".y", snapped.Def);
+                }
             }
         }
 
