@@ -86,6 +86,7 @@
     <Compile Include="Expressions\DataStorage.cs" />
     <Compile Include="Figures\EllipseFigure.cs" />
     <Compile Include="Figures\Magnet.cs" />
+    <Compile Include="PointExtensions.cs" />
     <Compile Include="Steps\Draw\DrawTextStep.cs" />
     <Compile Include="Steps\Move\MoveTextStep.cs" />
     <Compile Include="Steps\Resize\ResizeTextStep.cs" />
@@ -101,7 +102,7 @@
     <Compile Include="Steps\DrawStep.cs" />
     <Compile Include="Expressions\Evaluater.cs" />
     <Compile Include="Expressions\Expression.cs" />
-    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="DoubleExtensions.cs" />
     <Compile Include="Figures\Figure.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

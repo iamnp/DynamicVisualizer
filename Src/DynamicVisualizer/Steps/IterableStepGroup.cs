@@ -24,7 +24,10 @@ namespace DynamicVisualizer.Steps
             get { return _iterations; }
             private set
             {
-                if (value < 1) return;
+                if (value < 1)
+                {
+                    return;
+                }
                 _iterations = value;
                 for (var i = StartIndex; i < StartIndex + Length; ++i)
                 {
