@@ -18,7 +18,6 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO deal with removing steps with dependants
 // TODO add global exception handler (for stack overflow too)
 // TODO scaling 0-width rect gets scale by NaN
-// TODO inf in group iteration counter (div by zero, etc.)
 
 // TODO GUI improvements (scalar and array(!) editors)
 // TODO check for memory leaks in dependants lists
