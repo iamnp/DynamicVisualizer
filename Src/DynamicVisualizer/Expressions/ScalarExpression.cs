@@ -5,7 +5,6 @@ namespace DynamicVisualizer.Expressions
 {
     public class ScalarExpression : Expression
     {
-        private readonly Func<string, Value> _varEvaluater;
         public readonly ArrayExpression ParentArray;
         public bool AllowedToAddToParent;
         public int IndexInArray;
@@ -14,36 +13,6 @@ namespace DynamicVisualizer.Expressions
         private ScalarExpression(string objectName, string varName, string rawExpr, int indexInArray,
             bool allowedToAddToParent, ArrayExpression parentArray, bool isWeak) : base(objectName, varName)
         {
-            _varEvaluater = s =>
-            {
-                if (!s.Contains("."))
-                {
-                    s = ObjectName + "." + s;
-                }
-                var usedExpr = DataStorage.GetExpression(s);
-                if (!IsWeak)
-                {
-                    // used scalar expr
-                    if (usedExpr is ScalarExpression && (usedExpr != this))
-                    {
-                        usedExpr.UsedBy.Add(this);
-                        DependentOn.Add(usedExpr);
-                    }
-                    // used i-th element of array expr
-                    else if ((usedExpr != ParentArray) && AllowedToAddToParent)
-                    {
-                        usedExpr.UsedBy.Add(ParentArray);
-                        ParentArray.DependentOn.Add(usedExpr);
-                    }
-                    // used whole array expr
-                    else if (usedExpr != this)
-                    {
-                        usedExpr.UsedBy.Add(this);
-                        DependentOn.Add(usedExpr);
-                    }
-                }
-                return usedExpr.CachedValue;
-            };
             IndexInArray = indexInArray;
             IsWeak = isWeak;
             ParentArray = parentArray;
@@ -73,6 +42,38 @@ namespace DynamicVisualizer.Expressions
         }
 
         public override bool CanBeRemoved => (UsedBy.Count == 0) && (ParentArray == null);
+
+        private Value VarEval(string s)
+        {
+            if (!s.Contains("."))
+            {
+                s = ObjectName + "." + s;
+            }
+            var usedExpr = DataStorage.GetExpression(s);
+            if (!IsWeak)
+            {
+                // used scalar expr
+                if (usedExpr is ScalarExpression && (usedExpr != this))
+                {
+                    usedExpr.UsedBy.Add(this);
+                    DependentOn.Add(usedExpr);
+                }
+                // used i-th element of array expr
+                else if ((usedExpr != ParentArray) && AllowedToAddToParent)
+                {
+                    usedExpr.UsedBy.Add(ParentArray);
+                    ParentArray.DependentOn.Add(usedExpr);
+                }
+                // used whole array expr
+                else if (usedExpr != this)
+                {
+                    usedExpr.UsedBy.Add(this);
+                    DependentOn.Add(usedExpr);
+                }
+            }
+            return usedExpr.CachedValue;
+        }
+
         public event EventHandler ValueChanged;
 
         public void SetRawExpression(string rawExpr)
@@ -93,7 +94,7 @@ namespace DynamicVisualizer.Expressions
 
             try
             {
-                var val = Evaluater.Evaluate(ExprString, _varEvaluater, IndexInArray);
+                var val = Evaluater.Evaluate(ExprString, VarEval, IndexInArray);
                 CachedValue.SwitchTo(val.IsArray ? val.AsArray[IndexInArray] : val);
             }
             catch

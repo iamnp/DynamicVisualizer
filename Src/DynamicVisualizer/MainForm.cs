@@ -16,7 +16,7 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO identify infinite resucrsion (stackoverflow errors in evaluator class)
 // TODO fix exception when drawing on disapperaning magnets (before step insertion, mb add empty step)
 // TODO deal with removing steps with dependants
-// TODO add global exception handler (for stack overflow too)
+// TODO add global exception handler
 
 // TODO GUI improvements (scalar and array(!) editors, step list, immediate editors apply)
 // TODO check for memory leaks in dependants lists
@@ -100,6 +100,8 @@ namespace DynamicVisualizer
             _mainGraphics.MouseMove += MainGraphicsOnMouseMove;
             _mainGraphics.MouseUp += MainGraphicsOnMouseUp;
             _mainGraphics.MouseLeave += MainGraphicsOnMouseLeave;
+
+            ActiveControl = _stepListControl1;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
