@@ -14,16 +14,13 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
 // TODO identify infinite resucrsion (stackoverflow errors in evaluator class)
-// TODO fix exception when drawing on disapperaning magnets (before step insertion, mb add empty step)
 // TODO deal with removing steps with dependants
 // TODO add global exception handler
 
 // TODO GUI improvements (scalar and array(!) editors, step list, immediate editors apply)
 // TODO check for memory leaks in dependants lists
 // TODO? deal with too many static members (refactoring)
-// TODO? add empty steps to view results
 // TODO? deal with expr dependants system
-// TODO? fix order of iterative drawing
 
 namespace DynamicVisualizer
 {
@@ -59,6 +56,7 @@ namespace DynamicVisualizer
                 {Keys.P, () => loopLabel_Click(loopLabel, EventArgs.Empty)},
                 {Keys.H, () => straightLabel_Click(straightLabel, EventArgs.Empty)},
                 {Keys.A, () => addStepAfterLabel_Click(addStepAfterLabel, EventArgs.Empty)},
+                {Keys.B, () => addStepBeforeLabel_Click(addStepBeforeLabel, EventArgs.Empty)},
                 {Keys.D, () => addStepLoopedLabel_Click(addStepLoopedLabel, EventArgs.Empty)},
                 {Keys.F, () => markAsFinalLabel_Click(markAsFinalLabel, EventArgs.Empty)}
             };
@@ -163,7 +161,7 @@ namespace DynamicVisualizer
                             if (StepManager.CurrentStep == StepManager.FinalStep)
                             {
                                 StepManager.FinalStep = null;
-                                markAsFinalLabel.Text = "Mark as final";
+                                markAsFinalLabel.Text = "mark as final";
                             }
                             StepManager.Remove(StepManager.CurrentStepIndex);
                         }
@@ -451,28 +449,24 @@ namespace DynamicVisualizer
 
         private void addStepAfterLabel_Click(object sender, EventArgs e)
         {
-            if (StepManager.AddStepBeforeCurrent)
-            {
-                addStepAfterLabel.Text = "Add after";
-                StepManager.AddStepBeforeCurrent = false;
-            }
-            else
-            {
-                addStepAfterLabel.Text = "Add before";
-                StepManager.AddStepBeforeCurrent = true;
-            }
+            StepManager.InsertNext(new EmptyStep());
+        }
+
+        private void addStepBeforeLabel_Click(object sender, EventArgs e)
+        {
+            StepManager.InsertNext(new EmptyStep(), true);
         }
 
         private void addStepLoopedLabel_Click(object sender, EventArgs e)
         {
             if (StepManager.AddStepLooped)
             {
-                addStepLoopedLabel.Text = "Not looped";
+                addStepLoopedLabel.Text = "not looped";
                 StepManager.AddStepLooped = false;
             }
             else
             {
-                addStepLoopedLabel.Text = "Looped";
+                addStepLoopedLabel.Text = "looped";
                 StepManager.AddStepLooped = true;
             }
         }
@@ -507,13 +501,13 @@ namespace DynamicVisualizer
                 if (StepManager.CurrentStep.Iterations == -1)
                 {
                     StepManager.FinalStep = StepManager.CurrentStep;
-                    markAsFinalLabel.Text = "Reset final";
+                    markAsFinalLabel.Text = "reset final";
                 }
             }
             else
             {
                 StepManager.FinalStep = null;
-                markAsFinalLabel.Text = "Mark as final";
+                markAsFinalLabel.Text = "mark as final";
             }
             StepManager.RefreshToCurrentStep();
         }

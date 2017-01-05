@@ -86,6 +86,7 @@
     <Compile Include="Expressions\DataStorage.cs" />
     <Compile Include="Figures\EllipseFigure.cs" />
     <Compile Include="Figures\Magnet.cs" />
+    <Compile Include="Steps\EmptyStep.cs" />
     <Compile Include="Steps\Draw\DrawTextStep.cs" />
     <Compile Include="Steps\Move\MoveTextStep.cs" />
     <Compile Include="Steps\Resize\ResizeTextStep.cs" />

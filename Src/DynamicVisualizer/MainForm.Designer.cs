@@ -64,6 +64,8 @@ namespace DynamicVisualizer
             this.aLabel = new System.Windows.Forms.Label();
             this.dLabel = new System.Windows.Forms.Label();
             this.fLabel = new System.Windows.Forms.Label();
+            this.addStepBeforeLabel = new System.Windows.Forms.Label();
+            this.bLabel = new System.Windows.Forms.Label();
             this.arrayExpressionEditor1 = new DynamicVisualizer.Controls.ArrayExpressionEditor();
             this._scalarExpressionEditor1 = new DynamicVisualizer.Controls.ScalarExpressionEditor();
             this.stepEditor1 = new DynamicVisualizer.Controls.StepEditor();
@@ -97,7 +99,7 @@ namespace DynamicVisualizer
             this.rectLabel.Name = "rectLabel";
             this.rectLabel.Size = new System.Drawing.Size(70, 20);
             this.rectLabel.TabIndex = 7;
-            this.rectLabel.Text = "Rect";
+            this.rectLabel.Text = "rect";
             this.rectLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.rectLabel.Click += new System.EventHandler(this.rectLabel_Click);
             // 
@@ -105,18 +107,18 @@ namespace DynamicVisualizer
             // 
             this.circleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.circleLabel.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.circleLabel.Location = new System.Drawing.Point(1255, 230);
+            this.circleLabel.Location = new System.Drawing.Point(1255, 225);
             this.circleLabel.Name = "circleLabel";
             this.circleLabel.Size = new System.Drawing.Size(70, 20);
             this.circleLabel.TabIndex = 8;
-            this.circleLabel.Text = "Circle";
+            this.circleLabel.Text = "circle";
             this.circleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.circleLabel.Click += new System.EventHandler(this.circleLabel_Click);
             // 
             // transformLabel
             // 
             this.transformLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.transformLabel.Location = new System.Drawing.Point(1225, 320);
+            this.transformLabel.Location = new System.Drawing.Point(1225, 305);
             this.transformLabel.Name = "transformLabel";
             this.transformLabel.Size = new System.Drawing.Size(100, 20);
             this.transformLabel.TabIndex = 9;
@@ -126,11 +128,11 @@ namespace DynamicVisualizer
             // moveLabel
             // 
             this.moveLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.moveLabel.Location = new System.Drawing.Point(1255, 345);
+            this.moveLabel.Location = new System.Drawing.Point(1255, 325);
             this.moveLabel.Name = "moveLabel";
             this.moveLabel.Size = new System.Drawing.Size(70, 20);
             this.moveLabel.TabIndex = 10;
-            this.moveLabel.Text = "Move";
+            this.moveLabel.Text = "move";
             this.moveLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.moveLabel.Click += new System.EventHandler(this.moveLabel_Click);
             // 
@@ -138,22 +140,22 @@ namespace DynamicVisualizer
             // 
             this.scaleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.scaleLabel.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.scaleLabel.Location = new System.Drawing.Point(1255, 370);
+            this.scaleLabel.Location = new System.Drawing.Point(1255, 345);
             this.scaleLabel.Name = "scaleLabel";
             this.scaleLabel.Size = new System.Drawing.Size(70, 20);
             this.scaleLabel.TabIndex = 11;
-            this.scaleLabel.Text = "Scale";
+            this.scaleLabel.Text = "scale";
             this.scaleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.scaleLabel.Click += new System.EventHandler(this.scaleLabel_Click);
             // 
             // guideLabel
             // 
             this.guideLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.guideLabel.Location = new System.Drawing.Point(1255, 510);
+            this.guideLabel.Location = new System.Drawing.Point(1255, 465);
             this.guideLabel.Name = "guideLabel";
             this.guideLabel.Size = new System.Drawing.Size(70, 20);
             this.guideLabel.TabIndex = 12;
-            this.guideLabel.Text = "Guide";
+            this.guideLabel.Text = "guide";
             this.guideLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.guideLabel.Visible = false;
             this.guideLabel.Click += new System.EventHandler(this.guideLabel_Click);
@@ -161,18 +163,18 @@ namespace DynamicVisualizer
             // loopLabel
             // 
             this.loopLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.loopLabel.Location = new System.Drawing.Point(1255, 485);
+            this.loopLabel.Location = new System.Drawing.Point(1255, 445);
             this.loopLabel.Name = "loopLabel";
             this.loopLabel.Size = new System.Drawing.Size(70, 20);
             this.loopLabel.TabIndex = 14;
-            this.loopLabel.Text = "Loop";
+            this.loopLabel.Text = "loop";
             this.loopLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.loopLabel.Click += new System.EventHandler(this.loopLabel_Click);
             // 
             // modifiersLabel
             // 
             this.modifiersLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.modifiersLabel.Location = new System.Drawing.Point(1225, 460);
+            this.modifiersLabel.Location = new System.Drawing.Point(1225, 425);
             this.modifiersLabel.Name = "modifiersLabel";
             this.modifiersLabel.Size = new System.Drawing.Size(100, 20);
             this.modifiersLabel.TabIndex = 17;
@@ -183,11 +185,11 @@ namespace DynamicVisualizer
             // 
             this.resizeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.resizeLabel.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.resizeLabel.Location = new System.Drawing.Point(1255, 395);
+            this.resizeLabel.Location = new System.Drawing.Point(1255, 365);
             this.resizeLabel.Name = "resizeLabel";
             this.resizeLabel.Size = new System.Drawing.Size(70, 20);
             this.resizeLabel.TabIndex = 18;
-            this.resizeLabel.Text = "Resize";
+            this.resizeLabel.Text = "resize";
             this.resizeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.resizeLabel.Click += new System.EventHandler(this.resizeLabel_Click);
             // 
@@ -195,11 +197,11 @@ namespace DynamicVisualizer
             // 
             this.lineLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lineLabel.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lineLabel.Location = new System.Drawing.Point(1255, 255);
+            this.lineLabel.Location = new System.Drawing.Point(1255, 245);
             this.lineLabel.Name = "lineLabel";
             this.lineLabel.Size = new System.Drawing.Size(70, 20);
             this.lineLabel.TabIndex = 19;
-            this.lineLabel.Text = "Line";
+            this.lineLabel.Text = "line";
             this.lineLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lineLabel.Click += new System.EventHandler(this.lineLabel_Click);
             // 
@@ -207,18 +209,18 @@ namespace DynamicVisualizer
             // 
             this.rotateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rotateLabel.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.rotateLabel.Location = new System.Drawing.Point(1255, 420);
+            this.rotateLabel.Location = new System.Drawing.Point(1255, 385);
             this.rotateLabel.Name = "rotateLabel";
             this.rotateLabel.Size = new System.Drawing.Size(70, 20);
             this.rotateLabel.TabIndex = 20;
-            this.rotateLabel.Text = "Rotate";
+            this.rotateLabel.Text = "rotate";
             this.rotateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.rotateLabel.Click += new System.EventHandler(this.rotateLabel_Click);
             // 
             // addStepLabel
             // 
             this.addStepLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addStepLabel.Location = new System.Drawing.Point(1225, 575);
+            this.addStepLabel.Location = new System.Drawing.Point(1225, 525);
             this.addStepLabel.Name = "addStepLabel";
             this.addStepLabel.Size = new System.Drawing.Size(100, 20);
             this.addStepLabel.TabIndex = 21;
@@ -228,22 +230,22 @@ namespace DynamicVisualizer
             // addStepAfterLabel
             // 
             this.addStepAfterLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addStepAfterLabel.Location = new System.Drawing.Point(1225, 600);
+            this.addStepAfterLabel.Location = new System.Drawing.Point(1225, 565);
             this.addStepAfterLabel.Name = "addStepAfterLabel";
             this.addStepAfterLabel.Size = new System.Drawing.Size(100, 20);
             this.addStepAfterLabel.TabIndex = 22;
-            this.addStepAfterLabel.Text = "Add after";
+            this.addStepAfterLabel.Text = "after";
             this.addStepAfterLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.addStepAfterLabel.Click += new System.EventHandler(this.addStepAfterLabel_Click);
             // 
             // addStepLoopedLabel
             // 
             this.addStepLoopedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addStepLoopedLabel.Location = new System.Drawing.Point(1225, 625);
+            this.addStepLoopedLabel.Location = new System.Drawing.Point(1225, 585);
             this.addStepLoopedLabel.Name = "addStepLoopedLabel";
             this.addStepLoopedLabel.Size = new System.Drawing.Size(100, 20);
             this.addStepLoopedLabel.TabIndex = 23;
-            this.addStepLoopedLabel.Text = "Looped";
+            this.addStepLoopedLabel.Text = "looped";
             this.addStepLoopedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.addStepLoopedLabel.Click += new System.EventHandler(this.addStepLoopedLabel_Click);
             // 
@@ -251,11 +253,11 @@ namespace DynamicVisualizer
             // 
             this.textLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textLabel.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.textLabel.Location = new System.Drawing.Point(1255, 280);
+            this.textLabel.Location = new System.Drawing.Point(1255, 265);
             this.textLabel.Name = "textLabel";
             this.textLabel.Size = new System.Drawing.Size(70, 20);
             this.textLabel.TabIndex = 24;
-            this.textLabel.Text = "Text";
+            this.textLabel.Text = "text";
             this.textLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.textLabel.Click += new System.EventHandler(this.textLabel_Click);
             // 
@@ -273,7 +275,7 @@ namespace DynamicVisualizer
             // cLabel
             // 
             this.cLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cLabel.Location = new System.Drawing.Point(1325, 230);
+            this.cLabel.Location = new System.Drawing.Point(1325, 225);
             this.cLabel.Name = "cLabel";
             this.cLabel.Size = new System.Drawing.Size(20, 20);
             this.cLabel.TabIndex = 26;
@@ -284,7 +286,7 @@ namespace DynamicVisualizer
             // lLabel
             // 
             this.lLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lLabel.Location = new System.Drawing.Point(1325, 255);
+            this.lLabel.Location = new System.Drawing.Point(1325, 245);
             this.lLabel.Name = "lLabel";
             this.lLabel.Size = new System.Drawing.Size(20, 20);
             this.lLabel.TabIndex = 27;
@@ -295,7 +297,7 @@ namespace DynamicVisualizer
             // tLabel
             // 
             this.tLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tLabel.Location = new System.Drawing.Point(1325, 280);
+            this.tLabel.Location = new System.Drawing.Point(1325, 265);
             this.tLabel.Name = "tLabel";
             this.tLabel.Size = new System.Drawing.Size(20, 20);
             this.tLabel.TabIndex = 28;
@@ -306,7 +308,7 @@ namespace DynamicVisualizer
             // mLabel
             // 
             this.mLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.mLabel.Location = new System.Drawing.Point(1325, 345);
+            this.mLabel.Location = new System.Drawing.Point(1325, 325);
             this.mLabel.Name = "mLabel";
             this.mLabel.Size = new System.Drawing.Size(20, 20);
             this.mLabel.TabIndex = 29;
@@ -317,7 +319,7 @@ namespace DynamicVisualizer
             // sLabel
             // 
             this.sLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.sLabel.Location = new System.Drawing.Point(1325, 370);
+            this.sLabel.Location = new System.Drawing.Point(1325, 345);
             this.sLabel.Name = "sLabel";
             this.sLabel.Size = new System.Drawing.Size(20, 20);
             this.sLabel.TabIndex = 30;
@@ -328,7 +330,7 @@ namespace DynamicVisualizer
             // eLabel
             // 
             this.eLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.eLabel.Location = new System.Drawing.Point(1325, 395);
+            this.eLabel.Location = new System.Drawing.Point(1325, 365);
             this.eLabel.Name = "eLabel";
             this.eLabel.Size = new System.Drawing.Size(20, 20);
             this.eLabel.TabIndex = 31;
@@ -339,7 +341,7 @@ namespace DynamicVisualizer
             // oLabel
             // 
             this.oLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.oLabel.Location = new System.Drawing.Point(1325, 420);
+            this.oLabel.Location = new System.Drawing.Point(1325, 385);
             this.oLabel.Name = "oLabel";
             this.oLabel.Size = new System.Drawing.Size(20, 20);
             this.oLabel.TabIndex = 32;
@@ -350,7 +352,7 @@ namespace DynamicVisualizer
             // gLabel
             // 
             this.gLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.gLabel.Location = new System.Drawing.Point(1325, 510);
+            this.gLabel.Location = new System.Drawing.Point(1325, 465);
             this.gLabel.Name = "gLabel";
             this.gLabel.Size = new System.Drawing.Size(20, 20);
             this.gLabel.TabIndex = 33;
@@ -362,7 +364,7 @@ namespace DynamicVisualizer
             // pLabel
             // 
             this.pLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.pLabel.Location = new System.Drawing.Point(1325, 485);
+            this.pLabel.Location = new System.Drawing.Point(1325, 445);
             this.pLabel.Name = "pLabel";
             this.pLabel.Size = new System.Drawing.Size(20, 20);
             this.pLabel.TabIndex = 34;
@@ -384,11 +386,11 @@ namespace DynamicVisualizer
             // markAsFinalLabel
             // 
             this.markAsFinalLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.markAsFinalLabel.Location = new System.Drawing.Point(1225, 650);
+            this.markAsFinalLabel.Location = new System.Drawing.Point(1225, 605);
             this.markAsFinalLabel.Name = "markAsFinalLabel";
             this.markAsFinalLabel.Size = new System.Drawing.Size(100, 20);
             this.markAsFinalLabel.TabIndex = 36;
-            this.markAsFinalLabel.Text = "Mark as final";
+            this.markAsFinalLabel.Text = "mark as final";
             this.markAsFinalLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.markAsFinalLabel.Click += new System.EventHandler(this.markAsFinalLabel_Click);
             // 
@@ -396,11 +398,11 @@ namespace DynamicVisualizer
             // 
             this.straightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.straightLabel.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.straightLabel.Location = new System.Drawing.Point(1255, 535);
+            this.straightLabel.Location = new System.Drawing.Point(1255, 485);
             this.straightLabel.Name = "straightLabel";
             this.straightLabel.Size = new System.Drawing.Size(70, 20);
             this.straightLabel.TabIndex = 37;
-            this.straightLabel.Text = "Straight";
+            this.straightLabel.Text = "straight";
             this.straightLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.straightLabel.Visible = false;
             this.straightLabel.Click += new System.EventHandler(this.straightLabel_Click);
@@ -408,7 +410,7 @@ namespace DynamicVisualizer
             // hLabel
             // 
             this.hLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.hLabel.Location = new System.Drawing.Point(1325, 535);
+            this.hLabel.Location = new System.Drawing.Point(1325, 485);
             this.hLabel.Name = "hLabel";
             this.hLabel.Size = new System.Drawing.Size(20, 20);
             this.hLabel.TabIndex = 38;
@@ -420,7 +422,7 @@ namespace DynamicVisualizer
             // aLabel
             // 
             this.aLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.aLabel.Location = new System.Drawing.Point(1325, 600);
+            this.aLabel.Location = new System.Drawing.Point(1325, 565);
             this.aLabel.Name = "aLabel";
             this.aLabel.Size = new System.Drawing.Size(20, 20);
             this.aLabel.TabIndex = 39;
@@ -431,7 +433,7 @@ namespace DynamicVisualizer
             // dLabel
             // 
             this.dLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dLabel.Location = new System.Drawing.Point(1325, 625);
+            this.dLabel.Location = new System.Drawing.Point(1325, 585);
             this.dLabel.Name = "dLabel";
             this.dLabel.Size = new System.Drawing.Size(20, 20);
             this.dLabel.TabIndex = 40;
@@ -442,13 +444,35 @@ namespace DynamicVisualizer
             // fLabel
             // 
             this.fLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.fLabel.Location = new System.Drawing.Point(1325, 650);
+            this.fLabel.Location = new System.Drawing.Point(1325, 605);
             this.fLabel.Name = "fLabel";
             this.fLabel.Size = new System.Drawing.Size(20, 20);
             this.fLabel.TabIndex = 41;
             this.fLabel.Text = "f";
             this.fLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.fLabel.Click += new System.EventHandler(this.markAsFinalLabel_Click);
+            // 
+            // addStepBeforeLabel
+            // 
+            this.addStepBeforeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.addStepBeforeLabel.Location = new System.Drawing.Point(1225, 545);
+            this.addStepBeforeLabel.Name = "addStepBeforeLabel";
+            this.addStepBeforeLabel.Size = new System.Drawing.Size(100, 20);
+            this.addStepBeforeLabel.TabIndex = 43;
+            this.addStepBeforeLabel.Text = "before";
+            this.addStepBeforeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.addStepBeforeLabel.Click += new System.EventHandler(this.addStepBeforeLabel_Click);
+            // 
+            // bLabel
+            // 
+            this.bLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bLabel.Location = new System.Drawing.Point(1325, 545);
+            this.bLabel.Name = "bLabel";
+            this.bLabel.Size = new System.Drawing.Size(20, 20);
+            this.bLabel.TabIndex = 44;
+            this.bLabel.Text = "b";
+            this.bLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.bLabel.Click += new System.EventHandler(this.addStepBeforeLabel_Click);
             // 
             // arrayExpressionEditor1
             // 
@@ -486,6 +510,8 @@ namespace DynamicVisualizer
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 700);
+            this.Controls.Add(this.bLabel);
+            this.Controls.Add(this.addStepBeforeLabel);
             this.Controls.Add(this.fLabel);
             this.Controls.Add(this.dLabel);
             this.Controls.Add(this.aLabel);
@@ -573,6 +599,8 @@ namespace DynamicVisualizer
         private System.Windows.Forms.Label aLabel;
         private System.Windows.Forms.Label dLabel;
         private System.Windows.Forms.Label fLabel;
+        private System.Windows.Forms.Label addStepBeforeLabel;
+        private System.Windows.Forms.Label bLabel;
     }
 }
 

@@ -20,7 +20,6 @@ namespace DynamicVisualizer.Steps
         public static Magnet[] CanvasMagnets;
         public static StepEditor StepEditor;
         public static StepListControl StepListControl;
-        public static bool AddStepBeforeCurrent;
         public static bool AddStepLooped = true;
 
         static StepManager()
@@ -122,18 +121,28 @@ namespace DynamicVisualizer.Steps
             return null;
         }
 
-        public static void InsertNext(Step step)
+        public static void InsertNext(Step step, bool beforeCurrent = false)
         {
             var index = CurrentStepIndex == -1
                 ? 0
-                : (AddStepBeforeCurrent ? CurrentStepIndex : CurrentStepIndex + 1);
+                : (beforeCurrent ? CurrentStepIndex : CurrentStepIndex + 1);
+            var emptyStepWasInLoop = true;
+            if (CurrentStep is EmptyStep)
+            {
+                if (index > CurrentStepIndex)
+                {
+                    index -= 1;
+                }
+                emptyStepWasInLoop = CurrentStep.Iterations > -1;
+                Remove(CurrentStepIndex, true);
+            }
             if ((CurrentStepIndex > -1) && (CurrentStep.Iterations > -1))
             {
                 var g = GetGroupByIndex(CurrentStepIndex);
                 if (((index > g.StartIndex) && (index < g.EndIndex))
                     ||
                     (((index == g.StartIndex) || (index == g.StartIndex - 1) || (index == g.EndIndex) ||
-                      (index == g.EndIndex + 1)) && AddStepLooped))
+                      (index == g.EndIndex + 1)) && AddStepLooped && !(step is EmptyStep) && emptyStepWasInLoop))
                 {
                     step.MakeIterable(g.Iterations);
                     GetGroupByIndex(CurrentStepIndex).Length += 1;
@@ -152,7 +161,7 @@ namespace DynamicVisualizer.Steps
             SetCurrentStepIndex(index);
         }
 
-        public static void Remove(int pos)
+        public static void Remove(int pos, bool silent = false)
         {
             if (Steps[pos].Iterations > -1)
             {
@@ -172,14 +181,17 @@ namespace DynamicVisualizer.Steps
                 }
             }
             Steps.RemoveAt(pos);
-            StepListControl?.TimelineOnStepRemoved(pos);
-            if (pos <= Steps.Count - 1)
+            StepListControl?.TimelineOnStepRemoved(pos, silent);
+            if (!silent)
             {
-                SetCurrentStepIndex(pos);
-            }
-            else
-            {
-                SetCurrentStepIndex(pos - 1);
+                if (pos <= Steps.Count - 1)
+                {
+                    SetCurrentStepIndex(pos);
+                }
+                else
+                {
+                    SetCurrentStepIndex(pos - 1);
+                }
             }
         }
 
@@ -423,7 +435,7 @@ namespace DynamicVisualizer.Steps
             foreach (var step in Steps)
             {
                 step.Applied = false;
-                step.Figure.StaticLoopFigures.Clear();
+                step.Figure?.StaticLoopFigures.Clear();
             }
             Figures.Clear();
             DataStorage.WipeNonDataFields();

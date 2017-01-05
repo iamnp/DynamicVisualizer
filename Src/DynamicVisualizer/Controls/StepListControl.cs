@@ -18,6 +18,9 @@ namespace DynamicVisualizer.Controls
         {
             BorderStyle = BorderStyle.FixedSingle;
             AutoScroll = true;
+
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
         public void CurrentSelectionToIterableGroup()
@@ -51,10 +54,13 @@ namespace DynamicVisualizer.Controls
             StepManager.RefreshToCurrentStep();
         }
 
-        public void TimelineOnStepRemoved(int index)
+        public void TimelineOnStepRemoved(int index, bool silent = false)
         {
             _stepControls.RemoveAt(index);
-            ConstructList();
+            if (!silent)
+            {
+                ConstructList();
+            }
         }
 
         public void ClearMarked()
@@ -77,6 +83,7 @@ namespace DynamicVisualizer.Controls
 
         private void ConstructList()
         {
+            SuspendLayout();
             for (var i = Controls.Count - 1; i >= 0; --i)
             {
                 if (Controls[i] is GroupHeaderItem)
@@ -99,17 +106,18 @@ namespace DynamicVisualizer.Controls
                         Controls.Add(new GroupHeaderItem(currentGroup)
                         {
                             Width = Width - 2 - 17,
-                            Location = new Point(0, height)
+                            Location = new Point(0, height - VerticalScroll.Value)
                         });
                         height += GroupHeaderItem.HeightValue;
                     }
                     prevGroup = currentGroup;
                 }
                 scc.Index = i;
-                scc.Location = new Point(0, height);
+                scc.Location = new Point(0, height - VerticalScroll.Value);
                 height += StepItem.HeightValue;
                 Controls.Add(scc);
             }
+            ResumeLayout(true);
         }
 
         public void TimelineOnStepInserted(int index)
