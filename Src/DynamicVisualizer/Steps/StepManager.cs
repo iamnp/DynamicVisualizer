@@ -142,7 +142,7 @@ namespace DynamicVisualizer.Steps
                 if (((index > g.StartIndex) && (index < g.EndIndex))
                     ||
                     (((index == g.StartIndex) || (index == g.StartIndex - 1) || (index == g.EndIndex) ||
-                      (index == g.EndIndex + 1)) && AddStepLooped && !(step is EmptyStep) && emptyStepWasInLoop))
+                      (index == g.EndIndex + 1)) && AddStepLooped && emptyStepWasInLoop))
                 {
                     step.MakeIterable(g.Iterations);
                     GetGroupByIndex(CurrentStepIndex).Length += 1;
