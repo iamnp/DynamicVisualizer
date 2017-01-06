@@ -17,7 +17,8 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO deal with removing steps with dependants
 // TODO add global exception handler
 
-// TODO GUI improvements (scalar and array(!) editors, step list, immediate editors apply)
+// TODO do not allow arrays of different lengths
+// TODO GUI improvements (scalar and array(!) editors, step list)
 // TODO check for memory leaks in dependants lists
 // TODO? deal with too many static members (refactoring)
 // TODO? deal with expr dependants system

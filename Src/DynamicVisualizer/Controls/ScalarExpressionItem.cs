@@ -45,8 +45,8 @@ namespace DynamicVisualizer.Controls
                 else
                 {
                     Expr.SetRawExpression(textBox2.Text);
-                    StepManager.RefreshToCurrentStep();
                 }
+                StepManager.RefreshToCurrentStep();
             }
         }
 
