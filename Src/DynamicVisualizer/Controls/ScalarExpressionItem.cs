@@ -8,6 +8,8 @@ namespace DynamicVisualizer.Controls
     public partial class ScalarExpressionItem : UserControl
     {
         public const int ItemHeight = 24;
+        private bool _ignoreTextChange;
+        private bool _mouseOver;
         public ScalarExpression Expr;
 
         public ScalarExpressionItem(bool isDummy)
@@ -23,50 +25,80 @@ namespace DynamicVisualizer.Controls
         {
             textBox2.Visible = true;
             textBox1.ReadOnly = true;
-            textBox2.KeyPress += ValueTextBoxKeyPress;
+            textBox2.TextChanged += ValueTextBoxTextChanged;
             textBox2.GotFocus += ValueTextBoxGotFocus;
             textBox2.LostFocus += ValueTextBoxLostFocus;
+            textBox2.MouseEnter += ValueTextBoxMouseEnter;
+            textBox2.MouseLeave += ValueTextBoxMouseLeave;
             textBox2.Focus();
+        }
+
+        private void ValueTextBoxTextChanged(object sender, EventArgs eventArgs)
+        {
+            if (!_ignoreTextChange && !string.IsNullOrWhiteSpace(textBox2.Text))
+            {
+                if (Expr == null)
+                {
+                    Expr = DataStorage.Add(new ScalarExpression("data", textBox1.Text, textBox2.Text));
+                    Expr.ValueChanged += ExprValueChanged;
+                }
+                else
+                {
+                    Expr.SetRawExpression(textBox2.Text);
+                    StepManager.RefreshToCurrentStep();
+                }
+            }
+        }
+
+        private void ExprValueChanged(object sender, EventArgs eventArgs)
+        {
+            if (!_mouseOver && !textBox2.Focused)
+            {
+                _ignoreTextChange = true;
+                textBox2.Text = Expr.CachedValue.Str;
+                _ignoreTextChange = false;
+            }
         }
 
         private void ValueTextBoxLostFocus(object sender, EventArgs eventArgs)
         {
-            if (Expr != null)
+            if (!_mouseOver && (Expr != null))
             {
+                _ignoreTextChange = true;
                 textBox2.Text = Expr.CachedValue.Str;
+                _ignoreTextChange = false;
             }
         }
 
         private void ValueTextBoxGotFocus(object sender, EventArgs eventArgs)
         {
-            if (Expr != null)
+            if (!_mouseOver && (Expr != null))
             {
+                _ignoreTextChange = true;
                 textBox2.Text = Expr.ExprString;
+                _ignoreTextChange = false;
             }
         }
 
-        private void ValueTextBoxKeyPress(object sender, KeyPressEventArgs e)
+        private void ValueTextBoxMouseLeave(object sender, EventArgs eventArgs)
         {
-            if (e.KeyChar == (char) Keys.Return)
+            _mouseOver = false;
+            if (!textBox2.Focused && (Expr != null))
             {
-                if (!string.IsNullOrWhiteSpace(textBox2.Text))
-                {
-                    if (Expr == null)
-                    {
-                        Expr = DataStorage.Add(
-                            new ScalarExpression("data", textBox1.Text, textBox2.Text));
-                        Expr.ValueChanged += ValueTextBoxLostFocus;
-                        textBox2.Text = Expr.CachedValue.Str;
-                        textBox1.Focus();
-                    }
-                    else
-                    {
-                        Expr.SetRawExpression(textBox2.Text);
-                        textBox2.Text = Expr.CachedValue.Str;
-                        textBox1.Focus();
-                        StepManager.RefreshToCurrentStep();
-                    }
-                }
+                _ignoreTextChange = true;
+                textBox2.Text = Expr.CachedValue.Str;
+                _ignoreTextChange = false;
+            }
+        }
+
+        private void ValueTextBoxMouseEnter(object sender, EventArgs eventArgs)
+        {
+            _mouseOver = true;
+            if (!textBox2.Focused && (Expr != null))
+            {
+                _ignoreTextChange = true;
+                textBox2.Text = Expr.ExprString;
+                _ignoreTextChange = false;
             }
         }
     }
