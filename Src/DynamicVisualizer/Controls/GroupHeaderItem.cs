@@ -20,6 +20,7 @@ namespace DynamicVisualizer.Controls
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             _iterableStepGroup.IterationsExpr.SetRawExpression(textBox1.Text);
+            StepManager.RefreshToCurrentStep();
         }
     }
 }
