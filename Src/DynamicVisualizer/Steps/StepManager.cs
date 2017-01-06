@@ -123,31 +123,34 @@ namespace DynamicVisualizer.Steps
 
         public static void InsertNext(Step step, bool beforeCurrent = false)
         {
-            var index = CurrentStepIndex == -1
-                ? 0
-                : (beforeCurrent ? CurrentStepIndex : CurrentStepIndex + 1);
-            var emptyStepWasInLoop = true;
+            int index;
+            bool currentStepLooped;
+            var group = GetGroupByIndex(CurrentStepIndex);
             if (CurrentStep is EmptyStep)
             {
-                if (index > CurrentStepIndex)
-                {
-                    index -= 1;
-                }
-                emptyStepWasInLoop = CurrentStep.Iterations > -1;
+                index = CurrentStepIndex;
+                currentStepLooped = CurrentStep.Iterations > -1;
                 Remove(CurrentStepIndex, true);
             }
-            if ((CurrentStepIndex > -1) && (CurrentStep.Iterations > -1))
+            else
             {
-                var g = GetGroupByIndex(CurrentStepIndex);
-                if (((index > g.StartIndex) && (index < g.EndIndex))
-                    ||
-                    (((index == g.StartIndex) || (index == g.StartIndex - 1) || (index == g.EndIndex) ||
-                      (index == g.EndIndex + 1)) && AddStepLooped && emptyStepWasInLoop))
+                index = CurrentStepIndex == -1
+                    ? 0
+                    : (beforeCurrent ? CurrentStepIndex : CurrentStepIndex + 1);
+                currentStepLooped = (CurrentStepIndex > -1) && (CurrentStep.Iterations > -1);
+            }
+
+            if (currentStepLooped)
+            {
+                if (((index > group.StartIndex) && (index <= group.EndIndex))
+                    || (((index == group.StartIndex) || (index == group.StartIndex - 1) || (index == group.EndIndex) ||
+                         (index == group.EndIndex + 1)) && AddStepLooped))
                 {
-                    step.MakeIterable(g.Iterations);
-                    GetGroupByIndex(CurrentStepIndex).Length += 1;
+                    step.MakeIterable(group.Iterations);
+                    group.Length += 1;
                 }
             }
+
             for (var i = 0; i < IterableGroups.Count; ++i)
             {
                 var g = IterableGroups[i];
