@@ -15,11 +15,10 @@ using SystemColors = System.Drawing.SystemColors;
 
 // TODO identify infinite resucrsion (stackoverflow errors in evaluator class)
 // TODO deal with removing steps with dependants
-// TODO add global exception handler
+// TODO check for memory leaks in dependants lists
 
 // TODO GUI improvements (scalar and array(!) editors, step list)
 // TODO fix parser class
-// TODO check for memory leaks in dependants lists
 // TODO? deal with expr dependants system
 
 namespace DynamicVisualizer

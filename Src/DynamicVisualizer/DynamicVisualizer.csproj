@@ -73,6 +73,12 @@
       <DependentUpon>ScalarExpressionItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Drawer.cs" />
+    <Compile Include="ExceptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExceptionForm.Designer.cs">
+      <DependentUpon>ExceptionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Figures\FigureText.cs" />
     <Compile Include="Figures\FigureColor.cs" />
     <Compile Include="Figures\TextFigure.cs" />
@@ -155,6 +161,9 @@
     <EmbeddedResource Include="Controls\ScalarExpressionItem.resx">
       <DependentUpon>ScalarExpressionItem.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExceptionForm.resx">
+      <DependentUpon>ExceptionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
