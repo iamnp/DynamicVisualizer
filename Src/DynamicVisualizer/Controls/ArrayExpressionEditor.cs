@@ -9,6 +9,7 @@ namespace DynamicVisualizer.Controls
     {
         public static int Len = -1;
         public static readonly List<ArrayExpressionItem> Items = new List<ArrayExpressionItem>();
+        public static int ConstVectorArrays;
 
         public ArrayExpressionEditor()
         {
@@ -29,19 +30,6 @@ namespace DynamicVisualizer.Controls
             Controls.Add(item);
         }
 
-        private void OnDummyItemDragDrop(object sender, DragEventArgs e)
-        {
-            var file = ((string[]) e.Data.GetData(DataFormats.FileDrop))[0];
-            var data = File.ReadAllLines(file)[0];
-            var item = (ArrayExpressionItem) sender;
-            item.AllowDrop = false;
-            item.DragEnter -= OnDummyItemDragEnter;
-            item.DragDrop -= OnDummyItemDragDrop;
-            MakeNotDummy(item);
-            var name = new FileInfo(file).Name;
-            item.SetDataFromFile(data, name.Substring(0, name.Length - 4));
-        }
-
         private void OnDummyItemDragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -52,6 +40,22 @@ namespace DynamicVisualizer.Controls
                     e.Effect = DragDropEffects.Copy;
                 }
             }
+        }
+
+        private void OnDummyItemDragDrop(object sender, DragEventArgs e)
+        {
+            var file = ((string[]) e.Data.GetData(DataFormats.FileDrop))[0];
+            var data = File.ReadAllLines(file)[0];
+            var item = (ArrayExpressionItem) sender;
+            var name = new FileInfo(file).Name;
+            if (!item.SetDataFromFile(data, name.Substring(0, name.Length - 4)))
+            {
+                return;
+            }
+            item.AllowDrop = false;
+            item.DragEnter -= OnDummyItemDragEnter;
+            item.DragDrop -= OnDummyItemDragDrop;
+            MakeNotDummy(item);
         }
 
         private void MakeNotDummy(ArrayExpressionItem di)

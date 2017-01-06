@@ -17,10 +17,9 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO deal with removing steps with dependants
 // TODO add global exception handler
 
-// TODO do not allow arrays of different lengths
 // TODO GUI improvements (scalar and array(!) editors, step list)
+// TODO fix parser class
 // TODO check for memory leaks in dependants lists
-// TODO? deal with too many static members (refactoring)
 // TODO? deal with expr dependants system
 
 namespace DynamicVisualizer

@@ -47,7 +47,7 @@ namespace DynamicVisualizer.Expressions
         {
             if (!s.Contains("."))
             {
-                s = ObjectName + "." + s;
+                s = "data." + s;
             }
             var usedExpr = DataStorage.GetExpression(s);
             if (!IsWeak)

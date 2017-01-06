@@ -32,27 +32,6 @@ namespace DynamicVisualizer.Controls
             }
         }
 
-        public void SetDataFromFile(string data, string filename = null)
-        {
-            if (filename != null)
-            {
-                textBox1.Text = filename;
-            }
-
-            _definedAsConstVector = true;
-            var items = data.Split(';');
-            for (var i = 0; i < items.Length; ++i)
-            {
-                items[i] = items[i].Trim();
-            }
-            ArrayExpressionEditor.Len = items.Length;
-            Expr = DataStorage.Add(new ArrayExpression("data", textBox1.Text, items));
-            Expr.ValueChanged += ExprValueChanged;
-
-            textBox2.Text = Expr.CachedValue.Str;
-            textBox1.Focus();
-        }
-
         private void OnTextBoxDragDrop(object sender, DragEventArgs e)
         {
             var file = ((string[]) e.Data.GetData(DataFormats.FileDrop))[0];
@@ -60,63 +39,105 @@ namespace DynamicVisualizer.Controls
             SetDataFromFile(data);
         }
 
-        public void MakeNotDummy()
+        public bool SetDataFromFile(string data, string filename = null)
         {
-            textBox2.Visible = true;
-            textBox1.ReadOnly = true;
-            textBox2.TextChanged += ValueTextBoxTextChanged;
-            textBox2.GotFocus += ValueTextBoxGotFocus;
-            textBox2.LostFocus += ValueTextBoxLostFocus;
-            textBox2.MouseEnter += ValueTextBoxMouseEnter;
-            textBox2.MouseLeave += ValueTextBoxMouseLeave;
-            textBox2.Focus();
-            textBox2.AllowDrop = true;
-            textBox2.DragEnter += OnTextBoxDragEnter;
-            textBox2.DragDrop += OnTextBoxDragDrop;
+            if (filename != null)
+            {
+                textBox1.Text = filename;
+            }
+            if (!TryChangeData(data))
+            {
+                textBox1.Text = null;
+                return false;
+            }
+            textBox2.Text = Expr.CachedValue.Str;
+            return true;
+        }
+
+        private bool TryChangeData(string data)
+        {
+            _ignoreTextChange = true;
+            if (Expr == null)
+            {
+                if ((ArrayExpressionEditor.Len == -1) || data.Contains(";"))
+                {
+                    var items = data.Split(';');
+                    for (var i = 0; i < items.Length; ++i)
+                    {
+                        items[i] = items[i].Trim();
+                        if (items[i].Length == 0)
+                        {
+                            _ignoreTextChange = false;
+                            return false;
+                        }
+                    }
+                    if ((ArrayExpressionEditor.ConstVectorArrays > 0)
+                        && (items.Length != ArrayExpressionEditor.Len))
+                    {
+                        _ignoreTextChange = false;
+                        return false;
+                    }
+                    _definedAsConstVector = true;
+                    ArrayExpressionEditor.ConstVectorArrays += 1;
+                    Expr = DataStorage.Add(new ArrayExpression("data", textBox1.Text, items));
+                }
+                else
+                {
+                    _definedAsConstVector = false;
+                    Expr =
+                        DataStorage.Add(new ArrayExpression("data", textBox1.Text, data,
+                            ArrayExpressionEditor.Len));
+                }
+                Expr.ValueChanged += ExprValueChanged;
+            }
+            else
+            {
+                if (data.Contains(";"))
+                {
+                    var items = data.Split(';');
+                    for (var i = 0; i < items.Length; ++i)
+                    {
+                        items[i] = items[i].Trim();
+                        if (items[i].Length == 0)
+                        {
+                            _ignoreTextChange = false;
+                            return false;
+                        }
+                    }
+                    if ((ArrayExpressionEditor.ConstVectorArrays > 1)
+                        && (items.Length != ArrayExpressionEditor.Len))
+                    {
+                        _ignoreTextChange = false;
+                        return false;
+                    }
+                    if (!_definedAsConstVector)
+                    {
+                        ArrayExpressionEditor.ConstVectorArrays += 1;
+                    }
+                    _definedAsConstVector = true;
+                    Expr.SetRawExpressions(items);
+                }
+                else
+                {
+                    if (_definedAsConstVector)
+                    {
+                        ArrayExpressionEditor.ConstVectorArrays -= 1;
+                    }
+                    _definedAsConstVector = false;
+                    Expr.SetRawExpression(data);
+                }
+            }
+            ArrayExpressionEditor.Len = Expr.Exprs.Length;
+            StepManager.RefreshToCurrentStep();
+            _ignoreTextChange = false;
+            return true;
         }
 
         private void ValueTextBoxTextChanged(object sender, EventArgs eventArgs)
         {
             if (!_ignoreTextChange && !string.IsNullOrWhiteSpace(textBox2.Text))
             {
-                if (Expr == null)
-                {
-                    if ((ArrayExpressionEditor.Len == -1) || textBox2.Text.Contains(";"))
-                    {
-                        _definedAsConstVector = true;
-                        var items = textBox2.Text.Split(';');
-                        for (var i = 0; i < items.Length; ++i)
-                        {
-                            items[i] = items[i].Trim();
-                        }
-                        Expr = DataStorage.Add(new ArrayExpression("data", textBox1.Text, items));
-                    }
-                    else
-                    {
-                        Expr =
-                            DataStorage.Add(new ArrayExpression("data", textBox1.Text, textBox2.Text,
-                                ArrayExpressionEditor.Len));
-                    }
-                    Expr.ValueChanged += ExprValueChanged;
-                }
-                else
-                {
-                    if (_definedAsConstVector)
-                    {
-                        var items = textBox2.Text.Split(';');
-                        for (var i = 0; i < items.Length; ++i)
-                        {
-                            items[i] = items[i].Trim();
-                        }
-                        Expr.SetRawExpressions(items);
-                    }
-                    else
-                    {
-                        Expr.SetRawExpression(textBox2.Text);
-                    }
-                }
-                ArrayExpressionEditor.Len = Expr.Exprs.Length;
-                StepManager.RefreshToCurrentStep();
+                TryChangeData(textBox2.Text);
             }
         }
 
@@ -184,6 +205,21 @@ namespace DynamicVisualizer.Controls
                 }
                 _ignoreTextChange = false;
             }
+        }
+
+        public void MakeNotDummy()
+        {
+            textBox2.Visible = true;
+            textBox1.ReadOnly = true;
+            textBox2.TextChanged += ValueTextBoxTextChanged;
+            textBox2.GotFocus += ValueTextBoxGotFocus;
+            textBox2.LostFocus += ValueTextBoxLostFocus;
+            textBox2.MouseEnter += ValueTextBoxMouseEnter;
+            textBox2.MouseLeave += ValueTextBoxMouseLeave;
+            textBox2.Focus();
+            textBox2.AllowDrop = true;
+            textBox2.DragEnter += OnTextBoxDragEnter;
+            textBox2.DragDrop += OnTextBoxDragDrop;
         }
     }
 }
