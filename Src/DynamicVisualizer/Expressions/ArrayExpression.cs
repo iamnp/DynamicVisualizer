@@ -58,13 +58,17 @@ namespace DynamicVisualizer.Expressions
             Recalculate();
         }
 
-        public void SetRawExpression(string rawExpr)
+        public void SetRawExpression(string rawExpr, int len)
         {
+            _exprsStrings = new string[len];
+            Exprs = new ScalarExpression[len];
+            _values = new Value[len];
             for (var i = 0; i < _exprsStrings.Length; ++i)
             {
                 _exprsStrings[i] = rawExpr;
             }
             ExprString = _exprsStrings[0];
+            CachedValue.SwitchTo(new Value(_values));
             Recalculate();
         }
 
@@ -112,6 +116,7 @@ namespace DynamicVisualizer.Expressions
                     Exprs[i].AllowedToAddToParent = i == 0;
                     Exprs[i].SetRawExpression(_exprsStrings[i]);
                 }
+                Exprs[i].AllowedToAddToParent = false;
             }
             _ignoreNotifyElementChanged = false;
 
@@ -132,6 +137,8 @@ namespace DynamicVisualizer.Expressions
                 UsedBy.Clear();
                 foreach (var e in copyOfUsedBy)
                 {
+                    var ae = e as ArrayExpression;
+                    ae?.SetRawExpression(ae.ExprString, Exprs.Length);
                     e.Recalculate();
                 }
             }

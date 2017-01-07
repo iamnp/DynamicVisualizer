@@ -53,22 +53,32 @@ namespace DynamicVisualizer.Expressions
             if (!IsWeak)
             {
                 // used scalar expr
-                if (usedExpr is ScalarExpression && (usedExpr != this))
+                if (usedExpr is ScalarExpression)
                 {
-                    usedExpr.UsedBy.Add(this);
-                    DependentOn.Add(usedExpr);
+                    if (usedExpr != this)
+                    {
+                        usedExpr.UsedBy.Add(this);
+                        DependentOn.Add(usedExpr);
+                    }
                 }
-                // used i-th element of array expr
-                else if ((usedExpr != ParentArray) && AllowedToAddToParent)
+                // used array expr    
+                else
                 {
-                    usedExpr.UsedBy.Add(ParentArray);
-                    ParentArray.DependentOn.Add(usedExpr);
-                }
-                // used whole array expr
-                else if (usedExpr != this)
-                {
-                    usedExpr.UsedBy.Add(this);
-                    DependentOn.Add(usedExpr);
+                    if (usedExpr != ParentArray)
+                    {
+                        // used i-th element of array expr
+                        if (AllowedToAddToParent)
+                        {
+                            usedExpr.UsedBy.Add(ParentArray);
+                            ParentArray.DependentOn.Add(usedExpr);
+                        }
+                        // used whole array expr
+                        else if (ParentArray == null)
+                        {
+                            usedExpr.UsedBy.Add(this);
+                            DependentOn.Add(usedExpr);
+                        }
+                    }
                 }
             }
             return usedExpr.CachedValue;

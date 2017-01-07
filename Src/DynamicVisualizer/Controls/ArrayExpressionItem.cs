@@ -124,7 +124,7 @@ namespace DynamicVisualizer.Controls
                         ArrayExpressionEditor.ConstVectorArrays -= 1;
                     }
                     _definedAsConstVector = false;
-                    Expr.SetRawExpression(data);
+                    Expr.SetRawExpression(data, ArrayExpressionEditor.Len);
                 }
             }
             ArrayExpressionEditor.Len = Expr.Exprs.Length;
