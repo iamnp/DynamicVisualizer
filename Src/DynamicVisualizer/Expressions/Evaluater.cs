@@ -7,11 +7,11 @@ namespace DynamicVisualizer.Expressions
     {
         private static int _currentIndexInArray;
 
-        private static readonly Dictionary<string, Func<Value, Value, Value>> BinaryFunctions = new Dictionary
-            <string, Func<Value, Value, Value>>
+        private static readonly Dictionary<char, Func<Value, Value, Value>> BinaryFunctions = new Dictionary
+            <char, Func<Value, Value, Value>>
             {
                 {
-                    "+", (a, b) =>
+                    '+', (a, b) =>
                     {
                         if (a.IsString && b.IsString)
                         {
@@ -41,7 +41,7 @@ namespace DynamicVisualizer.Expressions
                     }
                 },
                 {
-                    "-", (a, b) =>
+                    '-', (a, b) =>
                     {
                         var op1 = a.IsDouble ? a.AsDouble : a.AsArray[_currentIndexInArray].AsDouble;
                         var op2 = b.IsDouble ? b.AsDouble : b.AsArray[_currentIndexInArray].AsDouble;
@@ -49,7 +49,7 @@ namespace DynamicVisualizer.Expressions
                     }
                 },
                 {
-                    "*", (a, b) =>
+                    '*', (a, b) =>
                     {
                         var op1 = a.IsDouble ? a.AsDouble : a.AsArray[_currentIndexInArray].AsDouble;
                         var op2 = b.IsDouble ? b.AsDouble : b.AsArray[_currentIndexInArray].AsDouble;
@@ -57,12 +57,29 @@ namespace DynamicVisualizer.Expressions
                     }
                 },
                 {
-                    "/", (a, b) =>
+                    '/', (a, b) =>
                     {
                         var op1 = a.IsDouble ? a.AsDouble : a.AsArray[_currentIndexInArray].AsDouble;
                         var op2 = b.IsDouble ? b.AsDouble : b.AsArray[_currentIndexInArray].AsDouble;
                         return new Value(op1 / op2);
                     }
+                }
+            };
+
+        private static readonly Dictionary<char, int> Precedence = new Dictionary
+            <char, int>
+            {
+                {
+                    '+', 1
+                },
+                {
+                    '-', 1
+                },
+                {
+                    '*', 2
+                },
+                {
+                    '/', 2
                 }
             };
 
@@ -107,12 +124,23 @@ namespace DynamicVisualizer.Expressions
 
         public static Value Evaluate(string exprString, Func<string, Value> variableEvaluater, int indexInArray)
         {
-            exprString = "(" + exprString + ")";
+            //exprString = "(" + exprString + ")";
             _currentIndexInArray = indexInArray;
 
-            var operands = new Stack<Value>();
-            var operators = new Stack<string>();
-            var needToEval = new Stack<bool>();
+            // ReSharper disable once InconsistentNaming
+            const int VALUE = 1;
+            var values = new List<Value>();
+
+            // ReSharper disable once InconsistentNaming
+            const int FUNCTION = 2;
+            var functions = new List<string>();
+
+            // ReSharper disable once InconsistentNaming
+            const int OPERATOR = 3;
+            var operators = new List<char>();
+
+            var outputQueue = new Queue<Tuple<int, int>>();
+            var operatorStack = new Stack<Tuple<int, int>>();
 
             var firstInExpr = false;
             var afterOp = false;
@@ -120,67 +148,34 @@ namespace DynamicVisualizer.Expressions
 
             for (var i = 0; i < exprString.Length; ++i)
             {
-                if (exprString[i] == '(')
-                {
-                    afterLeftBrace = true;
-                    needToEval.Push(false);
-                }
-                if ((exprString[i] == ' ') || (exprString[i] == '('))
-                {
-                    continue;
-                }
-                if (char.IsDigit(exprString[i])) // encountered a number
+                if (char.IsDigit(exprString[i])) // TOKEN: number
                 {
                     firstInExpr = true;
                     afterOp = false;
                     afterLeftBrace = false;
                     var start1 = i;
                     while ((i < exprString.Length) &&
-                           (char.IsDigit(exprString[i]) || (exprString[i] == '.') || (exprString[i] == ',')))
+                           (char.IsDigit(exprString[i]) ||
+                            (((exprString[i] == '.') || (exprString[i] == ',')) && (i + 1 < exprString.Length) &&
+                             char.IsDigit(exprString[i + 1]))))
                     {
                         ++i;
                     }
                     i -= 1;
-                    operands.Push(
-                        new Value(double.Parse(exprString.Substring(start1, i - start1 + 1).Replace(".", ","))));
-                    continue;
+                    var d = double.Parse(exprString.Substring(start1, i - start1 + 1).Replace(".", ","));
+                    values.Add(new Value(d));
+                    outputQueue.Enqueue(new Tuple<int, int>(VALUE, values.Count - 1));
                 }
-                if (exprString[i] == ')') // evaluate part
-                {
-                    firstInExpr = true;
-                    afterOp = false;
-                    afterLeftBrace = false;
-                    if (!needToEval.Pop())
-                    {
-                        continue;
-                    }
-                    if (operators.Count == 0)
-                    {
-                        continue;
-                    }
-                    var function = operators.Pop();
-                    if (BinaryFunctions.ContainsKey(function))
-                    {
-                        var operand2 = operands.Pop();
-                        var operand1 = operands.Pop();
-                        operands.Push(BinaryFunctions[function](operand1, operand2));
-                    }
-                    else if (UnaryFunctions.ContainsKey(function))
-                    {
-                        var operand = operands.Pop();
-                        operands.Push(UnaryFunctions[function](operand));
-                    }
-                    continue;
-                }
-
-                if (char.IsLetter(exprString[i])) // encountered variable or func
+                else if (char.IsLetter(exprString[i])) // TOKEN: function or variable
                 {
                     firstInExpr = true;
                     afterOp = false;
                     afterLeftBrace = false;
                     var start = i;
                     while ((i < exprString.Length) &&
-                           (char.IsLetter(exprString[i]) || char.IsDigit(exprString[i]) || (exprString[i] == '.')))
+                           (char.IsLetter(exprString[i]) || char.IsDigit(exprString[i]) ||
+                            ((exprString[i] == '.') && (i + 1 < exprString.Length) &&
+                             (char.IsLetter(exprString[i + 1]) || char.IsDigit(exprString[i + 1])))))
                     {
                         ++i;
                     }
@@ -188,52 +183,121 @@ namespace DynamicVisualizer.Expressions
                     var funcOrVar = exprString.Substring(start, i - start + 1);
                     if (UnaryFunctions.ContainsKey(funcOrVar))
                     {
-                        // func
-                        operators.Push(funcOrVar);
-                        needToEval.Pop();
-                        needToEval.Push(true);
+                        // TOKEN: function
+                        functions.Add(funcOrVar);
+                        operatorStack.Push(new Tuple<int, int>(FUNCTION, functions.Count - 1));
                     }
-                    else // variable
+                    else // TOKEN: variable
                     {
-                        operands.Push(variableEvaluater(funcOrVar));
+                        values.Add(variableEvaluater(funcOrVar));
+                        outputQueue.Enqueue(new Tuple<int, int>(VALUE, values.Count - 1));
                     }
-                    continue;
                 }
-
-                if (exprString[i] == '"') // encountered string literal
+                else if (exprString[i] == '"') // TOKEN: string
                 {
                     firstInExpr = true;
                     afterOp = false;
                     afterLeftBrace = false;
                     var start = i;
                     i += 1;
-                    while ((i < exprString.Length) && (exprString[i] != '"'))
+                    while ((i < exprString.Length) &&
+                           ((exprString[i] != '"') || ((i - 1 >= 0) && (exprString[i - 1] == '\\'))))
                     {
                         ++i;
                     }
-                    var funcOrVar = exprString.Substring(start, i - start + 1);
-                    operands.Push(new Value(funcOrVar.Replace("\"", "")));
-                    continue;
+                    values.Add(new Value(exprString.Substring(start + 1, i - start - 1).Replace("\\\"", "\"")));
+                    outputQueue.Enqueue(new Tuple<int, int>(VALUE, values.Count - 1));
                 }
-
-                // ecnountered one-char operator
-                if (BinaryFunctions.ContainsKey(exprString[i].ToString()))
+                else if (BinaryFunctions.ContainsKey(exprString[i])) // TOKEN: one-char operator
                 {
-                    needToEval.Pop();
-                    needToEval.Push(true);
-                    if (exprString[i] == '-') // unary or binary
+                    var o1 = exprString[i];
+                    // if minus is unary then threat it as a function
+                    if ((o1 == '-') && (!firstInExpr || afterOp || afterLeftBrace))
                     {
-                        if (!firstInExpr || afterOp || afterLeftBrace)
-                        {
-                            operators.Push("--");
-                            continue;
-                        }
+                        functions.Add("--");
+                        operatorStack.Push(new Tuple<int, int>(FUNCTION, functions.Count - 1));
                     }
-                    operators.Push(exprString[i].ToString());
+                    // minus is binary operator
+                    else
+                    {
+                        while ((operatorStack.Count > 0) && (operatorStack.Peek().Item1 == OPERATOR) &&
+                               (operators[operatorStack.Peek().Item2] != '(') &&
+                               (Precedence[o1] <= Precedence[operators[operatorStack.Peek().Item2]]))
+                        {
+                            outputQueue.Enqueue(operatorStack.Pop());
+                        }
+                        operators.Add(o1);
+                        operatorStack.Push(new Tuple<int, int>(OPERATOR, operators.Count - 1));
+                    }
                     afterOp = true;
                 }
+                else if (exprString[i] == '(')
+                {
+                    afterLeftBrace = true;
+                    operators.Add('(');
+                    operatorStack.Push(new Tuple<int, int>(OPERATOR, operators.Count - 1));
+                }
+                else if (exprString[i] == ')')
+                {
+                    firstInExpr = true;
+                    afterOp = false;
+                    afterLeftBrace = false;
+                    while ((operatorStack.Count > 0) &&
+                           !((operatorStack.Peek().Item1 == OPERATOR) && (operators[operatorStack.Peek().Item2] == '(')))
+                    {
+                        outputQueue.Enqueue(operatorStack.Pop());
+                    }
+                    operatorStack.Pop();
+                    if ((operatorStack.Count > 0) && (operatorStack.Peek().Item1 == FUNCTION))
+                    {
+                        outputQueue.Enqueue(operatorStack.Pop());
+                    }
+                }
             }
-            return operands.Pop();
+
+            while (operatorStack.Count > 0)
+            {
+                if ((operatorStack.Peek().Item1 == OPERATOR) && (operators[operatorStack.Peek().Item2] == '('))
+                {
+                    throw new Exception("Invalid expr!");
+                }
+                outputQueue.Enqueue(operatorStack.Pop());
+            }
+
+            var valStack = new Stack<Value>();
+
+            while (outputQueue.Count > 0)
+            {
+                var token = outputQueue.Dequeue();
+                if (token.Item1 == VALUE)
+                {
+                    valStack.Push(values[token.Item2]);
+                }
+                else if (token.Item1 == OPERATOR)
+                {
+                    if (valStack.Count < 2)
+                    {
+                        throw new Exception("Invalid expr!");
+                    }
+                    var v1 = valStack.Pop();
+                    var v2 = valStack.Pop();
+                    valStack.Push(BinaryFunctions[operators[token.Item2]](v2, v1));
+                }
+                // it is a function
+                else
+                {
+                    if (valStack.Count < 1)
+                    {
+                        throw new Exception("Invalid expr!");
+                    }
+                    valStack.Push(UnaryFunctions[functions[token.Item2]](valStack.Pop()));
+                }
+            }
+            if (valStack.Count > 1)
+            {
+                throw new Exception("Invalid expr!");
+            }
+            return valStack.Peek();
         }
     }
 }

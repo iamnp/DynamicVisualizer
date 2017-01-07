@@ -17,7 +17,6 @@ using SystemColors = System.Drawing.SystemColors;
 // TODO deal with removing steps with dependants
 
 // TODO GUI improvements (scalar and array(!) editors, step list)
-// TODO fix parser class
 // TODO? deal with expr dependants system
 
 namespace DynamicVisualizer

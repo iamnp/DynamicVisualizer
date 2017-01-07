@@ -61,11 +61,11 @@ namespace DynamicVisualizerTest
 
             DataStorage.Add(new ScalarExpression("data", "var1", "-123"));
             DataStorage.Add(new ScalarExpression("data", "var2", "28*(-11)"));
-            //DataStorage.Add("data", "var3", "28 * -11");
+            DataStorage.Add(new ScalarExpression("data", "var3", "28 * -11"));
 
             Assert.AreEqual(DataStorage.GetScalarExpression("data.var1").CachedValue.AsDouble, -123, double.Epsilon);
             Assert.AreEqual(DataStorage.GetScalarExpression("data.var2").CachedValue.AsDouble, 28 * -11, double.Epsilon);
-            //Assert.AreEqual(DataStorage.GetScalarExpression("data.var3").CachedValue.AsDouble, 28 * -11, double.Epsilon);
+            Assert.AreEqual(DataStorage.GetScalarExpression("data.var3").CachedValue.AsDouble, 28 * -11, double.Epsilon);
         }
 
         [TestMethod]
@@ -104,9 +104,11 @@ namespace DynamicVisualizerTest
 
             DataStorage.Add(new ScalarExpression("data", "var", "123"));
             DataStorage.Add(new ScalarExpression("data", "str", "var + \" is 123\""));
+            DataStorage.Add(new ScalarExpression("data", "str2", "var + \" is \\\" 123\""));
 
             Assert.AreEqual(DataStorage.GetScalarExpression("data.var").CachedValue.AsDouble, 123.0, double.Epsilon);
             Assert.AreEqual(DataStorage.GetScalarExpression("data.str").CachedValue.AsString, "123 is 123");
+            Assert.AreEqual(DataStorage.GetScalarExpression("data.str2").CachedValue.AsString, "123 is \" 123");
         }
 
         [TestMethod]
