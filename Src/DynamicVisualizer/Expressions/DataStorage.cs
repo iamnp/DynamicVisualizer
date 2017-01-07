@@ -78,6 +78,17 @@ namespace DynamicVisualizer.Expressions
                 {
                     toDel.Add(pair.Key);
                 }
+                else
+                {
+                    for (var i = pair.Value.UsedBy.Count - 1; i >= 0; --i)
+                    {
+                        var expr = pair.Value.UsedBy[i];
+                        if ((expr.ObjectName != "data") && (expr.ObjectName != "canvas"))
+                        {
+                            pair.Value.UsedBy.RemoveAt(i);
+                        }
+                    }
+                }
             }
             foreach (var s in toDel)
             {
