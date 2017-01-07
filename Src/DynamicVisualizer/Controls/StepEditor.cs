@@ -210,7 +210,7 @@ namespace DynamicVisualizer.Controls
                     label2.Text = "DeltaY";
 
                     textBox1.Text = rls.DeltaX;
-                    textBox1.Text = rls.DeltaY;
+                    textBox2.Text = rls.DeltaY;
 
                     ShowFirst(2);
                 }
@@ -221,7 +221,7 @@ namespace DynamicVisualizer.Controls
                     label2.Text = "DeltaY";
 
                     textBox1.Text = rts.DeltaX;
-                    textBox1.Text = rts.DeltaY;
+                    textBox2.Text = rts.DeltaY;
 
                     ShowFirst(2);
                 }
