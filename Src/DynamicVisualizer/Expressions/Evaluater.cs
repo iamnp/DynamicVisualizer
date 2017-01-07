@@ -122,6 +122,11 @@ namespace DynamicVisualizer.Expressions
                 {"--", a => new Value(-a.AsDouble)}
             };
 
+        private static unsafe string MakeSubstring(char* p1, char* p2)
+        {
+            return new string(p1, 0, (int) (p2 - p1) + 1);
+        }
+
         public static Value Evaluate(string exprString, Func<string, Value> variableEvaluater, int indexInArray)
         {
             //exprString = "(" + exprString + ")";
@@ -146,111 +151,118 @@ namespace DynamicVisualizer.Expressions
             var afterOp = false;
             var afterLeftBrace = false;
 
-            for (var i = 0; i < exprString.Length; ++i)
+            unsafe
             {
-                if (char.IsDigit(exprString[i])) // TOKEN: number
+                fixed (char* k = exprString)
                 {
-                    firstInExpr = true;
-                    afterOp = false;
-                    afterLeftBrace = false;
-                    var start1 = i;
-                    while ((i < exprString.Length) &&
-                           (char.IsDigit(exprString[i]) ||
-                            (((exprString[i] == '.') || (exprString[i] == ',')) && (i + 1 < exprString.Length) &&
-                             char.IsDigit(exprString[i + 1]))))
+                    for (var p = k; *p != '\0'; ++p)
                     {
-                        ++i;
-                    }
-                    i -= 1;
-                    var d = double.Parse(exprString.Substring(start1, i - start1 + 1).Replace(".", ","));
-                    values.Add(new Value(d));
-                    outputQueue.Enqueue(new Tuple<int, int>(VALUE, values.Count - 1));
-                }
-                else if (char.IsLetter(exprString[i])) // TOKEN: function or variable
-                {
-                    firstInExpr = true;
-                    afterOp = false;
-                    afterLeftBrace = false;
-                    var start = i;
-                    while ((i < exprString.Length) &&
-                           (char.IsLetter(exprString[i]) || char.IsDigit(exprString[i]) ||
-                            ((exprString[i] == '.') && (i + 1 < exprString.Length) &&
-                             (char.IsLetter(exprString[i + 1]) || char.IsDigit(exprString[i + 1])))))
-                    {
-                        ++i;
-                    }
-                    i -= 1;
-                    var funcOrVar = exprString.Substring(start, i - start + 1);
-                    if (UnaryFunctions.ContainsKey(funcOrVar))
-                    {
-                        // TOKEN: function
-                        functions.Add(funcOrVar);
-                        operatorStack.Push(new Tuple<int, int>(FUNCTION, functions.Count - 1));
-                    }
-                    else // TOKEN: variable
-                    {
-                        values.Add(variableEvaluater(funcOrVar));
-                        outputQueue.Enqueue(new Tuple<int, int>(VALUE, values.Count - 1));
-                    }
-                }
-                else if (exprString[i] == '"') // TOKEN: string
-                {
-                    firstInExpr = true;
-                    afterOp = false;
-                    afterLeftBrace = false;
-                    var start = i;
-                    i += 1;
-                    while ((i < exprString.Length) &&
-                           ((exprString[i] != '"') || ((i - 1 >= 0) && (exprString[i - 1] == '\\'))))
-                    {
-                        ++i;
-                    }
-                    values.Add(new Value(exprString.Substring(start + 1, i - start - 1).Replace("\\\"", "\"")));
-                    outputQueue.Enqueue(new Tuple<int, int>(VALUE, values.Count - 1));
-                }
-                else if (BinaryFunctions.ContainsKey(exprString[i])) // TOKEN: one-char operator
-                {
-                    var o1 = exprString[i];
-                    // if minus is unary then threat it as a function
-                    if ((o1 == '-') && (!firstInExpr || afterOp || afterLeftBrace))
-                    {
-                        functions.Add("--");
-                        operatorStack.Push(new Tuple<int, int>(FUNCTION, functions.Count - 1));
-                    }
-                    // minus is binary operator
-                    else
-                    {
-                        while ((operatorStack.Count > 0) && (operatorStack.Peek().Item1 == OPERATOR) &&
-                               (operators[operatorStack.Peek().Item2] != '(') &&
-                               (Precedence[o1] <= Precedence[operators[operatorStack.Peek().Item2]]))
+                        if (char.IsDigit(*p)) // TOKEN: number
                         {
-                            outputQueue.Enqueue(operatorStack.Pop());
+                            firstInExpr = true;
+                            afterOp = false;
+                            afterLeftBrace = false;
+                            var start = p;
+                            while ((*p != '\0') &&
+                                   (char.IsDigit(*p) ||
+                                    (((*p == '.') || (*p == ',')) && (*(p + 1) != '\0') &&
+                                     char.IsDigit(*(p + 1)))))
+                            {
+                                ++p;
+                            }
+                            --p;
+                            var d = double.Parse(MakeSubstring(start, p).Replace(".", ","));
+                            values.Add(new Value(d));
+                            outputQueue.Enqueue(new Tuple<int, int>(VALUE, values.Count - 1));
                         }
-                        operators.Add(o1);
-                        operatorStack.Push(new Tuple<int, int>(OPERATOR, operators.Count - 1));
-                    }
-                    afterOp = true;
-                }
-                else if (exprString[i] == '(')
-                {
-                    afterLeftBrace = true;
-                    operators.Add('(');
-                    operatorStack.Push(new Tuple<int, int>(OPERATOR, operators.Count - 1));
-                }
-                else if (exprString[i] == ')')
-                {
-                    firstInExpr = true;
-                    afterOp = false;
-                    afterLeftBrace = false;
-                    while ((operatorStack.Count > 0) &&
-                           !((operatorStack.Peek().Item1 == OPERATOR) && (operators[operatorStack.Peek().Item2] == '(')))
-                    {
-                        outputQueue.Enqueue(operatorStack.Pop());
-                    }
-                    operatorStack.Pop();
-                    if ((operatorStack.Count > 0) && (operatorStack.Peek().Item1 == FUNCTION))
-                    {
-                        outputQueue.Enqueue(operatorStack.Pop());
+                        else if (char.IsLetter(*p)) // TOKEN: function or variable
+                        {
+                            firstInExpr = true;
+                            afterOp = false;
+                            afterLeftBrace = false;
+                            var start = p;
+                            while ((*p != '\0') &&
+                                   (char.IsLetter(*p) || char.IsDigit(*p) ||
+                                    ((*p == '.') && (*(p + 1) != '\0') &&
+                                     (char.IsLetter(*(p + 1)) || char.IsDigit(*(p + 1))))))
+                            {
+                                ++p;
+                            }
+                            --p;
+                            var funcOrVar = MakeSubstring(start, p);
+                            if (UnaryFunctions.ContainsKey(funcOrVar))
+                            {
+                                // TOKEN: function
+                                functions.Add(funcOrVar);
+                                operatorStack.Push(new Tuple<int, int>(FUNCTION, functions.Count - 1));
+                            }
+                            else // TOKEN: variable
+                            {
+                                values.Add(variableEvaluater(funcOrVar));
+                                outputQueue.Enqueue(new Tuple<int, int>(VALUE, values.Count - 1));
+                            }
+                        }
+                        else if (*p == '"') // TOKEN: string
+                        {
+                            firstInExpr = true;
+                            afterOp = false;
+                            afterLeftBrace = false;
+                            var start = p;
+                            ++p;
+                            while ((*p != '\0') &&
+                                   ((*p != '"') || ((p - 1 != k) && (*(p - 1) == '\\'))))
+                            {
+                                ++p;
+                            }
+                            values.Add(new Value(MakeSubstring(start + 1, p - 1).Replace("\\\"", "\"")));
+                            outputQueue.Enqueue(new Tuple<int, int>(VALUE, values.Count - 1));
+                        }
+                        else if (BinaryFunctions.ContainsKey(*p)) // TOKEN: one-char operator
+                        {
+                            var o1 = *p;
+                            // if minus is unary then threat it as a function
+                            if ((o1 == '-') && (!firstInExpr || afterOp || afterLeftBrace))
+                            {
+                                functions.Add("--");
+                                operatorStack.Push(new Tuple<int, int>(FUNCTION, functions.Count - 1));
+                            }
+                            // minus is binary operator
+                            else
+                            {
+                                while ((operatorStack.Count > 0) && (operatorStack.Peek().Item1 == OPERATOR) &&
+                                       (operators[operatorStack.Peek().Item2] != '(') &&
+                                       (Precedence[o1] <= Precedence[operators[operatorStack.Peek().Item2]]))
+                                {
+                                    outputQueue.Enqueue(operatorStack.Pop());
+                                }
+                                operators.Add(o1);
+                                operatorStack.Push(new Tuple<int, int>(OPERATOR, operators.Count - 1));
+                            }
+                            afterOp = true;
+                        }
+                        else if (*p == '(')
+                        {
+                            afterLeftBrace = true;
+                            operators.Add('(');
+                            operatorStack.Push(new Tuple<int, int>(OPERATOR, operators.Count - 1));
+                        }
+                        else if (*p == ')')
+                        {
+                            firstInExpr = true;
+                            afterOp = false;
+                            afterLeftBrace = false;
+                            while ((operatorStack.Count > 0) &&
+                                   !((operatorStack.Peek().Item1 == OPERATOR) &&
+                                     (operators[operatorStack.Peek().Item2] == '(')))
+                            {
+                                outputQueue.Enqueue(operatorStack.Pop());
+                            }
+                            operatorStack.Pop();
+                            if ((operatorStack.Count > 0) && (operatorStack.Peek().Item1 == FUNCTION))
+                            {
+                                outputQueue.Enqueue(operatorStack.Pop());
+                            }
+                        }
                     }
                 }
             }
