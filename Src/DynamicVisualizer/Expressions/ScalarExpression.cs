@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DynamicVisualizer.Steps;
 
 namespace DynamicVisualizer.Expressions
 {
@@ -109,6 +110,7 @@ namespace DynamicVisualizer.Expressions
             }
             catch
             {
+                StepManager.ErrorOccurred = true;
             }
 
             if (!IsWeak)

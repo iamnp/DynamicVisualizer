@@ -81,7 +81,7 @@ namespace DynamicVisualizer.Controls
             }
         }
 
-        private void ConstructList()
+        public void ConstructList()
         {
             SuspendLayout();
             for (var i = Controls.Count - 1; i >= 0; --i)
@@ -164,10 +164,6 @@ namespace DynamicVisualizer.Controls
                 ClearMarked();
             }
             StepManager.SetCurrentStepIndex(((StepItem) sender).Index);
-            if (StepManager.CurrentStep.Iterations == -1)
-            {
-                StepManager.ResetIterations(StepManager.CurrentStepIndex);
-            }
             if (e.Button == MouseButtons.Right)
             {
                 if (!_currentSelection.Marked)

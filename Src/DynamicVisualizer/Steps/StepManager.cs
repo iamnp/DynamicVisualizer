@@ -21,6 +21,7 @@ namespace DynamicVisualizer.Steps
         public static StepEditor StepEditor;
         public static StepListControl StepListControl;
         public static bool AddStepLooped = true;
+        public static bool ErrorOccurred;
 
         static StepManager()
         {
@@ -140,13 +141,21 @@ namespace DynamicVisualizer.Steps
                 currentStepLooped = (CurrentStepIndex > -1) && (CurrentStep.Iterations > -1);
             }
 
-            if (currentStepLooped)
+            Insert(step, index, currentStepLooped, group);
+        }
+
+        private static void Insert(Step step, int index, bool looped, IterableStepGroup group)
+        {
+            if (looped)
             {
                 if (((index > group.StartIndex) && (index <= group.EndIndex))
                     || (((index == group.StartIndex) || (index == group.StartIndex - 1) || (index == group.EndIndex) ||
                          (index == group.EndIndex + 1)) && AddStepLooped))
                 {
-                    step.MakeIterable(group.Iterations);
+                    if (step.Iterations == -1)
+                    {
+                        step.MakeIterable(group.Iterations);
+                    }
                     group.Length += 1;
                 }
             }
@@ -164,7 +173,32 @@ namespace DynamicVisualizer.Steps
             SetCurrentStepIndex(index);
         }
 
-        public static void Remove(int pos, bool silent = false)
+        public static void TryToRemove(int pos)
+        {
+            var step = Steps[pos];
+            var group = GetGroupByIndex(pos);
+            Remove(pos, true);
+            ErrorOccurred = false;
+            ApplySteps(Steps.Count - 1);
+            if (ErrorOccurred)
+            {
+                Insert(step, pos, step.Iterations != -1, group);
+            }
+            else
+            {
+                StepListControl.ConstructList();
+                if (pos <= Steps.Count - 1)
+                {
+                    SetCurrentStepIndex(pos);
+                }
+                else
+                {
+                    SetCurrentStepIndex(pos - 1);
+                }
+            }
+        }
+
+        private static void Remove(int pos, bool silent = false)
         {
             if (Steps[pos].Iterations > -1)
             {
@@ -198,7 +232,7 @@ namespace DynamicVisualizer.Steps
             }
         }
 
-        public static void ResetIterations(int firstStep = 0)
+        private static void ResetIterations(int firstStep = 0)
         {
             for (var i = firstStep; i < Steps.Count; ++i)
             {
@@ -214,9 +248,13 @@ namespace DynamicVisualizer.Steps
             SetCurrentStepIndex(CurrentStepIndex);
         }
 
-        public static void SetCurrentStepIndex(int index)
+        public static void SetCurrentStepIndex(int index, bool doMarkAsSelected = false)
         {
             CurrentStepIndex = index;
+            if ((CurrentStep != null) && (CurrentStep.Iterations == -1))
+            {
+                ResetIterations(CurrentStepIndex);
+            }
             var pos = -1;
             if ((FinalStep != null) && ((pos = Steps.IndexOf(FinalStep)) != -1))
             {
@@ -228,7 +266,14 @@ namespace DynamicVisualizer.Steps
                 Drawer.DeleteCurrentScene();
             }
             ApplySteps(index);
-            StepListControl?.MarkAsSelecgted(CurrentStepIndex);
+            if (!doMarkAsSelected)
+            {
+                StepListControl?.MarkAsSelecgted(CurrentStepIndex);
+            }
+            else
+            {
+                MainForm.RedrawNeeded?.Invoke();
+            }
         }
 
         private static void ApplySteps(int index)

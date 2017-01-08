@@ -14,7 +14,6 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
 // TODO identify infinite resucrsion (stackoverflow errors in evaluator class)
-// TODO deal with removing steps with dependants
 
 // TODO GUI improvements (scalar and array(!) editors, step list)
 // TODO? deal with expr dependants system
@@ -95,6 +94,7 @@ namespace DynamicVisualizer
             _mainGraphics.MouseMove += MainGraphicsOnMouseMove;
             _mainGraphics.MouseUp += MainGraphicsOnMouseUp;
             _mainGraphics.MouseLeave += MainGraphicsOnMouseLeave;
+            _mainGraphics.MouseEnter += MainGraphicsOnMouseEnter;
 
             ActiveControl = _stepListControl1;
         }
@@ -160,7 +160,7 @@ namespace DynamicVisualizer
                                 StepManager.FinalStep = null;
                                 markAsFinalLabel.Text = "mark as final";
                             }
-                            StepManager.Remove(StepManager.CurrentStepIndex);
+                            StepManager.TryToRemove(StepManager.CurrentStepIndex);
                         }
                         return true;
                     }
@@ -265,6 +265,11 @@ namespace DynamicVisualizer
                 _figureDrawer.Finish();
             }
             Redraw();
+        }
+
+        private void MainGraphicsOnMouseEnter(object sender, MouseEventArgs mouseEventArgs)
+        {
+            ActiveControl = _stepListControl1;
         }
 
         private void MainGraphicsOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
