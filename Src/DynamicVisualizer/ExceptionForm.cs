@@ -5,10 +5,12 @@ namespace DynamicVisualizer
 {
     public partial class ExceptionForm : Form
     {
+        public static bool Showing;
+
         public ExceptionForm(Exception ex)
         {
             InitializeComponent();
-
+            Showing = true;
             if (ex != null)
             {
                 richTextBox1.Text = ex.Message + "\n" + ex.StackTrace;
