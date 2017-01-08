@@ -93,8 +93,13 @@ namespace DynamicVisualizer.Expressions
             Recalculate();
         }
 
-        public override void Recalculate()
+        public override void Recalculate(int depth = 1)
         {
+            if (depth > MaxRecursionDepth)
+            {
+                // we are proabaly about to encounter a stack overflow
+                return;
+            }
             // remove all the DependentOn values
             // e.g. remove the cross-references
             foreach (var e in DependentOn)
@@ -121,7 +126,7 @@ namespace DynamicVisualizer.Expressions
                     UsedBy.Clear();
                     foreach (var e in copyOfUsedBy)
                     {
-                        e.Recalculate();
+                        e.Recalculate(depth + 1);
                     }
                 }
                 ParentArray?.NotifyElementChanged();

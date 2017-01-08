@@ -94,7 +94,7 @@ namespace DynamicVisualizer.Expressions
             ValueChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public override void Recalculate()
+        public override void Recalculate(int depth = 1)
         {
             foreach (var e in DependentOn)
             {
