@@ -127,10 +127,7 @@ namespace DynamicVisualizer.Steps.Rotate
                 LineFigure.Height.IndexInArray = CompletedIterations;
                 LineFigure.Y.IndexInArray = CompletedIterations;
 
-                LineFigure.X.SetRawExpression(LineFigure.X.CachedValue.AsDouble.Str());
-                LineFigure.Width.SetRawExpression(LineFigure.Width.CachedValue.AsDouble.Str());
-                LineFigure.Y.SetRawExpression(LineFigure.Y.CachedValue.AsDouble.Str());
-                LineFigure.Height.SetRawExpression(LineFigure.Height.CachedValue.AsDouble.Str());
+                DataStorage.CachedSwapToAbs(LineFigure.X, LineFigure.Width, LineFigure.Y, LineFigure.Height);
 
                 var se = new ScalarExpression("a", "a", Factor, true);
                 var angle = se.CachedValue.Empty ? 0 : se.CachedValue.AsDouble * 2 * Math.PI;
@@ -150,10 +147,7 @@ namespace DynamicVisualizer.Steps.Rotate
                 LineFigure.Height.IndexInArray = CompletedIterations;
                 LineFigure.Y.IndexInArray = CompletedIterations;
 
-                LineFigure.X.SetRawExpression(LineFigure.X.CachedValue.AsDouble.Str());
-                LineFigure.Width.SetRawExpression(LineFigure.Width.CachedValue.AsDouble.Str());
-                LineFigure.Y.SetRawExpression(LineFigure.Y.CachedValue.AsDouble.Str());
-                LineFigure.Height.SetRawExpression(LineFigure.Height.CachedValue.AsDouble.Str());
+                DataStorage.CachedSwapToAbs(LineFigure.X, LineFigure.Width, LineFigure.Y, LineFigure.Height);
 
                 var se = new ScalarExpression("a", "a", Factor, true);
                 var angle = se.CachedValue.Empty ? 0 : se.CachedValue.AsDouble * 2 * Math.PI;

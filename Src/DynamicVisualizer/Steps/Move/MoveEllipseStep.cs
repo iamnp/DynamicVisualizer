@@ -1,4 +1,5 @@
-﻿using DynamicVisualizer.Figures;
+﻿using DynamicVisualizer.Expressions;
+using DynamicVisualizer.Figures;
 
 namespace DynamicVisualizer.Steps.Move
 {
@@ -76,10 +77,7 @@ namespace DynamicVisualizer.Steps.Move
             EllipseFigure.Radius1.IndexInArray = CompletedIterations;
             EllipseFigure.Radius2.IndexInArray = CompletedIterations;
 
-            EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.AsDouble.Str());
-            EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.AsDouble.Str());
-            EllipseFigure.X.SetRawExpression(EllipseFigure.X.CachedValue.AsDouble.Str());
-            EllipseFigure.Y.SetRawExpression(EllipseFigure.Y.CachedValue.AsDouble.Str());
+            DataStorage.CachedSwapToAbs(EllipseFigure.X, EllipseFigure.Radius1, EllipseFigure.Y, EllipseFigure.Radius2);
 
             EllipseFigure.X.SetRawExpression(EllipseFigure.Name + ".x + (" + X + ")");
             EllipseFigure.Y.SetRawExpression(EllipseFigure.Name + ".y + (" + Y + ")");

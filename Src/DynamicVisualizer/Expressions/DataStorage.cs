@@ -26,6 +26,20 @@ namespace DynamicVisualizer.Expressions
             }
         }
 
+        public static void CachedSwapToAbs(params ScalarExpression[] exprs)
+        {
+            var cache = new string[exprs.Length];
+            for (var i = 0; i < exprs.Length; ++i)
+            {
+                cache[i] = exprs[i].CachedValue.AsDouble.Str();
+            }
+
+            for (var i = 0; i < exprs.Length; ++i)
+            {
+                exprs[i].SetRawExpression(cache[i]);
+            }
+        }
+
         public static ScalarExpression Add(ScalarExpression expr)
         {
             Data[expr.FullName] = expr;

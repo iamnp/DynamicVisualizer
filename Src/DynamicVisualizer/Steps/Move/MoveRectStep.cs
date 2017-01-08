@@ -1,4 +1,5 @@
-﻿using DynamicVisualizer.Figures;
+﻿using DynamicVisualizer.Expressions;
+using DynamicVisualizer.Figures;
 
 namespace DynamicVisualizer.Steps.Move
 {
@@ -76,10 +77,7 @@ namespace DynamicVisualizer.Steps.Move
             RectFigure.Width.IndexInArray = CompletedIterations;
             RectFigure.Height.IndexInArray = CompletedIterations;
 
-            RectFigure.Width.SetRawExpression(RectFigure.Width.CachedValue.AsDouble.Str());
-            RectFigure.Height.SetRawExpression(RectFigure.Height.CachedValue.AsDouble.Str());
-            RectFigure.X.SetRawExpression(RectFigure.X.CachedValue.AsDouble.Str());
-            RectFigure.Y.SetRawExpression(RectFigure.Y.CachedValue.AsDouble.Str());
+            DataStorage.CachedSwapToAbs(RectFigure.X, RectFigure.Width, RectFigure.Y, RectFigure.Height);
 
             RectFigure.X.SetRawExpression(RectFigure.Name + ".x + (" + X + ")");
             RectFigure.Y.SetRawExpression(RectFigure.Name + ".y + (" + Y + ")");

@@ -111,10 +111,7 @@ namespace DynamicVisualizer.Steps.Scale
                 TextFigure.Height.IndexInArray = CompletedIterations;
                 TextFigure.Y.IndexInArray = CompletedIterations;
 
-                TextFigure.X.SetRawExpression(TextFigure.X.CachedValue.AsDouble.Str());
-                TextFigure.Width.SetRawExpression(TextFigure.Width.CachedValue.AsDouble.Str());
-                TextFigure.Y.SetRawExpression(TextFigure.Y.CachedValue.AsDouble.Str());
-                TextFigure.Height.SetRawExpression(TextFigure.Height.CachedValue.AsDouble.Str());
+                DataStorage.CachedSwapToAbs(TextFigure.X, TextFigure.Width, TextFigure.Y, TextFigure.Height);
 
                 TextFigure.Width.SetRawExpression(TextFigure.Name + ".width * (" + Factor + ")");
                 TextFigure.Height.SetRawExpression(TextFigure.Name + ".height * (" + Factor + ")");
@@ -126,10 +123,7 @@ namespace DynamicVisualizer.Steps.Scale
                 TextFigure.Height.IndexInArray = CompletedIterations;
                 TextFigure.Y.IndexInArray = CompletedIterations;
 
-                TextFigure.X.SetRawExpression(TextFigure.X.CachedValue.AsDouble.Str());
-                TextFigure.Width.SetRawExpression(TextFigure.Width.CachedValue.AsDouble.Str());
-                TextFigure.Y.SetRawExpression(TextFigure.Y.CachedValue.AsDouble.Str());
-                TextFigure.Height.SetRawExpression(TextFigure.Height.CachedValue.AsDouble.Str());
+                DataStorage.CachedSwapToAbs(TextFigure.X, TextFigure.Width, TextFigure.Y, TextFigure.Height);
 
                 DataStorage.SimultaneousSwap(
                     new Tuple<ScalarExpression, string>(TextFigure.Width, TextFigure.Name + ".width * (" + Factor + ")"),

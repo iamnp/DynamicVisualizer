@@ -128,10 +128,7 @@ namespace DynamicVisualizer.Steps.Rotate
                 TextFigure.Height.IndexInArray = CompletedIterations;
                 TextFigure.Y.IndexInArray = CompletedIterations;
 
-                TextFigure.X.SetRawExpression(TextFigure.X.CachedValue.AsDouble.Str());
-                TextFigure.Width.SetRawExpression(TextFigure.Width.CachedValue.AsDouble.Str());
-                TextFigure.Y.SetRawExpression(TextFigure.Y.CachedValue.AsDouble.Str());
-                TextFigure.Height.SetRawExpression(TextFigure.Height.CachedValue.AsDouble.Str());
+                DataStorage.CachedSwapToAbs(TextFigure.X, TextFigure.Width, TextFigure.Y, TextFigure.Height);
 
                 var se = new ScalarExpression("a", "a", Factor, true);
                 var angle = se.CachedValue.Empty ? 0 : se.CachedValue.AsDouble * 2 * Math.PI;
@@ -151,10 +148,7 @@ namespace DynamicVisualizer.Steps.Rotate
                 TextFigure.Height.IndexInArray = CompletedIterations;
                 TextFigure.Y.IndexInArray = CompletedIterations;
 
-                TextFigure.X.SetRawExpression(TextFigure.X.CachedValue.AsDouble.Str());
-                TextFigure.Width.SetRawExpression(TextFigure.Width.CachedValue.AsDouble.Str());
-                TextFigure.Y.SetRawExpression(TextFigure.Y.CachedValue.AsDouble.Str());
-                TextFigure.Height.SetRawExpression(TextFigure.Height.CachedValue.AsDouble.Str());
+                DataStorage.CachedSwapToAbs(TextFigure.X, TextFigure.Width, TextFigure.Y, TextFigure.Height);
 
                 var se = new ScalarExpression("a", "a", Factor, true);
                 var angle = se.CachedValue.Empty ? 0 : se.CachedValue.AsDouble * 2 * Math.PI;

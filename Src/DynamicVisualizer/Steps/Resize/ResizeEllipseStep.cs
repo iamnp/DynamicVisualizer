@@ -1,4 +1,5 @@
-﻿using DynamicVisualizer.Figures;
+﻿using DynamicVisualizer.Expressions;
+using DynamicVisualizer.Figures;
 
 namespace DynamicVisualizer.Steps.Resize
 {
@@ -112,8 +113,7 @@ namespace DynamicVisualizer.Steps.Resize
             {
                 EllipseFigure.Radius1.IndexInArray = CompletedIterations;
 
-                EllipseFigure.X.SetRawExpression(EllipseFigure.X.CachedValue.AsDouble.Str());
-                EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Radius1.CachedValue.AsDouble.Str());
+                DataStorage.CachedSwapToAbs(EllipseFigure.X, EllipseFigure.Radius1);
 
                 EllipseFigure.Radius1.SetRawExpression(EllipseFigure.Name + ".radius1 + (" + Delta + ")");
             }
@@ -121,8 +121,7 @@ namespace DynamicVisualizer.Steps.Resize
             {
                 EllipseFigure.Radius2.IndexInArray = CompletedIterations;
 
-                EllipseFigure.Y.SetRawExpression(EllipseFigure.Y.CachedValue.AsDouble.Str());
-                EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Radius2.CachedValue.AsDouble.Str());
+                DataStorage.CachedSwapToAbs(EllipseFigure.Y, EllipseFigure.Radius2);
 
                 EllipseFigure.Radius2.SetRawExpression(EllipseFigure.Name + ".radius2 + (" + Delta + ")");
             }

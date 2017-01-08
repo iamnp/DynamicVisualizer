@@ -110,10 +110,7 @@ namespace DynamicVisualizer.Steps.Scale
                 LineFigure.Height.IndexInArray = CompletedIterations;
                 LineFigure.Y.IndexInArray = CompletedIterations;
 
-                LineFigure.X.SetRawExpression(LineFigure.X.CachedValue.AsDouble.Str());
-                LineFigure.Width.SetRawExpression(LineFigure.Width.CachedValue.AsDouble.Str());
-                LineFigure.Y.SetRawExpression(LineFigure.Y.CachedValue.AsDouble.Str());
-                LineFigure.Height.SetRawExpression(LineFigure.Height.CachedValue.AsDouble.Str());
+                DataStorage.CachedSwapToAbs(LineFigure.X, LineFigure.Width, LineFigure.Y, LineFigure.Height);
 
                 LineFigure.Width.SetRawExpression(LineFigure.Name + ".width * (" + Factor + ")");
                 LineFigure.Height.SetRawExpression(LineFigure.Name + ".height * (" + Factor + ")");
@@ -125,10 +122,7 @@ namespace DynamicVisualizer.Steps.Scale
                 LineFigure.Height.IndexInArray = CompletedIterations;
                 LineFigure.Y.IndexInArray = CompletedIterations;
 
-                LineFigure.X.SetRawExpression(LineFigure.X.CachedValue.AsDouble.Str());
-                LineFigure.Width.SetRawExpression(LineFigure.Width.CachedValue.AsDouble.Str());
-                LineFigure.Y.SetRawExpression(LineFigure.Y.CachedValue.AsDouble.Str());
-                LineFigure.Height.SetRawExpression(LineFigure.Height.CachedValue.AsDouble.Str());
+                DataStorage.CachedSwapToAbs(LineFigure.X, LineFigure.Width, LineFigure.Y, LineFigure.Height);
 
                 DataStorage.SimultaneousSwap(
                     new Tuple<ScalarExpression, string>(LineFigure.Width, LineFigure.Name + ".width * (" + Factor + ")"),
