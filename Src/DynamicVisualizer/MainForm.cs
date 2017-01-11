@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using DynamicVisualizer.Controls;
+using System.Windows.Media;
 using DynamicVisualizer.Expressions;
 using DynamicVisualizer.Figures;
 using DynamicVisualizer.Manipulators;
@@ -94,15 +94,25 @@ namespace DynamicVisualizer
             _mainGraphics.MouseUp += MainGraphicsOnMouseUp;
             _mainGraphics.MouseLeave += MainGraphicsOnMouseLeave;
             _mainGraphics.MouseEnter += MainGraphicsOnMouseEnter;
+            _mainGraphics.SizeChanged += MainGraphicsOnSizeChanged;
 
             ActiveControl = _stepListControl1;
         }
 
+        private bool IsTextBoxActive()
+        {
+            var c = ActiveControl;
+            var p = c;
+            while ((c = (c as ContainerControl)?.ActiveControl) != null)
+            {
+                p = c;
+            }
+            return p.GetType() == typeof(TextBox);
+        }
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if ((ActiveControl.GetType() != typeof(ArrayExpressionItem))
-                && (ActiveControl.GetType() != typeof(ScalarExpressionItem)) &&
-                (ActiveControl.GetType() != typeof(StepEditor)) && (ActiveControl.GetType() != typeof(GroupHeaderItem)))
+            if (!IsTextBoxActive())
             {
                 if (StepManager.CurrentStep != null)
                 {
@@ -511,6 +521,16 @@ namespace DynamicVisualizer
                 markAsFinalLabel.Text = "mark as final";
             }
             StepManager.RefreshToCurrentStep();
+        }
+
+        private void MainGraphicsOnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
+        {
+            Drawer.HostRect = new Rect(0, 0, _mainGraphics.ActualWidth, _mainGraphics.ActualHeight);
+            Drawer.CanvasOffsetX = (int) ((Drawer.HostRect.Width - Drawer.CanvasWidth) / 2);
+            Drawer.CanvasOffsetY = (int) ((Drawer.HostRect.Height - Drawer.CanvasHeight) / 2);
+            Drawer.CanvasTranslate = new TranslateTransform(Drawer.CanvasOffsetX, Drawer.CanvasOffsetY);
+            Drawer.CanvasTranslate.Freeze();
+            _mainGraphics.InvalidateVisual();
         }
     }
 }

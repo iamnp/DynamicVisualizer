@@ -17,10 +17,12 @@ namespace DynamicVisualizer.Controls
         {
             var item = new ScalarExpressionItem(true)
             {
-                Location = new Point(0, _items.Count * ArrayExpressionItem.ItemHeight)
+                Location = new Point(0, _items.Count * ArrayExpressionItem.ItemHeight),
+                Width = Width
             };
             item.textBox1.KeyPress += DummyItemNameKeyPress;
             _items.Add(item);
+            item.Anchor |= AnchorStyles.Right;
             Controls.Add(item);
         }
 

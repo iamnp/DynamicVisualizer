@@ -10,19 +10,19 @@ namespace DynamicVisualizer
     {
         public const int CanvasWidth = 800;
         public const int CanvasHeight = 600;
-        public const int CanvasOffsetX = 100;
-        public const int CanvasOffsetY = 50;
-        private static readonly Rect HostRect = new Rect(0, 0, 1000, 700);
+        public static int CanvasOffsetX = 100;
+        public static int CanvasOffsetY = 50;
+        public static Rect HostRect = new Rect(0, 0, 1000, 700);
         private static readonly Rect CanvasRect = new Rect(0, 0, CanvasWidth, CanvasHeight);
         public static bool DrawMagnets;
 
-        private static readonly TranslateTransform CanvasTranslate = new TranslateTransform(CanvasOffsetX, CanvasOffsetY);
+        public static TranslateTransform CanvasTranslate = new TranslateTransform(CanvasOffsetX, CanvasOffsetY);
         private static readonly Pen CanvasStroke = new Pen(Brushes.Gray, 1);
         private static readonly Brush WhiteBrush = Brushes.White;
         public static readonly Brush BlackBrush = Brushes.Black;
         public static readonly Brush DeepSkyBlueBrush = Brushes.DeepSkyBlue;
         public static readonly Brush YellowBrush = Brushes.Yellow;
-        private static readonly Brush LightGrayBrush = Brushes.LightGray;
+        private static readonly Brush LightGrayBrush = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
         public static readonly Pen GuidePen = new Pen(Brushes.CornflowerBlue, 2);
         public static readonly Pen StrokePen = new Pen(Brushes.Black, 2);
         public static readonly Pen BlackPen = new Pen(Brushes.Black, 1);

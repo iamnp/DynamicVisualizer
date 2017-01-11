@@ -21,6 +21,12 @@ namespace DynamicVisualizer.Controls
 
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            Resize += OnResize;
+        }
+
+        private void OnResize(object sender, EventArgs eventArgs)
+        {
+            ConstructList();
         }
 
         public void CurrentSelectionToIterableGroup()
@@ -113,6 +119,7 @@ namespace DynamicVisualizer.Controls
                     prevGroup = currentGroup;
                 }
                 scc.Index = i;
+                scc.Width = Width - 2 - 17;
                 scc.Location = new Point(0, height - VerticalScroll.Value);
                 height += StepItem.HeightValue;
                 Controls.Add(scc);

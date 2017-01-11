@@ -32,32 +32,34 @@ namespace DynamicVisualizer.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new TextBox();
-            this.textBox2 = new TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // textBox1
             // 
-            this.textBox1.Location = new Point(3, 1);
+            this.textBox1.Location = new System.Drawing.Point(3, 1);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new Size(60, 20);
+            this.textBox1.Size = new System.Drawing.Size(60, 20);
             this.textBox1.TabIndex = 0;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new Point(77, 1);
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox2.Location = new System.Drawing.Point(77, 1);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new Size(120, 20);
+            this.textBox2.Size = new System.Drawing.Size(120, 20);
             this.textBox2.TabIndex = 1;
             // 
             // ArrayExpressionItem
             // 
-            this.AutoScaleDimensions = new SizeF(6F, 13F);
-            this.AutoScaleMode = AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Name = "ArrayExpressionItem";
-            this.Size = new Size(200, 24);
+            this.Size = new System.Drawing.Size(200, 24);
             this.ResumeLayout(false);
             this.PerformLayout();
 

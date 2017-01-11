@@ -21,12 +21,14 @@ namespace DynamicVisualizer.Controls
             var item = new ArrayExpressionItem
             {
                 Location = new Point(0, Items.Count * ArrayExpressionItem.ItemHeight),
-                AllowDrop = true
+                AllowDrop = true,
+                Width = Width
             };
             item.DragEnter += OnDummyItemDragEnter;
             item.DragDrop += OnDummyItemDragDrop;
             item.textBox1.KeyPress += DummyItemNameKeyPress;
             Items.Add(item);
+            item.Anchor |= AnchorStyles.Right;
             Controls.Add(item);
         }
 
