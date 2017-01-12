@@ -38,19 +38,27 @@ namespace DynamicVisualizer.Controls
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(3, 1);
+            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Location = new System.Drawing.Point(5, 3);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(60, 20);
+            this.textBox1.Size = new System.Drawing.Size(60, 13);
             this.textBox1.TabIndex = 0;
+            this.textBox1.MouseEnter += new System.EventHandler(this.ArrayExpressionItem_MouseEnter);
+            this.textBox1.MouseLeave += new System.EventHandler(this.ArrayExpressionItem_MouseLeave);
             // 
             // textBox2
             // 
             this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.Location = new System.Drawing.Point(77, 1);
+            this.textBox2.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox2.Location = new System.Drawing.Point(77, 3);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(120, 20);
+            this.textBox2.Size = new System.Drawing.Size(120, 13);
             this.textBox2.TabIndex = 1;
+            this.textBox2.MouseEnter += new System.EventHandler(this.ArrayExpressionItem_MouseEnter);
+            this.textBox2.MouseLeave += new System.EventHandler(this.ArrayExpressionItem_MouseLeave);
             // 
             // ArrayExpressionItem
             // 
@@ -59,7 +67,9 @@ namespace DynamicVisualizer.Controls
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Name = "ArrayExpressionItem";
-            this.Size = new System.Drawing.Size(200, 24);
+            this.Size = new System.Drawing.Size(200, 20);
+            this.MouseEnter += new System.EventHandler(this.ArrayExpressionItem_MouseEnter);
+            this.MouseLeave += new System.EventHandler(this.ArrayExpressionItem_MouseLeave);
             this.ResumeLayout(false);
             this.PerformLayout();
 

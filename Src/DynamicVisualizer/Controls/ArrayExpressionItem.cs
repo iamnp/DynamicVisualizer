@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using DynamicVisualizer.Expressions;
@@ -8,7 +10,7 @@ namespace DynamicVisualizer.Controls
 {
     public partial class ArrayExpressionItem : UserControl
     {
-        public const int ItemHeight = 24;
+        public const int ItemHeight = 20;
         private bool _definedAsConstVector;
         private bool _ignoreTextChange;
         private bool _mouseOver;
@@ -71,15 +73,14 @@ namespace DynamicVisualizer.Controls
                             return false;
                         }
                     }
-                    if ((ArrayExpressionEditor.ConstVectorArrays > 0)
-                        && (items.Length != ArrayExpressionEditor.Len))
-                    {
-                        _ignoreTextChange = false;
-                        return false;
-                    }
                     _definedAsConstVector = true;
-                    ArrayExpressionEditor.ConstVectorArrays += 1;
                     Expr = DataStorage.Add(new ArrayExpression("data", textBox1.Text, items));
+                    if ((ArrayExpressionEditor.Len != -1) &&
+                        (items.Length != ArrayExpressionEditor.Len))
+                    {
+                        ArrayExpressionEditor.Len = items.Length;
+                        ArrayExpressionEditor.LenChanged(this);
+                    }
                 }
                 else
                 {
@@ -104,25 +105,17 @@ namespace DynamicVisualizer.Controls
                             return false;
                         }
                     }
-                    if ((ArrayExpressionEditor.ConstVectorArrays > 1)
-                        && (items.Length != ArrayExpressionEditor.Len))
-                    {
-                        _ignoreTextChange = false;
-                        return false;
-                    }
-                    if (!_definedAsConstVector)
-                    {
-                        ArrayExpressionEditor.ConstVectorArrays += 1;
-                    }
                     _definedAsConstVector = true;
                     Expr.SetRawExpressions(items);
+                    if ((ArrayExpressionEditor.Len != -1)
+                        && (items.Length != ArrayExpressionEditor.Len))
+                    {
+                        ArrayExpressionEditor.Len = items.Length;
+                        ArrayExpressionEditor.LenChanged(this);
+                    }
                 }
                 else
                 {
-                    if (_definedAsConstVector)
-                    {
-                        ArrayExpressionEditor.ConstVectorArrays -= 1;
-                    }
                     _definedAsConstVector = false;
                     Expr.SetRawExpression(data, ArrayExpressionEditor.Len);
                 }
@@ -131,6 +124,38 @@ namespace DynamicVisualizer.Controls
             StepManager.RefreshToCurrentStep();
             _ignoreTextChange = false;
             return true;
+        }
+
+        public void ApplyNewLen()
+        {
+            if (_definedAsConstVector)
+            {
+                var curLen = Expr.Exprs.Length;
+                var list = new List<string>();
+                if (curLen >= ArrayExpressionEditor.Len)
+                {
+                    for (var i = 0; i < ArrayExpressionEditor.Len; ++i)
+                    {
+                        list.Add(Expr.ExprsStrings[i]);
+                    }
+                }
+                else
+                {
+                    for (var i = 0; i < curLen; ++i)
+                    {
+                        list.Add(Expr.ExprsStrings[i]);
+                    }
+                    for (var i = 0; i < ArrayExpressionEditor.Len - curLen; ++i)
+                    {
+                        list.Add("0");
+                    }
+                }
+                Expr.SetRawExpressions(list.ToArray());
+            }
+            else
+            {
+                Expr.SetRawExpression(Expr.ExprString, ArrayExpressionEditor.Len);
+            }
         }
 
         private void ValueTextBoxTextChanged(object sender, EventArgs eventArgs)
@@ -210,7 +235,6 @@ namespace DynamicVisualizer.Controls
         public void MakeNotDummy()
         {
             textBox2.Visible = true;
-            textBox1.ReadOnly = true;
             textBox2.TextChanged += ValueTextBoxTextChanged;
             textBox2.GotFocus += ValueTextBoxGotFocus;
             textBox2.LostFocus += ValueTextBoxLostFocus;
@@ -220,6 +244,29 @@ namespace DynamicVisualizer.Controls
             textBox2.AllowDrop = true;
             textBox2.DragEnter += OnTextBoxDragEnter;
             textBox2.DragDrop += OnTextBoxDragDrop;
+            textBox1.TextChanged += NameTextBoxTextChanged;
+        }
+
+        private void NameTextBoxTextChanged(object sender, EventArgs eventArgs)
+        {
+            if ((Expr != null) && !string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                DataStorage.Rename(Expr, "data", textBox1.Text);
+            }
+        }
+
+        private void ArrayExpressionItem_MouseEnter(object sender, EventArgs e)
+        {
+            BackColor = SystemColors.ControlLight;
+            textBox1.BackColor = SystemColors.ControlLight;
+            textBox2.BackColor = SystemColors.ControlLight;
+        }
+
+        private void ArrayExpressionItem_MouseLeave(object sender, EventArgs e)
+        {
+            BackColor = SystemColors.Control;
+            textBox1.BackColor = SystemColors.Control;
+            textBox2.BackColor = SystemColors.Control;
         }
     }
 }

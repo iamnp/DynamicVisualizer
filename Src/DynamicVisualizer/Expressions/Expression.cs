@@ -7,10 +7,10 @@ namespace DynamicVisualizer.Expressions
         protected const int MaxRecursionDepth = 1000;
         public readonly Value CachedValue = new Value();
         public readonly List<Expression> DependentOn = new List<Expression>();
-        public readonly string ObjectName;
         public readonly List<Expression> UsedBy = new List<Expression>();
-        public readonly string VarName;
         public string ExprString;
+        public string ObjectName;
+        public string VarName;
 
         protected Expression(string objectName, string varName)
         {

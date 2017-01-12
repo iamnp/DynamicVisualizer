@@ -5,11 +5,10 @@ namespace DynamicVisualizer.Expressions
 {
     public class ArrayExpression : Expression
     {
-        private string[] _exprsStrings;
-
         private bool _ignoreNotifyElementChanged;
         private Value[] _values;
         public ScalarExpression[] Exprs;
+        public string[] ExprsStrings;
 
         public ArrayExpression(string objectName, string varName, string[] rawExprs) : base(objectName, varName)
         {
@@ -46,7 +45,7 @@ namespace DynamicVisualizer.Expressions
 
         public void SetRawExpressions(string[] rawExprs)
         {
-            _exprsStrings = new string[rawExprs.Length];
+            ExprsStrings = new string[rawExprs.Length];
             if (Exprs != null)
             {
                 for (var i = 0; i < Exprs.Length; ++i)
@@ -58,16 +57,16 @@ namespace DynamicVisualizer.Expressions
             _values = new Value[rawExprs.Length];
             for (var i = 0; i < rawExprs.Length; ++i)
             {
-                _exprsStrings[i] = rawExprs[i];
+                ExprsStrings[i] = rawExprs[i];
             }
-            ExprString = _exprsStrings[0];
+            ExprString = ExprsStrings[0];
             CachedValue.SwitchTo(new Value(_values));
             Recalculate();
         }
 
         public void SetRawExpression(string rawExpr, int len)
         {
-            _exprsStrings = new string[len];
+            ExprsStrings = new string[len];
             if (Exprs != null)
             {
                 for (var i = 0; i < Exprs.Length; ++i)
@@ -77,11 +76,11 @@ namespace DynamicVisualizer.Expressions
             }
             Exprs = new ScalarExpression[len];
             _values = new Value[len];
-            for (var i = 0; i < _exprsStrings.Length; ++i)
+            for (var i = 0; i < ExprsStrings.Length; ++i)
             {
-                _exprsStrings[i] = rawExpr;
+                ExprsStrings[i] = rawExpr;
             }
-            ExprString = _exprsStrings[0];
+            ExprString = ExprsStrings[0];
             CachedValue.SwitchTo(new Value(_values));
             Recalculate();
         }
@@ -89,15 +88,15 @@ namespace DynamicVisualizer.Expressions
         public string ExprStrings()
         {
             var s = "";
-            for (var i = 0; i < _exprsStrings.Length; ++i)
+            for (var i = 0; i < ExprsStrings.Length; ++i)
             {
-                if (i != _exprsStrings.Length - 1)
+                if (i != ExprsStrings.Length - 1)
                 {
-                    s += _exprsStrings[i] + "; ";
+                    s += ExprsStrings[i] + "; ";
                 }
                 else
                 {
-                    s += _exprsStrings[i];
+                    s += ExprsStrings[i];
                 }
             }
             return s;
@@ -121,14 +120,14 @@ namespace DynamicVisualizer.Expressions
             {
                 if (Exprs[i] == null)
                 {
-                    var e = new ScalarExpression(ObjectName, VarName + (i + 1), _exprsStrings[i], i, i == 0, this);
+                    var e = new ScalarExpression(ObjectName, VarName + (i + 1), ExprsStrings[i], i, i == 0, this);
                     Exprs[i] = e;
                     _values[i] = e.CachedValue;
                 }
                 else
                 {
                     Exprs[i].AllowedToAddToParent = i == 0;
-                    Exprs[i].SetRawExpression(_exprsStrings[i]);
+                    Exprs[i].SetRawExpression(ExprsStrings[i]);
                 }
                 Exprs[i].AllowedToAddToParent = false;
             }

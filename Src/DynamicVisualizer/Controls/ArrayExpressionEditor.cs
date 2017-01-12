@@ -9,11 +9,25 @@ namespace DynamicVisualizer.Controls
     {
         public static int Len = -1;
         public static readonly List<ArrayExpressionItem> Items = new List<ArrayExpressionItem>();
-        public static int ConstVectorArrays;
 
         public ArrayExpressionEditor()
         {
             AddDummyItem();
+            Len = 5;
+            Items[0].textBox1.Text = "item";
+            MakeNotDummy(Items[0]);
+            Items[0].textBox2.Text = "1; 2; 3; 4; 5";
+        }
+
+        public static void LenChanged(ArrayExpressionItem by)
+        {
+            for (var i = 0; i < Items.Count - 1; ++i)
+            {
+                if (Items[i] != by)
+                {
+                    Items[i].ApplyNewLen();
+                }
+            }
         }
 
         private void AddDummyItem()
@@ -73,6 +87,16 @@ namespace DynamicVisualizer.Controls
             if ((e.KeyChar == (char) Keys.Return) && !string.IsNullOrWhiteSpace(di.textBox1.Text))
             {
                 MakeNotDummy(di);
+                var s = "";
+                for (var i = 0; i < Len; ++i)
+                {
+                    s += "0";
+                    if (i != Len - 1)
+                    {
+                        s += "; ";
+                    }
+                }
+                di.textBox2.Text = s;
             }
         }
     }

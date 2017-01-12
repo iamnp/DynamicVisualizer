@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using DynamicVisualizer.Expressions;
 using DynamicVisualizer.Steps;
@@ -7,7 +8,7 @@ namespace DynamicVisualizer.Controls
 {
     public partial class ScalarExpressionItem : UserControl
     {
-        public const int ItemHeight = 24;
+        public const int ItemHeight = 20;
         private bool _ignoreTextChange;
         private bool _mouseOver;
         public ScalarExpression Expr;
@@ -24,13 +25,21 @@ namespace DynamicVisualizer.Controls
         public void MakeNotDummy()
         {
             textBox2.Visible = true;
-            textBox1.ReadOnly = true;
             textBox2.TextChanged += ValueTextBoxTextChanged;
             textBox2.GotFocus += ValueTextBoxGotFocus;
             textBox2.LostFocus += ValueTextBoxLostFocus;
             textBox2.MouseEnter += ValueTextBoxMouseEnter;
             textBox2.MouseLeave += ValueTextBoxMouseLeave;
             textBox2.Focus();
+            textBox1.TextChanged += NameTextBoxTextChanged;
+        }
+
+        private void NameTextBoxTextChanged(object sender, EventArgs eventArgs)
+        {
+            if ((Expr != null) && !string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                DataStorage.Rename(Expr, "data", textBox1.Text);
+            }
         }
 
         private void ValueTextBoxTextChanged(object sender, EventArgs eventArgs)
@@ -100,6 +109,20 @@ namespace DynamicVisualizer.Controls
                 textBox2.Text = Expr.ExprString;
                 _ignoreTextChange = false;
             }
+        }
+
+        private void ScalarExpressionItem_MouseEnter(object sender, EventArgs e)
+        {
+            BackColor = SystemColors.ControlLight;
+            textBox1.BackColor = SystemColors.ControlLight;
+            textBox2.BackColor = SystemColors.ControlLight;
+        }
+
+        private void ScalarExpressionItem_MouseLeave(object sender, EventArgs e)
+        {
+            BackColor = SystemColors.Control;
+            textBox1.BackColor = SystemColors.Control;
+            textBox2.BackColor = SystemColors.Control;
         }
     }
 }

@@ -110,7 +110,7 @@ namespace DynamicVisualizer.Controls
                     {
                         Controls.Add(new GroupHeaderItem(currentGroup)
                         {
-                            Width = Width - 2 - 17,
+                            Width = Width - 17,
                             Location = new Point(0, height - VerticalScroll.Value)
                         });
                         height += GroupHeaderItem.HeightValue;
@@ -118,7 +118,7 @@ namespace DynamicVisualizer.Controls
                     prevGroup = currentGroup;
                 }
                 scc.Index = i;
-                scc.Width = Width - 2 - 17;
+                scc.Width = Width - 17;
                 scc.Location = new Point(0, height - VerticalScroll.Value);
                 height += StepItem.HeightValue;
                 Controls.Add(scc);
@@ -130,7 +130,7 @@ namespace DynamicVisualizer.Controls
         {
             var sc = new StepItem(StepManager.Steps[index], index)
             {
-                Width = Width - 2 - 17
+                Width = Width - 17
             };
             sc.MouseEnter += OnMouseEnter;
             sc.MouseLeave += OnMouseLeave;

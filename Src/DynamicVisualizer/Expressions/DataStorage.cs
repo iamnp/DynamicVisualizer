@@ -75,6 +75,14 @@ namespace DynamicVisualizer.Expressions
             }
         }
 
+        public static void Rename(Expression expr, string objName, string varName)
+        {
+            Data.Remove(expr.FullName);
+            expr.ObjectName = objName;
+            expr.VarName = varName;
+            Data.Add(expr.FullName, expr);
+        }
+
         public static void Remove(Expression expr)
         {
             if (expr.CanBeRemoved)

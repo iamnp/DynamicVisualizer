@@ -11,6 +11,9 @@ namespace DynamicVisualizer.Controls
         public ScalarExpressionEditor()
         {
             AddDummyItem();
+            _items[0].textBox1.Text = "param";
+            MakeNotDummy(_items[0]);
+            _items[0].textBox2.Text = "1";
         }
 
         private void AddDummyItem()

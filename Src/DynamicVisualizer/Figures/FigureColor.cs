@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Windows.Media;
 using DynamicVisualizer.Expressions;
 
 namespace DynamicVisualizer.Figures
@@ -19,6 +20,10 @@ namespace DynamicVisualizer.Figures
             _g = new ScalarExpression("a", "a", g, index, true);
             _b = new ScalarExpression("a", "a", b, index, true);
             _a = new ScalarExpression("a", "a", a, index, true);
+            _r.ValueChanged += ExprValueChanged;
+            _g.ValueChanged += ExprValueChanged;
+            _b.ValueChanged += ExprValueChanged;
+            _a.ValueChanged += ExprValueChanged;
             Brush = new SolidColorBrush(GetColor());
             Brush.Freeze();
             Pen = new Pen(Brush, 2);
@@ -26,10 +31,18 @@ namespace DynamicVisualizer.Figures
             StringExpr = r + ";" + g + ";" + b + ";" + a;
         }
 
-
         public FigureColor(double r, double g, double b, double a, int index = 0)
             : this(r.Str(), g.Str(), b.Str(), a.Str(), index)
         {
+        }
+
+        private void ExprValueChanged(object sender, EventArgs eventArgs)
+        {
+            Brush = new SolidColorBrush(GetColor());
+            Brush.Freeze();
+            Pen = new Pen(Brush, 2);
+            Pen.Freeze();
+            StringExpr = _r.ExprString + ";" + _g.ExprString + ";" + _b.ExprString + ";" + _a.ExprString;
         }
 
         private Color GetColor()

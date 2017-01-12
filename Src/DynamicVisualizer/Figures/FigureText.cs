@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
 using DynamicVisualizer.Expressions;
@@ -15,15 +16,22 @@ namespace DynamicVisualizer.Figures
         public FigureText(string text, string size, int index = 0)
         {
             _text = new ScalarExpression("a", "a", text, index, true);
+            _text.ValueChanged += ExprValueChanged;
             _size = new ScalarExpression("a", "a", size, index, true);
+            _size.ValueChanged += ExprValueChanged;
             FormattedText = GetText();
             StringExpr = text + ";" + size;
         }
 
-
         public FigureText(double text, double size, int index = 0)
             : this(text.Str(), size.Str(), index)
         {
+        }
+
+        private void ExprValueChanged(object sender, EventArgs eventArgs)
+        {
+            FormattedText = GetText();
+            StringExpr = _text.ExprString + ";" + _size.ExprString;
         }
 
         private FormattedText GetText()
