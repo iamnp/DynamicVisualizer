@@ -258,8 +258,17 @@ namespace DynamicVisualizer.Steps
             var pos = -1;
             if ((FinalStep != null) && ((pos = Steps.IndexOf(FinalStep)) != -1))
             {
+                var iter = new int[Steps.Count];
+                for (var i = 0; i < Steps.Count; ++i)
+                {
+                    iter[i] = Steps[i].CompletedIterations;
+                }
                 ApplySteps(pos);
                 Drawer.SaveCurrentScene();
+                for (var i = 0; i < Steps.Count; ++i)
+                {
+                    Steps[i].CompletedIterations = iter[i];
+                }
             }
             else
             {
