@@ -16,7 +16,6 @@ namespace DynamicVisualizer.Controls
 
         public StepListControl()
         {
-            BorderStyle = BorderStyle.FixedSingle;
             AutoScroll = true;
 
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);

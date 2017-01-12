@@ -47,6 +47,13 @@ namespace DynamicVisualizer.Expressions
         public void SetRawExpressions(string[] rawExprs)
         {
             _exprsStrings = new string[rawExprs.Length];
+            if (Exprs != null)
+            {
+                for (var i = 0; i < Exprs.Length; ++i)
+                {
+                    Exprs[i]?.Dealloc();
+                }
+            }
             Exprs = new ScalarExpression[rawExprs.Length];
             _values = new Value[rawExprs.Length];
             for (var i = 0; i < rawExprs.Length; ++i)
@@ -61,6 +68,13 @@ namespace DynamicVisualizer.Expressions
         public void SetRawExpression(string rawExpr, int len)
         {
             _exprsStrings = new string[len];
+            if (Exprs != null)
+            {
+                for (var i = 0; i < Exprs.Length; ++i)
+                {
+                    Exprs[i]?.Dealloc();
+                }
+            }
             Exprs = new ScalarExpression[len];
             _values = new Value[len];
             for (var i = 0; i < _exprsStrings.Length; ++i)
@@ -121,8 +135,6 @@ namespace DynamicVisualizer.Expressions
             _ignoreNotifyElementChanged = false;
 
             NotifyElementChanged();
-
-            ValueChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void NotifyElementChanged()
@@ -142,6 +154,8 @@ namespace DynamicVisualizer.Expressions
                     e.Recalculate();
                 }
             }
+
+            ValueChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

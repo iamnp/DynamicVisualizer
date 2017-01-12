@@ -67,6 +67,9 @@ namespace DynamicVisualizer
             this.addStepBeforeLabel = new System.Windows.Forms.Label();
             this.bLabel = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this._stepListControl1 = new DynamicVisualizer.Controls.StepListControl();
             this.arrayExpressionEditor1 = new DynamicVisualizer.Controls.ArrayExpressionEditor();
             this._scalarExpressionEditor1 = new DynamicVisualizer.Controls.ScalarExpressionEditor();
@@ -520,13 +523,16 @@ namespace DynamicVisualizer
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.splitContainer1.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer1.Panel1.Controls.Add(this.label3);
+            this.splitContainer1.Panel1.Controls.Add(this.label2);
+            this.splitContainer1.Panel1.Controls.Add(this.label1);
             this.splitContainer1.Panel1.Controls.Add(this._stepListControl1);
             this.splitContainer1.Panel1.Controls.Add(this.arrayExpressionEditor1);
             this.splitContainer1.Panel1.Controls.Add(this._scalarExpressionEditor1);
@@ -542,16 +548,54 @@ namespace DynamicVisualizer
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 45;
             // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Location = new System.Drawing.Point(-1, 300);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(202, 20);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "Steps";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(-1, 150);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(202, 20);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Vector data";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(-1, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(202, 20);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Scalar data";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // _stepListControl1
             // 
             this._stepListControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._stepListControl1.AutoScroll = true;
-            this._stepListControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this._stepListControl1.Location = new System.Drawing.Point(-1, 304);
+            this._stepListControl1.Location = new System.Drawing.Point(-1, 320);
             this._stepListControl1.Name = "_stepListControl1";
-            this._stepListControl1.Size = new System.Drawing.Size(202, 396);
+            this._stepListControl1.Size = new System.Drawing.Size(202, 380);
             this._stepListControl1.TabIndex = 5;
             // 
             // arrayExpressionEditor1
@@ -559,18 +603,18 @@ namespace DynamicVisualizer
             this.arrayExpressionEditor1.AllowDrop = true;
             this.arrayExpressionEditor1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.arrayExpressionEditor1.Location = new System.Drawing.Point(0, 152);
+            this.arrayExpressionEditor1.Location = new System.Drawing.Point(0, 170);
             this.arrayExpressionEditor1.Name = "arrayExpressionEditor1";
-            this.arrayExpressionEditor1.Size = new System.Drawing.Size(200, 150);
+            this.arrayExpressionEditor1.Size = new System.Drawing.Size(200, 130);
             this.arrayExpressionEditor1.TabIndex = 16;
             // 
             // _scalarExpressionEditor1
             // 
             this._scalarExpressionEditor1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._scalarExpressionEditor1.Location = new System.Drawing.Point(0, 0);
+            this._scalarExpressionEditor1.Location = new System.Drawing.Point(0, 20);
             this._scalarExpressionEditor1.Name = "_scalarExpressionEditor1";
-            this._scalarExpressionEditor1.Size = new System.Drawing.Size(200, 150);
+            this._scalarExpressionEditor1.Size = new System.Drawing.Size(200, 130);
             this._scalarExpressionEditor1.TabIndex = 15;
             // 
             // stepEditor1
@@ -678,6 +722,9 @@ namespace DynamicVisualizer
         private System.Windows.Forms.Label addStepBeforeLabel;
         private System.Windows.Forms.Label bLabel;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
     }
 }
 

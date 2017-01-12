@@ -93,6 +93,15 @@ namespace DynamicVisualizer.Expressions
             Recalculate();
         }
 
+        public void Dealloc()
+        {
+            foreach (var e in DependentOn)
+            {
+                e.UsedBy.Remove(this);
+            }
+            DependentOn.Clear();
+        }
+
         public override void Recalculate(int depth = 1)
         {
             if (depth > MaxRecursionDepth)
