@@ -530,7 +530,14 @@ namespace DynamicVisualizer
             Drawer.CanvasOffsetY = (int) ((Drawer.HostRect.Height - Drawer.CanvasHeight) / 2);
             Drawer.CanvasTranslate = new TranslateTransform(Drawer.CanvasOffsetX, Drawer.CanvasOffsetY);
             Drawer.CanvasTranslate.Freeze();
-            _mainGraphics.InvalidateVisual();
+            if (StepManager.CurrentStep == null)
+            {
+                _mainGraphics.InvalidateVisual();
+            }
+            else
+            {
+                StepManager.RefreshToCurrentStep();
+            }
         }
     }
 }
