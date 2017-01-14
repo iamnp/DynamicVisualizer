@@ -129,19 +129,15 @@ namespace DynamicVisualizer.Expressions
 
         public static Value Evaluate(string exprString, Func<string, Value> variableEvaluater, int indexInArray)
         {
-            //exprString = "(" + exprString + ")";
             _currentIndexInArray = indexInArray;
 
-            // ReSharper disable once InconsistentNaming
-            const int VALUE = 1;
+            const int valueId = 1;
             var values = new List<Value>();
 
-            // ReSharper disable once InconsistentNaming
-            const int FUNCTION = 2;
+            const int functionId = 2;
             var functions = new List<string>();
 
-            // ReSharper disable once InconsistentNaming
-            const int OPERATOR = 3;
+            const int operatorId = 3;
             var operators = new List<char>();
 
             var outputQueue = new Queue<Tuple<int, int>>();
@@ -173,7 +169,7 @@ namespace DynamicVisualizer.Expressions
                             --p;
                             var d = double.Parse(MakeSubstring(start, p).Replace(".", ","));
                             values.Add(new Value(d));
-                            outputQueue.Enqueue(new Tuple<int, int>(VALUE, values.Count - 1));
+                            outputQueue.Enqueue(new Tuple<int, int>(valueId, values.Count - 1));
                         }
                         else if (char.IsLetter(*p)) // TOKEN: function or variable
                         {
@@ -194,12 +190,12 @@ namespace DynamicVisualizer.Expressions
                             {
                                 // TOKEN: function
                                 functions.Add(funcOrVar);
-                                operatorStack.Push(new Tuple<int, int>(FUNCTION, functions.Count - 1));
+                                operatorStack.Push(new Tuple<int, int>(functionId, functions.Count - 1));
                             }
                             else // TOKEN: variable
                             {
                                 values.Add(variableEvaluater(funcOrVar));
-                                outputQueue.Enqueue(new Tuple<int, int>(VALUE, values.Count - 1));
+                                outputQueue.Enqueue(new Tuple<int, int>(valueId, values.Count - 1));
                             }
                         }
                         else if (*p == '"') // TOKEN: string
@@ -215,7 +211,7 @@ namespace DynamicVisualizer.Expressions
                                 ++p;
                             }
                             values.Add(new Value(MakeSubstring(start + 1, p - 1).Replace("\\\"", "\"")));
-                            outputQueue.Enqueue(new Tuple<int, int>(VALUE, values.Count - 1));
+                            outputQueue.Enqueue(new Tuple<int, int>(valueId, values.Count - 1));
                         }
                         else if (BinaryFunctions.ContainsKey(*p)) // TOKEN: one-char operator
                         {
@@ -224,19 +220,19 @@ namespace DynamicVisualizer.Expressions
                             if ((o1 == '-') && (!firstInExpr || afterOp || afterLeftBrace))
                             {
                                 functions.Add("--");
-                                operatorStack.Push(new Tuple<int, int>(FUNCTION, functions.Count - 1));
+                                operatorStack.Push(new Tuple<int, int>(functionId, functions.Count - 1));
                             }
                             // minus is binary operator
                             else
                             {
-                                while ((operatorStack.Count > 0) && (operatorStack.Peek().Item1 == OPERATOR) &&
+                                while ((operatorStack.Count > 0) && (operatorStack.Peek().Item1 == operatorId) &&
                                        (operators[operatorStack.Peek().Item2] != '(') &&
                                        (Precedence[o1] <= Precedence[operators[operatorStack.Peek().Item2]]))
                                 {
                                     outputQueue.Enqueue(operatorStack.Pop());
                                 }
                                 operators.Add(o1);
-                                operatorStack.Push(new Tuple<int, int>(OPERATOR, operators.Count - 1));
+                                operatorStack.Push(new Tuple<int, int>(operatorId, operators.Count - 1));
                             }
                             afterOp = true;
                         }
@@ -244,7 +240,7 @@ namespace DynamicVisualizer.Expressions
                         {
                             afterLeftBrace = true;
                             operators.Add('(');
-                            operatorStack.Push(new Tuple<int, int>(OPERATOR, operators.Count - 1));
+                            operatorStack.Push(new Tuple<int, int>(operatorId, operators.Count - 1));
                         }
                         else if (*p == ')')
                         {
@@ -252,13 +248,13 @@ namespace DynamicVisualizer.Expressions
                             afterOp = false;
                             afterLeftBrace = false;
                             while ((operatorStack.Count > 0) &&
-                                   !((operatorStack.Peek().Item1 == OPERATOR) &&
+                                   !((operatorStack.Peek().Item1 == operatorId) &&
                                      (operators[operatorStack.Peek().Item2] == '(')))
                             {
                                 outputQueue.Enqueue(operatorStack.Pop());
                             }
                             operatorStack.Pop();
-                            if ((operatorStack.Count > 0) && (operatorStack.Peek().Item1 == FUNCTION))
+                            if ((operatorStack.Count > 0) && (operatorStack.Peek().Item1 == functionId))
                             {
                                 outputQueue.Enqueue(operatorStack.Pop());
                             }
@@ -269,7 +265,7 @@ namespace DynamicVisualizer.Expressions
 
             while (operatorStack.Count > 0)
             {
-                if ((operatorStack.Peek().Item1 == OPERATOR) && (operators[operatorStack.Peek().Item2] == '('))
+                if ((operatorStack.Peek().Item1 == operatorId) && (operators[operatorStack.Peek().Item2] == '('))
                 {
                     throw new Exception("Invalid expr!");
                 }
@@ -281,11 +277,11 @@ namespace DynamicVisualizer.Expressions
             while (outputQueue.Count > 0)
             {
                 var token = outputQueue.Dequeue();
-                if (token.Item1 == VALUE)
+                if (token.Item1 == valueId)
                 {
                     valStack.Push(values[token.Item2]);
                 }
-                else if (token.Item1 == OPERATOR)
+                else if (token.Item1 == operatorId)
                 {
                     if (valStack.Count < 2)
                     {

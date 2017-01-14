@@ -152,6 +152,7 @@
     <Compile Include="Controls\StepEditor.Designer.cs">
       <DependentUpon>StepEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinApi.cs" />
     <EmbeddedResource Include="Controls\ArrayExpressionItem.resx">
       <DependentUpon>ArrayExpressionItem.cs</DependentUpon>
       <SubType>Designer</SubType>

@@ -23,6 +23,12 @@ namespace DynamicVisualizer.Controls
             Resize += OnResize;
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            WinApi.ShowScrollBar(Handle, (int) WinApi.ScrollBarDirection.SB_VERT, false);
+            base.WndProc(ref m);
+        }
+
         private void OnResize(object sender, EventArgs eventArgs)
         {
             ConstructList();
@@ -110,7 +116,7 @@ namespace DynamicVisualizer.Controls
                     {
                         Controls.Add(new GroupHeaderItem(currentGroup)
                         {
-                            Width = Width - 17,
+                            Width = Width,
                             Location = new Point(0, height - VerticalScroll.Value)
                         });
                         height += GroupHeaderItem.HeightValue;
@@ -118,7 +124,7 @@ namespace DynamicVisualizer.Controls
                     prevGroup = currentGroup;
                 }
                 scc.Index = i;
-                scc.Width = Width - 17;
+                scc.Width = Width;
                 scc.Location = new Point(0, height - VerticalScroll.Value);
                 height += StepItem.HeightValue;
                 Controls.Add(scc);
@@ -128,10 +134,7 @@ namespace DynamicVisualizer.Controls
 
         public void TimelineOnStepInserted(int index)
         {
-            var sc = new StepItem(StepManager.Steps[index], index)
-            {
-                Width = Width - 17
-            };
+            var sc = new StepItem(StepManager.Steps[index], index);
             sc.MouseEnter += OnMouseEnter;
             sc.MouseLeave += OnMouseLeave;
             sc.MouseClick += OnMouseClick;

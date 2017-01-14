@@ -12,11 +12,18 @@ namespace DynamicVisualizer.Controls
 
         public ArrayExpressionEditor()
         {
+            AutoScroll = true;
             AddDummyItem();
             Len = 5;
             Items[0].textBox1.Text = "item";
             MakeNotDummy(Items[0]);
             Items[0].textBox2.Text = "1; 2; 3; 4; 5";
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            WinApi.ShowScrollBar(Handle, (int) WinApi.ScrollBarDirection.SB_VERT, false);
+            base.WndProc(ref m);
         }
 
         public static void LenChanged(ArrayExpressionItem by)
@@ -34,7 +41,7 @@ namespace DynamicVisualizer.Controls
         {
             var item = new ArrayExpressionItem
             {
-                Location = new Point(0, Items.Count * ArrayExpressionItem.ItemHeight),
+                Location = new Point(0, Items.Count * ArrayExpressionItem.ItemHeight - VerticalScroll.Value),
                 AllowDrop = true,
                 Width = Width
             };

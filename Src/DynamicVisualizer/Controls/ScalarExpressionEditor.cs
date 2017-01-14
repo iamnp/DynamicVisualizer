@@ -10,17 +10,24 @@ namespace DynamicVisualizer.Controls
 
         public ScalarExpressionEditor()
         {
+            AutoScroll = true;
             AddDummyItem();
             _items[0].textBox1.Text = "param";
             MakeNotDummy(_items[0]);
             _items[0].textBox2.Text = "1";
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            WinApi.ShowScrollBar(Handle, (int) WinApi.ScrollBarDirection.SB_VERT, false);
+            base.WndProc(ref m);
+        }
+
         private void AddDummyItem()
         {
             var item = new ScalarExpressionItem(true)
             {
-                Location = new Point(0, _items.Count * ArrayExpressionItem.ItemHeight),
+                Location = new Point(0, _items.Count * ArrayExpressionItem.ItemHeight - VerticalScroll.Value),
                 Width = Width
             };
             item.textBox1.KeyPress += DummyItemNameKeyPress;
