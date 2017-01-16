@@ -1,4 +1,6 @@
-﻿namespace DynamicVisualizer.Expressions
+﻿using DynamicVisualizer.Steps;
+
+namespace DynamicVisualizer.Expressions
 {
     public class Value
     {
@@ -28,7 +30,19 @@
         public bool IsArray => AsArray != null;
         public bool Empty => (_double == null) && (AsString == null) && (AsArray == null);
 
-        public double AsDouble => _double.Value;
+        public double AsDouble
+        {
+            get
+            {
+                if (_double == null)
+                {
+                    StepManager.ErrorOccurred = true;
+                    return 0.0;
+                }
+                return _double.Value;
+            }
+        }
+
         public string AsString { get; private set; }
 
         public Value[] AsArray { get; private set; }
