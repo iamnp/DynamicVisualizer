@@ -119,6 +119,33 @@ namespace DynamicVisualizer.Expressions
                         return new Value(max);
                     }
                 },
+                {
+                    "min", a =>
+                    {
+                        var arr = a.AsArray;
+                        var min = arr[0].AsDouble;
+                        for (var j = 1; j < arr.Length; ++j)
+                        {
+                            if (arr[j].AsDouble < min)
+                            {
+                                min = arr[j].AsDouble;
+                            }
+                        }
+                        return new Value(min);
+                    }
+                },
+                {
+                    "sum", a =>
+                    {
+                        var arr = a.AsArray;
+                        var sum = 0.0;
+                        for (var j = 0; j < arr.Length; ++j)
+                        {
+                            sum += arr[j].AsDouble;
+                        }
+                        return new Value(sum);
+                    }
+                },
                 {"--", a => new Value(-a.AsDouble)}
             };
 

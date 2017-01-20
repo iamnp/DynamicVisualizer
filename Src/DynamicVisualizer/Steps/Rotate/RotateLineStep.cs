@@ -129,7 +129,7 @@ namespace DynamicVisualizer.Steps.Rotate
 
                 DataStorage.CachedSwapToAbs(LineFigure.X, LineFigure.Width, LineFigure.Y, LineFigure.Height);
 
-                var se = new ScalarExpression("a", "a", Factor, true);
+                var se = new ScalarExpression("a", "a", Factor, CompletedIterations, true);
                 var angle = se.CachedValue.Empty ? 0 : se.CachedValue.AsDouble * 2 * Math.PI;
 
                 DataStorage.SimultaneousSwap(
@@ -149,7 +149,7 @@ namespace DynamicVisualizer.Steps.Rotate
 
                 DataStorage.CachedSwapToAbs(LineFigure.X, LineFigure.Width, LineFigure.Y, LineFigure.Height);
 
-                var se = new ScalarExpression("a", "a", Factor, true);
+                var se = new ScalarExpression("a", "a", Factor, CompletedIterations, true);
                 var angle = se.CachedValue.Empty ? 0 : se.CachedValue.AsDouble * 2 * Math.PI;
 
                 DataStorage.SimultaneousSwap(

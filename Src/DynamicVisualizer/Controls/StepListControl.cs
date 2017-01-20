@@ -36,6 +36,10 @@ namespace DynamicVisualizer.Controls
 
         public void CurrentSelectionToIterableGroup()
         {
+            if (MarkedControls.Count == 0)
+            {
+                return;
+            }
             var min = _stepControls.Count;
             var max = -1;
             for (var i = 0; i < MarkedControls.Count; ++i)
@@ -52,6 +56,10 @@ namespace DynamicVisualizer.Controls
                     ? ArrayExpressionEditor.Len
                     : 2);
                 MarkedControls[i].RespectIterable();
+            }
+            if (max + 1 == StepManager.Steps.Count)
+            {
+                StepManager.Insert(new EmptyStep(), max + 1, false, null, false, true);
             }
             StepManager.IterableGroups.Add(new IterableStepGroup(ArrayExpressionEditor.Items.Count > 1
                 ? string.Format("len({0})", ArrayExpressionEditor.Items[0].Expr.FullName)
@@ -132,14 +140,17 @@ namespace DynamicVisualizer.Controls
             ResumeLayout(true);
         }
 
-        public void TimelineOnStepInserted(int index)
+        public void TimelineOnStepInserted(int index, bool silent = false)
         {
             var sc = new StepItem(StepManager.Steps[index], index);
             sc.MouseEnter += OnMouseEnter;
             sc.MouseLeave += OnMouseLeave;
             sc.MouseClick += OnMouseClick;
             _stepControls.Insert(index, sc);
-            ConstructList();
+            if (!silent)
+            {
+                ConstructList();
+            }
         }
 
         public void MarkAsSelecgted(int index)

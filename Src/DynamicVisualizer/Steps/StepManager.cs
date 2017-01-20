@@ -141,11 +141,11 @@ namespace DynamicVisualizer.Steps
                 currentStepLooped = (CurrentStepIndex > -1) && (CurrentStep.Iterations > -1);
             }
 
-            Insert(step, index, currentStepLooped, group);
+            Insert(step, index, currentStepLooped, group, false);
         }
 
-        private static void Insert(Step step, int index, bool currentStepLooped, IterableStepGroup group,
-            bool forceLoop = false)
+        public static void Insert(Step step, int index, bool currentStepLooped, IterableStepGroup group,
+            bool forceLoop, bool silent = false)
         {
             if (currentStepLooped)
             {
@@ -170,8 +170,11 @@ namespace DynamicVisualizer.Steps
                 }
             }
             Steps.Insert(index, step);
-            StepListControl?.TimelineOnStepInserted(index);
-            SetCurrentStepIndex(index);
+            StepListControl?.TimelineOnStepInserted(index, silent);
+            if (!silent)
+            {
+                SetCurrentStepIndex(index);
+            }
         }
 
         public static bool TryToRemove(int pos)

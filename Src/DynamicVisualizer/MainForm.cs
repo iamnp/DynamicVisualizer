@@ -49,7 +49,8 @@ namespace DynamicVisualizer
                 {Keys.A, () => addStepAfterLabel_Click(addStepAfterLabel, EventArgs.Empty)},
                 {Keys.B, () => addStepBeforeLabel_Click(addStepBeforeLabel, EventArgs.Empty)},
                 {Keys.D, () => addStepLoopedLabel_Click(addStepLoopedLabel, EventArgs.Empty)},
-                {Keys.F, () => markAsFinalLabel_Click(markAsFinalLabel, EventArgs.Empty)}
+                {Keys.F, () => markAsFinalLabel_Click(markAsFinalLabel, EventArgs.Empty)},
+                {Keys.X, () => exportLabel_Click(exportLabel, EventArgs.Empty)}
             };
 
             RedrawNeeded = Redraw;
@@ -160,7 +161,8 @@ namespace DynamicVisualizer
                     {
                         if (StepManager.CurrentStepIndex != -1)
                         {
-                            if (StepManager.TryToRemove(StepManager.CurrentStepIndex))
+                            var removeFinal = StepManager.CurrentStep == StepManager.FinalStep;
+                            if (StepManager.TryToRemove(StepManager.CurrentStepIndex) && removeFinal)
                             {
                                 StepManager.FinalStep = null;
                                 markAsFinalLabel.Text = "mark as final";
@@ -479,21 +481,6 @@ namespace DynamicVisualizer
 
         private void exportButton_Click(object sender, EventArgs e)
         {
-            using (var dialog = new SaveFileDialog {Filter = @"PNG files (*.png)|*.png"})
-            {
-                if (dialog.ShowDialog(this) == DialogResult.OK)
-                {
-                    try
-                    {
-                        var pngBytes = Drawer.GetScenePngBytes();
-                        File.WriteAllBytes(dialog.FileName, pngBytes);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Произошла ошибка при сохранении файла!\n" + ex.Message);
-                    }
-                }
-            }
         }
 
         private void markAsFinalLabel_Click(object sender, EventArgs e)
@@ -532,6 +519,25 @@ namespace DynamicVisualizer
             else
             {
                 StepManager.RefreshToCurrentStep();
+            }
+        }
+
+        private void exportLabel_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog {Filter = @"PNG files (*.png)|*.png"})
+            {
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    try
+                    {
+                        var pngBytes = Drawer.GetScenePngBytes();
+                        File.WriteAllBytes(dialog.FileName, pngBytes);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Произошла ошибка при сохранении файла!\n" + ex.Message);
+                    }
+                }
             }
         }
     }

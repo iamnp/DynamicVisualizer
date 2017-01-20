@@ -106,12 +106,12 @@ namespace DynamicVisualizer.Manipulators
                 else if ((snappedTo == ef.Top) && (Math.Abs(_originalH) > Utils.Tolerance))
                 {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Bottom,
-                        1 + (pos.Y - _downPos.Y) / _originalH);
+                        1 - (pos.Y - _downPos.Y) / _originalH);
                 }
                 else if ((snappedTo == ef.Bottom) && (Math.Abs(_originalH) > Utils.Tolerance))
                 {
                     _nowScaling = new ScaleEllipseStep(ef, ScaleEllipseStep.Side.Top,
-                        1 - (pos.Y - _downPos.Y) / _originalH);
+                        1 + (pos.Y - _downPos.Y) / _originalH);
                 }
                 if (_nowScaling == null)
                 {
@@ -133,11 +133,11 @@ namespace DynamicVisualizer.Manipulators
                 }
                 else if (srs.ScaleAround == ScaleEllipseStep.Side.Top)
                 {
-                    srs.Scale(1 - (pos.Y - _downPos.Y) / _originalH);
+                    srs.Scale(1 + (pos.Y - _downPos.Y) / _originalH);
                 }
                 else if (srs.ScaleAround == ScaleEllipseStep.Side.Bottom)
                 {
-                    srs.Scale(1 + (pos.Y - _downPos.Y) / _originalH);
+                    srs.Scale(1 - (pos.Y - _downPos.Y) / _originalH);
                 }
             }
         }
