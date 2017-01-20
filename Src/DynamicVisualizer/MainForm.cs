@@ -164,12 +164,11 @@ namespace DynamicVisualizer
                     {
                         if (StepManager.CurrentStepIndex != -1)
                         {
-                            if (StepManager.CurrentStep == StepManager.FinalStep)
+                            if (StepManager.TryToRemove(StepManager.CurrentStepIndex))
                             {
                                 StepManager.FinalStep = null;
                                 markAsFinalLabel.Text = "mark as final";
                             }
-                            StepManager.TryToRemove(StepManager.CurrentStepIndex);
                         }
                         return true;
                     }

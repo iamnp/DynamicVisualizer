@@ -173,7 +173,7 @@ namespace DynamicVisualizer.Steps
             SetCurrentStepIndex(index);
         }
 
-        public static void TryToRemove(int pos)
+        public static bool TryToRemove(int pos)
         {
             var step = Steps[pos];
             var group = GetGroupByIndex(pos);
@@ -183,6 +183,7 @@ namespace DynamicVisualizer.Steps
             if (ErrorOccurred)
             {
                 Insert(step, pos, step.Iterations != -1, group);
+                return false;
             }
             else
             {
@@ -195,6 +196,7 @@ namespace DynamicVisualizer.Steps
                 {
                     SetCurrentStepIndex(pos - 1);
                 }
+                return true;
             }
         }
 
