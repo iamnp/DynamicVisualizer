@@ -144,13 +144,14 @@ namespace DynamicVisualizer.Steps
             Insert(step, index, currentStepLooped, group);
         }
 
-        private static void Insert(Step step, int index, bool looped, IterableStepGroup group)
+        private static void Insert(Step step, int index, bool currentStepLooped, IterableStepGroup group,
+            bool forceLoop = false)
         {
-            if (looped)
+            if (currentStepLooped)
             {
                 if (((index > group.StartIndex) && (index <= group.EndIndex))
                     || (((index == group.StartIndex) || (index == group.StartIndex - 1) || (index == group.EndIndex) ||
-                         (index == group.EndIndex + 1)) && AddStepLooped))
+                         (index == group.EndIndex + 1)) && (AddStepLooped || forceLoop)))
                 {
                     if (step.Iterations == -1)
                     {
@@ -177,27 +178,37 @@ namespace DynamicVisualizer.Steps
         {
             var step = Steps[pos];
             var group = GetGroupByIndex(pos);
+            var iter = new int[Steps.Count];
+            for (var i = 0; i < Steps.Count; ++i)
+            {
+                iter[i] = Steps[i].CompletedIterations;
+            }
             Remove(pos, true);
             ErrorOccurred = false;
             ApplySteps(Steps.Count - 1);
             if (ErrorOccurred)
             {
-                Insert(step, pos, step.Iterations != -1, group);
+                if ((group != null) && (group.Length == 0))
+                {
+                    IterableGroups.Add(group);
+                }
+                Insert(step, pos, step.Iterations != -1, group, true);
+                for (var i = 0; i < Steps.Count; ++i)
+                {
+                    Steps[i].CompletedIterations = iter[i];
+                }
                 return false;
+            }
+            StepListControl.ConstructList();
+            if (pos <= Steps.Count - 1)
+            {
+                SetCurrentStepIndex(pos);
             }
             else
             {
-                StepListControl.ConstructList();
-                if (pos <= Steps.Count - 1)
-                {
-                    SetCurrentStepIndex(pos);
-                }
-                else
-                {
-                    SetCurrentStepIndex(pos - 1);
-                }
-                return true;
+                SetCurrentStepIndex(pos - 1);
             }
+            return true;
         }
 
         private static void Remove(int pos, bool silent = false)
@@ -206,7 +217,7 @@ namespace DynamicVisualizer.Steps
             {
                 var g = GetGroupByIndex(pos);
                 g.Length -= 1;
-                if (g.Length < 1)
+                if (g.Length == 0)
                 {
                     IterableGroups.Remove(g);
                 }

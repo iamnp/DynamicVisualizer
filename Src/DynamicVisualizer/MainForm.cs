@@ -13,10 +13,6 @@ using MessageBox = System.Windows.Forms.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using SystemColors = System.Drawing.SystemColors;
 
-// TODO GUI improvements (scalar and array(!) editors, step list, step editor)
-// TODO? refactoring (get rid of static members)
-// TODO? deal with expr dependants system
-
 namespace DynamicVisualizer
 {
     public partial class MainForm : Form
