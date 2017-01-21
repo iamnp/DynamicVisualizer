@@ -113,7 +113,7 @@ namespace DynamicVisualizer.Controls
 
         private static bool IsNumberSymbol(char c)
         {
-            return char.IsDigit(c) || (c == '-') || (c == '.');
+            return char.IsDigit(c) || (c == '-') || (c == '.') || (c == ',');
         }
     }
 }
