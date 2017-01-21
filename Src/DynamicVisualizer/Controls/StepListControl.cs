@@ -8,6 +8,7 @@ namespace DynamicVisualizer.Controls
 {
     public class StepListControl : Panel
     {
+        private readonly Color _selectedStepColor = Color.FromArgb(210, 210, 210);
         private readonly List<StepItem> _stepControls = new List<StepItem>();
         public readonly List<StepItem> MarkedControls = new List<StepItem>();
         private StepItem _currentSelection;
@@ -170,7 +171,7 @@ namespace DynamicVisualizer.Controls
             else
             {
                 _currentSelection = _stepControls[index];
-                _currentSelection.BackColor = Color.Aqua;
+                _currentSelection.BackColor = _selectedStepColor;
                 ScrollControlIntoView(_currentSelection);
             }
             MainForm.RedrawNeeded?.Invoke();
@@ -214,7 +215,7 @@ namespace DynamicVisualizer.Controls
                 var c = (StepItem) sender;
                 if (!c.Marked)
                 {
-                    c.BackColor = Color.Aqua;
+                    c.BackColor = SystemColors.ControlLight;
                 }
             }
         }
