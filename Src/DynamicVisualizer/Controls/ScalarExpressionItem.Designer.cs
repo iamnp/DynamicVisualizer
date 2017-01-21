@@ -34,7 +34,7 @@ namespace DynamicVisualizer.Controls
         private void InitializeComponent()
         {
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new ManipulativeTextBox();
             this.SuspendLayout();
             // 
             // textBox1
@@ -79,6 +79,6 @@ namespace DynamicVisualizer.Controls
         #endregion
 
         public TextBox textBox1;
-        public TextBox textBox2;
+        public ManipulativeTextBox textBox2;
     }
 }

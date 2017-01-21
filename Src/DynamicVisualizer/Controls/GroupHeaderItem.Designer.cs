@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new ManipulativeTextBox();
             this.label1 = new DynamicVisualizer.Controls.ClickThroughLabel();
             this.SuspendLayout();
             // 
@@ -68,6 +68,6 @@
         #endregion
 
         private ClickThroughLabel label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private ManipulativeTextBox textBox1;
     }
 }

@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using DynamicVisualizer.Controls;
 using DynamicVisualizer.Expressions;
 using DynamicVisualizer.Figures;
 using DynamicVisualizer.Manipulators;
@@ -104,7 +105,7 @@ namespace DynamicVisualizer
             {
                 p = c;
             }
-            return p.GetType() == typeof(TextBox);
+            return (p.GetType() == typeof(ManipulativeTextBox)) || (p.GetType() == typeof(TextBox));
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

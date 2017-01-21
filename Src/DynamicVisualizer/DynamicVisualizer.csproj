@@ -55,6 +55,9 @@
     <Compile Include="Controls\ArrayExpressionItem.Designer.cs">
       <DependentUpon>ArrayExpressionItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ManipulativeTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\ClickThroughLabel.cs">
       <SubType>Component</SubType>
     </Compile>
