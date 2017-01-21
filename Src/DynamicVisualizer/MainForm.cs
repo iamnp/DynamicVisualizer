@@ -480,10 +480,6 @@ namespace DynamicVisualizer
             }
         }
 
-        private void exportButton_Click(object sender, EventArgs e)
-        {
-        }
-
         private void markAsFinalLabel_Click(object sender, EventArgs e)
         {
             if (StepManager.CurrentStep == null)

@@ -271,7 +271,7 @@ namespace DynamicVisualizer.Steps
             {
                 ResetIterations(CurrentStepIndex);
             }
-            var pos = -1;
+            int pos;
             if ((FinalStep != null) && ((pos = Steps.IndexOf(FinalStep)) != -1))
             {
                 var iter = new int[Steps.Count];
