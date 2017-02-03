@@ -8,12 +8,12 @@ namespace DynamicVisualizer
 {
     internal static class Drawer
     {
-        public const int CanvasWidth = 800;
-        public const int CanvasHeight = 600;
+        public static int CanvasWidth = 800;
+        public static int CanvasHeight = 600;
         public static int CanvasOffsetX = 100;
         public static int CanvasOffsetY = 50;
-        public static Rect HostRect = new Rect(0, 0, 1000, 700);
-        private static readonly Rect CanvasRect = new Rect(0, 0, CanvasWidth, CanvasHeight);
+        private static Rect _hostRect = new Rect(0, 0, 1000, 700);
+        private static Rect _canvasRect = new Rect(0, 0, CanvasWidth, CanvasHeight);
         public static bool DrawMagnets;
 
         public static TranslateTransform CanvasTranslate = new TranslateTransform(CanvasOffsetX, CanvasOffsetY);
@@ -43,6 +43,26 @@ namespace DynamicVisualizer
             BlackPen.Freeze();
         }
 
+        public static void SetHostRectSize(double w, double h)
+        {
+            _hostRect = new Rect(0, 0, w, h);
+            CanvasOffsetX = (int) ((_hostRect.Width - CanvasWidth) / 2);
+            CanvasOffsetY = (int) ((_hostRect.Height - CanvasHeight) / 2);
+            CanvasTranslate = new TranslateTransform(CanvasOffsetX, CanvasOffsetY);
+            CanvasTranslate.Freeze();
+        }
+
+        public static void SetCanvasSize(int w, int h)
+        {
+            CanvasWidth = w;
+            CanvasHeight = h;
+            _canvasRect = new Rect(0, 0, CanvasWidth, CanvasHeight);
+            CanvasOffsetX = (int) ((_hostRect.Width - CanvasWidth) / 2);
+            CanvasOffsetY = (int) ((_hostRect.Height - CanvasHeight) / 2);
+            CanvasTranslate = new TranslateTransform(CanvasOffsetX, CanvasOffsetY);
+            CanvasTranslate.Freeze();
+        }
+
         public static byte[] GetScenePngBytes()
         {
             var rtb = new RenderTargetBitmap(CanvasWidth, CanvasHeight, 96, 96, PixelFormats.Default);
@@ -64,7 +84,7 @@ namespace DynamicVisualizer
 
         public static void DrawSceneForExport(DrawingContext dc)
         {
-            dc.DrawRectangle(WhiteBrush, null, CanvasRect);
+            dc.DrawRectangle(WhiteBrush, null, _canvasRect);
 
             foreach (var figure in StepManager.Figures)
             {
@@ -125,9 +145,9 @@ namespace DynamicVisualizer
             _savedScene = new DrawingVisual();
             using (var dc = _savedScene.RenderOpen())
             {
-                dc.DrawRectangle(LightGrayBrush, null, HostRect);
+                dc.DrawRectangle(LightGrayBrush, null, _hostRect);
                 dc.PushTransform(CanvasTranslate);
-                dc.DrawRectangle(null, CanvasStroke, CanvasRect);
+                dc.DrawRectangle(null, CanvasStroke, _canvasRect);
                 DrawSceneForExport(dc);
             }
             _savedScene.Drawing?.Freeze();
@@ -142,10 +162,10 @@ namespace DynamicVisualizer
         {
             if (_savedScene == null)
             {
-                dc.DrawRectangle(LightGrayBrush, null, HostRect);
+                dc.DrawRectangle(LightGrayBrush, null, _hostRect);
                 dc.PushTransform(CanvasTranslate);
-                dc.DrawRectangle(null, CanvasStroke, CanvasRect);
-                dc.DrawRectangle(WhiteBrush, null, CanvasRect);
+                dc.DrawRectangle(null, CanvasStroke, _canvasRect);
+                dc.DrawRectangle(WhiteBrush, null, _canvasRect);
             }
             else
             {

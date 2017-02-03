@@ -96,6 +96,12 @@
     <Compile Include="Expressions\DataStorage.cs" />
     <Compile Include="Figures\EllipseFigure.cs" />
     <Compile Include="Figures\Magnet.cs" />
+    <Compile Include="SetCanvasSizeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetCanvasSizeForm.Designer.cs">
+      <DependentUpon>SetCanvasSizeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Steps\EmptyStep.cs" />
     <Compile Include="Steps\Draw\DrawTextStep.cs" />
     <Compile Include="Steps\Move\MoveTextStep.cs" />
@@ -191,6 +197,9 @@
     <EmbeddedResource Include="Controls\StepEditor.resx">
       <DependentUpon>StepEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetCanvasSizeForm.resx">
+      <DependentUpon>SetCanvasSizeForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

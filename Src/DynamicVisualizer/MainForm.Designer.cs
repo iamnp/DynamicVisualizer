@@ -69,12 +69,14 @@ namespace DynamicVisualizer
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.exportLabel = new System.Windows.Forms.Label();
-            this.xLabel = new System.Windows.Forms.Label();
             this._stepListControl1 = new DynamicVisualizer.Controls.StepListControl();
             this.arrayExpressionEditor1 = new DynamicVisualizer.Controls.ArrayExpressionEditor();
             this._scalarExpressionEditor1 = new DynamicVisualizer.Controls.ScalarExpressionEditor();
+            this.exportLabel = new System.Windows.Forms.Label();
+            this.xLabel = new System.Windows.Forms.Label();
             this.stepEditor1 = new DynamicVisualizer.Controls.StepEditor();
+            this.canvasLabel = new System.Windows.Forms.Label();
+            this.nLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -576,30 +578,6 @@ namespace DynamicVisualizer
             this.label1.Text = "Scalar data";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // exportLabel
-            // 
-            this.exportLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.exportLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.exportLabel.Location = new System.Drawing.Point(1225, 625);
-            this.exportLabel.Name = "exportLabel";
-            this.exportLabel.Size = new System.Drawing.Size(100, 20);
-            this.exportLabel.TabIndex = 46;
-            this.exportLabel.Text = "EXPORT";
-            this.exportLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.exportLabel.Click += new System.EventHandler(this.exportLabel_Click);
-            // 
-            // xLabel
-            // 
-            this.xLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.xLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.xLabel.Location = new System.Drawing.Point(1325, 625);
-            this.xLabel.Name = "xLabel";
-            this.xLabel.Size = new System.Drawing.Size(20, 20);
-            this.xLabel.TabIndex = 47;
-            this.xLabel.Text = "x";
-            this.xLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.xLabel.Click += new System.EventHandler(this.exportLabel_Click);
-            // 
             // _stepListControl1
             // 
             this._stepListControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -632,6 +610,30 @@ namespace DynamicVisualizer
             this._scalarExpressionEditor1.Size = new System.Drawing.Size(200, 130);
             this._scalarExpressionEditor1.TabIndex = 15;
             // 
+            // exportLabel
+            // 
+            this.exportLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.exportLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.exportLabel.Location = new System.Drawing.Point(1225, 625);
+            this.exportLabel.Name = "exportLabel";
+            this.exportLabel.Size = new System.Drawing.Size(100, 20);
+            this.exportLabel.TabIndex = 46;
+            this.exportLabel.Text = "EXPORT";
+            this.exportLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.exportLabel.Click += new System.EventHandler(this.exportLabel_Click);
+            // 
+            // xLabel
+            // 
+            this.xLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.xLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.xLabel.Location = new System.Drawing.Point(1325, 625);
+            this.xLabel.Name = "xLabel";
+            this.xLabel.Size = new System.Drawing.Size(20, 20);
+            this.xLabel.TabIndex = 47;
+            this.xLabel.Text = "x";
+            this.xLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.xLabel.Click += new System.EventHandler(this.exportLabel_Click);
+            // 
             // stepEditor1
             // 
             this.stepEditor1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -640,11 +642,37 @@ namespace DynamicVisualizer
             this.stepEditor1.Size = new System.Drawing.Size(150, 160);
             this.stepEditor1.TabIndex = 13;
             // 
+            // canvasLabel
+            // 
+            this.canvasLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.canvasLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.canvasLabel.Location = new System.Drawing.Point(1225, 645);
+            this.canvasLabel.Name = "canvasLabel";
+            this.canvasLabel.Size = new System.Drawing.Size(100, 20);
+            this.canvasLabel.TabIndex = 48;
+            this.canvasLabel.Text = "CANVAS";
+            this.canvasLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.canvasLabel.Click += new System.EventHandler(this.canvasLabel_Click);
+            // 
+            // nLabel
+            // 
+            this.nLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.nLabel.Location = new System.Drawing.Point(1325, 645);
+            this.nLabel.Name = "nLabel";
+            this.nLabel.Size = new System.Drawing.Size(20, 20);
+            this.nLabel.TabIndex = 49;
+            this.nLabel.Text = "n";
+            this.nLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.nLabel.Click += new System.EventHandler(this.canvasLabel_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 701);
+            this.Controls.Add(this.nLabel);
+            this.Controls.Add(this.canvasLabel);
             this.Controls.Add(this.xLabel);
             this.Controls.Add(this.exportLabel);
             this.Controls.Add(this.splitContainer1);
@@ -683,7 +711,7 @@ namespace DynamicVisualizer
             this.Controls.Add(this.circleLabel);
             this.Controls.Add(this.rectLabel);
             this.Controls.Add(this.drawLabel);
-            this.MinimumSize = new System.Drawing.Size(1150, 690);
+            this.MinimumSize = new System.Drawing.Size(1150, 710);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dynamic Visualizer";
@@ -742,6 +770,8 @@ namespace DynamicVisualizer
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label exportLabel;
         private System.Windows.Forms.Label xLabel;
+        private System.Windows.Forms.Label canvasLabel;
+        private System.Windows.Forms.Label nLabel;
     }
 }
 

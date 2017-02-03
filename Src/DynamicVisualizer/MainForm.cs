@@ -4,7 +4,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
 using DynamicVisualizer.Controls;
 using DynamicVisualizer.Expressions;
 using DynamicVisualizer.Figures;
@@ -51,7 +50,8 @@ namespace DynamicVisualizer
                 {Keys.B, () => addStepBeforeLabel_Click(addStepBeforeLabel, EventArgs.Empty)},
                 {Keys.D, () => addStepLoopedLabel_Click(addStepLoopedLabel, EventArgs.Empty)},
                 {Keys.F, () => markAsFinalLabel_Click(markAsFinalLabel, EventArgs.Empty)},
-                {Keys.X, () => exportLabel_Click(exportLabel, EventArgs.Empty)}
+                {Keys.X, () => exportLabel_Click(exportLabel, EventArgs.Empty)},
+                {Keys.N, () => canvasLabel_Click(canvasLabel, EventArgs.Empty)}
             };
 
             RedrawNeeded = Redraw;
@@ -65,6 +65,22 @@ namespace DynamicVisualizer
             DataStorage.Add(new ScalarExpression("canvas", "x", "0"));
             DataStorage.Add(new ScalarExpression("canvas", "y", "0"));
 
+            AddCanvasMagnets();
+
+            _mainGraphics = new MainGraphicOutput {DrawingFunc = Drawer.DrawScene};
+            elementHost1.Child = _mainGraphics;
+            _mainGraphics.MouseDown += MainGraphicsOnMouseDown;
+            _mainGraphics.MouseMove += MainGraphicsOnMouseMove;
+            _mainGraphics.MouseUp += MainGraphicsOnMouseUp;
+            _mainGraphics.MouseLeave += MainGraphicsOnMouseLeave;
+            _mainGraphics.MouseEnter += MainGraphicsOnMouseEnter;
+            _mainGraphics.SizeChanged += MainGraphicsOnSizeChanged;
+
+            ActiveControl = _stepListControl1;
+        }
+
+        private static void AddCanvasMagnets()
+        {
             var x1 = new ScalarExpression("a", "a", "canvas.x", true);
             var y1 = new ScalarExpression("a", "a", "canvas.y", true);
             var w = new ScalarExpression("a", "a", "canvas.width", true);
@@ -84,17 +100,6 @@ namespace DynamicVisualizer
                 new Magnet(x1, hover2, "canvas's left"),
                 new Magnet(w, hover2, "canvas's right")
             };
-
-            _mainGraphics = new MainGraphicOutput {DrawingFunc = Drawer.DrawScene};
-            elementHost1.Child = _mainGraphics;
-            _mainGraphics.MouseDown += MainGraphicsOnMouseDown;
-            _mainGraphics.MouseMove += MainGraphicsOnMouseMove;
-            _mainGraphics.MouseUp += MainGraphicsOnMouseUp;
-            _mainGraphics.MouseLeave += MainGraphicsOnMouseLeave;
-            _mainGraphics.MouseEnter += MainGraphicsOnMouseEnter;
-            _mainGraphics.SizeChanged += MainGraphicsOnSizeChanged;
-
-            ActiveControl = _stepListControl1;
         }
 
         private bool IsTextBoxActive()
@@ -504,11 +509,7 @@ namespace DynamicVisualizer
 
         private void MainGraphicsOnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
         {
-            Drawer.HostRect = new Rect(0, 0, _mainGraphics.ActualWidth, _mainGraphics.ActualHeight);
-            Drawer.CanvasOffsetX = (int) ((Drawer.HostRect.Width - Drawer.CanvasWidth) / 2);
-            Drawer.CanvasOffsetY = (int) ((Drawer.HostRect.Height - Drawer.CanvasHeight) / 2);
-            Drawer.CanvasTranslate = new TranslateTransform(Drawer.CanvasOffsetX, Drawer.CanvasOffsetY);
-            Drawer.CanvasTranslate.Freeze();
+            Drawer.SetHostRectSize(_mainGraphics.ActualWidth, _mainGraphics.ActualHeight);
             if (StepManager.CurrentStep == null)
             {
                 _mainGraphics.InvalidateVisual();
@@ -536,6 +537,21 @@ namespace DynamicVisualizer
                     }
                 }
             }
+        }
+
+        private void canvasLabel_Click(object sender, EventArgs e)
+        {
+            var frm = new SetCanvasSizeForm();
+            frm.SetInitialVales(Drawer.CanvasWidth, Drawer.CanvasHeight);
+            if (frm.ShowDialog(this) == DialogResult.OK)
+            {
+                Drawer.SetCanvasSize(frm.InputWidth, frm.InputHeight);
+                DataStorage.GetScalarExpression("canvas.height").SetRawExpression(Drawer.CanvasHeight.ToString());
+                DataStorage.GetScalarExpression("canvas.width").SetRawExpression(Drawer.CanvasWidth.ToString());
+                AddCanvasMagnets();
+                StepManager.RefreshToCurrentStep();
+            }
+            frm.Dispose();
         }
     }
 }
