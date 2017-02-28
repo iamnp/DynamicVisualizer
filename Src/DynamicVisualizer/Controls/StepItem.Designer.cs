@@ -38,7 +38,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.clickThroughLabel1.Location = new System.Drawing.Point(4, 4);
             this.clickThroughLabel1.Name = "clickThroughLabel1";
-            this.clickThroughLabel1.Size = new System.Drawing.Size(123, 46);
+            this.clickThroughLabel1.Size = new System.Drawing.Size(118, 46);
             this.clickThroughLabel1.TabIndex = 0;
             this.clickThroughLabel1.Text = "clickThroughLabel1";
             // 
