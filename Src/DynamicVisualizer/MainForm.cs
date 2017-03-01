@@ -431,9 +431,12 @@ namespace DynamicVisualizer
 
         private void guideLabel_Click(object sender, EventArgs e)
         {
-            _selected.IsGuide = !_selected.IsGuide;
-            guideLabel.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
-            StepManager.RefreshToCurrentStep();
+            if (_selected != null)
+            {
+                _selected.IsGuide = !_selected.IsGuide;
+                guideLabel.ForeColor = _selected.IsGuide ? SystemColors.ControlText : SystemColors.ControlDark;
+                StepManager.RefreshToCurrentStep();
+            }
         }
 
         private void loopLabel_Click(object sender, EventArgs e)
