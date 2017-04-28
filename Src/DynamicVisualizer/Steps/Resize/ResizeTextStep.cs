@@ -99,7 +99,8 @@ namespace DynamicVisualizer.Steps.Resize
                 TextFigure.Height.SetRawExpression(HeightOrig.Str());
 
                 DataStorage.SimultaneousSwap(
-                    new Tuple<ScalarExpression, string>(TextFigure.Width, TextFigure.Name + ".width - (" + DeltaX + ")"),
+                    new Tuple<ScalarExpression, string>(TextFigure.Width,
+                        TextFigure.Name + ".width - (" + DeltaX + ")"),
                     new Tuple<ScalarExpression, string>(TextFigure.X, TextFigure.Name + ".x + (" + DeltaX + ")"),
                     new Tuple<ScalarExpression, string>(TextFigure.Height,
                         TextFigure.Name + ".height - (" + DeltaY + ")"),
@@ -133,7 +134,8 @@ namespace DynamicVisualizer.Steps.Resize
                 DataStorage.CachedSwapToAbs(TextFigure.X, TextFigure.Width, TextFigure.Y, TextFigure.Height);
 
                 DataStorage.SimultaneousSwap(
-                    new Tuple<ScalarExpression, string>(TextFigure.Width, TextFigure.Name + ".width - (" + DeltaX + ")"),
+                    new Tuple<ScalarExpression, string>(TextFigure.Width,
+                        TextFigure.Name + ".width - (" + DeltaX + ")"),
                     new Tuple<ScalarExpression, string>(TextFigure.X, TextFigure.Name + ".x + (" + DeltaX + ")"),
                     new Tuple<ScalarExpression, string>(TextFigure.Height,
                         TextFigure.Name + ".height - (" + DeltaY + ")"),

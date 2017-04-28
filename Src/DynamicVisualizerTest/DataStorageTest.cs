@@ -38,7 +38,8 @@ namespace DynamicVisualizerTest
             DataStorage.Add(new ScalarExpression("data", "var2", "data.var*2"));
 
             Assert.AreEqual(DataStorage.GetScalarExpression("data.var").CachedValue.AsDouble, 123.0, double.Epsilon);
-            Assert.AreEqual(DataStorage.GetScalarExpression("data.var2").CachedValue.AsDouble, 123.0 * 2, double.Epsilon);
+            Assert.AreEqual(DataStorage.GetScalarExpression("data.var2").CachedValue.AsDouble, 123.0 * 2,
+                double.Epsilon);
         }
 
         [TestMethod]
@@ -64,8 +65,10 @@ namespace DynamicVisualizerTest
             DataStorage.Add(new ScalarExpression("data", "var3", "28 * -11"));
 
             Assert.AreEqual(DataStorage.GetScalarExpression("data.var1").CachedValue.AsDouble, -123, double.Epsilon);
-            Assert.AreEqual(DataStorage.GetScalarExpression("data.var2").CachedValue.AsDouble, 28 * -11, double.Epsilon);
-            Assert.AreEqual(DataStorage.GetScalarExpression("data.var3").CachedValue.AsDouble, 28 * -11, double.Epsilon);
+            Assert.AreEqual(DataStorage.GetScalarExpression("data.var2").CachedValue.AsDouble, 28 * -11,
+                double.Epsilon);
+            Assert.AreEqual(DataStorage.GetScalarExpression("data.var3").CachedValue.AsDouble, 28 * -11,
+                double.Epsilon);
         }
 
         [TestMethod]
@@ -77,7 +80,8 @@ namespace DynamicVisualizerTest
             DataStorage.Add(new ScalarExpression("data", "var2", "var*2"));
 
             Assert.AreEqual(DataStorage.GetScalarExpression("data.var").CachedValue.AsDouble, 123.0, double.Epsilon);
-            Assert.AreEqual(DataStorage.GetScalarExpression("data.var2").CachedValue.AsDouble, 123.0 * 2, double.Epsilon);
+            Assert.AreEqual(DataStorage.GetScalarExpression("data.var2").CachedValue.AsDouble, 123.0 * 2,
+                double.Epsilon);
         }
 
         [TestMethod]
@@ -89,12 +93,14 @@ namespace DynamicVisualizerTest
             DataStorage.Add(new ScalarExpression("data", "var2", "data.var*2"));
 
             Assert.AreEqual(DataStorage.GetScalarExpression("data.var").CachedValue.AsDouble, 123.0, double.Epsilon);
-            Assert.AreEqual(DataStorage.GetScalarExpression("data.var2").CachedValue.AsDouble, 123.0 * 2, double.Epsilon);
+            Assert.AreEqual(DataStorage.GetScalarExpression("data.var2").CachedValue.AsDouble, 123.0 * 2,
+                double.Epsilon);
 
             DataStorage.GetScalarExpression("data.var").SetRawExpression("10");
 
             Assert.AreEqual(DataStorage.GetScalarExpression("data.var").CachedValue.AsDouble, 10.0, double.Epsilon);
-            Assert.AreEqual(DataStorage.GetScalarExpression("data.var2").CachedValue.AsDouble, 10.0 * 2, double.Epsilon);
+            Assert.AreEqual(DataStorage.GetScalarExpression("data.var2").CachedValue.AsDouble, 10.0 * 2,
+                double.Epsilon);
         }
 
         [TestMethod]
@@ -293,7 +299,8 @@ namespace DynamicVisualizerTest
             DataStorage.Add(new ScalarExpression("data", "var2", "data.var*2"));
 
             Assert.AreEqual(DataStorage.GetScalarExpression("data.var").CachedValue.AsDouble, 123.0, double.Epsilon);
-            Assert.AreEqual(DataStorage.GetScalarExpression("data.var2").CachedValue.AsDouble, 123.0 * 2, double.Epsilon);
+            Assert.AreEqual(DataStorage.GetScalarExpression("data.var2").CachedValue.AsDouble, 123.0 * 2,
+                double.Epsilon);
 
             Assert.IsFalse(DataStorage.GetScalarExpression("data.var").CanBeRemoved);
             Assert.IsTrue(DataStorage.GetScalarExpression("data.var2").CanBeRemoved);

@@ -23,7 +23,8 @@ namespace DynamicVisualizer
             Application.Run(new MainForm());
         }
 
-        private static void CurrentDispatcherOnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private static void CurrentDispatcherOnUnhandledException(object sender,
+            DispatcherUnhandledExceptionEventArgs e)
         {
             e.Handled = true;
             HandleUncaughtException(e.Exception);

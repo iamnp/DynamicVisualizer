@@ -53,9 +53,10 @@ namespace DynamicVisualizer.Controls
                 {
                     max = MarkedControls[i].Index;
                 }
-                MarkedControls[i].Step.MakeIterable(ArrayExpressionEditor.Items.Count > 1
-                    ? ArrayExpressionEditor.Len
-                    : 2);
+                MarkedControls[i]
+                    .Step.MakeIterable(ArrayExpressionEditor.Items.Count > 1
+                        ? ArrayExpressionEditor.Len
+                        : 2);
                 MarkedControls[i].RespectIterable();
             }
             if (max + 1 == StepManager.Steps.Count)

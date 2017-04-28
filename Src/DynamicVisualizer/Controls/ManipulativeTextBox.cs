@@ -60,7 +60,8 @@ namespace DynamicVisualizer.Controls
             }
 
             var number = Text.Substring(_manipulatingSelectionStart,
-                _manipulatingSelectionStop - _manipulatingSelectionStart + 1).Replace(",", ".");
+                    _manipulatingSelectionStop - _manipulatingSelectionStart + 1)
+                .Replace(",", ".");
 
             var pointPos = number.IndexOf('.');
             _decimalPlacesAfterPoint = pointPos == -1 ? 0 : number.Length - pointPos - 1;

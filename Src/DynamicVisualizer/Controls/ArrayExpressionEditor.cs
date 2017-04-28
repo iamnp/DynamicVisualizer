@@ -75,14 +75,14 @@ namespace DynamicVisualizer.Controls
             {
                 return;
             }
-            item.AllowDrop = false;
-            item.DragEnter -= OnDummyItemDragEnter;
-            item.DragDrop -= OnDummyItemDragDrop;
             MakeNotDummy(item);
         }
 
         private void MakeNotDummy(ArrayExpressionItem di)
         {
+            di.AllowDrop = false;
+            di.DragEnter -= OnDummyItemDragEnter;
+            di.DragDrop -= OnDummyItemDragDrop;
             di.textBox1.KeyPress -= DummyItemNameKeyPress;
             di.MakeNotDummy();
             AddDummyItem();

@@ -138,7 +138,8 @@ namespace DynamicVisualizer.Steps.Draw
 
             if ((LineFigure.Height == null) || !Applied)
             {
-                LineFigure.Height = DataStorage.Add(new ScalarExpression(Figure.Name, "height", Height, Figure.IsGuide));
+                LineFigure.Height =
+                    DataStorage.Add(new ScalarExpression(Figure.Name, "height", Height, Figure.IsGuide));
             }
             else
             {

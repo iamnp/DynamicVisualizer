@@ -101,7 +101,8 @@ namespace DynamicVisualizer.Steps.Scale
                 RectFigure.Width.SetRawExpression(WidthOrig.Str());
 
                 DataStorage.SimultaneousSwap(
-                    new Tuple<ScalarExpression, string>(RectFigure.Width, RectFigure.Name + ".width * (" + Factor + ")"),
+                    new Tuple<ScalarExpression, string>(RectFigure.Width,
+                        RectFigure.Name + ".width * (" + Factor + ")"),
                     new Tuple<ScalarExpression, string>(RectFigure.X,
                         RectFigure.Name + ".x + (" + RectFigure.Name + ".width * (1.0 - (" + Factor + ")))"));
             }
@@ -148,7 +149,8 @@ namespace DynamicVisualizer.Steps.Scale
                 DataStorage.CachedSwapToAbs(RectFigure.X, RectFigure.Width);
 
                 DataStorage.SimultaneousSwap(
-                    new Tuple<ScalarExpression, string>(RectFigure.Width, RectFigure.Name + ".width * (" + Factor + ")"),
+                    new Tuple<ScalarExpression, string>(RectFigure.Width,
+                        RectFigure.Name + ".width * (" + Factor + ")"),
                     new Tuple<ScalarExpression, string>(RectFigure.X,
                         RectFigure.Name + ".x + (" + RectFigure.Name + ".width * (1.0 - (" + Factor + ")))"));
             }

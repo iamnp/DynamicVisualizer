@@ -72,9 +72,11 @@ namespace DynamicVisualizer.Manipulators
                     else if (snappedBy.EqualExprStrings(rf.Center))
                     {
                         ((MoveRectStep) _nowMoving).Move(
-                            "((" + snapped.X.ExprString + ") - (" + rf.Name + ".width/2)) - (" + _nowMoving.Figure.Name +
+                            "((" + snapped.X.ExprString + ") - (" + rf.Name + ".width/2)) - (" +
+                            _nowMoving.Figure.Name +
                             ".x)",
-                            "((" + snapped.Y.ExprString + ") - (" + rf.Name + ".height/2)) - (" + _nowMoving.Figure.Name +
+                            "((" + snapped.Y.ExprString + ") - (" + rf.Name + ".height/2)) - (" +
+                            _nowMoving.Figure.Name +
                             ".y)", snappedBy.Def, snapped.Def);
                     }
                 }
@@ -102,7 +104,8 @@ namespace DynamicVisualizer.Manipulators
                     if (snappedBy.EqualExprStrings(ef.Left))
                     {
                         ((MoveEllipseStep) _nowMoving).Move(
-                            "((" + snapped.X.ExprString + ") + (" + ef.Name + ".radius1)) - (" + _nowMoving.Figure.Name +
+                            "((" + snapped.X.ExprString + ") + (" + ef.Name + ".radius1)) - (" +
+                            _nowMoving.Figure.Name +
                             ".x)",
                             "(" + snapped.Y.ExprString + ") - (" + _nowMoving.Figure.Name + ".y)",
                             snappedBy.Def, snapped.Def);
@@ -110,7 +113,8 @@ namespace DynamicVisualizer.Manipulators
                     else if (snappedBy.EqualExprStrings(ef.Right))
                     {
                         ((MoveEllipseStep) _nowMoving).Move(
-                            "((" + snapped.X.ExprString + ") - (" + ef.Name + ".radius1)) - (" + _nowMoving.Figure.Name +
+                            "((" + snapped.X.ExprString + ") - (" + ef.Name + ".radius1)) - (" +
+                            _nowMoving.Figure.Name +
                             ".x)",
                             "(" + snapped.Y.ExprString + ") - (" + _nowMoving.Figure.Name + ".y)",
                             snappedBy.Def, snapped.Def);
@@ -119,14 +123,16 @@ namespace DynamicVisualizer.Manipulators
                     {
                         ((MoveEllipseStep) _nowMoving).Move(
                             "(" + snapped.X.ExprString + ") - (" + _nowMoving.Figure.Name + ".x)",
-                            "((" + snapped.Y.ExprString + ") + (" + ef.Name + ".radius2)) - (" + _nowMoving.Figure.Name +
+                            "((" + snapped.Y.ExprString + ") + (" + ef.Name + ".radius2)) - (" +
+                            _nowMoving.Figure.Name +
                             ".y)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(ef.Bottom))
                     {
                         ((MoveEllipseStep) _nowMoving).Move(
                             "(" + snapped.X.ExprString + ") - (" + _nowMoving.Figure.Name + ".x)",
-                            "((" + snapped.Y.ExprString + ") - (" + ef.Name + ".radius2)) - (" + _nowMoving.Figure.Name +
+                            "((" + snapped.Y.ExprString + ") - (" + ef.Name + ".radius2)) - (" +
+                            _nowMoving.Figure.Name +
                             ".y)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(ef.Center))
@@ -168,9 +174,11 @@ namespace DynamicVisualizer.Manipulators
                     else if (snappedBy.EqualExprStrings(lf.Center))
                     {
                         ((MoveLineStep) _nowMoving).Move(
-                            "((" + snapped.X.ExprString + ") - (" + lf.Name + ".width/2)) - (" + _nowMoving.Figure.Name +
+                            "((" + snapped.X.ExprString + ") - (" + lf.Name + ".width/2)) - (" +
+                            _nowMoving.Figure.Name +
                             ".x)",
-                            "((" + snapped.Y.ExprString + ") - (" + lf.Name + ".height/2)) - (" + _nowMoving.Figure.Name +
+                            "((" + snapped.Y.ExprString + ") - (" + lf.Name + ".height/2)) - (" +
+                            _nowMoving.Figure.Name +
                             ".y)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(lf.End))
@@ -213,9 +221,11 @@ namespace DynamicVisualizer.Manipulators
                     else if (snappedBy.EqualExprStrings(tf.Center))
                     {
                         ((MoveTextStep) _nowMoving).Move(
-                            "((" + snapped.X.ExprString + ") - (" + tf.Name + ".width/2)) - (" + _nowMoving.Figure.Name +
+                            "((" + snapped.X.ExprString + ") - (" + tf.Name + ".width/2)) - (" +
+                            _nowMoving.Figure.Name +
                             ".x)",
-                            "((" + snapped.Y.ExprString + ") - (" + tf.Name + ".height/2)) - (" + _nowMoving.Figure.Name +
+                            "((" + snapped.Y.ExprString + ") - (" + tf.Name + ".height/2)) - (" +
+                            _nowMoving.Figure.Name +
                             ".y)", snappedBy.Def, snapped.Def);
                     }
                     else if (snappedBy.EqualExprStrings(tf.End))

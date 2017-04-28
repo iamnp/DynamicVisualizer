@@ -111,7 +111,8 @@ namespace DynamicVisualizer.Steps.Resize
 
                 DataStorage.SimultaneousSwap(
                     new Tuple<ScalarExpression, string>(RectFigure.X, RectFigure.Name + ".x + (" + Delta + ")"),
-                    new Tuple<ScalarExpression, string>(RectFigure.Width, RectFigure.Name + ".width - (" + Delta + ")"));
+                    new Tuple<ScalarExpression, string>(RectFigure.Width,
+                        RectFigure.Name + ".width - (" + Delta + ")"));
             }
             else if (ResizeAround == Side.Bottom)
             {
@@ -120,7 +121,8 @@ namespace DynamicVisualizer.Steps.Resize
 
                 DataStorage.SimultaneousSwap(
                     new Tuple<ScalarExpression, string>(RectFigure.Y, RectFigure.Name + ".y + (" + Delta + ")"),
-                    new Tuple<ScalarExpression, string>(RectFigure.Height, RectFigure.Name + ".height - (" + Delta + ")"));
+                    new Tuple<ScalarExpression, string>(RectFigure.Height,
+                        RectFigure.Name + ".height - (" + Delta + ")"));
             }
 
             CopyStaticFigure();
@@ -155,7 +157,8 @@ namespace DynamicVisualizer.Steps.Resize
 
                 DataStorage.SimultaneousSwap(
                     new Tuple<ScalarExpression, string>(RectFigure.X, RectFigure.Name + ".x + (" + Delta + ")"),
-                    new Tuple<ScalarExpression, string>(RectFigure.Width, RectFigure.Name + ".width - (" + Delta + ")"));
+                    new Tuple<ScalarExpression, string>(RectFigure.Width,
+                        RectFigure.Name + ".width - (" + Delta + ")"));
             }
             else if (ResizeAround == Side.Bottom)
             {
@@ -166,7 +169,8 @@ namespace DynamicVisualizer.Steps.Resize
 
                 DataStorage.SimultaneousSwap(
                     new Tuple<ScalarExpression, string>(RectFigure.Y, RectFigure.Name + ".y + (" + Delta + ")"),
-                    new Tuple<ScalarExpression, string>(RectFigure.Height, RectFigure.Name + ".height - (" + Delta + ")"));
+                    new Tuple<ScalarExpression, string>(RectFigure.Height,
+                        RectFigure.Name + ".height - (" + Delta + ")"));
             }
         }
 
