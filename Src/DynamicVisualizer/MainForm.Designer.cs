@@ -134,9 +134,9 @@ namespace DynamicVisualizer
             // 
             this.transformLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.transformLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.transformLabel.Location = new System.Drawing.Point(1225, 285);
+            this.transformLabel.Location = new System.Drawing.Point(1215, 285);
             this.transformLabel.Name = "transformLabel";
-            this.transformLabel.Size = new System.Drawing.Size(100, 20);
+            this.transformLabel.Size = new System.Drawing.Size(110, 20);
             this.transformLabel.TabIndex = 9;
             this.transformLabel.Text = "TRANSFORM";
             this.transformLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
